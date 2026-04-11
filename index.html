@@ -1,48 +1,53 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CZ Portfolio</title>
-
-```
-<link rel="stylesheet" href="assets/css/styles.css">
-```
-
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/app.js" defer></script>
 </head>
+
 <body>
-```
-<nav class="navbar">
-    <div class="nav-container">
-        <h1 class="logo">CZ</h1>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">About</a></li>
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li class="sidebar-header">
+                <span class="logo">CZ</span>
+                <button id="toggle-btn" type="button" aria-label="Toggle sidebar" aria-expanded="true">
+                    <span aria-hidden="true">&#9776;</span>
+                </button>
+            </li>
+            <li class="active">
+                <a href="#home">Home</a>
+            </li>
+            <li>
+                <a href="#projects">Projects</a>
+            </li>
+            <li>
+                <a href="#about">About</a>
+            </li>
         </ul>
-    </div>
-</nav>
+    </nav>
 
-<main class="container">
+    <main>
+        <section class="hero" id="home">
+            <p class="eyebrow">CZ Catalan</p>
+            <h1>Improvise. Adapt. Overcome</h1>
+            <p class="hero-copy">Data is LIFE</p>
+        </section>
 
-    <section class="hero">
-        <h2>Improvise. Adapt. Overcome</h2>
-        <p>Data is LIFE</p>
-    </section>
+        <section class="container" id="about">
+            <h2>About</h2>
+            <p>Data Analyst building tools, automations, and systems with a sharp focus on clarity, resilience, and
+                purposeful design.</p>
+        </section>
 
-    <section class="card">
-        <h2>About</h2>
-        <p>Data Analyst building tools, automations, and systems.</p>
-    </section>
-
-    <section class="card">
-        <h2>Projects</h2>
-        <p>Coming soon...</p>
-    </section>
-
-</main>
-```
-
+        <section class="container" id="projects">
+            <h2>Projects</h2>
+            <p>Coming soon...</p>
+        </section>
+    </main>
 </body>
+
 </html>
