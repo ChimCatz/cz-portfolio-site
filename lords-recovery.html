@@ -115,14 +115,19 @@
         </section>
 
         <section class="container recovery-section" id="enjoyments">
-            <div class="section-heading">
-                <span class="section-kicker">Portion</span>
-                <h2>Enjoyments</h2>
-                <p>A simple starting layout for spiritual portions now, with room for a more dynamic editor later.</p>
+            <div class="section-heading section-heading-row">
+                <div>
+                    <span class="section-kicker">Portion</span>
+                    <h2>Enjoyments</h2>
+                    <p>A simple starting layout for spiritual portions now, with room for a more dynamic editor later.</p>
+                </div>
+                <button class="icon-button add-entry-trigger" type="button" data-entry-toggle aria-label="Open entry form">
+                    <img src="assets/icons/add.svg" alt="" aria-hidden="true">
+                </button>
             </div>
 
-            <div class="enjoyments-layout">
-                <article class="enjoyment-card">
+            <div class="enjoyments-layout enjoyments-layout-expanded">
+                <article class="enjoyment-card enjoyment-card-main">
                     <div class="enjoyment-meta">
                         <span class="project-tag">Enjoyment</span>
                         <span class="enjoyment-date">April 13, 2026</span>
@@ -132,15 +137,19 @@
                     <p class="justified">Our service today in time is a preparation for our service in eternity; God's unique goal in time is to dispense Himself into us day by day; only when God comes in and God goes out of us do we have a service.</p>
                 </article>
 
-                <aside class="editor-card">
+                <aside class="editor-card entry-drawer" data-entry-panel hidden>
                     <div class="editor-card-head">
                         <div>
                             <span class="panel-kicker">Future Tooling</span>
                             <h3>Draft Entry Panel</h3>
                         </div>
                         <div class="editor-actions">
-                            <button class="editor-button" type="button">Edit</button>
-                            <button class="editor-button danger" type="button">Delete</button>
+                            <button class="icon-button" type="button" aria-label="Edit draft">
+                                <img src="assets/icons/edit.svg" alt="" aria-hidden="true">
+                            </button>
+                            <button class="icon-button danger" type="button" aria-label="Delete draft">
+                                <img src="assets/icons/delete.svg" alt="" aria-hidden="true">
+                            </button>
                         </div>
                     </div>
                     <form class="entry-form">
@@ -156,9 +165,9 @@
                             <span>Content</span>
                             <textarea rows="8" placeholder="Type or paste the portion here"></textarea>
                         </label>
-                        <button class="hero-button secondary form-button" type="button">Add Later</button>
+                        <button class="hero-button secondary form-button" type="button">Save For Later</button>
                     </form>
-                    <p class="form-note">This is a starter interface only for now. Next time, we can make it actually add, edit, and delete entries dynamically.</p>
+                    <p class="form-note">This drawer is just a starter surface for now. Next time, we can make it actually add, edit, and delete entries dynamically.</p>
                 </aside>
             </div>
         </section>

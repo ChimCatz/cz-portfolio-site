@@ -90,6 +90,25 @@ const initCarousel = (name) => {
     render(index);
 };
 
+const initEntryToggle = () => {
+    const trigger = document.querySelector('[data-entry-toggle]');
+    const panel = document.querySelector('[data-entry-panel]');
+
+    if (!trigger || !panel) {
+        return;
+    }
+
+    trigger.addEventListener('click', () => {
+        const isHidden = panel.hasAttribute('hidden');
+        if (isHidden) {
+            panel.removeAttribute('hidden');
+        } else {
+            panel.setAttribute('hidden', '');
+        }
+    });
+};
+
 initSectionSpy();
 initCarousel('projects-carousel');
 initCarousel('announcements-carousel');
+initEntryToggle();
