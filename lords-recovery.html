@@ -137,40 +137,45 @@
                     <p class="justified">Our service today in time is a preparation for our service in eternity; God's unique goal in time is to dispense Himself into us day by day; only when God comes in and God goes out of us do we have a service.</p>
                 </article>
 
-                <aside class="editor-card entry-drawer" data-entry-panel hidden>
-                    <div class="editor-card-head">
-                        <div>
-                            <span class="panel-kicker">Future Tooling</span>
-                            <h3>Draft Entry Panel</h3>
-                        </div>
-                        <div class="editor-actions">
-                            <button class="icon-button" type="button" aria-label="Edit draft">
-                                <img src="assets/icons/edit.svg" alt="" aria-hidden="true">
-                            </button>
-                            <button class="icon-button danger" type="button" aria-label="Delete draft">
-                                <img src="assets/icons/delete.svg" alt="" aria-hidden="true">
-                            </button>
-                        </div>
-                    </div>
-                    <form class="entry-form">
-                        <label>
-                            <span>Title</span>
-                            <input type="text" placeholder="Add a future enjoyment title">
-                        </label>
-                        <label>
-                            <span>Date</span>
-                            <input type="text" placeholder="Month Day, Year">
-                        </label>
-                        <label>
-                            <span>Content</span>
-                            <textarea rows="8" placeholder="Type or paste the portion here"></textarea>
-                        </label>
-                        <button class="hero-button secondary form-button" type="button">Save For Later</button>
-                    </form>
-                    <p class="form-note">This drawer is just a starter surface for now. Next time, we can make it actually add, edit, and delete entries dynamically.</p>
-                </aside>
             </div>
         </section>
+
+        <div class="entry-overlay" data-entry-panel hidden>
+            <div class="entry-overlay-backdrop" data-entry-close></div>
+            <aside class="editor-card entry-modal" role="dialog" aria-modal="true" aria-label="Draft entry panel">
+                <div class="editor-card-head">
+                    <div>
+                        <span class="panel-kicker">Future Tooling</span>
+                        <h3>Draft Entry Panel</h3>
+                    </div>
+                    <div class="editor-actions">
+                        <button class="icon-button" type="button" aria-label="Edit draft">
+                            <img src="assets/icons/edit.svg" alt="" aria-hidden="true">
+                        </button>
+                        <button class="icon-button danger" type="button" aria-label="Delete draft">
+                            <img src="assets/icons/delete.svg" alt="" aria-hidden="true">
+                        </button>
+                        <button class="hero-button secondary modal-close-button" type="button" data-entry-close>Close</button>
+                    </div>
+                </div>
+                <form class="entry-form">
+                    <label>
+                        <span>Title</span>
+                        <input type="text" placeholder="Add a future enjoyment title">
+                    </label>
+                    <label>
+                        <span>Date</span>
+                        <input type="text" placeholder="Month Day, Year">
+                    </label>
+                    <label>
+                        <span>Content</span>
+                        <textarea rows="8" placeholder="Type or paste the portion here"></textarea>
+                    </label>
+                    <button class="hero-button secondary form-button" type="button">Save For Later</button>
+                </form>
+                <p class="form-note">This overlay is just a starter surface for now. Next time, we can make it actually add, edit, and delete entries dynamically.</p>
+            </aside>
+        </div>
 
         <section class="container recovery-section empty-links" id="other-links">
             <div class="section-heading">

@@ -1,6 +1,17 @@
 const page = document.body.dataset.page;
 const navItems = [...document.querySelectorAll('#sidebar li')];
 const navLinks = [...document.querySelectorAll('#sidebar a[data-target]')];
+const pageSections = navLinks
+    .map((link) => {
+        const href = link.getAttribute('href');
+        if (!href?.startsWith('#')) {
+            return null;
+        }
+
+        const section = document.querySelector(href);
+        return section ? { id: section.id, element: section } : null;
+    })
+    .filter(Boolean);
 
 const setActiveNav = (target) => {
     navItems.forEach((item) => {
@@ -15,34 +26,41 @@ const initSectionSpy = () => {
         return;
     }
 
-    const sections = navLinks
-        .map((link) => {
-            const href = link.getAttribute('href');
-            return href?.startsWith('#') ? document.querySelector(href) : null;
-        })
-        .filter(Boolean);
-
-    if (!sections.length) {
+    if (!pageSections.length) {
         return;
     }
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            const visible = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    const updateActiveSection = () => {
+        const marker = window.scrollY + window.innerHeight * 0.28;
+        let activeId = pageSections[0].id;
 
-            if (visible?.target?.id) {
-                setActiveNav(visible.target.id);
+        pageSections.forEach(({ id, element }) => {
+            if (marker >= element.offsetTop) {
+                activeId = id;
             }
-        },
-        {
-            rootMargin: '-25% 0px -45% 0px',
-            threshold: [0.2, 0.35, 0.55]
-        }
-    );
+        });
 
-    sections.forEach((section) => observer.observe(section));
+        setActiveNav(activeId);
+    };
+
+    navLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href?.startsWith('#')) {
+            return;
+        }
+
+        link.addEventListener('click', () => {
+            const target = href.slice(1);
+            setActiveNav(target);
+            window.requestAnimationFrame(updateActiveSection);
+        });
+    });
+
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection);
+    window.addEventListener('load', updateActiveSection);
+
+    updateActiveSection();
 };
 
 const initCarousel = (name) => {
@@ -93,17 +111,37 @@ const initCarousel = (name) => {
 const initEntryToggle = () => {
     const trigger = document.querySelector('[data-entry-toggle]');
     const panel = document.querySelector('[data-entry-panel]');
+    const closers = [...document.querySelectorAll('[data-entry-close]')];
 
     if (!trigger || !panel) {
         return;
     }
 
+    const openPanel = () => {
+        panel.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closePanel = () => {
+        panel.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+    };
+
     trigger.addEventListener('click', () => {
-        const isHidden = panel.hasAttribute('hidden');
-        if (isHidden) {
-            panel.removeAttribute('hidden');
+        if (panel.hasAttribute('hidden')) {
+            openPanel();
         } else {
-            panel.setAttribute('hidden', '');
+            closePanel();
+        }
+    });
+
+    closers.forEach((closer) => {
+        closer.addEventListener('click', closePanel);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !panel.hasAttribute('hidden')) {
+            closePanel();
         }
     });
 };
