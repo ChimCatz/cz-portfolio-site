@@ -157,27 +157,43 @@
             <div class="section-heading">
                 <span class="section-kicker">Playground</span>
                 <h2>Brain Challenge</h2>
-                <p>This corner of the site is for interactive experiments, logic games, and little mental workouts. I'll be adding more playful tools here over time.</p>
+                <p>Select a game to train logic, focus, and decision-making.</p>
             </div>
-            <div class="brain-grid">
-                <div class="brain-copy">
-                    <div class="callout-card">
-                        <span class="panel-kicker">Today's Mode</span>
-                        <h3>Pattern Recognition</h3>
-                        <p class="justified">For now, here's a Sudoku board to warm up the logical side of your brain and reset your focus.</p>
-                    </div>
-                    <div class="detail-strip">
-                        <span>Logic</span>
-                        <span>Focus</span>
-                        <span>Pattern solving</span>
-                    </div>
+
+            <div class="game-selector">
+
+                <div class="game-card active" data-game="sudoku">
+                    <img src="assets/icons/sudoku.png" alt="">
+                    <h3>Sudoku</h3>
+                    <p>A logic puzzle where you fill a 9×9 grid with no repeats.</p>
+                    <div class="skills">#logic #pattern-recognition #constraint-solving #focus #deduction</div>
                 </div>
-                <div class="sudoku-frame">
+
+                <div class="game-card" data-game="minesweeper">
+                    <img src="assets/icons/minesweeper.png" alt="">
+                    <h3>Minesweeper</h3>
+                    <p>Clear tiles using clues without triggering mines.</p>
+                    <div class="skills">#probability-thinking #risk-management #decision-making</div>
+                </div>
+
+            </div>
+
+            <div class="game-display">
+
+                <div class="game-panel active" id="game-sudoku">
                     <iframe src="https://www.sudokubase.com/embed/game?showTimer=true&showInputButtons=true"
-                        title="Embedded Sudoku game" loading="lazy"></iframe>
-                    <p class="embed-note">Can't get enough? Try more <a href="https://www.sudokubase.com"
-                            target="_blank" rel="noreferrer">Sudoku</a>!</p>
+                        loading="lazy"></iframe>
                 </div>
+
+                <div class="game-panel" id="game-minesweeper">
+                    <iframe 
+                        src="https://zv1y2i8p.play.gamezop.com/g/rkmJ2aXcCS"
+                        style="width:100%; height:500px; border:0;"
+                        frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
             </div>
         </section>
 
@@ -247,8 +263,13 @@
                     <p>Current tools and systems built around CRM operations, lead management, and call data workflows.</p>
                 </div>
                 <div class="carousel-controls" aria-label="Project controls">
-                    <button class="carousel-button" type="button" data-carousel-prev="projects-carousel" aria-label="Previous project">Prev</button>
-                    <button class="carousel-button" type="button" data-carousel-next="projects-carousel" aria-label="Next project">Next</button>
+                    <button class="carousel-button" data-carousel-prev="projects-carousel">
+                        <img src="assets/icons/back.svg" alt="">
+                    </button>
+
+                    <button class="carousel-button" data-carousel-next="projects-carousel">
+                        <img src="assets/icons/next.svg" alt="">
+                    </button>
                 </div>
             </div>
 

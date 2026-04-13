@@ -31,7 +31,7 @@ const initSectionSpy = () => {
     }
 
     const updateActiveSection = () => {
-        const marker = window.scrollY + window.innerHeight * 0.28;
+        const marker = window.scrollY + window.innerHeight * 0.18;
         let activeId = pageSections[0].id;
 
         pageSections.forEach(({ id, element }) => {
@@ -146,7 +146,32 @@ const initEntryToggle = () => {
     });
 };
 
+// =========================
+// GAME SWITCH (NEW)
+// =========================
+
+const initGameSwitch = () => {
+    const cards = document.querySelectorAll('.game-card');
+    const panels = document.querySelectorAll('.game-panel');
+
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const game = card.dataset.game;
+
+            cards.forEach(c => c.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+
+            card.classList.add('active');
+            document.getElementById(`game-${game}`).classList.add('active');
+        });
+    });
+};
+
+initGameSwitch();
 initSectionSpy();
 initCarousel('projects-carousel');
 initCarousel('announcements-carousel');
 initEntryToggle();
+
