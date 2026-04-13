@@ -1,48 +1,34 @@
-# CZ Personal Website
+# CZ Portfolio Site
 
-Minimalist personal website built using Vite + React.
+Static portfolio site built with plain HTML, CSS, and JavaScript.
 
-## Tech Stack
+## Pages
 
-* React (Frontend)
-* Vite (Build Tool)
-* CSS (Custom Styling)
+- `index.html`: main portfolio page
+- `lords-recovery.html`: announcements and spiritual updates page
 
-## Design System
+## Current Structure
 
-* Colors:
+- Floating sidebar with section navigation
+- Hero section with portfolio summary
+- Professional Overview with cover image and social links
+- Brain Challenge section
+- Skills section
+- Projects carousel
+- Lord's Recovery preview section
 
-  * #000000
-  * #05081c
-  * #0a0d36
-  * #0f1042
-  * #0e1d3e
-* Font:
+## Assets
 
-  * Proxima Nova (Primary)
-  * Inter / Roboto (Fallback)
+- `assets/css/styles.css`: shared site styling
+- `assets/js/app.js`: sidebar state and carousel behavior
+- `assets/icons/`: navigation and social icons
+- `assets/images/`: image assets including the profile cover
 
-## Taglines
+## Local Preview
 
-* "Improvise. Adapt. Overcome"
-* "Data is LIFE"
+Open `index.html` directly in a browser.
 
-## Goals (v1.0)
+## Notes
 
-* Clean minimalist UI
-* Fast load (<1s local)
-* Modular components
-* Scalable structure for backend integration
-
-## Setup
-
-```bash
-npm install
-npm run dev
-```
-
-## Roadmap
-
-* v1.0 → Static portfolio
-* v1.1 → Dynamic projects (JSON/API)
-* v2.0 → Full backend integration
+- This is a static site and does not require a build step.
+- Carousel sections are currently content-driven in HTML and can be made data-driven later.
