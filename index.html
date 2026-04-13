@@ -8,42 +8,55 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body>
+<body data-page="home">
     <nav id="sidebar" aria-label="Primary">
         <ul>
             <li class="active">
-                <a href="#home" aria-label="Home">
+                <a href="#home" aria-label="Home" data-target="home">
                     <span class="nav-icon-wrap">
-                        <img class="nav-icon" src="assets/icons/home.png" alt="" aria-hidden="true">
+                        <img class="nav-icon" src="assets/icons/home.svg" alt="" aria-hidden="true">
                     </span>
+                    <span class="nav-label">Home</span>
                 </a>
             </li>
             <li>
-                <a href="#about" aria-label="About Me">
+                <a href="#about" aria-label="About Me" data-target="about">
                     <span class="nav-icon-wrap">
-                        <img class="nav-icon" src="assets/icons/about.png" alt="" aria-hidden="true">
+                        <img class="nav-icon" src="assets/icons/about-me.svg" alt="" aria-hidden="true">
                     </span>
+                    <span class="nav-label">About Me</span>
                 </a>
             </li>
             <li>
-                <a href="#brain-challenge" aria-label="Brain Challenge">
-                    <span class="nav-icon-wrap nav-icon-text">
-                        <span>B</span>
+                <a href="#brain-challenge" aria-label="Brain Challenge" data-target="brain-challenge">
+                    <span class="nav-icon-wrap">
+                        <img class="nav-icon" src="assets/icons/challenges.svg" alt="" aria-hidden="true">
                     </span>
+                    <span class="nav-label">Challenge</span>
                 </a>
             </li>
             <li>
-                <a href="#skills" aria-label="Skills">
+                <a href="#skills" aria-label="Skills" data-target="skills">
                     <span class="nav-icon-wrap">
                         <img class="nav-icon" src="assets/icons/skills.svg" alt="" aria-hidden="true">
                     </span>
+                    <span class="nav-label">Skills</span>
                 </a>
             </li>
             <li>
-                <a href="#projects" aria-label="Projects">
+                <a href="#projects" aria-label="Projects" data-target="projects">
                     <span class="nav-icon-wrap">
-                        <img class="nav-icon" src="assets/icons/projects.png" alt="" aria-hidden="true">
+                        <img class="nav-icon" src="assets/icons/projects.svg" alt="" aria-hidden="true">
                     </span>
+                    <span class="nav-label">Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="life.html" aria-label="Life" data-target="life">
+                    <span class="nav-icon-wrap">
+                        <img class="nav-icon" src="assets/icons/life.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span class="nav-label">Life</span>
                 </a>
             </li>
         </ul>
@@ -53,11 +66,13 @@
         <section class="hero" id="home">
             <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
             <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
+            <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+            <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
             <p class="eyebrow">CZ Catalan</p>
-            <h1>Improvise. Adapt. Overcome</h1>
-            <p class="hero-copy">Data is LIFE</p>
+            <h1>Improvise. Adapt. Overcome.</h1>
+            <p class="hero-copy">Data is life. Clean systems make it move.</p>
             <p class="hero-intro">Hi, I'm CZ Catalan.</p>
-            <p class="hero-subcopy">Welcome to my digital world.</p>
+            <p class="hero-subcopy">I build lean automations, cleaner CRM pipelines, and practical internal tools that turn repetitive work into momentum.</p>
             <div class="hero-actions">
                 <a class="hero-button primary" href="#about">About Me</a>
                 <a class="hero-button secondary" href="#brain-challenge">Play A Challenge</a>
@@ -76,36 +91,61 @@
                     <strong>Build Lean</strong>
                 </div>
             </div>
+            <div class="hero-spotlight">
+                <div class="spotlight-line"></div>
+                <p>From raw files to usable systems, every workflow should feel lighter after it passes through your hands.</p>
+            </div>
         </section>
 
         <section class="container about-section" id="about">
             <div class="section-heading">
+                <span class="section-kicker">Profile</span>
                 <h2>About Me</h2>
                 <p>Turning messy lead and CRM data into systems that are structured, repeatable, and useful.</p>
             </div>
-            <p>I am a Data Analyst focused on turning messy data into usable systems.</p>
-            <p>I build automation tools that reduce manual work, improve accuracy, and scale data operations. My work
-                includes data cleaning, enrichment, and developing internal tools using Python to streamline workflows.
-            </p>
-            <p>I have worked on projects handling 100+ records daily, building search systems, and optimizing data
-                processes that eliminate repetitive tasks.</p>
-            <div class="detail-strip">
-                <span>Automation-first</span>
-                <span>Data cleaning</span>
-                <span>Internal tools</span>
-                <span>Workflow optimization</span>
+            <div class="about-layout">
+                <div class="about-copy">
+                    <p>I am a Data Analyst focused on transforming messy data into practical systems people can actually use.</p>
+                    <p>I build automation tools that reduce manual work, improve accuracy, and scale data operations. My work includes data cleaning, enrichment, and internal Python tools that streamline day-to-day workflows.</p>
+                    <p>I have worked on projects handling 100+ records daily, building search systems, and optimizing data processes that eliminate repetitive tasks.</p>
+                    <div class="detail-strip">
+                        <span>Automation-first</span>
+                        <span>Data cleaning</span>
+                        <span>Internal tools</span>
+                        <span>Workflow optimization</span>
+                    </div>
+                </div>
+                <aside class="glow-panel">
+                    <span class="panel-kicker">Operating Style</span>
+                    <h3>Quiet systems. Loud results.</h3>
+                    <p>I like tools that feel invisible in the best way: fewer clicks, fewer errors, faster decisions.</p>
+                    <div class="mini-stat-grid">
+                        <div>
+                            <strong>100+</strong>
+                            <span>records handled daily</span>
+                        </div>
+                        <div>
+                            <strong>Lean</strong>
+                            <span>automation mindset</span>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </section>
 
         <section class="container brain-section" id="brain-challenge">
             <div class="section-heading">
+                <span class="section-kicker">Playground</span>
                 <h2>Brain Challenge</h2>
-                <p>This corner of the site is for interactive experiments, logic games, and little mental workouts. I'll
-                    be adding more playful tools here over time.</p>
+                <p>This corner of the site is for interactive experiments, logic games, and little mental workouts. I'll be adding more playful tools here over time.</p>
             </div>
             <div class="brain-grid">
                 <div class="brain-copy">
-                    <p>For now, here's a Sudoku board to warm up the pattern-recognition side of your brain.</p>
+                    <div class="callout-card">
+                        <span class="panel-kicker">Today's Mode</span>
+                        <h3>Pattern Recognition</h3>
+                        <p>For now, here's a Sudoku board to warm up the logical side of your brain and reset your focus.</p>
+                    </div>
                     <div class="detail-strip">
                         <span>Logic</span>
                         <span>Focus</span>
@@ -123,6 +163,7 @@
 
         <section class="container skills-section" id="skills">
             <div class="section-heading">
+                <span class="section-kicker">Capabilities</span>
                 <h2>Skills</h2>
                 <p>Core tools and capabilities I rely on when building data workflows and internal systems.</p>
             </div>
@@ -167,44 +208,53 @@
                     </div>
                     <div class="skill-bar" aria-hidden="true"><span style="width: 72%"></span></div>
                 </article>
+
+                <article class="skill-card highlight-card">
+                    <div class="skill-header">
+                        <h3>Workflow Design</h3>
+                        <span class="skill-level">Reliable</span>
+                    </div>
+                    <p>Turning scattered files, inconsistent fields, and repetitive steps into cleaner repeatable systems.</p>
+                </article>
             </div>
         </section>
 
-        <section class="container" id="projects">
+        <section class="container projects-section" id="projects">
             <div class="section-heading">
+                <span class="section-kicker">Builds</span>
                 <h2>Projects</h2>
                 <p>Current tools and systems built around CRM operations, lead management, and call data workflows.</p>
             </div>
 
             <div class="project-grid">
                 <article class="project-card">
+                    <span class="project-tag">ETL</span>
                     <h3>LeadFlow ETL</h3>
-                    <p>Automated CRM data transformation tool that converts lead datasets across platforms like Zoho,
-                        Vtiger, Lusha, and Pipeleads. Detects pipeline from CSV headers, normalizes data, and outputs
-                        clean import-ready files.</p>
+                    <p>Automated CRM data transformation tool that converts lead datasets across platforms like Zoho, Vtiger, Lusha, and Pipeleads. Detects pipeline from CSV headers, normalizes data, and outputs clean import-ready files.</p>
                 </article>
 
                 <article class="project-card">
+                    <span class="project-tag">Analysis</span>
                     <h3>Data Pivot Table Tool</h3>
-                    <p>Desktop tool for analyzing large CRM datasets with filtering, proportional adjustments, and
-                        pivot-style reports. Supports session saving for repeatable reporting workflows.</p>
+                    <p>Desktop tool for analyzing large CRM datasets with filtering, proportional adjustments, and pivot-style reports. Supports session saving for repeatable reporting workflows.</p>
                 </article>
 
                 <article class="project-card">
+                    <span class="project-tag">Search</span>
                     <h3>CSV Advanced Search Engine</h3>
-                    <p>High-speed search tool for large lead datasets with fuzzy company matching, column mapping, and
-                        bulk designation filtering. Built for handling messy multi-source CRM data.</p>
+                    <p>High-speed search tool for large lead datasets with fuzzy company matching, column mapping, and bulk designation filtering. Built for handling messy multi-source CRM data.</p>
                 </article>
 
                 <article class="project-card">
+                    <span class="project-tag">Attribution</span>
                     <h3>8x8 / VoIP Call Conversion Tool</h3>
-                    <p>Call analytics tool that matches VoIP logs with CRM leads to identify valid conversions using
-                        strict rules of at least 45 seconds connected and 60 seconds total. Outputs clean, deduplicated
-                        conversion data.</p>
+                    <p>Call analytics tool that matches VoIP logs with CRM leads to identify valid conversions using strict rules of at least 45 seconds connected and 60 seconds total. Outputs clean, deduplicated conversion data.</p>
                 </article>
             </div>
         </section>
     </main>
+
+    <script src="assets/js/app.js"></script>
 </body>
 
 </html>
