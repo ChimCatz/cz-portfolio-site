@@ -5,10 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CZ Portfolio</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body data-page="home">
+    <header class="topbar" data-topbar>
+        <a class="topbar-brand" href="#home">CZ Catalan</a>
+        <nav class="topbar-nav" aria-label="Top navigation">
+            <a href="#home" data-target="home">Home</a>
+            <a href="#about" data-target="about">Professional Overview</a>
+            <a href="#brain-challenge" data-target="brain-challenge">Challenge</a>
+            <a href="#skills" data-target="skills">Skills</a>
+            <a href="#projects" data-target="projects">Projects</a>
+            <a href="lords-recovery.html" data-target="lords-recovery">Lord's Recovery</a>
+        </nav>
+        <button class="hero-button primary topbar-auth-button" type="button" data-auth-open>Login / Signup</button>
+    </header>
+
     <nav id="sidebar" aria-label="Primary">
         <ul>
             <li class="active">
@@ -441,6 +455,75 @@
             </div>
         </section>
     </main>
+
+    <div class="auth-overlay" data-auth-panel hidden>
+        <div class="auth-overlay-backdrop" data-auth-close></div>
+        <section class="auth-shell" role="dialog" aria-modal="true" aria-label="Login or signup form">
+            <button class="auth-close" type="button" aria-label="Close login or signup form" data-auth-close>
+                <i class="uil uil-times" aria-hidden="true"></i>
+            </button>
+            <div class="auth-panel">
+                <div class="auth-intro">
+                    <span class="section-kicker">Welcome</span>
+                    <h2>Access the workspace</h2>
+                    <p>Use the login or signup form below. The main page stays visible underneath so the experience feels connected to the portfolio instead of jumping to a separate screen.</p>
+                </div>
+                <div class="auth-card-wrap">
+                    <div class="auth-switch">
+                        <span>Log In</span>
+                        <input class="auth-checkbox" type="checkbox" id="reg-log" name="reg-log">
+                        <label for="reg-log" aria-label="Toggle between login and signup"></label>
+                        <span>Sign Up</span>
+                    </div>
+                    <div class="auth-3d-wrap">
+                        <div class="auth-3d-wrapper">
+                            <div class="auth-card auth-card-front">
+                                <div class="auth-center-wrap">
+                                    <div class="auth-content">
+                                        <h3>Log In</h3>
+                                        <div class="auth-form-group">
+                                            <input type="email" class="auth-form-style" placeholder="Email">
+                                            <i class="input-icon uil uil-at" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="auth-form-group">
+                                            <input type="password" class="auth-form-style" placeholder="Password">
+                                            <i class="input-icon uil uil-lock-alt" aria-hidden="true"></i>
+                                        </div>
+                                        <button class="auth-btn" type="button">Login</button>
+                                        <p><a href="#" class="auth-link">Forgot your password?</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="auth-card auth-card-back">
+                                <div class="auth-center-wrap">
+                                    <div class="auth-content">
+                                        <h3>Sign Up</h3>
+                                        <div class="auth-form-group">
+                                            <input type="text" class="auth-form-style" placeholder="Full Name">
+                                            <i class="input-icon uil uil-user" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="auth-form-group">
+                                            <input type="tel" class="auth-form-style" placeholder="Phone Number">
+                                            <i class="input-icon uil uil-phone" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="auth-form-group">
+                                            <input type="email" class="auth-form-style" placeholder="Email">
+                                            <i class="input-icon uil uil-at" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="auth-form-group">
+                                            <input type="password" class="auth-form-style" placeholder="Password">
+                                            <i class="input-icon uil uil-lock-alt" aria-hidden="true"></i>
+                                        </div>
+                                        <button class="auth-btn" type="button">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <script src="assets/js/app.js"></script>
 </body>

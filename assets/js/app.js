@@ -1,6 +1,8 @@
 const page = document.body.dataset.page;
 const navItems = [...document.querySelectorAll('#sidebar li')];
 const navLinks = [...document.querySelectorAll('#sidebar a[data-target]')];
+const topbar = document.querySelector('[data-topbar]');
+const topbarLinks = [...document.querySelectorAll('.topbar-nav a[data-target]')];
 const pageSections = navLinks
     .map((link) => {
         const href = link.getAttribute('href');
@@ -17,6 +19,10 @@ const setActiveNav = (target) => {
     navItems.forEach((item) => {
         const link = item.querySelector('a[data-target]');
         item.classList.toggle('active', link?.dataset.target === target);
+    });
+
+    topbarLinks.forEach((link) => {
+        link.classList.toggle('active', link.dataset.target === target);
     });
 };
 
@@ -151,6 +157,58 @@ const initEntryToggle = () => {
     });
 };
 
+const initTopbarSwap = () => {
+    if (page !== 'home' || !topbar) {
+        return;
+    }
+
+    const syncBars = () => {
+        const atTop = window.scrollY < 24;
+        document.body.classList.toggle('is-at-top', atTop);
+    };
+
+    window.addEventListener('scroll', syncBars, { passive: true });
+    window.addEventListener('resize', syncBars);
+    window.addEventListener('load', syncBars);
+    syncBars();
+};
+
+const initAuthOverlay = () => {
+    const panel = document.querySelector('[data-auth-panel]');
+    const openers = [...document.querySelectorAll('[data-auth-open]')];
+    const closers = [...document.querySelectorAll('[data-auth-close]')];
+
+    if (!panel || !openers.length) {
+        return;
+    }
+
+    const openPanel = () => {
+        panel.removeAttribute('hidden');
+        document.body.classList.add('auth-open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closePanel = () => {
+        panel.setAttribute('hidden', '');
+        document.body.classList.remove('auth-open');
+        document.body.style.overflow = '';
+    };
+
+    openers.forEach((opener) => {
+        opener.addEventListener('click', openPanel);
+    });
+
+    closers.forEach((closer) => {
+        closer.addEventListener('click', closePanel);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !panel.hasAttribute('hidden')) {
+            closePanel();
+        }
+    });
+};
+
 // =========================
 // GAME SWITCH (NEW)
 // =========================
@@ -204,6 +262,8 @@ const initGameSwitch = () => {
 
 initGameSwitch();
 initSectionSpy();
+initTopbarSwap();
+initAuthOverlay();
 initCarousel('projects-carousel');
 initCarousel('announcements-carousel');
 initEntryToggle();
