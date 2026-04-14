@@ -151,22 +151,50 @@ const initEntryToggle = () => {
 // =========================
 
 const initGameSwitch = () => {
-    const cards = document.querySelectorAll('.game-card');
-    const panels = document.querySelectorAll('.game-panel');
+    const cards = [...document.querySelectorAll('.game-card')];
+    const panels = [...document.querySelectorAll('.game-panel')];
 
-    if (!cards.length) return;
+    if (!cards.length || !panels.length) {
+        return;
+    }
 
-    cards.forEach(card => {
+    const activateGame = (game) => {
+        cards.forEach((card) => {
+            const isActive = card.dataset.game === game;
+            card.classList.toggle('active', isActive);
+            card.setAttribute('aria-selected', String(isActive));
+            card.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        panels.forEach((panel) => {
+            const isActive = panel.id === `game-${game}`;
+            panel.classList.toggle('active', isActive);
+            panel.toggleAttribute('hidden', !isActive);
+        });
+    };
+
+    cards.forEach((card) => {
         card.addEventListener('click', () => {
-            const game = card.dataset.game;
+            activateGame(card.dataset.game);
+        });
 
-            cards.forEach(c => c.classList.remove('active'));
-            panels.forEach(p => p.classList.remove('active'));
+        card.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') {
+                return;
+            }
 
-            card.classList.add('active');
-            document.getElementById(`game-${game}`).classList.add('active');
+            const direction = event.key === 'ArrowRight' ? 1 : -1;
+            const currentIndex = cards.indexOf(card);
+            const nextIndex = (currentIndex + direction + cards.length) % cards.length;
+            const nextCard = cards[nextIndex];
+
+            activateGame(nextCard.dataset.game);
+            nextCard.focus();
         });
     });
+
+    const activeCard = cards.find((card) => card.classList.contains('active')) ?? cards[0];
+    activateGame(activeCard.dataset.game);
 };
 
 initGameSwitch();
@@ -174,4 +202,3 @@ initSectionSpy();
 initCarousel('projects-carousel');
 initCarousel('announcements-carousel');
 initEntryToggle();
-
