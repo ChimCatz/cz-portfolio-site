@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CZ Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body data-page="home">
     <header class="topbar" data-topbar>
-        <a class="topbar-brand" href="#home">CZ Catalan</a>
+        <a class="topbar-brand" href="#home" aria-label="CZ Portfolio home">
+            <img src="assets/images/cz-logos/cz-logo-2-svg.svg" alt="CZ logo">
+        </a>
         <nav class="topbar-nav" aria-label="Top navigation">
             <a href="#home" data-target="home">Home</a>
             <a href="#about" data-target="about">Professional Overview</a>
@@ -20,7 +23,7 @@
             <a href="#projects" data-target="projects">Projects</a>
             <a href="lords-recovery.html" data-target="lords-recovery">Lord's Recovery</a>
         </nav>
-        <button class="hero-button primary topbar-auth-button" type="button" data-auth-open>Login / Signup</button>
+        <button class="text-button hero-button primary topbar-auth-button" type="button" data-auth-open>Login / Signup</button>
     </header>
 
     <nav id="sidebar" aria-label="Primary">
@@ -83,32 +86,15 @@
             <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
             <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
             <div class="hero-gridlines" aria-hidden="true"></div>
-            <p class="eyebrow">CZ Catalan</p>
             <h1>Improvise. Adapt. Overcome.</h1>
-            <p class="hero-copy">A practical portfolio focused on workflow automation, CRM data quality, and building tools that remove friction from operations.</p>
-            <p class="hero-intro">Hi, I'm CZ Catalan, a Data Analyst who builds systems that turn messy records into dependable decisions.</p>
-            <p class="hero-subcopy">This page is a quick view into my work, how I solve data problems, the tools I rely on, and the projects where automation, search, validation, and reporting come together in a usable way.</p>
+            <div class="hero-copy-group">
+                <p class="hero-copy">I build data systems that turn messy CRM records into reliable, scalable workflows.</p>
+                <p class="hero-intro">Data Analyst focused on automation, search, validation, and reporting. I design tools that remove manual work, improve data quality, and make operations faster and more accurate.</p>
+                <p class="hero-subcopy">This portfolio shows how I solve real data problems using Python, structured pipelines, and practical systems that teams can actually use.</p>
+            </div>
             <div class="hero-actions">
-                <a class="hero-button primary" href="#about">Professional Overview</a>
-                <a class="hero-button secondary" href="#projects">View Projects</a>
-            </div>
-            <div class="hero-metrics">
-                <div class="metric-chip">
-                    <span class="metric-label">Impact</span>
-                    <strong>70-90% faster</strong>
-                </div>
-                <div class="metric-chip">
-                    <span class="metric-label">Scale</span>
-                    <strong>10k-50k+ rows</strong>
-                </div>
-                <div class="metric-chip">
-                    <span class="metric-label">Accuracy</span>
-                    <strong>Under 3% error</strong>
-                </div>
-            </div>
-            <div class="hero-spotlight">
-                <div class="spotlight-line"></div>
-                <p>From raw files to usable systems, every workflow should make decisions faster, cleaner, and more dependable.</p>
+                <a class="text-button hero-button primary" href="#about">Professional Overview</a>
+                <a class="text-button hero-button secondary" href="#projects">View Projects</a>
             </div>
         </section>
 
@@ -393,7 +379,7 @@
                             <span>Case study ready</span>
                         </div>
                         <div class="project-card-actions">
-                            <a class="hero-button secondary" href="leadflow-etl.html">View Project</a>
+                            <a class="text-button hero-button secondary" href="leadflow-etl.html">View Project</a>
                         </div>
                     </article>
 
@@ -407,7 +393,7 @@
                             <span>Case study ready</span>
                         </div>
                         <div class="project-card-actions">
-                            <a class="hero-button secondary" href="data-pivot-table-tool.html">View Project</a>
+                            <a class="text-button hero-button secondary" href="data-pivot-table-tool.html">View Project</a>
                         </div>
                     </article>
 
@@ -421,7 +407,7 @@
                             <span>Case study ready</span>
                         </div>
                         <div class="project-card-actions">
-                            <a class="hero-button secondary" href="csv-advanced-search-engine.html">View Project</a>
+                            <a class="text-button hero-button secondary" href="csv-advanced-search-engine.html">View Project</a>
                         </div>
                     </article>
 
@@ -435,7 +421,7 @@
                             <span>Case study ready</span>
                         </div>
                         <div class="project-card-actions">
-                            <a class="hero-button secondary" href="call-conversion-tool.html">View Project</a>
+                            <a class="text-button hero-button secondary" href="call-conversion-tool.html">View Project</a>
                         </div>
                     </article>
                 </div>
@@ -451,7 +437,7 @@
             </div>
             <div class="recovery-preview-card">
                 <p class="justified">This page will become the home for important notices, shareable ministry portions, and future links connected to church life. It keeps the same site language while carrying a calmer, more devotional tone.</p>
-                <a class="hero-button primary" href="lords-recovery.html">Open Lord's Recovery</a>
+                <a class="text-button hero-button primary" href="lords-recovery.html">Open Lord's Recovery</a>
             </div>
         </section>
     </main>
@@ -489,7 +475,7 @@
                                             <input type="password" class="auth-form-style" placeholder="Password">
                                             <i class="input-icon uil uil-lock-alt" aria-hidden="true"></i>
                                         </div>
-                                        <button class="auth-btn" type="button">Login</button>
+                                        <button class="text-button auth-btn" type="button">Login</button>
                                         <p><a href="#" class="auth-link">Forgot your password?</a></p>
                                     </div>
                                 </div>
@@ -514,7 +500,7 @@
                                             <input type="password" class="auth-form-style" placeholder="Password">
                                             <i class="input-icon uil uil-lock-alt" aria-hidden="true"></i>
                                         </div>
-                                        <button class="auth-btn" type="button">Register</button>
+                                        <button class="text-button auth-btn" type="button">Register</button>
                                     </div>
                                 </div>
                             </div>
