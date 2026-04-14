@@ -26,6 +26,11 @@ const initSectionSpy = () => {
         return;
     }
 
+    if (page === 'project-detail') {
+        setActiveNav('projects');
+        return;
+    }
+
     if (!pageSections.length) {
         return;
     }

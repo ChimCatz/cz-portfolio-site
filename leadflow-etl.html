@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CZ Portfolio | How I Eliminated 6 Hours of Manual CRM Work with a Python ETL Tool</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body data-page="project-detail" class="project-detail-page">
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li><a href="index.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
+            <li><a href="index.html#about" aria-label="Professional Overview" data-target="about"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/about-me.svg" alt="" aria-hidden="true"></span><span class="nav-label">Professional Overview</span></a></li>
+            <li><a href="index.html#brain-challenge" aria-label="Brain Challenge" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenge</span></a></li>
+            <li><a href="index.html#skills" aria-label="Skills" data-target="skills"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/skills.svg" alt="" aria-hidden="true"></span><span class="nav-label">Skills</span></a></li>
+            <li class="active"><a href="index.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
+            <li><a href="lords-recovery.html" aria-label="Lord's Recovery" data-target="lords-recovery"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/life.svg" alt="" aria-hidden="true"></span><span class="nav-label">Lord's Recovery</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="simple-project-page">
+        <section class="container project-simple-banner">
+            <a class="project-page-label" href="index.html#projects">Back to Projects</a>
+            <div class="project-simple-copy">
+                <p class="eyebrow">ETL Workflow</p>
+                <h1>How I Eliminated 6 Hours of Manual CRM Work with a Python ETL Tool</h1>
+            </div>
+            <img src="assets/images/leadflow-etl/leaderboard-image.png" alt="LeadFlow ETL leaderboard banner.">
+        </section>
+
+        <section class="container project-simple-content">
+            <div class="project-simple-copy">
+                <span class="section-kicker">Case Study</span>
+                <h2>How I Eliminated 6 Hours of Manual CRM Work with a Python ETL Tool</h2>
+                <p class="justified">LeadFlow ETL started from a real bottleneck: exporting CRM data was easy, but making it usable was not. Each dataset, often 60K to 350K records, came from different sources like Zoho, Vtiger, Lusha, and Pipileads, all with inconsistent schemas, messy phone formats, missing fields, and no reliable way to track duplicates. Preparing a single clean import file took 30 minutes to an hour of manual work, and even then, errors slipped through. The goal was simple but strict: cut processing time to under 2 minutes while improving data accuracy beyond 95%.</p>
+                <p class="justified">The solution was a Python desktop application that automated the entire workflow end-to-end. Once a CSV is loaded, the system detects the correct pipeline based on headers and routes it through a dedicated transformer, each tailored to the quirks of its source. Instead of relying on generic mappings, each pipeline applies specific rules for field alignment, department classification, revenue grouping, and industry normalization. For example, inconsistent department labels are mapped into standardized categories using keyword rules, while phone numbers are cleaned into a uniform format by removing symbols and enforcing spacing rules. This alone reduced import-related errors by roughly 80-90%.</p>
+                <p class="justified">The core problem, duplicate detection and identity matching, was solved through a two-layer Trace ID system. First, the system performs a strict email match using a dictionary-based index for near-instant lookup. If no match is found, it falls back to a weighted fuzzy matching model using RapidFuzz, combining 70% name similarity and 30% company similarity, with a confidence threshold of 92%. This hybrid approach balances speed and accuracy: exact matches resolve instantly, while fuzzy matching handles edge cases like misspellings and inconsistent company naming. Each result is labeled with how it was matched, giving transparency to the process instead of treating it as a black box.</p>
+                <p class="justified">To reduce setup friction, a dynamic mapping interface was built into the GUI. Instead of manually aligning columns, the system auto-maps fields using both predefined rules for known sources like Lusha and Pipileads and fuzzy matching when needed. It also previews sample values in real time, cutting setup time from around 10 minutes to under 1 minute. The full workflow, from import to export, follows a simple sequence: load dataset, preview records, optionally attach a masterfile for matching, run transformation, then export a clean file ready for CRM import.</p>
+                <p class="justified">Performance was a key constraint, not an afterthought. By using indexed lookups instead of brute-force comparisons and minimizing UI blocking during processing, the system can handle 40K+ records in around 18 seconds based on actual runs. Larger datasets scale predictably because matching operations are optimized around pre-built indexes rather than repeated scans. Compared to the original manual process, this represents a 95%+ reduction in processing time, turning hours of work into seconds.</p>
+                <p class="justified">In the end, LeadFlow ETL is not just a conversion tool, it is a data standardization engine built around real operational pain. It bridges multiple CRM ecosystems, enforces consistent data structure, and introduces a reliable identity layer through Trace IDs. The impact is clear: faster campaign execution, fewer import errors, and cleaner datasets at scale. What used to block workflows is now a one-click process.</p>
+            </div>
+        </section>
+
+        <section class="container project-simple-image">
+            <span class="section-kicker">Image</span>
+            <img src="assets/images/leadflow-etl/image-1.png" alt="LeadFlow ETL demo image.">
+        </section>
+    </main>
+
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

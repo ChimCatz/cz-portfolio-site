@@ -398,6 +398,50 @@ main {
     letter-spacing: 0.01em;
 }
 
+.credential-list {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.35rem;
+}
+
+.credential-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 0.95rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #eef4ff;
+    text-decoration: none;
+    transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.credential-link:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+.credential-link span:last-child {
+    overflow-wrap: anywhere;
+}
+
+.credential-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.credential-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
 .hero-button,
 .carousel-button,
 .editor-button {
@@ -644,6 +688,9 @@ main {
 .skill-card,
 .project-card {
     position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
     padding: 1.3rem;
     border-radius: 22px;
     background: linear-gradient(145deg, rgba(14, 24, 60, 0.64), rgba(7, 11, 28, 0.82));
@@ -683,6 +730,14 @@ main {
 .project-card h3 {
     margin: 0.4rem 0 0.7rem;
     font-size: 1.18rem;
+    text-align: center;
+}
+
+.project-card p {
+    width: 100%;
+    max-width: none;
+    text-align: justify;
+    text-align-last: center;
 }
 
 .mini-stat-grid {
@@ -893,6 +948,281 @@ main {
     justify-content: center;
 }
 
+.project-card-meta,
+.project-highlight-list,
+.project-stack-list,
+.project-detail-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.project-card-meta {
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.project-card-meta span,
+.project-highlight-list span,
+.project-stack-list span {
+    padding: 0.58rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #e7eeff;
+    font-size: 0.84rem;
+    line-height: 1.2;
+}
+
+.project-card-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.15rem;
+    justify-content: center;
+}
+
+.project-card-actions .hero-button {
+    min-width: 170px;
+}
+
+.project-detail-page .hero {
+    min-height: auto;
+}
+
+.project-hero-layout,
+.project-overview-grid,
+.project-asset-grid,
+.project-content-grid,
+.project-navigation {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.project-hero-layout,
+.project-overview-grid,
+.project-content-grid,
+.project-navigation {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+    align-items: stretch;
+}
+
+.project-hero-copy,
+.project-hero-aside,
+.project-summary-card,
+.project-metric-card,
+.project-story-card,
+.project-detail-card {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.project-hero-copy {
+    align-content: start;
+}
+
+.project-page-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: fit-content;
+    padding: 0.42rem 0.78rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #edf3ff;
+    text-decoration: none;
+    font-size: 0.82rem;
+}
+
+.project-page-label:hover {
+    border-color: var(--line-strong);
+}
+
+.project-banner-card,
+.project-demo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    min-height: 220px;
+    padding: 1.2rem;
+    background: linear-gradient(145deg, rgba(14, 24, 60, 0.8), rgba(7, 11, 28, 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 22px 44px rgba(0, 0, 0, 0.22);
+}
+
+.project-banner-card::before,
+.project-demo-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(130deg, rgba(255, 255, 255, 0.06), transparent 38%),
+        radial-gradient(circle at top right, rgba(142, 184, 255, 0.18), transparent 38%);
+    pointer-events: none;
+}
+
+.project-banner-card {
+    min-height: 300px;
+}
+
+.project-placeholder-surface {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 100%;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    background-size: 30px 30px, 30px 30px, auto;
+    text-align: center;
+}
+
+.project-placeholder-surface strong {
+    display: block;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+}
+
+.project-placeholder-surface span {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.project-summary-card,
+.project-metric-card,
+.project-story-card,
+.project-detail-card {
+    padding: 1.25rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.project-summary-card h3,
+.project-story-card h3,
+.project-detail-card h3,
+.project-metric-card h3 {
+    font-size: 1.08rem;
+}
+
+.project-summary-card p,
+.project-story-card p,
+.project-detail-card p,
+.project-metric-card p {
+    max-width: none;
+}
+
+.project-overview-grid {
+    margin-top: 0.1rem;
+}
+
+.project-metric-card strong {
+    font-size: clamp(1.55rem, 3vw, 2.1rem);
+    line-height: 1;
+}
+
+.project-asset-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.project-content-grid {
+    align-items: start;
+}
+
+.project-detail-list {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.project-detail-list li {
+    padding: 0.9rem 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.035);
+    color: #e7eeff;
+    line-height: 1.65;
+}
+
+.project-detail-list strong {
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.project-navigation {
+    align-items: center;
+}
+
+.project-navigation .project-detail-card:last-child {
+    justify-items: start;
+}
+
+.simple-project-page {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.project-simple-banner,
+.project-simple-content {
+    display: grid;
+    gap: 1rem;
+}
+
+.project-simple-banner img,
+.project-simple-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 22px;
+    box-shadow: 0 20px 46px rgba(0, 0, 0, 0.24);
+    background: rgba(0, 0, 0, 0.22);
+}
+
+.project-simple-copy {
+    display: grid;
+    gap: 1rem;
+}
+
+.project-simple-copy h1,
+.project-simple-copy h2 {
+    margin: 0;
+}
+
+.project-simple-copy p {
+    max-width: none;
+}
+
+.project-simple-image {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.project-simple-placeholder {
+    min-height: 240px;
+    display: grid;
+    place-items: center;
+    padding: 1.4rem;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 22px;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(145deg, rgba(14, 24, 60, 0.64), rgba(7, 11, 28, 0.82));
+    background-size: 28px 28px, 28px 28px, auto;
+    text-align: center;
+}
+
+.project-simple-placeholder strong {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 1.08rem;
+}
+
 .carousel-dot {
     width: 10px;
     height: 10px;
@@ -1087,7 +1417,11 @@ main {
     .about-layout,
     .enjoyments-layout,
     .section-heading-row,
-    .game-panel {
+    .game-panel,
+    .project-hero-layout,
+    .project-overview-grid,
+    .project-content-grid,
+    .project-navigation {
         grid-template-columns: 1fr;
     }
 
@@ -1150,7 +1484,8 @@ main {
     .hero-socials,
     .hero-metrics,
     .carousel-controls,
-    .editor-actions {
+    .editor-actions,
+    .project-card-actions {
         flex-direction: column;
     }
 
@@ -1184,6 +1519,10 @@ main {
 
     .carousel-track {
         min-height: 400px;
+    }
+
+    .project-asset-grid {
+        grid-template-columns: 1fr;
     }
 
     .enjoyment-meta,
