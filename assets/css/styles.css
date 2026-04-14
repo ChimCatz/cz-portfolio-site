@@ -1164,13 +1164,28 @@ main {
 
 .simple-project-page {
     display: grid;
-    gap: 1.5rem;
+    gap: 1.1rem;
 }
 
 .project-simple-banner,
 .project-simple-content {
     display: grid;
     gap: 1rem;
+}
+
+.simple-project-page .container {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.simple-project-page .container:nth-child(2) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.simple-project-page .container:nth-child(3) {
+    background: linear-gradient(160deg, rgba(18, 34, 78, 0.14), rgba(3, 6, 17, 0.28));
+    border-color: rgba(255, 255, 255, 0.04);
 }
 
 .project-simple-banner img,
@@ -1197,9 +1212,59 @@ main {
     max-width: none;
 }
 
+.project-flow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: fit-content;
+    padding: 0.7rem 0.95rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.045);
+    color: #eef4ff;
+    text-decoration: none;
+    transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.project-flow-link:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+.project-flow-link img {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
 .project-simple-image {
     display: grid;
     gap: 0.9rem;
+}
+
+.project-results-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.4rem;
+}
+
+.project-results-strip div {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.project-results-strip strong {
+    color: #eef4ff;
+    font-size: 0.92rem;
+}
+
+.project-results-strip span {
+    color: var(--muted);
+    line-height: 1.55;
 }
 
 .project-simple-placeholder {
@@ -1522,6 +1587,10 @@ main {
     }
 
     .project-asset-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-results-strip {
         grid-template-columns: 1fr;
     }
 
