@@ -74,12 +74,8 @@ const initSectionSpy = () => {
     updateActiveSection();
 };
 
-const initCarousel = (name) => {
-    const shell = document.querySelector(`[data-carousel="${name}"]`);
-
-    if (!shell) {
-        return;
-    }
+const initCarousel = (shell) => {
+    const name = shell.dataset.carousel;
 
     const cards = [...shell.querySelectorAll('.carousel-card')];
     const dotsWrap = shell.querySelector('.carousel-dots');
@@ -117,6 +113,11 @@ const initCarousel = (name) => {
     next?.addEventListener('click', () => render(index + 1));
 
     render(index);
+};
+
+const initCarousels = () => {
+    const carousels = [...document.querySelectorAll('[data-carousel]')];
+    carousels.forEach((shell) => initCarousel(shell));
 };
 
 const initEntryToggle = () => {
@@ -264,6 +265,5 @@ initGameSwitch();
 initSectionSpy();
 initTopbarSwap();
 initAuthOverlay();
-initCarousel('projects-carousel');
-initCarousel('announcements-carousel');
+initCarousels();
 initEntryToggle();

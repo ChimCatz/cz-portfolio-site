@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CZ Portfolio | 8x8 / VoIP Call Conversion Tool</title>
+    <title>CZ Portfolio | VOIP Call Conversion Tool</title>
     <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -26,31 +26,121 @@
             <a class="text-button project-page-label" href="index.html#projects">Back to Projects</a>
             <div class="project-simple-copy">
                 <p class="eyebrow">Call Attribution</p>
-                <h1>8x8 / VoIP Call Conversion Tool</h1>
+                <h1>VOIP Call Conversion Tool</h1>
             </div>
-            <div class="project-simple-placeholder">
-                <div>
-                    <strong>Leaderboard Placeholder</strong>
-                    <span>Add the project leaderboard banner here later.</span>
-                </div>
-            </div>
+            <img src="assets/images/call-conversion-tool/leaderboard.png" alt="Call Conversion Tool leaderboard banner.">
         </section>
 
         <section class="container project-simple-content">
             <div class="project-simple-copy">
                 <span class="section-kicker">Case Study</span>
-                <h2>Coming Soon</h2>
-                <p class="justified">This section is ready for the 8x8 / VoIP Call Conversion Tool case study.</p>
+                <h2>VOIP Call Conversion Tool</h2>
+                <a class="project-flow-link" href="https://github.com/ChimCatz/call_conversion_matching_tool" target="_blank" rel="noreferrer">
+                    <img src="assets/icons/github.svg" alt="" aria-hidden="true">
+                    <span>View GitHub Repository</span>
+                </a>
+                <p class="justified">This project came from a repetitive task that was quietly draining my time as a data analyst. I regularly had to cross-match call logs from a VOIP system with CRM lead data to identify which interactions actually converted. On paper that sounds simple, but the real work started long before the matching itself. I first had to clean both datasets manually, and that preparation alone usually took close to an hour for each run.</p>
+                <p class="justified">The VoIP call logs took around 30 minutes to prepare because formats were inconsistent, columns needed to be aligned, and phone numbers often had to be cleaned by hand. The CRM export added another 20 to 30 minutes because contact numbers were scattered across multiple fields and the structure was not always consistent. So instead of trying to speed up the cleanup work manually, I decided to remove it from the workflow entirely.</p>
+                <p class="justified">What came out of that was the VOIP Call Conversion Tool, a small desktop utility built to take raw call data and CRM exports, standardize them, and produce a clean conversion report in seconds instead of rebuilding the same process manually every time.</p>
+                <p class="justified">I built a desktop tool that lets me import raw CSV files from both sources and handle the cleanup, normalization, matching, and reporting in the backend. One of the first problems I solved was format inconsistency. Different VoIP exports follow different structures, so I added a detection layer that identifies the format based on column patterns and routes the file through the correct processing logic. Once detected, the tool normalizes the data into a standard structure so dates, durations, and call directions all follow the same rules.</p>
+                <p class="justified">Phone numbers were another major source of unreliable matching. They came in different formats with spaces, symbols, and country codes, which caused frequent mismatches. To fix that, I added a cleaning step that strips everything except digits so numbers are normalized before matching begins. That made the matching logic much more dependable across both data sources.</p>
+                <p class="justified">On the CRM side, the issue was fragmented contact data. Phone numbers were not stored in a single field. They could appear in mobile, direct line, or telephone columns, depending on the record. Instead of picking one field and hoping for the best, the tool extracts every possible number per contact and restructures them into a normalized dataset. That increases matching coverage without relying on guesswork.</p>
+                <p class="justified">For the actual conversion logic, I avoided relying only on exact matches because real-world data is rarely that clean. The system uses a layered approach: exact match on the full number first, then fallback checks using the last 8 digits and last 7 digits. That gives the tool a better chance of matching slightly inconsistent data while still keeping the process controlled. Matching is also performed across multiple call fields rather than a single column, which improves overall coverage.</p>
+                <p class="justified">I also added simple business rules so the results reflect meaningful activity rather than noise. Not every call should count toward conversion performance, so the tool filters for eligible calls using criteria like call direction and minimum connection time. That way the final metrics are based on valid interactions instead of inflated raw volume.</p>
+                <p class="justified">The interface is intentionally simple. The workflow is reduced to four steps: import call logs, import CRM data, run conversion, and export results. Behind that simple sequence, the tool automatically calculates metrics like total calls, unique contacts, converted calls, effectiveness rate, and coverage rate, so there is no need for manual computation anymore.</p>
+                <p class="justified">The impact was immediate. What used to take around 60 minutes per dataset now takes under 10 to 15 seconds from import to export. More importantly, the process is now repeatable and consistent. I no longer depend on manual cleanup, and I no longer have to worry about avoidable matching errors every time a new dataset comes in.</p>
+                <div class="project-results-strip" aria-label="Key results">
+                    <div><strong>Processing Time</strong><span>About 60 minutes to &lt;15 seconds</span></div>
+                    <div><strong>Time Saved</strong><span>Roughly 98% reduction</span></div>
+                    <div><strong>Matching Logic</strong><span>Exact plus last-8 and last-7 fallback</span></div>
+                    <div><strong>Workflow</strong><span>Manual multi-step process to 4-step automation</span></div>
+                    <div><strong>Consistency</strong><span>Standardized VoIP and CRM matching</span></div>
+                </div>
             </div>
         </section>
 
         <section class="container project-simple-image">
             <span class="section-kicker">Image</span>
-            <div class="project-simple-placeholder">
+            <img src="assets/images/call-conversion-tool/image-1.png" alt="Call Conversion Tool demo image.">
+        </section>
+
+        <section class="container project-related-section">
+            <div class="section-heading section-heading-row">
                 <div>
-                    <strong>Image Placeholder</strong>
-                    <span>Add the project screenshot here later.</span>
+                    <span class="section-kicker">Builds</span>
+                    <h2>More Projects</h2>
+                    <p>Browse the full project set here so you can jump across case studies without returning to the homepage.</p>
                 </div>
+                <div class="carousel-controls" aria-label="Project controls">
+                    <button class="carousel-button" data-carousel-prev="related-projects-carousel">
+                        <img src="assets/icons/back.svg" alt="">
+                    </button>
+
+                    <button class="carousel-button" data-carousel-next="related-projects-carousel">
+                        <img src="assets/icons/next.svg" alt="">
+                    </button>
+                </div>
+            </div>
+
+            <div class="carousel-shell" data-carousel="related-projects-carousel">
+                <div class="carousel-track">
+                    <article class="project-card carousel-card is-active">
+                        <span class="project-tag">ETL</span>
+                        <h3>LeadFlow ETL</h3>
+                        <p class="justified">Automated CRM data transformation tool that converts lead datasets across platforms like Zoho, Vtiger, Lusha, and Pipeleads. Detects pipeline from CSV headers, normalizes data, and outputs clean import-ready files.</p>
+                        <div class="project-card-meta">
+                            <span>CSV normalization</span>
+                            <span>CRM-ready exports</span>
+                            <span>Case study ready</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="leadflow-etl.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Analysis</span>
+                        <h3>Data Pivot Table Tool</h3>
+                        <p class="justified">Built to eliminate repetitive pivot-table work on CRM datasets by automating import cleanup, column mapping, filtering, and pivot-style report generation in one repeatable flow.</p>
+                        <div class="project-card-meta">
+                            <span>1-click reporting</span>
+                            <span>Session-based workflows</span>
+                            <span>20-30 min to &lt;20 sec</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="data-pivot-table-tool.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Search</span>
+                        <h3>CSV Advanced Search Engine</h3>
+                        <p class="justified">High-speed search tool for large lead datasets with fuzzy company matching, column mapping, and bulk designation filtering. Built for handling messy multi-source CRM data.</p>
+                        <div class="project-card-meta">
+                            <span>Fuzzy matching</span>
+                            <span>Fast query flow</span>
+                            <span>Case study ready</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="csv-advanced-search-engine.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Attribution</span>
+                        <h3>VOIP Call Conversion Tool</h3>
+                        <p class="justified">Automated matching tool that cleans VOIP and CRM exports, normalizes fragmented phone data, and identifies valid call conversions through layered number matching and reporting logic.</p>
+                        <div class="project-card-meta">
+                            <span>Layered phone matching</span>
+                            <span>Conversion reporting</span>
+                            <span>60 min to &lt;15 sec</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="call-conversion-tool.html">View Project</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="carousel-dots" aria-label="Project slides"></div>
             </div>
         </section>
     </main>

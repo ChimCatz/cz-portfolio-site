@@ -1402,6 +1402,24 @@ main {
     gap: 0.9rem;
 }
 
+.project-image-gallery {
+    display: grid;
+    gap: 1rem;
+}
+
+.project-image-gallery.three-up {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-related-section {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.project-related-section .section-heading {
+    margin-bottom: 0;
+}
+
 .project-results-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -2018,6 +2036,10 @@ main {
     }
 
     .project-results-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .project-image-gallery.three-up {
         grid-template-columns: 1fr;
     }
 

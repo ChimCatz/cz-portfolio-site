@@ -112,7 +112,7 @@ This file preserves the key working context, design choices, and content decisio
   - case study content
   - supporting image
 
-### 8x8 / VoIP Call Conversion Tool
+### VOIP Call Conversion Tool
 - File: `call-conversion-tool.html`
 - Still placeholder/simple structure.
 - Needs future:
@@ -157,7 +157,7 @@ This file preserves the key working context, design choices, and content decisio
 ## Future Development Priorities
 - Add full case studies for:
   - Data Pivot Table Tool
-  - 8x8 / VoIP Call Conversion Tool
+  - VOIP Call Conversion Tool
 - Continue refining the Projects section on `index.html` so card text feels balanced and uses space better.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.

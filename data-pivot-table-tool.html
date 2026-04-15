@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CZ Portfolio | Data Pivot Table Tool</title>
+    <title>CZ Portfolio | From Repetitive Pivot Work to 1-Click Reports: Automating My Data Analysis Workflow</title>
     <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -25,32 +25,125 @@
         <section class="container project-simple-banner">
             <a class="text-button project-page-label" href="index.html#projects">Back to Projects</a>
             <div class="project-simple-copy">
-                <p class="eyebrow">Analysis Tool</p>
-                <h1>Data Pivot Table Tool</h1>
+                <p class="eyebrow">Analysis Workflow</p>
+                <h1>From Repetitive Pivot Work to 1-Click Reports: Automating My Data Analysis Workflow</h1>
             </div>
-            <div class="project-simple-placeholder">
-                <div>
-                    <strong>Leaderboard Placeholder</strong>
-                    <span>Add the project leaderboard banner here later.</span>
-                </div>
-            </div>
+            <img src="assets/images/data-pivot-table-tool/leaderboard.png" alt="Data Pivot Table Tool leaderboard banner.">
         </section>
 
         <section class="container project-simple-content">
             <div class="project-simple-copy">
                 <span class="section-kicker">Case Study</span>
-                <h2>Coming Soon</h2>
-                <p class="justified">This section is ready for the Data Pivot Table Tool case study.</p>
+                <h2>From Repetitive Pivot Work to 1-Click Reports: Automating My Data Analysis Workflow</h2>
+                <a class="project-flow-link" href="https://github.com/ChimCatz/Data_Pivot_Table_tool" target="_blank" rel="noreferrer">
+                    <img src="assets/icons/github.svg" alt="" aria-hidden="true">
+                    <span>View GitHub Repository</span>
+                </a>
+                <p class="justified">Pivot tables are one of the most basic tools in data analysis, and I used them constantly when working with CRM datasets. Grouping by country, breaking down job levels, checking industry distributions, those parts were normal. The real problem was repetition. Every new dataset meant going through the same cleanup, rebuilding the same pivot tables, reapplying filters, and adjusting totals by hand. Even moving quickly, that still took around 20 to 30 minutes per file, and across recurring reports it added up fast.</p>
+                <p class="justified">So instead of trying to get faster at the manual routine, I removed the routine. I built a lightweight desktop tool focused specifically on this workflow. It is not meant to be a general analytics platform. It is designed to take in the kinds of CSV files I already work with and turn them into structured, reusable reports with far less effort.</p>
+                <p class="justified">The workflow starts with importing a CSV, but the first win is reliability. Real-world files often come with encoding issues, messy delimiters, or broken formatting, so the tool tries multiple read strategies instead of failing immediately. That makes the import step much more dependable when working with exports from different systems.</p>
+                <p class="justified">After the file loads, the next bottleneck is column mapping. Rather than manually figuring out which field represents Country, Job Level, or Industry every time, the tool detects likely matches using keyword rules and column patterns. If the mapping is right, I confirm it. If not, I make a quick adjustment once and move on. That removes another repetitive setup step from the process.</p>
+                <p class="justified">Filtering also became much more structured. Instead of building formulas or manually filtering rows over and over, the interface lets me include or exclude values with a few clicks. I also added preset filters for recurring reporting conditions, like region-based selections or decision-maker roles, so I do not have to rebuild the same logic every time a new dataset comes in.</p>
+                <p class="justified">The main output is a pivot-style report generated automatically. Instead of creating multiple pivot tables by hand, the system groups data by the mapped fields and calculates counts in one pass using optimized operations. For my workflow, that means the report is ready almost immediately instead of being assembled step by step in Excel.</p>
+                <p class="justified">One feature that became especially useful is proportional adjustment. Sometimes I need totals to match a specific reporting target. Instead of editing numbers manually, the tool redistributes counts proportionally across categories while preserving their relative distribution. That keeps the final report realistic while still meeting the reporting requirement.</p>
+                <p class="justified">I also built in session saving because recurring reports were part of the original pain point. The tool can save a full setup, including mapping, filters, and adjustments, so the same workflow can be loaded and rerun later. That turns repeated reporting from a rebuild-everything task into a reusable process.</p>
+                <p class="justified">The end result is straightforward but valuable. What used to take 20 to 30 minutes per dataset now takes under 10 to 20 seconds from import to final report. More importantly, the output is consistent. I am no longer rebuilding pivot tables from scratch or worrying about small filtering mistakes. For this specific workflow, the tool removes almost all of the repetitive effort and gives that time back.</p>
+                <div class="project-results-strip" aria-label="Key results">
+                    <div><strong>Processing Time</strong><span>20-30 minutes to &lt;20 seconds</span></div>
+                    <div><strong>Time Saved</strong><span>Roughly 95% reduction</span></div>
+                    <div><strong>Workflow</strong><span>Manual pivot building to 4-step automation</span></div>
+                    <div><strong>Consistency</strong><span>Standardized reports every run</span></div>
+                    <div><strong>Reusability</strong><span>Session-based reporting for repeat work</span></div>
+                </div>
             </div>
         </section>
 
         <section class="container project-simple-image">
             <span class="section-kicker">Image</span>
-            <div class="project-simple-placeholder">
+            <div class="project-image-gallery three-up">
+                <img src="assets/images/data-pivot-table-tool/image-1.png" alt="Data Pivot Table Tool demo image 1.">
+                <img src="assets/images/data-pivot-table-tool/image-2.png" alt="Data Pivot Table Tool demo image 2.">
+                <img src="assets/images/data-pivot-table-tool/image-3.png" alt="Data Pivot Table Tool demo image 3.">
+            </div>
+        </section>
+
+        <section class="container project-related-section">
+            <div class="section-heading section-heading-row">
                 <div>
-                    <strong>Image Placeholder</strong>
-                    <span>Add the project screenshot here later.</span>
+                    <span class="section-kicker">Builds</span>
+                    <h2>More Projects</h2>
+                    <p>Browse the full project set here so you can jump across case studies without returning to the homepage.</p>
                 </div>
+                <div class="carousel-controls" aria-label="Project controls">
+                    <button class="carousel-button" data-carousel-prev="related-projects-carousel">
+                        <img src="assets/icons/back.svg" alt="">
+                    </button>
+
+                    <button class="carousel-button" data-carousel-next="related-projects-carousel">
+                        <img src="assets/icons/next.svg" alt="">
+                    </button>
+                </div>
+            </div>
+
+            <div class="carousel-shell" data-carousel="related-projects-carousel">
+                <div class="carousel-track">
+                    <article class="project-card carousel-card is-active">
+                        <span class="project-tag">ETL</span>
+                        <h3>LeadFlow ETL</h3>
+                        <p class="justified">Automated CRM data transformation tool that converts lead datasets across platforms like Zoho, Vtiger, Lusha, and Pipeleads. Detects pipeline from CSV headers, normalizes data, and outputs clean import-ready files.</p>
+                        <div class="project-card-meta">
+                            <span>CSV normalization</span>
+                            <span>CRM-ready exports</span>
+                            <span>Case study ready</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="leadflow-etl.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Analysis</span>
+                        <h3>Data Pivot Table Tool</h3>
+                        <p class="justified">Built to eliminate repetitive pivot-table work on CRM datasets by automating import cleanup, column mapping, filtering, and pivot-style report generation in one repeatable flow.</p>
+                        <div class="project-card-meta">
+                            <span>1-click reporting</span>
+                            <span>Session-based workflows</span>
+                            <span>20-30 min to &lt;20 sec</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="data-pivot-table-tool.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Search</span>
+                        <h3>CSV Advanced Search Engine</h3>
+                        <p class="justified">High-speed search tool for large lead datasets with fuzzy company matching, column mapping, and bulk designation filtering. Built for handling messy multi-source CRM data.</p>
+                        <div class="project-card-meta">
+                            <span>Fuzzy matching</span>
+                            <span>Fast query flow</span>
+                            <span>Case study ready</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="csv-advanced-search-engine.html">View Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card carousel-card">
+                        <span class="project-tag">Attribution</span>
+                        <h3>VOIP Call Conversion Tool</h3>
+                        <p class="justified">Automated matching tool that cleans VOIP and CRM exports, normalizes fragmented phone data, and identifies valid call conversions through layered number matching and reporting logic.</p>
+                        <div class="project-card-meta">
+                            <span>Layered phone matching</span>
+                            <span>Conversion reporting</span>
+                            <span>60 min to &lt;15 sec</span>
+                        </div>
+                        <div class="project-card-actions">
+                            <a class="text-button hero-button secondary" href="call-conversion-tool.html">View Project</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="carousel-dots" aria-label="Project slides"></div>
             </div>
         </section>
     </main>
