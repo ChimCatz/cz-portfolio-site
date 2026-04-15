@@ -744,6 +744,13 @@ main {
     margin-bottom: 1.4rem;
 }
 
+.section-heading p {
+    max-width: none;
+    width: 100%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 .section-heading-row {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
@@ -756,6 +763,11 @@ main {
 
 .centered-copy {
     margin-inline: auto;
+    text-align: center;
+}
+
+.centered-heading p,
+.centered-copy {
     text-align: center;
 }
 
@@ -992,110 +1004,56 @@ main {
     justify-items: center;
 }
 
-.skills-panel {
-    position: relative;
-    width: min(100%, 940px);
-    padding: 1.2rem 1.3rem;
-    border-radius: 24px;
-    background: var(--surface-elevated);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 20px 42px rgba(0, 0, 0, 0.22);
+.skills-grid {
+    width: min(100%, 980px);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
 }
 
-.skills-panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(circle at top right, rgba(142, 184, 255, 0.14), transparent 36%);
-    pointer-events: none;
-}
-
-.skill-box {
+.skill-logo-card {
     position: relative;
     display: grid;
-    gap: 0.7rem;
-    margin: 1rem 0 1.25rem;
+    justify-items: center;
+    align-content: center;
+    gap: 1rem;
+    min-height: 180px;
+    padding: 1.1rem 1rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at top, var(--skill-glow, rgba(142, 184, 255, 0.14)), transparent 56%),
+        linear-gradient(145deg, color-mix(in srgb, var(--skill-tint, rgba(255, 255, 255, 0.14)) 52%, transparent), rgba(8, 12, 30, 0.5));
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 36px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
-.skill-box:last-child {
-    margin-bottom: 0.4rem;
+.skill-logo-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.24), 0 0 26px rgba(142, 184, 255, 0.1);
 }
 
-.skill-box-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-}
-
-.skill-box .title {
+.skill-logo-card img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
     display: block;
+}
+
+.skill-logo-card-wide img {
+    width: 90px;
+    height: 72px;
+}
+
+.skill-logo-card span {
     color: #eef4ff;
-    font-size: 0.96rem;
+    font-size: 0.95rem;
     font-weight: 700;
+    line-height: 1.4;
     letter-spacing: 0.01em;
-}
-
-.skill-percent-label {
-    color: var(--muted);
-    font-size: 0.84rem;
-    font-weight: 600;
-}
-
-.skills-panel .skill-bar {
-    height: 8px;
-    width: 100%;
-    margin-top: 0.2rem;
-    border-radius: 999px;
-    background: rgba(236, 236, 236, 0.1);
-    overflow: visible;
-}
-
-.skill-bar .skill-per {
-    position: relative;
-    display: block;
-    height: 100%;
-    width: 0;
-    border-radius: inherit;
-    background: linear-gradient(90deg, rgba(197, 214, 255, 0.86), rgba(244, 247, 255, 0.98));
-    box-shadow: 0 0 24px rgba(244, 247, 255, 0.24);
-    animation: progress 0.65s ease-in-out forwards;
-    animation-delay: var(--skill-delay, 0s);
-    opacity: 0;
-}
-
-.skill-per .tooltip {
-    position: absolute;
-    right: -14px;
-    top: -30px;
-    padding: 0.2rem 0.4rem;
-    border-radius: 6px;
-    background: rgb(226, 226, 226);
-    color: rgb(0, 0, 0);
-    font-size: 0.68rem;
-    font-weight: 700;
-    line-height: 1;
-    white-space: nowrap;
-    z-index: 1;
-}
-
-.skill-per .tooltip::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -3px;
-    width: 8px;
-    height: 8px;
-    background: rgb(226, 226, 226);
-    transform: translateX(-50%) rotate(45deg);
-    z-index: -1;
-}
-
-.skill-box p {
-    max-width: none;
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.7;
 }
 
 .project-tag {
@@ -2030,18 +1988,6 @@ main {
     }
 }
 
-@keyframes progress {
-    0% {
-        width: 0;
-        opacity: 1;
-    }
-
-    100% {
-        width: var(--skill-level, 0%);
-        opacity: 1;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -2157,13 +2103,8 @@ main {
         grid-template-columns: 1fr;
     }
 
-    .skills-panel {
-        padding: 1rem;
-    }
-
-    .skill-box-head {
-        align-items: start;
-        flex-direction: column;
+    .skills-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .game-selector {

@@ -23,7 +23,7 @@ This file preserves the key working context, design choices, and content decisio
 - Sidebar navigation is shared across pages.
 - `assets/js/app.js` handles:
   - section spy on `index.html`
-  - carousel behavior
+  - remaining carousel behavior for non-project sections
   - special sidebar active state for pages with `data-page="project-detail"`
 - Project subpages should keep `body data-page="project-detail"` so the Projects nav item stays active.
 
@@ -53,16 +53,34 @@ This file preserves the key working context, design choices, and content decisio
 - Use icon style based on the SVGs found in `assets/icons/social-media-icons.txt`.
 - Current implementation uses inline SVG copied from that file.
 
+### Skills Section
+- The homepage Skills section now uses logo cards only.
+- Remove percentages and descriptive paragraphs.
+- Use a centered logo + name card layout.
+- Current order to preserve:
+  - Data Analysis
+  - Prompt Engineering
+  - Vibe Coding
+  - Microsoft Excel
+  - Google Sheets
+  - Google Analytics
+  - Vtiger CRM
+  - Zoho CRM
+  - Python
+  - mySQL
+- Assets are sourced from `assets/icons/`.
+- Layout pattern:
+  - 4 cards per row on desktop
+  - 2 cards per row on mobile
+- Cards should keep transparent, tinted backgrounds with centered logos.
+
 ### Projects Section on Homepage
-- Keep the existing carousel UI.
-- Improve it, but preserve the current interaction model.
-- Each project card should include a button linking to its own dedicated project page.
-- The user wanted the extra whitespace on the right reduced.
-- Current styling change:
-  - project cards are centered more
-  - text is justified and stretched more evenly
-  - actions and meta chips are centered
-- If revisiting this section later, continue reducing awkward empty space while keeping readability.
+- The old carousel was removed.
+- Homepage and project-page project listings now use the `page-elements/projects-card` inspired static card layout.
+- All project cards should remain visible at once:
+  - 2 per row on desktop
+  - stacked on mobile
+- Keep the template styling direction intact and only adjust wording/content unless the user asks for a design change.
 
 ## Project Subpage Pattern
 - Project pages were intentionally simplified.
@@ -106,19 +124,26 @@ This file preserves the key working context, design choices, and content decisio
 
 ### Data Pivot Table Tool
 - File: `data-pivot-table-tool.html`
-- Still placeholder/simple structure.
-- Needs future:
-  - leaderboard image
-  - case study content
-  - supporting image
+- Uses completed simple project-page structure.
+- Assets:
+  - leaderboard: `assets/images/data-pivot-table-tool/leaderboard.png`
+  - images:
+    - `assets/images/data-pivot-table-tool/image-1.png`
+    - `assets/images/data-pivot-table-tool/image-2.png`
+    - `assets/images/data-pivot-table-tool/image-3.png`
+- GitHub link:
+  - `https://github.com/ChimCatz/Data_Pivot_Table_tool`
 
 ### VOIP Call Conversion Tool
 - File: `call-conversion-tool.html`
-- Still placeholder/simple structure.
-- Needs future:
-  - leaderboard image
-  - case study content
-  - supporting image
+- Uses completed simple project-page structure.
+- Final public-facing title to keep:
+  - `VOIP Call Conversion Tool`
+- Assets:
+  - leaderboard: `assets/images/call-conversion-tool/leaderboard.png`
+  - image: `assets/images/call-conversion-tool/image-1.png`
+- GitHub link:
+  - `https://github.com/ChimCatz/call_conversion_matching_tool`
 
 ## Asset Conventions
 - Project assets live in their own folders under `assets/images/`.
@@ -130,7 +155,8 @@ This file preserves the key working context, design choices, and content decisio
 ## CSS Notes
 - Main stylesheet is `assets/css/styles.css`.
 - Relevant current custom blocks include:
-  - homepage/project carousel styling
+  - homepage/project static card grid styling
+  - skills logo grid styling
   - social credentials styles
   - simple project page styles
   - project GitHub link styles
@@ -140,9 +166,10 @@ This file preserves the key working context, design choices, and content decisio
 ## JS Notes
 - Main JS file: `assets/js/app.js`
 - Keep support for:
-  - carousels
+  - non-project carousels
   - section spy on homepage
   - active Projects nav item on project detail pages
+  - Brain Challenge reveal-on-click behavior
 
 ## Content and Writing Preferences
 - The user likes direct, practical project storytelling.
@@ -155,10 +182,7 @@ This file preserves the key working context, design choices, and content decisio
 - Prefer clear operational language over buzzwords.
 
 ## Future Development Priorities
-- Add full case studies for:
-  - Data Pivot Table Tool
-  - VOIP Call Conversion Tool
-- Continue refining the Projects section on `index.html` so card text feels balanced and uses space better.
+- Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the static card layout.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
 

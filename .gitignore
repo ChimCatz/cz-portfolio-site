@@ -9,8 +9,11 @@ dist/
 # misc
 
 .DS_Store
+Thumbs.db
 .env
 .env.local
+*.tmp
+*.bak
 
 # logs
 
