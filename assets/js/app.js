@@ -217,12 +217,15 @@ const initAuthOverlay = () => {
 const initGameSwitch = () => {
     const cards = [...document.querySelectorAll('.game-card')];
     const panels = [...document.querySelectorAll('.game-panel')];
+    const display = document.querySelector('.game-display');
 
     if (!cards.length || !panels.length) {
         return;
     }
 
     const activateGame = (game) => {
+        display?.removeAttribute('hidden');
+
         cards.forEach((card) => {
             const isActive = card.dataset.game === game;
             card.classList.toggle('active', isActive);
@@ -256,9 +259,6 @@ const initGameSwitch = () => {
             nextCard.focus();
         });
     });
-
-    const activeCard = cards.find((card) => card.classList.contains('active')) ?? cards[0];
-    activateGame(activeCard.dataset.game);
 };
 
 initGameSwitch();
