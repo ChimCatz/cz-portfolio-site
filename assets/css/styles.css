@@ -1055,8 +1055,8 @@ main {
     display: grid;
     justify-items: center;
     align-content: center;
-    gap: 1rem;
-    min-height: 180px;
+    gap: 0.35rem;
+    min-height: 210px;
     padding: 1.1rem 1rem 1rem;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 24px;
@@ -1080,6 +1080,7 @@ main {
     height: 64px;
     object-fit: contain;
     display: block;
+    margin-bottom: 0.2rem;
 }
 
 .skill-logo-invert {
@@ -1091,12 +1092,40 @@ main {
     height: 72px;
 }
 
-.skill-logo-card span {
+.skill-name {
     color: #eef4ff;
     font-size: 0.95rem;
     font-weight: 700;
     line-height: 1.4;
     letter-spacing: 0.01em;
+}
+
+.skill-level-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.32rem;
+    margin-top: 0.05rem;
+}
+
+.skill-level-pill {
+    width: 18px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(104, 111, 130, 0.58);
+}
+
+.skill-level-pill.is-filled {
+    background: #8fdaa2;
+    box-shadow: 0 0 12px rgba(143, 218, 162, 0.16);
+}
+
+.skill-level-name {
+    color: #b9c3de;
+    font-size: 0.74rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
 }
 
 .project-tag {
