@@ -18,9 +18,9 @@
         <nav class="topbar-nav" aria-label="Top navigation">
             <a href="#home" data-target="home">Home</a>
             <a href="#about" data-target="about">Professional Overview</a>
-            <a href="#brain-challenge" data-target="brain-challenge">Challenge</a>
             <a href="#skills" data-target="skills">Skills</a>
             <a href="#projects" data-target="projects">Projects</a>
+            <a href="#brain-challenge" data-target="brain-challenge">Challenges</a>
             <a href="lords-recovery.html" data-target="lords-recovery">Lord's Recovery</a>
         </nav>
         <button class="topbar-auth-button" type="button" data-auth-open>Login / Signup</button>
@@ -45,14 +45,6 @@
                 </a>
             </li>
             <li>
-                <a href="#brain-challenge" aria-label="Brain Challenge" data-target="brain-challenge">
-                    <span class="nav-icon-wrap">
-                        <img class="nav-icon" src="assets/icons/challenges.svg" alt="" aria-hidden="true">
-                    </span>
-                    <span class="nav-label">Challenge</span>
-                </a>
-            </li>
-            <li>
                 <a href="#skills" aria-label="Skills" data-target="skills">
                     <span class="nav-icon-wrap">
                         <img class="nav-icon" src="assets/icons/skills.svg" alt="" aria-hidden="true">
@@ -66,6 +58,14 @@
                         <img class="nav-icon" src="assets/icons/projects.svg" alt="" aria-hidden="true">
                     </span>
                     <span class="nav-label">Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="#brain-challenge" aria-label="Challenges" data-target="brain-challenge">
+                    <span class="nav-icon-wrap">
+                        <img class="nav-icon" src="assets/icons/challenges.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span class="nav-label">Challenges</span>
                 </a>
             </li>
             <li>
@@ -158,77 +158,6 @@
                         </div>
                     </div>
                 </aside>
-            </div>
-        </section>
-
-        <section class="container brain-section" id="brain-challenge">
-            <div class="section-heading">
-                <h2>Brain Challenge</h2>
-            </div>
-
-            <p class="section-intro justified">Select a game to train logic, focus, and decision-making.</p>
-
-            <div class="game-selector" role="tablist" aria-label="Brain challenge games">
-                <button class="game-card" type="button" role="tab" aria-selected="false" aria-controls="game-sudoku" id="tab-sudoku" data-game="sudoku">
-                    <img src="assets/icons/sudoku.png" alt="" aria-hidden="true">
-                    <h3>Sudoku</h3>
-                    <p>A logic puzzle where you fill a 9x9 grid so each row, column, and box has digits 1-9 with no repeats.</p>
-                    <div class="game-skill-list">#logic #pattern-recognition #constraint-solving #focus #deduction</div>
-                </button>
-
-                <button class="game-card" type="button" role="tab" aria-selected="false" aria-controls="game-minesweeper" id="tab-minesweeper" data-game="minesweeper">
-                    <img src="assets/icons/minesweeper.png" alt="" aria-hidden="true">
-                    <h3>Minesweeper</h3>
-                    <p>A grid game where numbers reveal how many mines are nearby, and you clear safe tiles without triggering one.</p>
-                    <div class="game-skill-list">#probability-thinking #risk-management #spatial-awareness #decision-making #attention-to-detail</div>
-                </button>
-
-            </div>
-
-            <div class="game-display" hidden>
-
-                <article class="game-panel" id="game-sudoku" role="tabpanel" aria-labelledby="tab-sudoku" hidden>
-                    <div class="game-panel-copy">
-                        <span class="project-tag">Sudoku</span>
-                        <h3>Train deduction one square at a time.</h3>
-                        <p class="justified">Builds focus and deduction by solving constraints step by step.</p>
-                        <div class="game-panel-meta">
-                            <div>
-                                <span class="panel-kicker">Skills</span>
-                                <p>#logic #pattern-recognition #constraint-solving #focus #deduction</p>
-                            </div>
-                            <div>
-                                <span class="panel-kicker">Fun Fact</span>
-                                <p class="justified">Sudoku feels ancient, but it became popular worldwide only after Wayne Gould helped spread it in the early 2000s through newspapers like The Times. The name comes from Japanese and roughly means single number. A standard 9x9 Sudoku grid has about 6.67 x 10^21 possible completed solutions, so you will almost never see the same puzzle twice. Funny part: you do not need math skills at all, just logic and pattern spotting.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-frame">
-                        <iframe src="https://www.sudokubase.com/embed/game?showTimer=true&showInputButtons=true" title="Embedded Sudoku game" loading="lazy"></iframe>
-                    </div>
-                </article>
-
-                <article class="game-panel" id="game-minesweeper" role="tabpanel" aria-labelledby="tab-minesweeper" hidden>
-                    <div class="game-panel-copy">
-                        <span class="project-tag">Minesweeper</span>
-                        <h3>Read the clues and manage the risk.</h3>
-                        <p class="justified">Trains probability thinking and quick decision-making under uncertainty.</p>
-                        <div class="game-panel-meta">
-                            <div>
-                                <span class="panel-kicker">Skills</span>
-                                <p>#probability-thinking #risk-management #spatial-awareness #decision-making #attention-to-detail</p>
-                            </div>
-                            <div>
-                                <span class="panel-kicker">Fun Fact</span>
-                                <p class="justified">Minesweeper is not just a casual game. In 2000, researchers proved that solving a Minesweeper board in general is NP-complete, meaning no known fast algorithm can solve all cases efficiently. It became famous worldwide because it shipped with early versions of Microsoft Windows, where it was meant to teach users mouse precision. Funny twist: some boards can require guessing, so even perfect logic does not guarantee a win.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="game-frame">
-                        <iframe seamless="seamless" allowtransparency="true" allowfullscreen="true" frameborder="0" title="Embedded Minesweeper game" loading="lazy" src="https://zv1y2i8p.play.gamezop.com/g/rkmJ2aXcCS"></iframe>
-                    </div>
-                </article>
-
             </div>
         </section>
 
@@ -386,7 +315,7 @@
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Source-aware ETL for Zoho, Vtiger, Lusha, and Pipileads</span></li>
                         <li class="card__list_item"><span class="check"></span><span class="list_text">95%+ cleaner, more reliable CRM imports</span></li>
                     </ul>
-                    <a class="button" href="leadflow-etl.html">View Project</a>
+                    <a class="button" href="leadflow-etl.html">View Project Case Study</a>
                 </article>
 
                 <article class="project-template-card">
@@ -401,7 +330,7 @@
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Automatic column mapping and report generation</span></li>
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Session-based workflows for recurring analysis</span></li>
                     </ul>
-                    <a class="button" href="data-pivot-table-tool.html">View Project</a>
+                    <a class="button" href="data-pivot-table-tool.html">View Project Case Study</a>
                 </article>
 
                 <article class="project-template-card">
@@ -416,7 +345,7 @@
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Handles 40K-100K+ lead records smoothly</span></li>
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Bulk company and designation filtering with indexing</span></li>
                     </ul>
-                    <a class="button" href="csv-advanced-search-engine.html">View Project</a>
+                    <a class="button" href="csv-advanced-search-engine.html">View Project Case Study</a>
                 </article>
 
                 <article class="project-template-card">
@@ -431,8 +360,79 @@
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Layered phone matching across fragmented contact fields</span></li>
                         <li class="card__list_item"><span class="check"></span><span class="list_text">Consistent conversion reports from raw VOIP and CRM data</span></li>
                     </ul>
-                    <a class="button" href="call-conversion-tool.html">View Project</a>
+                    <a class="button" href="call-conversion-tool.html">View Project Case Study</a>
                 </article>
+            </div>
+        </section>
+
+        <section class="container brain-section" id="brain-challenge">
+            <div class="section-heading">
+                <h2>Challenges</h2>
+            </div>
+
+            <p class="section-intro justified">Select a game to train logic, focus, and decision-making.</p>
+
+            <div class="game-selector" role="tablist" aria-label="Brain challenge games">
+                <button class="game-card" type="button" role="tab" aria-selected="false" aria-controls="game-sudoku" id="tab-sudoku" data-game="sudoku">
+                    <img src="assets/icons/sudoku.png" alt="" aria-hidden="true">
+                    <h3>Sudoku</h3>
+                    <p>A logic puzzle where you fill a 9x9 grid so each row, column, and box has digits 1-9 with no repeats.</p>
+                    <div class="game-skill-list">#logic #pattern-recognition #constraint-solving #focus #deduction</div>
+                </button>
+
+                <button class="game-card" type="button" role="tab" aria-selected="false" aria-controls="game-minesweeper" id="tab-minesweeper" data-game="minesweeper">
+                    <img src="assets/icons/minesweeper.png" alt="" aria-hidden="true">
+                    <h3>Minesweeper</h3>
+                    <p>A grid game where numbers reveal how many mines are nearby, and you clear safe tiles without triggering one.</p>
+                    <div class="game-skill-list">#probability-thinking #risk-management #spatial-awareness #decision-making #attention-to-detail</div>
+                </button>
+
+            </div>
+
+            <div class="game-display" hidden>
+
+                <article class="game-panel" id="game-sudoku" role="tabpanel" aria-labelledby="tab-sudoku" hidden>
+                    <div class="game-panel-copy">
+                        <span class="project-tag">Sudoku</span>
+                        <h3>Train deduction one square at a time.</h3>
+                        <p class="justified">Builds focus and deduction by solving constraints step by step.</p>
+                        <div class="game-panel-meta">
+                            <div>
+                                <span class="panel-kicker">Skills</span>
+                                <p>#logic #pattern-recognition #constraint-solving #focus #deduction</p>
+                            </div>
+                            <div>
+                                <span class="panel-kicker">Fun Fact</span>
+                                <p class="justified">Sudoku feels ancient, but it became popular worldwide only after Wayne Gould helped spread it in the early 2000s through newspapers like The Times. The name comes from Japanese and roughly means single number. A standard 9x9 Sudoku grid has about 6.67 x 10^21 possible completed solutions, so you will almost never see the same puzzle twice. Funny part: you do not need math skills at all, just logic and pattern spotting.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-frame">
+                        <iframe src="https://www.sudokubase.com/embed/game?showTimer=true&showInputButtons=true" title="Embedded Sudoku game" loading="lazy"></iframe>
+                    </div>
+                </article>
+
+                <article class="game-panel" id="game-minesweeper" role="tabpanel" aria-labelledby="tab-minesweeper" hidden>
+                    <div class="game-panel-copy">
+                        <span class="project-tag">Minesweeper</span>
+                        <h3>Read the clues and manage the risk.</h3>
+                        <p class="justified">Trains probability thinking and quick decision-making under uncertainty.</p>
+                        <div class="game-panel-meta">
+                            <div>
+                                <span class="panel-kicker">Skills</span>
+                                <p>#probability-thinking #risk-management #spatial-awareness #decision-making #attention-to-detail</p>
+                            </div>
+                            <div>
+                                <span class="panel-kicker">Fun Fact</span>
+                                <p class="justified">Minesweeper is not just a casual game. In 2000, researchers proved that solving a Minesweeper board in general is NP-complete, meaning no known fast algorithm can solve all cases efficiently. It became famous worldwide because it shipped with early versions of Microsoft Windows, where it was meant to teach users mouse precision. Funny twist: some boards can require guessing, so even perfect logic does not guarantee a win.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-frame">
+                        <iframe seamless="seamless" allowtransparency="true" allowfullscreen="true" frameborder="0" title="Embedded Minesweeper game" loading="lazy" src="https://zv1y2i8p.play.gamezop.com/g/rkmJ2aXcCS"></iframe>
+                    </div>
+                </article>
+
             </div>
         </section>
 

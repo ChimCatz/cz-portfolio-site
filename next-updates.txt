@@ -1,0 +1,13 @@
+For Version 4.0.0 updates:
+
+1. Reorder the Sections. Put Challenges after Projects and before Lord's Recovery section in index.html. Also update in the sidebar and topbar order. Just make sure current animations and design are not broken. New order should now be Home - Professional Overview - Skills - Projects - Challenges - Lord's Recovery
+2. Projects pages. Remove one redundant title. Leave the one inside the:
+    <section class="container project-simple-banner">
+                <a class="text-button project-page-label" href="index.html#projects">Back to Projects</a>
+                <div class="project-simple-copy">
+                    <p class="eyebrow">ETL Workflow</p>
+                    <h1>How I Eliminated 6 Hours of Manual CRM Work with a Python ETL Tool</h1>
+                </div>
+                <img src="assets/images/leadflow-etl/leaderboard-image.png" alt="LeadFlow ETL leaderboard banner.">
+            </section>
+3. In Projects section index.html change the "View Project" to "View Project Case Study". And everywhere it appears
