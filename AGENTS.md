@@ -57,18 +57,26 @@ This file preserves the key working context, design choices, and content decisio
 - The homepage Skills section now uses logo cards only.
 - Remove percentages and descriptive paragraphs.
 - Use a centered logo + name card layout.
+- Skills must always be ordered by level first:
+  - highest levels first
+  - if two skills share the same level, sort them alphabetically
 - Current order to preserve:
+  - Google Sheets
+  - Microsoft Excel
   - Data Analysis
   - Prompt Engineering
   - Vibe Coding
-  - Microsoft Excel
-  - Google Sheets
-  - Google Analytics
   - Vtiger CRM
+  - Zoho Analytics
   - Zoho CRM
-  - Python
+  - Codex
+  - Google Analytics
+  - Microsoft Clarity
   - mySQL
-- Assets are sourced from `assets/icons/`.
+  - Python
+  - Big Query
+  - Tableau
+- Assets are sourced from `assets/icons/` and `assets/images/brand-logos/`.
 - Layout pattern:
   - 4 cards per row on desktop
   - 2 cards per row on mobile
