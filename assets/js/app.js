@@ -37,6 +37,11 @@ const initSectionSpy = () => {
         return;
     }
 
+    if (page === 'insight-detail') {
+        setActiveNav('insights');
+        return;
+    }
+
     if (!pageSections.length) {
         return;
     }
@@ -106,6 +111,16 @@ const initCarousel = (shell) => {
         });
         dots.forEach((dot, dotIndex) => {
             dot.classList.toggle('is-active', dotIndex === index);
+        });
+
+        const isDisabled = cards.length <= 1;
+        [prev, next].forEach((button) => {
+            if (!button) {
+                return;
+            }
+
+            button.disabled = isDisabled;
+            button.setAttribute('aria-disabled', String(isDisabled));
         });
     };
 
