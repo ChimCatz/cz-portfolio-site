@@ -1818,8 +1818,10 @@ main {
 
 .insight-inline-figure img {
     display: block;
-    width: 100%;
+    width: 70%;
+    max-width: 720px;
     height: auto;
+    margin: 0 auto;
     border-radius: 22px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
     background: rgba(0, 0, 0, 0.22);
@@ -2476,6 +2478,10 @@ main {
 
     .insight-tool-grid {
         grid-template-columns: 1fr;
+    }
+
+    .insight-inline-figure img {
+        width: 100%;
     }
 
     .floating-top-button {

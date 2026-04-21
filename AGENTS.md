@@ -196,6 +196,15 @@ This file preserves the key working context, design choices, and content decisio
 - Avoid overly generic portfolio filler text.
 - Prefer clear operational language over buzzwords.
 
+## Insight Page Notes
+- Insight header images should be reused in two places:
+  - the homepage/bottom-carousel insight card
+  - the top banner of the individual insight page
+- Non-header images inside insight article content should be displayed smaller than full width.
+- Current preferred treatment for inline insight images:
+  - around 70% width on desktop
+  - full width on mobile
+
 ## Future Development Priorities
 - Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the static card layout.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
