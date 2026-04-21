@@ -5,7 +5,6 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 ## Pages
 
 - `index.html`: main portfolio page
-- `lords-recovery.html`: announcements and spiritual updates page
 
 ## Current Structure
 

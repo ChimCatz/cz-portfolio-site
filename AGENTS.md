@@ -11,7 +11,6 @@ This file preserves the key working context, design choices, and content decisio
   - `projects/data-pivot-table-tool.html`
   - `projects/csv-advanced-search-engine.html`
   - `projects/call-conversion-tool.html`
-  - `lords-recovery.html`
 - Shared assets:
   - Styles: `assets/css/styles.css`
   - JS: `assets/js/app.js`

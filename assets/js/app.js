@@ -27,11 +27,6 @@ const setActiveNav = (target) => {
 };
 
 const initSectionSpy = () => {
-    if (page === 'lords-recovery') {
-        setActiveNav('lords-recovery');
-        return;
-    }
-
     if (page === 'project-detail') {
         setActiveNav('projects');
         return;
@@ -135,44 +130,6 @@ const initCarousels = () => {
     carousels.forEach((shell) => initCarousel(shell));
 };
 
-const initEntryToggle = () => {
-    const trigger = document.querySelector('[data-entry-toggle]');
-    const panel = document.querySelector('[data-entry-panel]');
-    const closers = [...document.querySelectorAll('[data-entry-close]')];
-
-    if (!trigger || !panel) {
-        return;
-    }
-
-    const openPanel = () => {
-        panel.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closePanel = () => {
-        panel.setAttribute('hidden', '');
-        document.body.style.overflow = '';
-    };
-
-    trigger.addEventListener('click', () => {
-        if (panel.hasAttribute('hidden')) {
-            openPanel();
-        } else {
-            closePanel();
-        }
-    });
-
-    closers.forEach((closer) => {
-        closer.addEventListener('click', closePanel);
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !panel.hasAttribute('hidden')) {
-            closePanel();
-        }
-    });
-};
-
 const initTopbarSwap = () => {
     if (page !== 'home' || !topbar) {
         return;
@@ -187,42 +144,6 @@ const initTopbarSwap = () => {
     window.addEventListener('resize', syncBars);
     window.addEventListener('load', syncBars);
     syncBars();
-};
-
-const initAuthOverlay = () => {
-    const panel = document.querySelector('[data-auth-panel]');
-    const openers = [...document.querySelectorAll('[data-auth-open]')];
-    const closers = [...document.querySelectorAll('[data-auth-close]')];
-
-    if (!panel || !openers.length) {
-        return;
-    }
-
-    const openPanel = () => {
-        panel.removeAttribute('hidden');
-        document.body.classList.add('auth-open');
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closePanel = () => {
-        panel.setAttribute('hidden', '');
-        document.body.classList.remove('auth-open');
-        document.body.style.overflow = '';
-    };
-
-    openers.forEach((opener) => {
-        opener.addEventListener('click', openPanel);
-    });
-
-    closers.forEach((closer) => {
-        closer.addEventListener('click', closePanel);
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && !panel.hasAttribute('hidden')) {
-            closePanel();
-        }
-    });
 };
 
 const initScrollTopButton = () => {
@@ -294,7 +215,5 @@ const initGameSwitch = () => {
 initGameSwitch();
 initSectionSpy();
 initTopbarSwap();
-initAuthOverlay();
 initCarousels();
-initEntryToggle();
 initScrollTopButton();
