@@ -1,0 +1,61 @@
+SHORT DESCRIPTION - "I started by writing every line of code manually. Now I build systems by describing them—this is how vibe coding changed the way I think and work."
+TITLE - Vibe Coding — From Writing Code to Designing Systems
+DATE - April 21, 2026
+
+
+The first real project I ever built didn’t use AI at all.
+
+It was a toolkit for Electronics—something practical that I could actually use. I built a resistor color calculator, an Ohm’s Law calculator, and even an all-in-one conversion tool, all inside a single interface using VBA. Every part of it was manual. Every formula, every condition, every button behavior—I had to write and connect everything myself.
+
+It worked. And more importantly, I understood why it worked.
+
+That project taught me how logic flows. How inputs become outputs. How small mistakes break entire systems. It was slow, but it forced me to think carefully about structure and behavior. At that time, coding felt like building something piece by piece, where every line mattered.
+
+Then I encountered a completely different way of building.
+
+Vibe coding.
+
+The first project I built using that approach was a Python automation tool. It connected to Google Sheets using APIs, pulled data through JSON, and used that data to populate a PDF file automatically—filling in blanks that would normally be encoded manually one by one. What used to take repetitive effort became a single automated flow.
+
+And the biggest difference wasn’t just speed.
+
+It was how I worked.
+
+Instead of writing everything manually, I started describing what I wanted. I outlined the steps, defined the inputs and outputs, and let the tool generate most of the code. Tools like GitHub Copilot, Claude Code, and OpenAI Codex made that possible.
+
+At first, it felt like coding had become easier.
+
+But after a few projects, I realized something important.
+
+The hard part didn’t disappear—it just moved.
+
+Before, the challenge was writing code. Now, the challenge is thinking clearly enough to guide it. If the idea is unclear, the output becomes messy. If the instructions are weak, the code reflects that. But when the plan is structured, the results come out surprisingly clean and usable.
+
+That’s where vibe coding really shows its value.
+
+It removes a large portion of manual work, but it increases the importance of planning. From my experience, most of the effort now goes into defining the system itself—what it should do, how data should flow, what edge cases to expect. I’d say around 70–80% of the work is in that stage alone. The actual coding becomes the easier part.
+
+That doesn’t mean the human side is gone.
+
+If anything, it matters more.
+
+AI-generated code can look correct but still fail in real scenarios. It can miss edge cases, introduce inefficiencies, or produce logic that only works under specific conditions. Discussions across platforms like Stack Overflow often highlight the same issue—AI can generate code fast, but it doesn’t guarantee correctness. Someone still has to understand, validate, and refine it.
+
+That’s where experience comes in.
+
+My background in manual coding still matters. Because when something breaks, I don’t just rerun a prompt—I analyze it. I trace the logic. I understand what’s happening under the surface. Without that foundation, it’s easy to rely blindly on outputs without knowing if they’re actually right.
+
+At the same time, vibe coding unlocks a different kind of speed.
+
+Building tools, automations, and internal systems becomes faster. Ideas can move from concept to working prototype in a fraction of the time. Repetitive coding is reduced, and iteration becomes easier. Instead of spending hours writing boilerplate code, I can focus on improving the system itself.
+
+That’s the tradeoff.
+
+Less time typing.
+More time thinking.
+
+Looking at how things are evolving, it’s clear that pure manual coding is slowly being overlapped in certain areas. Not replaced—but reshaped. The role is shifting from writing everything from scratch to designing how everything should work.
+
+And that’s a better direction.
+
+Because in the end, tools can generate code, but they can’t define intent. They can follow instructions, but they don’t decide what matters. The structure, the flow, the logic behind a system—that still comes from the person building it.
