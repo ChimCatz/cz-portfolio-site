@@ -7,10 +7,10 @@ This file preserves the key working context, design choices, and content decisio
 - Repo type: static multi-page portfolio site
 - Main pages:
   - `index.html`
-  - `leadflow-etl.html`
-  - `data-pivot-table-tool.html`
-  - `csv-advanced-search-engine.html`
-  - `call-conversion-tool.html`
+  - `projects/leadflow-etl.html`
+  - `projects/data-pivot-table-tool.html`
+  - `projects/csv-advanced-search-engine.html`
+  - `projects/call-conversion-tool.html`
   - `lords-recovery.html`
 - Shared assets:
   - Styles: `assets/css/styles.css`
@@ -103,7 +103,7 @@ This file preserves the key working context, design choices, and content decisio
 ## Current Project Pages
 
 ### LeadFlow ETL
-- File: `leadflow-etl.html`
+- File: `projects/leadflow-etl.html`
 - Final title to keep:
   - `How I Eliminated 6 Hours of Manual CRM Work with a Python ETL Tool`
 - Assets:
@@ -115,7 +115,7 @@ This file preserves the key working context, design choices, and content decisio
   - Manual process duration should remain `4 to 8 hours`, not `30 minutes to an hour`.
 
 ### CSV Advanced Search Engine
-- File: `csv-advanced-search-engine.html`
+- File: `projects/csv-advanced-search-engine.html`
 - Final title to keep:
   - `From 6 Hours to Seconds: Building a High-Speed CSV Search Engine for 100K+ Lead Data`
 - Assets:
@@ -131,7 +131,7 @@ This file preserves the key working context, design choices, and content decisio
   - Workflow Efficiency Gain: `90%+ time saved`
 
 ### Data Pivot Table Tool
-- File: `data-pivot-table-tool.html`
+- File: `projects/data-pivot-table-tool.html`
 - Uses completed simple project-page structure.
 - Assets:
   - leaderboard: `assets/images/data-pivot-table-tool/leaderboard.png`
@@ -143,7 +143,7 @@ This file preserves the key working context, design choices, and content decisio
   - `https://github.com/ChimCatz/Data_Pivot_Table_tool`
 
 ### VOIP Call Conversion Tool
-- File: `call-conversion-tool.html`
+- File: `projects/call-conversion-tool.html`
 - Uses completed simple project-page structure.
 - Final public-facing title to keep:
   - `VOIP Call Conversion Tool`
@@ -155,6 +155,8 @@ This file preserves the key working context, design choices, and content decisio
 
 ## Asset Conventions
 - Project assets live in their own folders under `assets/images/`.
+- Project detail pages now live under `projects/`.
+- Insight detail pages now live under `insights/`.
 - Existing project asset folders:
   - `assets/images/leadflow-etl/`
   - `assets/images/csv-advanced-search-engine/`

@@ -49,6 +49,24 @@ body {
         var(--site-bg);
 }
 
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+figcaption,
+span,
+label,
+strong,
+a,
+button {
+    color: #ffffff;
+}
+
 body::before,
 body::after {
     content: "";
@@ -1389,6 +1407,14 @@ main {
     background: linear-gradient(145deg, rgba(14, 24, 60, 0.72), rgba(7, 11, 28, 0.88));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 40px rgba(0, 0, 0, 0.22);
     overflow: hidden;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.insight-card:hover,
+.insight-card:focus-within {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3), 0 0 28px rgba(142, 184, 255, 0.12);
 }
 
 .insight-card-link {
@@ -1400,12 +1426,24 @@ main {
 }
 
 .insight-card-image {
+    position: relative;
     display: grid;
     place-items: center;
     padding: 0;
+    overflow: hidden;
     background:
         radial-gradient(circle at top, rgba(142, 184, 255, 0.16), transparent 48%),
         linear-gradient(145deg, rgba(21, 38, 88, 0.72), rgba(7, 12, 30, 0.95));
+}
+
+.insight-card-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(6, 10, 24, 0.04), rgba(6, 10, 24, 0.36));
+    opacity: 0;
+    transition: opacity var(--transition), background var(--transition);
+    pointer-events: none;
 }
 
 .insight-card-image img {
@@ -1413,6 +1451,19 @@ main {
     height: 100%;
     object-fit: cover;
     filter: none;
+    transform: scale(1);
+    transition: transform 320ms ease, filter 320ms ease;
+}
+
+.insight-card:hover .insight-card-image::after,
+.insight-card:focus-within .insight-card-image::after {
+    opacity: 1;
+}
+
+.insight-card:hover .insight-card-image img,
+.insight-card:focus-within .insight-card-image img {
+    transform: scale(1.04);
+    filter: brightness(0.78);
 }
 
 .insight-card-body {
@@ -1445,13 +1496,16 @@ main {
     justify-self: end;
     color: #eef4ff;
     font-size: 0.92rem;
-    transition: transform var(--transition), color var(--transition);
+    letter-spacing: 0.02em;
+    transition: transform var(--transition), color var(--transition), letter-spacing var(--transition), text-shadow var(--transition);
 }
 
 .insight-card-link:hover .insight-read-more,
 .insight-card-link:focus-visible .insight-read-more {
-    transform: translateX(5px);
+    transform: translateX(8px);
     color: #ffffff;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.24);
 }
 
 .insight-card-empty {
