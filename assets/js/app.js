@@ -225,6 +225,21 @@ const initAuthOverlay = () => {
     });
 };
 
+const initScrollTopButton = () => {
+    const button = document.querySelector('[data-scroll-top]');
+
+    if (!button) {
+        return;
+    }
+
+    button.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    });
+};
+
 // =========================
 // GAME SWITCH (NEW)
 // =========================
@@ -282,3 +297,4 @@ initTopbarSwap();
 initAuthOverlay();
 initCarousels();
 initEntryToggle();
+initScrollTopButton();

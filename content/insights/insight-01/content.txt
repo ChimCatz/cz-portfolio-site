@@ -1,0 +1,16 @@
+Insight Title:
+Insight 01 Placeholder
+
+Date:
+April 21, 2026
+
+Header Image:
+header-image.png
+
+Content:
+[Replace this with your real insight text.]
+
+Inline Images:
+- image-01.png
+- image-02.png
+- image-03.png

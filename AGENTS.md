@@ -159,6 +159,11 @@ This file preserves the key working context, design choices, and content decisio
   - `assets/images/leadflow-etl/`
   - `assets/images/csv-advanced-search-engine/`
 - Prefer this structure for future project pages as well.
+- Insight source files can live under `content/insights/<insight-name>/`.
+- For insight pages, use the insight header image in both places:
+  - the homepage Insights card image
+  - the top header image on the individual Insight page
+- Insight pages should include a floating bottom-right scroll-to-top button using `assets/icons/up-arrow.svg` and the shared `data-scroll-top` behavior.
 
 ## CSS Notes
 - Main stylesheet is `assets/css/styles.css`.
