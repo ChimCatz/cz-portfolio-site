@@ -1,0 +1,230 @@
+Read these files first before making any changes:
+- AGENTS.md
+- README.md
+- index.html
+- assets/css/styles.css
+- assets/js/app.js
+- games/tech-master/AGENTS.md
+- games/tech-master/README.md
+- games/tech-master/notes/concept.txt
+- games/tech-master/notes/backlog.txt
+- games/tech-master/notes/ui-notes.txt
+- games/tech-master/notes/question-planning.txt
+
+Project context:
+This is CZ Portfolio Site, a static multi-page portfolio built with plain HTML, CSS, and JavaScript.
+The Tech Master quiz game belongs inside the same project and should visually feel connected to the main portfolio site.
+
+Current goal:
+Build the FIRST UI prototype for the Tech Master game so it can be visually tested inside the project.
+This task is now allowed to create actual game UI files, but only for a front-end prototype.
+Do not build the full game logic yet.
+Do not build score tracking yet.
+Do not build restart/fail progression logic yet.
+Do not build the full 60-question pool yet.
+Only create a clean, responsive, single-screen playable prototype using a few sample questions for visual testing.
+
+Working title:
+Who Wants to Be a Tech Master?
+
+Final locked gameplay context:
+- 30 total levels in the final version
+- If user gets a wrong answer later, final game will reset to Level 1
+- Difficulty progression in final version:
+  - Level 1–10 = Easy
+  - Level 11–20 = Medium
+  - Level 21–30 = Hard
+- Rank changes every 5 correct answers
+- Final rank system:
+  - 1–5 → Intern → "Learning the basics"
+  - 6–10 → Junior Developer → "Writing your first real code"
+  - 11–15 → Software Engineer → "Building working systems"
+  - 16–20 → Senior Engineer → "Solving complex problems"
+  - 21–25 → Tech Lead → "Leading technical direction"
+  - 26–30 → Chief Technology Officer → "Owning the entire system"
+
+UI direction (very important):
+- the game must fit within one screen
+- no scroll on desktop
+- no scroll on mobile
+- all essential game content must stay visible inside the viewport
+- design should be minimal
+- background should still follow the main portfolio theme:
+  - dark / black / deep blue family
+- question card should be white or near-white
+- question card text should be black or very dark
+- keep font family consistent with the site: Inter
+- avoid flashy game-show visuals
+- this should feel like a clean, modern portfolio-compatible mini-game
+
+Screen content to include:
+1. game title
+2. 30-circle level tracker at the top
+3. level number text
+4. difficulty label text
+5. rank text
+6. small flavor text under rank
+7. white question card
+8. question text
+9. 4 answer boxes
+
+Prototype behavior allowed:
+- use a few sample questions only for visual testing
+- enough sample questions to test switching between Easy / Medium / Hard screens
+- simple next-question flow is allowed
+- simple correct / incorrect visual state is allowed
+- no final fail-reset mechanic yet
+- no scoring system yet
+- no persistent storage yet
+
+Task:
+Create a new front-end prototype for the Tech Master quiz in this folder:
+
+games/
+  tech-master/
+    index.html
+    style.css
+    script.js
+    sample-questions.js
+
+Also keep existing planning files and update context notes where useful.
+
+Requirements for the new files:
+
+1) games/tech-master/index.html
+- create a standalone static page for the prototype
+- use semantic HTML
+- include a centered game shell
+- include the title at the top
+- include a 30-circle tracker
+- include game meta text area for:
+  - Level #
+  - Easy / Medium / Hard
+  - Rank
+  - Flavor text
+- include one main white question card
+- inside the card:
+  - question text
+  - 4 answer buttons
+- include a very small prototype note somewhere subtle, such as:
+  - "Prototype UI only"
+- no extra clutter
+- no footer navigation unless necessary
+- include links to local style.css, sample-questions.js, and script.js
+
+2) games/tech-master/style.css
+Build a polished minimal UI prototype.
+Important style rules:
+- full viewport fit
+- prevent vertical scrolling
+- responsive on desktop and mobile
+- use Inter font
+- keep background aligned with current portfolio style
+- use dark gradient or dark layered background
+- white question card
+- black/dark question text
+- clean spacing
+- compact layout
+- progress circles must fit on mobile too
+- allow circle tracker to wrap into compact rows if needed
+- answer buttons should be:
+  - clean
+  - evenly spaced
+  - easy to tap
+  - compact enough to preserve no-scroll layout
+- subtle hover/focus/active states
+- minimal shadow/glow allowed
+- no oversized elements
+- no animations that distract
+- use green for completed/current level indicators in the tracker
+- keep the UI visually balanced inside the viewport
+
+3) games/tech-master/sample-questions.js
+Create a small prototype question set only.
+Do not use all 60 questions yet.
+Create 9 sample questions total:
+- 3 Easy
+- 3 Medium
+- 3 Hard
+
+Use questions based on the already-planned direction:
+- Easy = general tech basics
+- Medium = tech / AI / data basics
+- Hard = history / big tech / fun facts / programming / AI mix
+
+Structure the data clearly so it can be replaced later with the full dataset.
+Suggested structure:
+- array of question objects with:
+  - level
+  - difficulty
+  - question
+  - choices
+  - answer
+  - rank
+  - flavorText
+
+Map prototype levels like this:
+- Level 1, 2, 3 = Easy / Intern
+- Level 11, 12, 13 = Medium / Software Engineer or Senior Engineer range
+- Level 21, 22, 23 = Hard / Tech Lead or Chief Technology Officer range
+
+The point is to let us visually test all 3 difficulty states.
+
+4) games/tech-master/script.js
+Build simple prototype-only logic:
+- render the 30-circle tracker
+- highlight current level
+- render current question and choices
+- show current level text
+- show difficulty text
+- show rank text
+- show flavor text
+- clicking an answer should:
+  - visually mark correct or incorrect
+  - then allow moving to the next prototype question
+- simple "Next" behavior is fine
+- do not implement full randomization yet
+- do not implement fail-reset yet
+- do not implement score yet
+- do not implement localStorage
+- keep code clean and easy to expand later
+
+5) Update context files
+- update games/tech-master/AGENTS.md so it reflects that a UI prototype now exists
+- update games/tech-master/README.md with a short note that:
+  - prototype files now exist
+  - logic is still partial
+  - current purpose is visual and interaction testing only
+- update games/tech-master/notes/backlog.txt if needed to note that full gameplay logic is still pending
+
+Visual behavior details:
+- tracker should always show 30 circles
+- completed levels can be green
+- current level can be brighter green or outlined
+- future levels should be muted
+- question card should remain centered and dominant
+- answer buttons should not overflow
+- mobile layout should stay compact and readable
+- no element should force the page to scroll vertically
+- if necessary, reduce font sizes and spacing on smaller screens
+
+Important constraints:
+- do not touch the root homepage yet
+- do not integrate the prototype into the Challenges section yet
+- do not modify assets/css/styles.css or assets/js/app.js unless absolutely necessary
+- keep all prototype styles and logic self-contained inside games/tech-master/
+- do not overengineer
+- keep implementation simple and maintainable
+
+Output requirements:
+- show the created file tree for games/tech-master/
+- show the full contents of:
+  - games/tech-master/index.html
+  - games/tech-master/style.css
+  - games/tech-master/sample-questions.js
+  - games/tech-master/script.js
+- show the updated full contents of:
+  - games/tech-master/AGENTS.md
+  - games/tech-master/README.md
+  - games/tech-master/notes/backlog.txt
+- briefly explain how the prototype can be opened locally

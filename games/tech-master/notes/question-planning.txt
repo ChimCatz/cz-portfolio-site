@@ -1,0 +1,38 @@
+Question planning notes
+
+Structure:
+- 10 easy
+- 10 medium
+- 10 hard
+
+Possible categories:
+- programming
+- data
+- general tech
+- logic
+
+Question writing rules:
+- clear
+- not ambiguous
+- 1 correct answer only
+
+Guidelines:
+- avoid overly niche questions unless labeled hard
+- keep questions timeless where possible
+
+Placeholder examples only:
+1. [Placeholder - Easy]
+   Which of these is commonly used to style a web page?
+   A. HTML
+   B. CSS
+   C. CSV
+   D. SQL
+   Correct answer: B
+
+2. [Placeholder - Medium]
+   What does SQL primarily help you do?
+   A. Query structured data
+   B. Draw vector graphics
+   C. Compress video files
+   D. Train a mouse
+   Correct answer: A

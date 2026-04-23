@@ -1,0 +1,12 @@
+UI planning only
+
+- Question display area
+- 4 answer buttons layout
+- Rank display placement: top or side
+- Progress indicator showing 1-30
+- Rank-up animation idea
+- Minimal vs game-show style direction
+- Color theme options
+- Responsive layout considerations
+
+No code yet.

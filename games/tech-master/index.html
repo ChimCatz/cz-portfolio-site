@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Wants to Be a Tech Master? | Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-launch-overlay" data-launch-overlay>
+        <div class="game-launch-dialog" role="dialog" aria-modal="true" aria-labelledby="launch-title">
+            <span class="support-card-kicker">Instructions</span>
+            <h2 id="launch-title">Who Wants to Be a Tech Master?</h2>
+            <p>
+                Choose the best answer for each level and preview the quiz flow. This prototype lets you test the interface, progression tracker, and explanation reveal before full gameplay logic is added.
+            </p>
+            <button class="launch-button" type="button" data-launch-start>Begin</button>
+        </div>
+    </div>
+
+    <main class="tech-master-page">
+        <section class="game-shell" aria-labelledby="game-title">
+            <header class="game-header">
+                <div>
+                    <p class="eyebrow">Prototype UI only</p>
+                    <h1 id="game-title">Who Wants to Be a Tech Master?</h1>
+                </div>
+                <p class="prototype-note">Visual and interaction testing only</p>
+            </header>
+
+            <section class="tracker-panel" aria-labelledby="tracker-title">
+                <ol class="level-tracker" data-level-tracker aria-label="Tech Master level tracker"></ol>
+            </section>
+
+            <section class="question-card" aria-live="polite">
+                <div class="question-card-head">
+                    <span class="meta-inline" data-level-inline>LEVEL: Level 1</span>
+                    <span class="meta-inline" data-difficulty-inline>DIFFICULTY: Easy</span>
+                    <span class="meta-inline" data-rank-inline>RANK: Intern</span>
+                    <span class="meta-inline meta-inline-flavor" data-flavor-inline>STATUS: "Learning the basics"</span>
+                </div>
+
+                <div class="question-body">
+                    <h2 class="question-text" data-question-text>Loading question...</h2>
+                    <div class="answer-grid" data-answer-grid role="list"></div>
+                </div>
+
+                <div class="question-card-foot">
+                    <p class="feedback-text" data-feedback-text>Choose one answer to preview the interaction flow.</p>
+                    <button class="next-button" type="button" data-next-button disabled>Next Sample Question</button>
+                </div>
+            </section>
+
+            <section class="support-card explanation-card" data-explanation-card hidden aria-live="polite">
+                <div class="support-card-head">
+                    <span class="support-card-kicker">Explanation</span>
+                </div>
+                <p class="support-card-copy" data-explanation-text>
+                    Explanation will appear here after you submit an answer.
+                </p>
+            </section>
+        </section>
+    </main>
+
+    <script src="sample-questions.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

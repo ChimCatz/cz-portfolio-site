@@ -233,6 +233,39 @@ This file preserves the key working context, design choices, and content decisio
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
 - Treat mobile responsiveness as part of the acceptance check for future additions and design changes.
 
+## Tech Master Quiz Game
+- This feature belongs inside the same portfolio project, not as a separate repo or app.
+- Planned folder location: `games/tech-master/`
+- It is intended to become a standalone static mini-game page inside the portfolio.
+- Gameplay is not implemented yet.
+- Score tracking is intentionally postponed.
+- Future integration should come through the homepage Challenges section.
+- Do not implement the game until the UI/UX and concept are finalized.
+
+### Finalized Structure
+- Total questions: `30`
+- Question flow:
+  - Q1-Q10: Easy
+  - Q11-Q20: Medium
+  - Q21-Q30: Hard
+- Reset-on-fail mechanic:
+  - if the player answers incorrectly, the run resets back to Level 1 / Intern
+- Rank-up cadence:
+  - rank changes every `5` correct answers
+- Planned future feedback moments:
+  - rank-up moment every 5 questions
+  - difficulty increase notification at Q10 and Q20
+- Future requirement:
+  - mobile-friendly by design
+
+### Finalized Rank System
+- `1-5` -> `Intern` -> `Learning the basics`
+- `6-10` -> `Junior Developer` -> `Writing your first real code`
+- `11-15` -> `Software Engineer` -> `Building working systems`
+- `16-20` -> `Senior Engineer` -> `Solving complex problems`
+- `21-25` -> `Tech Lead` -> `Leading technical direction`
+- `26-30` -> `Chief Technology Officer` -> `Owning the entire system`
+
 ## Git Commit Message Pattern
 - User often asks for commit messages beginning with version prefixes.
 - Recent examples:

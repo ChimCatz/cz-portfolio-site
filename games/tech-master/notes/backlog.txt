@@ -1,0 +1,13 @@
+- [ ] finalize game title
+- [x] define UI layout
+- [x] design question card
+- [x] define answer interaction behavior
+- [ ] define rank-up animation
+- [ ] define difficulty transition feedback
+- [ ] define restart experience
+- [x] define question data format
+- [ ] expand sample prototype into full gameplay logic
+- [ ] plan scoring system (future)
+- [ ] plan leaderboard (future)
+- [ ] mobile layout considerations
+- [ ] sound effects decision
