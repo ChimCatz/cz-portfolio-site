@@ -445,6 +445,89 @@ const initScrollTopButton = () => {
     });
 };
 
+const initProjectImageLightbox = () => {
+    if (page !== 'project-detail') {
+        return;
+    }
+
+    const images = [...document.querySelectorAll('.project-simple-banner img, .project-simple-image img, .project-image-gallery img')];
+
+    if (!images.length) {
+        return;
+    }
+
+    const lightbox = document.createElement('div');
+    lightbox.className = 'project-image-lightbox';
+    lightbox.setAttribute('hidden', '');
+    lightbox.innerHTML = `
+        <div class="project-image-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Project image preview">
+            <button class="project-image-lightbox-close" type="button" aria-label="Close image preview">&times;</button>
+            <img src="" alt="">
+            <p class="project-image-lightbox-caption" hidden></p>
+        </div>
+    `;
+
+    document.body.appendChild(lightbox);
+
+    const dialog = lightbox.querySelector('.project-image-lightbox-dialog');
+    const preview = lightbox.querySelector('img');
+    const caption = lightbox.querySelector('.project-image-lightbox-caption');
+    const closeButton = lightbox.querySelector('.project-image-lightbox-close');
+
+    const closeLightbox = () => {
+        lightbox.setAttribute('hidden', '');
+        preview.src = '';
+        preview.alt = '';
+        caption.textContent = '';
+        caption.setAttribute('hidden', '');
+        document.body.classList.remove('image-lightbox-open');
+    };
+
+    const openLightbox = (image) => {
+        preview.src = image.currentSrc || image.src;
+        preview.alt = image.alt || '';
+
+        if (image.alt) {
+            caption.textContent = image.alt;
+            caption.removeAttribute('hidden');
+        } else {
+            caption.textContent = '';
+            caption.setAttribute('hidden', '');
+        }
+
+        lightbox.removeAttribute('hidden');
+        document.body.classList.add('image-lightbox-open');
+    };
+
+    images.forEach((image) => {
+        image.tabIndex = 0;
+        image.setAttribute('role', 'button');
+        image.setAttribute('aria-label', `${image.alt || 'Project image'} - open full size preview`);
+
+        image.addEventListener('click', () => openLightbox(image));
+        image.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openLightbox(image);
+            }
+        });
+    });
+
+    closeButton.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    dialog.addEventListener('click', (event) => event.stopPropagation());
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !lightbox.hasAttribute('hidden')) {
+            closeLightbox();
+        }
+    });
+};
+
 // =========================
 // GAME SWITCH (NEW)
 // =========================
@@ -524,6 +607,7 @@ initSectionSpy();
 initTopbarSwap();
 initCarousels();
 initScrollTopButton();
+initProjectImageLightbox();
 
 let carouselResizeFrame = null;
 window.addEventListener('resize', () => {
