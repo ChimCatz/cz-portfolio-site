@@ -685,6 +685,12 @@ main {
     object-fit: contain;
 }
 
+.credential-icon img.credential-icon-gmail {
+    width: 35px;
+    height: 35px;
+    border-radius: 0;
+}
+
 .text-button {
     position: relative;
     display: inline-flex;
