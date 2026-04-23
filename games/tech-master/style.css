@@ -77,7 +77,23 @@ body::after {
     display: none;
 }
 
-.game-launch-dialog {
+.game-win-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 32;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(3, 7, 18, 0.82);
+    backdrop-filter: blur(12px);
+}
+
+.game-win-overlay[hidden] {
+    display: none;
+}
+
+.game-launch-dialog,
+.game-win-dialog {
     width: min(100%, 520px);
     display: grid;
     gap: 0.55rem;
@@ -90,21 +106,42 @@ body::after {
 }
 
 .game-launch-dialog h2,
-.game-launch-dialog p {
+.game-launch-dialog p,
+.game-win-dialog h2,
+.game-win-dialog p {
     margin: 0;
 }
 
-.game-launch-dialog h2 {
+.game-launch-dialog h2,
+.game-win-dialog h2 {
     font-size: clamp(1.2rem, 2vw, 1.65rem);
     line-height: 1.08;
 }
 
-.game-launch-dialog p {
+.game-launch-dialog p,
+.game-win-dialog p {
     color: var(--card-muted);
     font-size: 0.92rem;
     line-height: 1.55;
     text-align: justify;
     text-justify: inter-word;
+}
+
+.game-win-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.game-win-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    margin-top: 0.15rem;
 }
 
 .launch-button {
@@ -120,6 +157,13 @@ body::after {
     font-weight: 700;
     cursor: pointer;
     transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.game-win-home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .launch-button:hover,
@@ -208,6 +252,28 @@ body::after {
     font-size: 0.75rem;
     white-space: nowrap;
     background: rgba(255, 255, 255, 0.03);
+}
+
+.game-header .return-home-link {
+    position: absolute;
+    top: 0.72rem;
+    right: 0.72rem;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: #ffffff !important;
+    color: #11192d !important;
+    border: 1px solid rgba(17, 25, 45, 0.12) !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
+}
+
+.game-header .return-home-link:hover,
+.game-header .return-home-link:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+    outline: none;
 }
 
 .support-card {
@@ -383,6 +449,55 @@ body::after {
     color: #b4334d;
 }
 
+.meta-inline.is-bronze {
+    background: rgba(191, 143, 97, 0.2);
+    color: #7a4f22;
+}
+
+.meta-inline.is-silver {
+    background: rgba(214, 220, 229, 0.55);
+    color: #556171;
+}
+
+.meta-inline.is-gold {
+    background: rgba(242, 212, 139, 0.22);
+    color: #7b5d0f;
+}
+
+.meta-inline.is-platinum {
+    background: rgba(174, 230, 223, 0.28);
+    color: #1f6f67;
+}
+
+.meta-inline.is-diamond {
+    background: rgba(172, 212, 255, 0.26);
+    color: #1f5f9a;
+}
+
+.meta-inline.is-amethyst {
+    background: rgba(210, 190, 255, 0.28);
+    color: #6b43a8;
+}
+
+.meta-inline-timer {
+    background: linear-gradient(135deg, rgba(15, 27, 71, 0.92), rgba(10, 21, 48, 0.96));
+    color: #f8fbff;
+    border: 1px solid rgba(142, 184, 255, 0.24);
+    box-shadow: 0 10px 20px rgba(10, 21, 48, 0.14);
+}
+
+.meta-inline-timer.is-warning {
+    background: linear-gradient(135deg, rgba(242, 212, 139, 0.92), rgba(207, 165, 70, 0.94));
+    border-color: rgba(255, 240, 204, 0.66);
+    color: #342707;
+}
+
+.meta-inline-timer.is-danger {
+    background: linear-gradient(135deg, rgba(255, 162, 177, 0.96), rgba(255, 111, 134, 0.94));
+    border-color: rgba(255, 223, 229, 0.76);
+    color: #3f1019;
+}
+
 .feedback-row {
     display: flex;
     align-items: center;
@@ -395,7 +510,7 @@ body::after {
     min-height: 0;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 0.22rem;
+    gap: 20px;
 }
 
 .question-text {
@@ -475,14 +590,15 @@ body::after {
     font-size: 0.74rem;
     line-height: 1.25;
     flex: 1 1 auto;
+    max-width: 500px;
 }
 
-.next-button {
+.next-button,
+.restart-button {
     min-height: 40px;
     padding: 0.66rem 0.95rem;
     border: 0;
     border-radius: 999px;
-    background: linear-gradient(135deg, #335fb0 0%, #183469 54%, #0a1530 100%);
     color: #f8fbff;
     font: inherit;
     font-size: 0.84rem;
@@ -491,20 +607,42 @@ body::after {
     transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
 }
 
+.next-button {
+    background: linear-gradient(135deg, #335fb0 0%, #183469 54%, #0a1530 100%);
+}
+
+.restart-button {
+    background: linear-gradient(135deg, #5b6a86 0%, #33415e 54%, #1a2438 100%);
+}
+
+.restart-button[hidden] {
+    display: none;
+}
+
 .question-card-foot {
     position: relative;
     justify-content: flex-start;
     align-items: end;
     min-height: 44px;
-    padding-right: 7rem;
+    padding-right: 15.25rem;
 }
 
+.question-card-foot .restart-button,
 .question-card-foot .next-button {
     position: absolute;
-    right: 0;
     bottom: 0;
 }
 
+.question-card-foot .next-button {
+    right: 0;
+}
+
+.question-card-foot .restart-button {
+    right: 7.9rem;
+}
+
+.restart-button:hover,
+.restart-button:focus-visible,
 .next-button:hover,
 .next-button:focus-visible {
     transform: translateY(-1px);
@@ -539,6 +677,11 @@ body::after {
         gap: 0.24rem;
         padding: 0.55rem;
         border-radius: 18px;
+    }
+
+    .return-home-link {
+        top: 0.55rem;
+        right: 0.55rem;
     }
 
     .game-header,
@@ -643,17 +786,23 @@ body::after {
 
     .question-card-foot {
         min-height: 38px;
-        padding-right: 6rem;
+        padding-right: 11.75rem;
     }
 
-    .game-launch-dialog {
+    .question-card-foot .restart-button {
+        right: 5.9rem;
+    }
+
+    .game-launch-dialog,
+    .game-win-dialog {
         width: min(100%, 340px);
         gap: 0.45rem;
         padding: 0.8rem 0.82rem 0.9rem;
         border-radius: 18px;
     }
 
-    .game-launch-dialog p {
+    .game-launch-dialog p,
+    .game-win-dialog p {
         font-size: 0.8rem;
         line-height: 1.42;
     }
@@ -662,6 +811,10 @@ body::after {
         min-height: 36px;
         padding: 0.46rem 0.8rem;
         font-size: 0.74rem;
+    }
+
+    .game-win-actions {
+        gap: 0.4rem;
     }
 }
 
@@ -673,6 +826,11 @@ body::after {
         max-width: 380px;
         max-height: 570px;
         padding: 0.46rem;
+    }
+
+    .return-home-link {
+        top: 0.46rem;
+        right: 0.46rem;
     }
 
     .eyebrow,

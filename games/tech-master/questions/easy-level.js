@@ -1,4 +1,5 @@
-[
+window.TECH_MASTER_QUESTION_BANKS = window.TECH_MASTER_QUESTION_BANKS || {};
+window.TECH_MASTER_QUESTION_BANKS.easy = [
   {
     "question": "What does CPU stand for?",
     "choices": [
@@ -219,4 +220,5 @@
     "answer": 1,
     "explanation": "A password is used to secure accounts and protect personal data from unauthorized access."
   }
-]
+];
+

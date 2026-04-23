@@ -1,4 +1,5 @@
-[
+window.TECH_MASTER_QUESTION_BANKS = window.TECH_MASTER_QUESTION_BANKS || {};
+window.TECH_MASTER_QUESTION_BANKS.hard = [
   {
     "question": "Who is widely recognized as the first computer programmer?",
     "choices": [
@@ -219,4 +220,5 @@
     "answer": 1,
     "explanation": "The primary goal of AI is to simulate human-like intelligence, enabling machines to learn, reason, and make decisions."
   }
-]
+];
+

@@ -1,4 +1,5 @@
-[
+window.TECH_MASTER_QUESTION_BANKS = window.TECH_MASTER_QUESTION_BANKS || {};
+window.TECH_MASTER_QUESTION_BANKS.medium = [
   {
     "question": "What type of model powers ChatGPT?",
     "choices": [
@@ -219,4 +220,5 @@
     "answer": 1,
     "explanation": "An algorithm is a set of step-by-step instructions used to solve a problem or perform a task in computing."
   }
-]
+];
+

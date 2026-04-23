@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Who Wants to Be a Tech Master? | Prototype</title>
+    <title>Who Wants to Be a Tech Master?</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,9 +14,27 @@
             <span class="support-card-kicker">Instructions</span>
             <h2 id="launch-title">Who Wants to Be a Tech Master?</h2>
             <p>
-                Choose the best answer for each level and preview the quiz flow. This prototype lets you test the interface, progression tracker, and explanation reveal before full gameplay logic is added.
+                Choose the best answer for each level before the timer runs out. Work through all 30 levels across Easy, Medium, and Hard while the tracker, rank system, and explanations guide your progress.
             </p>
             <button class="launch-button" type="button" data-launch-start>Begin</button>
+        </div>
+    </div>
+
+    <div class="game-win-overlay" data-win-overlay hidden>
+        <div class="game-win-dialog" role="dialog" aria-modal="true" aria-labelledby="win-title">
+            <span class="support-card-kicker">Victory</span>
+            <h2 id="win-title">You Completed All 30 Levels</h2>
+            <p>
+                You made it through the full Tech Master run. Your final title reflects the level of consistency, accuracy, and technical judgment you showed across every difficulty tier.
+            </p>
+            <div class="game-win-meta">
+                <span class="meta-inline" data-win-rank>RANK: Chief Technology Officer</span>
+                <span class="meta-inline meta-inline-flavor" data-win-status>STATUS: "Owning the entire system"</span>
+            </div>
+            <div class="game-win-actions">
+                <button class="launch-button game-win-button-secondary" type="button" data-win-restart>Restart Game</button>
+                <a class="launch-button game-win-home-link" href="../../index.html">Return to Homepage</a>
+            </div>
         </div>
     </div>
 
@@ -24,10 +42,10 @@
         <section class="game-shell" aria-labelledby="game-title">
             <header class="game-header">
                 <div>
-                    <p class="eyebrow">Prototype UI only</p>
+                    <p class="eyebrow">Timed Challenge</p>
                     <h1 id="game-title">Who Wants to Be a Tech Master?</h1>
                 </div>
-                <p class="prototype-note">Visual and interaction testing only</p>
+                <a class="meta-inline return-home-link" href="../../index.html">Return to Homepage</a>
             </header>
 
             <section class="tracker-panel" aria-labelledby="tracker-title">
@@ -40,6 +58,7 @@
                     <span class="meta-inline" data-difficulty-inline>DIFFICULTY: Easy</span>
                     <span class="meta-inline" data-rank-inline>RANK: Intern</span>
                     <span class="meta-inline meta-inline-flavor" data-flavor-inline>STATUS: "Learning the basics"</span>
+                    <span class="meta-inline meta-inline-timer" data-timer-inline>TIME: 10s</span>
                 </div>
 
                 <div class="question-body">
@@ -48,8 +67,9 @@
                 </div>
 
                 <div class="question-card-foot">
-                    <p class="feedback-text" data-feedback-text>Choose one answer to preview the interaction flow.</p>
-                    <button class="next-button" type="button" data-next-button disabled>Next Sample Question</button>
+                    <p class="feedback-text" data-feedback-text>Answer before the timer reaches zero.</p>
+                    <button class="restart-button" type="button" data-restart-button hidden>Restart Game</button>
+                    <button class="next-button" type="button" data-next-button disabled>Next Level</button>
                 </div>
             </section>
 
@@ -58,12 +78,15 @@
                     <span class="support-card-kicker">Explanation</span>
                 </div>
                 <p class="support-card-copy" data-explanation-text>
-                    Explanation will appear here after you submit an answer.
+                    Explanation will appear here after you answer the question.
                 </p>
             </section>
         </section>
     </main>
 
+    <script src="questions/easy-level.js"></script>
+    <script src="questions/medium-level.js"></script>
+    <script src="questions/hard-level.js"></script>
     <script src="sample-questions.js"></script>
     <script src="script.js"></script>
 </body>
