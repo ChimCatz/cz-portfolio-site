@@ -33,3 +33,8 @@ Open `index.html` directly in a browser.
 - This is a static site and does not require a build step.
 - Skills and Projects are content-driven directly in HTML.
 - The Skills section uses logo cards sourced from `assets/icons/`.
+- Check mobile view whenever adding or changing sections.
+- Current mobile expectations:
+  - Skills show `2` logo cards per row
+  - Insights prev/next buttons sit together at the top-right of the section content
+  - Challenges game cards stack vertically

@@ -2297,13 +2297,9 @@ main {
         align-items: start;
     }
 
-    .insights-carousel-nav {
-        position: static;
-        transform: none;
-    }
-
     .insights-carousel-shell {
         gap: 1rem;
+        padding-top: 2.75rem;
         padding-inline: 0;
     }
 
@@ -2311,7 +2307,43 @@ main {
         min-height: 0;
     }
 
+    .insights-section {
+        padding-bottom: 4rem;
+    }
+
+    .insights-carousel-nav {
+        position: absolute;
+        top: 0;
+        z-index: 2;
+        transform: none;
+    }
+
+    .insights-carousel-nav:hover {
+        transform: scale(1.12);
+    }
+
+    .insights-carousel-nav:active {
+        transform: scale(0.96);
+    }
+
+    .insights-carousel-nav:disabled:hover {
+        transform: none;
+    }
+
+    .insights-carousel-nav-prev {
+        left: auto;
+        right: 2.6rem;
+    }
+
+    .insights-carousel-nav-next {
+        right: 0;
+    }
+
     .insights-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-selector {
         grid-template-columns: 1fr;
     }
 
@@ -2442,7 +2474,7 @@ main {
     }
 
     .skills-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .game-selector {
@@ -2455,6 +2487,30 @@ main {
 
     .carousel-track {
         min-height: 400px;
+    }
+
+    .insights-section {
+        padding-bottom: 4.8rem;
+    }
+
+    .insights-carousel-shell {
+        padding-top: 2.5rem;
+    }
+
+    .insights-carousel-nav-prev {
+        right: 2.4rem;
+    }
+
+    .insight-card {
+        min-height: 0;
+    }
+
+    .insight-card-link {
+        grid-template-rows: 180px 1fr;
+    }
+
+    .insight-card-body {
+        padding: 1rem 1rem 1.3rem;
     }
 
     .projects-static-grid {

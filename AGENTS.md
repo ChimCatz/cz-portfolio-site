@@ -176,6 +176,11 @@ This file preserves the key working context, design choices, and content decisio
   - project GitHub link styles
   - project results strip styles
 - When changing project page styling, favor subtle variation over identical repeated containers.
+- Any new section or visual adjustment should be checked in mobile view as part of the default workflow, not only on desktop.
+- Current homepage mobile behaviors to preserve:
+  - Skills section: `2` skill logo cards per row
+  - Insights section: prev/next buttons grouped side-by-side at the top-right of the insights content area
+  - Challenges section: game cards stacked vertically
 
 ## JS Notes
 - Main JS file: `assets/js/app.js`
@@ -208,6 +213,7 @@ This file preserves the key working context, design choices, and content decisio
 - Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the static card layout.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
+- Treat mobile responsiveness as part of the acceptance check for future additions and design changes.
 
 ## Git Commit Message Pattern
 - User often asks for commit messages beginning with version prefixes.
