@@ -2348,26 +2348,25 @@ main {
     }
 
     .game-card {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        grid-template-columns: 84px minmax(0, 1fr);
     }
 
     .game-card-media {
-        width: 100%;
-        min-height: 0;
-        padding: 0.9rem 0.9rem 0;
+        width: auto;
+        min-height: auto;
+        padding: 1rem 0 1rem 1rem;
     }
 
     .game-card img {
-        width: 100%;
-        height: 132px;
-        max-width: none;
-        min-height: 132px;
-        max-height: 132px;
+        width: 70px;
+        height: 70px;
+        max-width: 70px;
+        min-height: 70px;
+        max-height: 70px;
     }
 
     .game-card-body {
-        padding: 0.95rem 1rem 1.15rem;
+        padding: 1rem 1rem 1.05rem 0.8rem;
     }
 
     .game-mobile-note {
@@ -2522,16 +2521,6 @@ main {
         padding: 1rem 1rem 1.3rem;
     }
 
-    .game-card-media {
-        padding: 0.85rem 0.85rem 0;
-    }
-
-    .game-card img {
-        height: 120px;
-        min-height: 120px;
-        max-height: 120px;
-    }
-
     .projects-static-grid {
         grid-template-columns: 1fr;
     }
@@ -2568,7 +2557,7 @@ main {
 
 .game-mobile-note {
     display: none;
-    margin: -0.2rem 0 0;
+    margin-top: 0.55rem;
     color: #dce6ff;
     font-size: 0.88rem;
     font-style: italic;
@@ -2576,14 +2565,16 @@ main {
 
 .game-card {
     display: grid;
-    grid-template-columns: 100px minmax(0, 1fr);
+    grid-template-columns: 92px minmax(0, 1fr);
     align-items: stretch;
     gap: 0;
     width: 100%;
     padding: 0;
     border: 1px solid var(--line);
     border-radius: 22px;
-    background: linear-gradient(145deg, rgba(14, 24, 60, 0.64), rgba(7, 11, 28, 0.82));
+    background:
+        linear-gradient(145deg, rgba(7, 13, 34, 0.72), rgba(7, 11, 28, 0.78)),
+        url("../images/challenges.game-card-background.png") center/cover no-repeat;
     color: var(--text);
     text-align: left;
     cursor: pointer;
@@ -2599,7 +2590,9 @@ main {
 }
 
 .game-card.active {
-    background: linear-gradient(145deg, rgba(19, 39, 96, 0.82), rgba(8, 15, 42, 0.94));
+    background:
+        linear-gradient(145deg, rgba(16, 35, 87, 0.76), rgba(8, 15, 42, 0.82)),
+        url("../images/challenges.game-card-background.png") center/cover no-repeat;
     border-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -2610,30 +2603,22 @@ main {
 .game-card-media {
     position: relative;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     justify-content: center;
     min-height: 100%;
-    width: 100px;
-    padding: 0;
-    overflow: hidden;
-    background: inherit;
+    width: auto;
+    padding: 1.15rem 0 1.15rem 1.15rem;
 }
 
 .game-card-media::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(6, 10, 24, 0.02), rgba(6, 10, 24, 0.28));
-    opacity: 0;
-    transition: opacity var(--transition), background var(--transition);
-    pointer-events: none;
+    content: none;
 }
 
 .game-card img {
-    width: auto;
-    height: 100px;
-    max-width: min(100%, 180px);
-    min-height: 100px;
+    width: 70px;
+    height: 70px;
+    max-width: 70px;
+    min-height: 70px;
     margin: auto;
     object-fit: contain;
     object-position: center;
@@ -2646,7 +2631,7 @@ main {
     grid-template-rows: auto auto 1fr auto;
     align-content: start;
     gap: 0.75rem;
-    padding: 1.35rem 1.35rem 1.35rem 1.1rem;
+    padding: 1.25rem 1.25rem 1.25rem 0.85rem;
 }
 
 .game-card h3 {
