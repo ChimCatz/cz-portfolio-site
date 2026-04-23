@@ -74,20 +74,76 @@ const initSectionSpy = () => {
     updateActiveSection();
 };
 
+const isMobileInsightsViewport = () => window.matchMedia('(max-width: 980px)').matches;
+
+const syncInsightsCarouselLayout = () => {
+    const shell = document.querySelector('[data-carousel="insights"]');
+    const track = shell?.querySelector('.carousel-track');
+
+    if (!track) {
+        return;
+    }
+
+    if (!track.dataset.desktopMarkup) {
+        track.dataset.desktopMarkup = track.innerHTML;
+    }
+
+    const shouldUseMobileLayout = isMobileInsightsViewport();
+    const currentLayout = track.dataset.layoutMode || 'desktop';
+
+    if (shouldUseMobileLayout && currentLayout !== 'mobile') {
+        const temp = document.createElement('div');
+        temp.innerHTML = track.dataset.desktopMarkup;
+
+        const seenLinks = new Set();
+        const cards = [...temp.querySelectorAll('.insight-card')].filter((card) => {
+            const href = card.querySelector('.insight-card-link')?.getAttribute('href') || '';
+            if (!href || seenLinks.has(href)) {
+                return false;
+            }
+            seenLinks.add(href);
+            return true;
+        });
+
+        track.innerHTML = cards
+            .map((card, cardIndex) => `
+                <div class="carousel-card${cardIndex === 0 ? ' is-active' : ''}">
+                    <div class="insights-card-grid">
+                        ${card.outerHTML}
+                    </div>
+                </div>
+            `)
+            .join('');
+
+        track.dataset.layoutMode = 'mobile';
+        return;
+    }
+
+    if (!shouldUseMobileLayout && currentLayout !== 'desktop') {
+        track.innerHTML = track.dataset.desktopMarkup;
+        track.dataset.layoutMode = 'desktop';
+    }
+};
+
 const initCarousel = (shell) => {
     const name = shell.dataset.carousel;
-
-    const cards = [...shell.querySelectorAll('.carousel-card')];
     const dotsWrap = shell.querySelector('.carousel-dots');
     const prev = document.querySelector(`[data-carousel-prev="${name}"]`);
     const next = document.querySelector(`[data-carousel-next="${name}"]`);
+    const cards = [...shell.querySelectorAll('.carousel-card')];
 
     if (!cards.length) {
         return;
     }
 
-    let index = cards.findIndex((card) => card.classList.contains('is-active'));
-    index = index >= 0 ? index : 0;
+    shell._carouselCleanup?.();
+
+    let index = typeof shell._carouselIndex === 'number' ? shell._carouselIndex : cards.findIndex((card) => card.classList.contains('is-active'));
+    index = index >= 0 ? Math.min(index, cards.length - 1) : 0;
+
+    if (dotsWrap) {
+        dotsWrap.innerHTML = '';
+    }
 
     const dots = cards.map((_, dotIndex) => {
         const dot = document.createElement('button');
@@ -101,6 +157,7 @@ const initCarousel = (shell) => {
 
     const render = (nextIndex) => {
         index = (nextIndex + cards.length) % cards.length;
+        shell._carouselIndex = index;
         cards.forEach((card, cardIndex) => {
             card.classList.toggle('is-active', cardIndex === index);
         });
@@ -119,13 +176,22 @@ const initCarousel = (shell) => {
         });
     };
 
-    prev?.addEventListener('click', () => render(index - 1));
-    next?.addEventListener('click', () => render(index + 1));
+    const onPrev = () => render(index - 1);
+    const onNext = () => render(index + 1);
+
+    prev?.addEventListener('click', onPrev);
+    next?.addEventListener('click', onNext);
+
+    shell._carouselCleanup = () => {
+        prev?.removeEventListener('click', onPrev);
+        next?.removeEventListener('click', onNext);
+    };
 
     render(index);
 };
 
 const initCarousels = () => {
+    syncInsightsCarouselLayout();
     const carousels = [...document.querySelectorAll('[data-carousel]')];
     carousels.forEach((shell) => initCarousel(shell));
 };
@@ -174,7 +240,26 @@ const initGameSwitch = () => {
         return;
     }
 
+    const isMobileViewport = () => window.matchMedia('(max-width: 980px)').matches;
+
+    const syncGameAvailability = () => {
+        const isMobile = isMobileViewport();
+
+        if (isMobile) {
+            display?.setAttribute('hidden', '');
+        }
+
+        cards.forEach((card) => {
+            card.setAttribute('aria-disabled', String(isMobile));
+            card.setAttribute('tabindex', isMobile ? '-1' : '0');
+        });
+    };
+
     const activateGame = (game) => {
+        if (isMobileViewport()) {
+            return;
+        }
+
         display?.removeAttribute('hidden');
 
         cards.forEach((card) => {
@@ -210,6 +295,9 @@ const initGameSwitch = () => {
             nextCard.focus();
         });
     });
+
+    window.addEventListener('resize', syncGameAvailability);
+    syncGameAvailability();
 };
 
 initGameSwitch();
@@ -217,3 +305,15 @@ initSectionSpy();
 initTopbarSwap();
 initCarousels();
 initScrollTopButton();
+
+let carouselResizeFrame = null;
+window.addEventListener('resize', () => {
+    if (carouselResizeFrame) {
+        window.cancelAnimationFrame(carouselResizeFrame);
+    }
+
+    carouselResizeFrame = window.requestAnimationFrame(() => {
+        initCarousels();
+        carouselResizeFrame = null;
+    });
+});
