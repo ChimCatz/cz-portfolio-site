@@ -13,7 +13,7 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 - Professional Overview with cover image and social links
 - Brain Challenge section
 - Skills logo grid
-- Static Projects card grid on homepage and project pages
+- Projects carousel on homepage and project listings on project pages
 - Lord's Recovery preview section
 
 ## Assets
@@ -31,7 +31,10 @@ Open `index.html` directly in a browser.
 ## Notes
 
 - This is a static site and does not require a build step.
-- Skills and Projects are content-driven directly in HTML.
+- Skills are content-driven directly in HTML.
+- Related `More Projects` and `More Insights` sections on detail pages are rendered from metadata in `assets/js/app.js`.
+- The current detail page is excluded automatically from its own related carousel.
+- To add future project or insight pages more easily, update the matching metadata list in `assets/js/app.js` and use the existing placeholder section pattern on the detail page.
 - The Skills section uses logo cards sourced from `assets/icons/`.
 - Check mobile view whenever adding or changing sections.
 - Current mobile expectations:

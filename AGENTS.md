@@ -82,12 +82,17 @@ This file preserves the key working context, design choices, and content decisio
 - Cards should keep transparent, tinted backgrounds with centered logos.
 
 ### Projects Section on Homepage
-- The old carousel was removed.
-- Homepage and project-page project listings now use the `page-elements/projects-card` inspired static card layout.
-- All project cards should remain visible at once:
-  - 2 per row on desktop
-  - stacked on mobile
-- Keep the template styling direction intact and only adjust wording/content unless the user asks for a design change.
+- Homepage Projects now uses a dedicated carousel layout modeled after the Insights section.
+- Homepage project cards should:
+  - show `2` cards at a time on desktop
+  - collapse to `1` card per slide on mobile
+  - keep the exact homepage project order:
+    - LeadFlow ETL
+    - CSV Advanced Search Engine
+    - VOIP Call Conversion Tool
+    - Data Pivot Table Tool
+  - use each project's leaderboard/banner image at the top of the card
+- Preserve the existing project card wording unless the user explicitly asks for copy changes.
 
 ## Project Subpage Pattern
 - Project pages were intentionally simplified.
@@ -98,6 +103,8 @@ This file preserves the key working context, design choices, and content decisio
 - Keep these pages simple and readable.
 - Do not overcomplicate them with too many extra summary cards unless explicitly requested.
 - GitHub repository links are welcome and now part of the pattern.
+- Project detail pages now use the same bottom related-carousel pattern as Insight pages.
+- The old duplicated static `More Projects` blocks were removed in favor of JS-rendered related sections.
 
 ## Current Project Pages
 
@@ -189,6 +196,17 @@ This file preserves the key working context, design choices, and content decisio
   - section spy on homepage
   - active Projects nav item on project detail pages
   - Brain Challenge reveal-on-click behavior
+- Related content is now metadata-driven in `assets/js/app.js`:
+  - `PROJECT_ITEMS` powers project carousels
+  - `INSIGHT_ITEMS` powers insight carousels
+- Detail pages should use placeholder sections instead of hardcoded repeated cards:
+  - projects: `<section class="container project-related-section" data-related-kind="projects" data-current-slug="<project-slug>"></section>`
+  - insights: `<section class="container project-related-section insights-related-section" data-related-kind="insights" data-current-slug="<insight-slug>"></section>`
+- The current page is intentionally excluded from its own `More Projects` or `More Insights` carousel using `data-current-slug`.
+- When adding a new project or insight in the future:
+  - add the metadata entry in `assets/js/app.js`
+  - add the new detail page with the correct `data-current-slug`
+  - update homepage content only where needed
 
 ## Content and Writing Preferences
 - The user likes direct, practical project storytelling.
@@ -210,7 +228,7 @@ This file preserves the key working context, design choices, and content decisio
   - full width on mobile
 
 ## Future Development Priorities
-- Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the static card layout.
+- Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the carousel layout.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
 - Treat mobile responsiveness as part of the acceptance check for future additions and design changes.
