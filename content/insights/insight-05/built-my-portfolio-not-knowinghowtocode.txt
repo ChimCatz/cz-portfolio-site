@@ -1,0 +1,191 @@
+---
+
+**Title:**
+I Built My Portfolio Without Knowing How to Code (And It Still Worked)
+
+**Date:** April 23, 2026
+
+---
+
+Everyone says you need a portfolio.
+
+Recruiters look for it. Professionals recommend it.
+It’s almost expected now.
+
+But from my perspective, that advice assumes something.
+
+That you already know how to build one.
+
+I didn’t.
+
+No front-end experience.
+No design background.
+No real knowledge of HTML, CSS, or JavaScript.
+
+So the real problem wasn’t building a website.
+
+It was figuring out where to even begin.
+
+---
+
+At first, I explored everything.
+
+Wix.
+WordPress.
+Full coding from scratch.
+
+Each one had its own advantages. Each one had its own learning curve.
+
+And the more I explored, the more it felt overwhelming.
+
+Too many options.
+
+So nothing moved.
+
+---
+
+Then I shifted the question.
+
+Not *what tool should I use?*
+But *why do I want a website in the first place?*
+
+Not for clout.
+Not to impress people.
+
+I wanted to build something.
+
+And I wanted to enjoy the process of learning it.
+
+---
+
+So I decided to work with what I already had.
+
+VSCode.
+Codex and Claude.
+Git and GitHub Pages.
+Free assets from the internet.
+
+No domain cost.
+No advanced stack.
+No polished design system.
+
+Just execution.
+
+---
+
+From my perspective, this is where everything changed.
+
+I didn’t need to know how to write everything manually.
+
+I just needed to know what I wanted to build.
+
+Instead of coding line by line, I described the layout.
+I explained the behavior.
+I adjusted based on what I saw.
+
+Then the tools translated that into working code.
+
+---
+
+This wasn’t new to me.
+
+It followed the same pattern as the tools I built before:
+
+* 20–30 minutes → under 20 seconds workflows 
+* 60 minutes → under 15 seconds automation
+* Hours of manual work → reduced by more than 90%
+
+The website became just another system.
+
+Not perfect. But working.
+
+---
+
+There were still problems.
+
+Layouts broke.
+Mobile views looked off.
+Some designs didn’t feel right.
+
+But instead of stopping, I kept going.
+
+Fix. Test. Adjust.
+
+Then repeat.
+
+---
+
+Along the way, I realized something.
+
+I wasn’t just building a website.
+
+I was building skills.
+
+Git helped me track changes and gave me a safety net.
+GitHub gave me free hosting and version control.
+AI tools helped me translate ideas into actual structure.
+
+Things I didn’t plan to learn.
+
+But ended up learning anyway.
+
+---
+
+The biggest lesson wasn’t technical.
+
+It was mental.
+
+Fear shows up when you’re working on something new.
+
+You don’t know what to do.
+You don’t know how it will turn out.
+You don’t know how others will see it.
+
+From your perspective, that feels like a roadblock.
+
+But it isn’t.
+
+It’s part of the process.
+
+---
+
+Looking back, the process was simple.
+
+Start → Break → Fix → Repeat
+
+No perfect plan.
+
+Just progress.
+
+---
+
+I don’t know everything.
+
+But I used what I do know.
+
+And built something out of it.
+
+---
+
+For anyone thinking of starting something:
+
+A website.
+A project.
+A tool.
+Even a small idea.
+
+You don’t need to have everything figured out.
+
+You just need to begin.
+
+---
+
+Like my boss says:
+
+**“Skills can be learned. But mindset and character need cultivation.”**
+
+From my perspective, this wasn’t just about building a website.
+
+It was about taking that first step into something unfamiliar.
+
+And realizing that you can figure things out along the way.
