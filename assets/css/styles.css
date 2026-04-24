@@ -3013,6 +3013,7 @@ body.image-lightbox-open {
         url("../images/challenges.game-card-background.png") center/cover no-repeat;
     color: var(--text);
     text-align: left;
+    text-decoration: none;
     cursor: pointer;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 40px rgba(0, 0, 0, 0.22);
     transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);

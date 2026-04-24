@@ -533,7 +533,7 @@ const initProjectImageLightbox = () => {
 // =========================
 
 const initGameSwitch = () => {
-    const cards = [...document.querySelectorAll('.game-card')];
+    const cards = [...document.querySelectorAll('.game-card[data-game]')];
     const panels = [...document.querySelectorAll('.game-panel')];
     const display = document.querySelector('.game-display');
 
