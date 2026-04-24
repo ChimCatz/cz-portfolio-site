@@ -279,3 +279,14 @@ This file preserves the key working context, design choices, and content decisio
   - look for matching images in `assets/images/<project-name>/`
   - preserve existing titles if the user has explicitly provided them
   - preserve GitHub links once added
+
+## Trivia Block Context
+- Root folder: `trivia/`
+- Files: `trivia-data.js`, `trivia-icon.svg`, `README.md`
+- Position: directly under Hero, above Professional Overview
+- Not a nav/scroll-tracked section
+- No `hero-trivia-card` wrapper
+- Max-height target: `250px`
+- Keep the UI simple: white text, source line, centered title with inline icon
+- Buttons should be circular white carousel buttons matching the Insights style
+- Trivia JS behavior lives in `assets/js/app.js`

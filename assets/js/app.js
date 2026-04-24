@@ -528,6 +528,115 @@ const initProjectImageLightbox = () => {
     });
 };
 
+const TRIVIA_ROTATION_INTERVAL = 60 * 60 * 1000;
+
+const shuffleTriviaItems = (items) => {
+    const shuffled = [...items];
+
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+    }
+
+    return shuffled;
+};
+
+const initTrivia = () => {
+    const triviaText = document.querySelector('[data-trivia-text]');
+
+    if (!triviaText) {
+        return;
+    }
+
+    const triviaItems = Array.isArray(window.CZ_TRIVIA_ITEMS) ? window.CZ_TRIVIA_ITEMS : [];
+
+    if (!triviaItems.length) {
+        return;
+    }
+
+    const prevButton = document.querySelector('[data-trivia-prev]');
+    const nextButton = document.querySelector('[data-trivia-next]');
+    let currentIndex = 0;
+    let rotationIntervalId = null;
+
+    const buildShuffledList = (previousItem = null) => {
+        const shuffled = shuffleTriviaItems(triviaItems);
+
+        if (previousItem && shuffled.length > 1 && shuffled[0]?.text === previousItem.text) {
+            [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+        }
+
+        return shuffled;
+    };
+
+    let shuffledItems = buildShuffledList();
+
+    const renderTrivia = () => {
+        const currentItem = shuffledItems[currentIndex];
+
+        if (!currentItem?.text) {
+            return;
+        }
+
+        triviaText.textContent = `\u201C${currentItem.text}\u201D`;
+    };
+
+    const restartRotationTimer = () => {
+        if (rotationIntervalId) {
+            window.clearInterval(rotationIntervalId);
+        }
+
+        rotationIntervalId = window.setInterval(() => {
+            showNextTrivia();
+        }, TRIVIA_ROTATION_INTERVAL);
+    };
+
+    const showNextTrivia = () => {
+        if (!shuffledItems.length) {
+            return;
+        }
+
+        const nextIndex = currentIndex + 1;
+
+        if (nextIndex >= shuffledItems.length) {
+            const previousItem = shuffledItems[currentIndex];
+            shuffledItems = buildShuffledList(previousItem);
+            currentIndex = 0;
+        } else {
+            currentIndex = nextIndex;
+        }
+
+        renderTrivia();
+    };
+
+    const showPreviousTrivia = () => {
+        if (!shuffledItems.length) {
+            return;
+        }
+
+        currentIndex = currentIndex - 1;
+
+        if (currentIndex < 0) {
+            currentIndex = shuffledItems.length - 1;
+        }
+
+        renderTrivia();
+    };
+
+    prevButton?.addEventListener('click', () => {
+        showPreviousTrivia();
+        restartRotationTimer();
+    });
+
+    nextButton?.addEventListener('click', () => {
+        showNextTrivia();
+        restartRotationTimer();
+    });
+
+    renderTrivia();
+    restartRotationTimer();
+};
+
 // =========================
 // GAME SWITCH (NEW)
 // =========================
@@ -602,6 +711,7 @@ const initGameSwitch = () => {
 };
 
 initRelatedContent();
+initTrivia();
 initGameSwitch();
 initSectionSpy();
 initTopbarSwap();

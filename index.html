@@ -147,6 +147,26 @@
             </div>
         </section>
 
+        <section class="container trivia-section" aria-labelledby="trivia-title">
+            <h2 id="trivia-title" class="hero-trivia-title">
+                Trivia
+                <img src="trivia/trivia-icon.png" alt="" aria-hidden="true">
+            </h2>
+
+            <div class="hero-trivia-content">
+                <p class="hero-trivia-text" data-trivia-text>Loading trivia...</p>
+            </div>
+
+            <div class="hero-trivia-actions">
+                <button class="carousel-button icon-carousel-button hero-trivia-nav hero-trivia-nav-prev" type="button" data-trivia-prev aria-label="Previous trivia">
+                    <img src="assets/icons/left-arrow.svg" alt="" aria-hidden="true">
+                </button>
+                <button class="carousel-button icon-carousel-button hero-trivia-nav hero-trivia-nav-next" type="button" data-trivia-next aria-label="Next trivia">
+                    <img src="assets/icons/right-arrow.svg" alt="" aria-hidden="true">
+                </button>
+            </div>
+        </section>
+
         <section class="container about-section" id="about">
             <div class="section-heading">
                 <div class="cover-card cover-card-wide">
@@ -699,6 +719,7 @@
 
     </main>
 
+    <script src="trivia/trivia-data.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 
