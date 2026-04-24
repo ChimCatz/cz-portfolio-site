@@ -144,8 +144,20 @@ body::after {
     margin-top: 0.15rem;
 }
 
+.game-launch-actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-top: 0.15rem;
+}
+
 .launch-button {
     justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-height: 42px;
     padding: 0.58rem 1rem;
     border: 0;
@@ -157,6 +169,17 @@ body::after {
     font-weight: 700;
     cursor: pointer;
     transition: transform 180ms ease, box-shadow 180ms ease;
+    text-decoration: none;
+}
+
+.launch-button-start {
+    background: linear-gradient(135deg, #72d69a 0%, #43b96f 100%);
+    color: #f8fbff;
+}
+
+.launch-button-exit {
+    background: linear-gradient(135deg, #f28c8c 0%, #de5e5e 100%);
+    color: #f8fbff;
 }
 
 .game-win-home-link {
