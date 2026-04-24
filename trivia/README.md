@@ -22,6 +22,6 @@ Random order behavior:
 - Next moves forward through the shuffled list
 - reshuffle after the end
 - Previous wraps backward
-- auto-rotate every `1` hour
+- auto-rotate every `10` seconds
 
 This system is fully frontend-only and does not depend on any backend or API.

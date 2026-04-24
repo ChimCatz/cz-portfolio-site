@@ -528,7 +528,7 @@ const initProjectImageLightbox = () => {
     });
 };
 
-const TRIVIA_ROTATION_INTERVAL = 60 * 60 * 1000;
+const TRIVIA_ROTATION_INTERVAL = 10 * 1000;
 
 const shuffleTriviaItems = (items) => {
     const shuffled = [...items];
