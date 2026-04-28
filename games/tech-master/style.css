@@ -92,8 +92,24 @@ body::after {
     display: none;
 }
 
+.game-loss-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 31;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(12px);
+}
+
+.game-loss-overlay[hidden] {
+    display: none;
+}
+
 .game-launch-dialog,
-.game-win-dialog {
+.game-win-dialog,
+.game-loss-dialog {
     width: min(100%, 520px);
     display: grid;
     gap: 0.55rem;
@@ -108,18 +124,22 @@ body::after {
 .game-launch-dialog h2,
 .game-launch-dialog p,
 .game-win-dialog h2,
-.game-win-dialog p {
+.game-win-dialog p,
+.game-loss-dialog h2,
+.game-loss-dialog p {
     margin: 0;
 }
 
 .game-launch-dialog h2,
-.game-win-dialog h2 {
+.game-win-dialog h2,
+.game-loss-dialog h2 {
     font-size: clamp(1.2rem, 2vw, 1.65rem);
     line-height: 1.08;
 }
 
 .game-launch-dialog p,
-.game-win-dialog p {
+.game-win-dialog p,
+.game-loss-dialog p {
     color: var(--card-muted);
     font-size: 0.92rem;
     line-height: 1.55;
@@ -133,6 +153,24 @@ body::after {
     align-items: center;
     gap: 0.45rem;
     flex-wrap: wrap;
+}
+
+.game-loss-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.game-loss-detail {
+    text-align: left !important;
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+}
+
+.game-loss-detail strong {
+    color: var(--card-text);
 }
 
 .game-win-actions {
@@ -187,6 +225,11 @@ body::after {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+}
+
+.game-loss-button-primary {
+    background: linear-gradient(135deg, #72d69a 0%, #43b96f 100%);
+    color: #f8fbff;
 }
 
 .launch-button:hover,
@@ -616,8 +659,7 @@ body::after {
     max-width: 500px;
 }
 
-.next-button,
-.restart-button {
+.next-button {
     min-height: 40px;
     padding: 0.66rem 0.95rem;
     border: 0;
@@ -634,38 +676,13 @@ body::after {
     background: linear-gradient(135deg, #335fb0 0%, #183469 54%, #0a1530 100%);
 }
 
-.restart-button {
-    background: linear-gradient(135deg, #5b6a86 0%, #33415e 54%, #1a2438 100%);
-}
-
-.restart-button[hidden] {
-    display: none;
-}
-
 .question-card-foot {
-    position: relative;
     justify-content: flex-start;
-    align-items: end;
+    align-items: center;
     min-height: 44px;
-    padding-right: 15.25rem;
+    padding-right: 0;
 }
 
-.question-card-foot .restart-button,
-.question-card-foot .next-button {
-    position: absolute;
-    bottom: 0;
-}
-
-.question-card-foot .next-button {
-    right: 0;
-}
-
-.question-card-foot .restart-button {
-    right: 7.9rem;
-}
-
-.restart-button:hover,
-.restart-button:focus-visible,
 .next-button:hover,
 .next-button:focus-visible {
     transform: translateY(-1px);
@@ -807,17 +824,9 @@ body::after {
         font-size: 0.68rem;
     }
 
-    .question-card-foot {
-        min-height: 38px;
-        padding-right: 11.75rem;
-    }
-
-    .question-card-foot .restart-button {
-        right: 5.9rem;
-    }
-
     .game-launch-dialog,
-    .game-win-dialog {
+    .game-win-dialog,
+    .game-loss-dialog {
         width: min(100%, 340px);
         gap: 0.45rem;
         padding: 0.8rem 0.82rem 0.9rem;
@@ -825,7 +834,8 @@ body::after {
     }
 
     .game-launch-dialog p,
-    .game-win-dialog p {
+    .game-win-dialog p,
+    .game-loss-dialog p {
         font-size: 0.8rem;
         line-height: 1.42;
     }

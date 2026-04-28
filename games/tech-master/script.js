@@ -1,5 +1,5 @@
 const config = window.TECH_MASTER_CONFIG || {
-    countdownSeconds: 10,
+    countdownSeconds: 15,
     questionBanks: {},
     rankBands: [],
 };
@@ -14,7 +14,6 @@ const questionTextEl = document.querySelector('[data-question-text]');
 const answerGridEl = document.querySelector('[data-answer-grid]');
 const feedbackTextEl = document.querySelector('[data-feedback-text]');
 const nextButtonEl = document.querySelector('[data-next-button]');
-const restartButtonEl = document.querySelector('[data-restart-button]');
 const explanationCardEl = document.querySelector('[data-explanation-card]');
 const explanationTextEl = document.querySelector('[data-explanation-text]');
 const launchOverlayEl = document.querySelector('[data-launch-overlay]');
@@ -23,6 +22,14 @@ const winOverlayEl = document.querySelector('[data-win-overlay]');
 const winRankEl = document.querySelector('[data-win-rank]');
 const winStatusEl = document.querySelector('[data-win-status]');
 const winRestartEl = document.querySelector('[data-win-restart]');
+const lossOverlayEl = document.querySelector('[data-loss-overlay]');
+const lossLevelEl = document.querySelector('[data-loss-level]');
+const lossDifficultyEl = document.querySelector('[data-loss-difficulty]');
+const lossRankEl = document.querySelector('[data-loss-rank]');
+const lossStatusEl = document.querySelector('[data-loss-status]');
+const lossAnswerEl = document.querySelector('[data-loss-answer]');
+const lossExplanationEl = document.querySelector('[data-loss-explanation]');
+const lossRestartEl = document.querySelector('[data-loss-restart]');
 
 let questions = [];
 let currentQuestionIndex = 0;
@@ -150,16 +157,12 @@ const stopCountdown = () => {
     }
 };
 
-const showRestartButton = () => {
-    restartButtonEl?.removeAttribute('hidden');
-};
-
-const hideRestartButton = () => {
-    restartButtonEl?.setAttribute('hidden', '');
-};
-
 const hideWinOverlay = () => {
     winOverlayEl?.setAttribute('hidden', '');
+};
+
+const hideLossOverlay = () => {
+    lossOverlayEl?.setAttribute('hidden', '');
 };
 
 const showWinOverlay = (question) => {
@@ -178,6 +181,40 @@ const showWinOverlay = (question) => {
     winStatusEl.classList.add(rankClass);
 
     winOverlayEl.removeAttribute('hidden');
+};
+
+const showLossOverlay = (question) => {
+    if (
+        !lossOverlayEl ||
+        !lossLevelEl ||
+        !lossDifficultyEl ||
+        !lossRankEl ||
+        !lossStatusEl ||
+        !lossAnswerEl ||
+        !lossExplanationEl ||
+        !question
+    ) {
+        return;
+    }
+
+    const rankClass = getRankClass(question.rank);
+
+    lossLevelEl.textContent = `LEVEL: Level ${question.level}`;
+    lossDifficultyEl.textContent = `DIFFICULTY: ${question.difficulty}`;
+    lossRankEl.textContent = `RANK: ${question.rank}`;
+    lossStatusEl.textContent = `STATUS: "${question.flavorText}"`;
+    lossAnswerEl.textContent = question.answer;
+    lossExplanationEl.textContent = question.explanation || 'No explanation available for this question yet.';
+
+    lossDifficultyEl.className = 'meta-inline';
+    lossRankEl.className = 'meta-inline';
+    lossStatusEl.className = 'meta-inline meta-inline-flavor';
+
+    lossDifficultyEl.classList.add(getDifficultyClass(question.difficulty));
+    lossRankEl.classList.add(rankClass);
+    lossStatusEl.classList.add(rankClass);
+
+    lossOverlayEl.removeAttribute('hidden');
 };
 
 const disableAnswerButtons = () => {
@@ -212,7 +249,7 @@ const lockRunAsFailed = (message, question, selectedButton = null, isTimeout = f
     revealExplanation(question);
     feedbackTextEl.textContent = message;
     nextButtonEl.disabled = true;
-    showRestartButton();
+    showLossOverlay(question);
 };
 
 const handleTimeout = () => {
@@ -262,8 +299,8 @@ const renderQuestion = () => {
 
     hasAnswered = false;
     nextButtonEl.disabled = true;
-    hideRestartButton();
     hideWinOverlay();
+    hideLossOverlay();
 
     const difficultyClass = getDifficultyClass(currentQuestion.difficulty);
 
@@ -403,8 +440,8 @@ const restartGame = () => {
     stopCountdown();
     currentQuestionIndex = 0;
     hasAnswered = false;
-    hideRestartButton();
     hideWinOverlay();
+    hideLossOverlay();
     explanationCardEl?.setAttribute('hidden', '');
     explanationTextEl.textContent = 'Explanation will appear here after you answer the question.';
     feedbackTextEl.textContent = 'Answer before the timer reaches zero.';
@@ -450,7 +487,7 @@ launchStartEl?.addEventListener('click', () => {
     launchOverlayEl?.setAttribute('hidden', '');
     renderQuestion();
 });
-restartButtonEl?.addEventListener('click', restartGame);
 winRestartEl?.addEventListener('click', restartGame);
+lossRestartEl?.addEventListener('click', restartGame);
 
 initGame();
