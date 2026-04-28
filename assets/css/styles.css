@@ -471,7 +471,7 @@ main {
 
 .hero h1 {
     max-width: 11ch;
-    font-size: clamp(2.6rem, 6vw, 4.375rem);
+    font-size: clamp(2.6rem, 5vw, 3.125rem);
     line-height: 0.98;
     letter-spacing: -0.04em;
     color: #ffffff;
@@ -3568,7 +3568,7 @@ body.image-lightbox-open {
 #home.hero > h1 {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
-    font-size: clamp(2.6rem, 6vw, 4.375rem) !important;
+    font-size: clamp(2.6rem, 5vw, 3.125rem) !important;
     text-shadow: none !important;
     opacity: 1 !important;
 }
@@ -3800,6 +3800,10 @@ body[data-page="home"] .brain-section {
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
+body[data-page="home"] .hero {
+    border: 0 !important;
+}
+
 /* =========================
    DETAIL PAGE MONOTONE OVERRIDE
 ========================= */
@@ -3890,6 +3894,70 @@ body[data-page="insight-detail"] .project-carousel-image,
 body[data-page="insight-detail"] .insight-card-image {
     border: 0 !important;
     box-shadow: none !important;
+}
+
+/* =========================
+   ABOUT PAGE OVERRIDE
+========================= */
+
+body[data-page="about-detail"] {
+    background: #0F0F0F !important;
+}
+
+body[data-page="about-detail"]::before,
+body[data-page="about-detail"]::after,
+body[data-page="about-detail"] .container::before,
+body[data-page="about-detail"] .container::after {
+    content: none !important;
+    background: none !important;
+}
+
+body[data-page="about-detail"] #sidebar,
+body[data-page="about-detail"] .container,
+body[data-page="about-detail"] .floating-note,
+body[data-page="about-detail"] .credential-link,
+body[data-page="about-detail"] .skill-logo-card,
+body[data-page="about-detail"] .hero-logo-marquee,
+body[data-page="about-detail"] .nav-label {
+    background: #191919 !important;
+    border: 0 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(255, 255, 255, 0.025), 0 14px 32px rgba(0, 0, 0, 0.16) !important;
+    backdrop-filter: none !important;
+}
+
+body[data-page="about-detail"] .about-me-section {
+    border: 0 !important;
+}
+
+body[data-page="about-detail"] .nav-icon-wrap {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+}
+
+body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap {
+    background: #3A3D42 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap {
+    background: #4A4E55 !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap::after {
+    opacity: 0 !important;
+}
+
+body[data-page="about-detail"] #sidebar li.active .nav-icon {
+    filter: brightness(0) invert(1) !important;
 }
 
 body[data-page="home"] .floating-note,
