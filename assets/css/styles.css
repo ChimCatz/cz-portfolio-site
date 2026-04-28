@@ -1103,8 +1103,65 @@ main {
     gap: 0.9rem;
 }
 
+.about-copy-text {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 720px;
+}
+
 .overview-side {
     align-content: start;
+}
+
+.about-section .about-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+    align-items: start;
+}
+
+.about-social-block {
+    margin-top: 0.25rem;
+}
+
+.about-social-note {
+    gap: 0.1rem;
+    padding: 0.75rem 0.9rem;
+}
+
+.about-social-note h3 {
+    margin: 0.2rem 0 0.35rem;
+    font-size: 1rem;
+}
+
+.about-social-note .credential-list {
+    gap: 0.35rem;
+    margin-top: 0.15rem;
+}
+
+.about-social-note .credential-link {
+    gap: 0.5rem;
+    padding: 0.38rem 0.45rem;
+    border-radius: 12px;
+}
+
+.about-social-note .credential-link span:last-child {
+    font-size: 0.72rem;
+    line-height: 1.3;
+}
+
+.about-social-note .credential-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+}
+
+.about-social-note .credential-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.about-social-note .credential-icon img.credential-icon-gmail {
+    width: 20px;
+    height: 20px;
 }
 
 .cover-card {
@@ -3668,10 +3725,79 @@ body[data-page="home"] .game-card-media {
     background: #0F0F0F !important;
 }
 
+body[data-page="home"] .floating-note,
+body[data-page="home"] .hero-social-link,
+body[data-page="home"] .credential-link,
+body[data-page="home"] .skill-logo-card,
+body[data-page="home"] .insight-card,
+body[data-page="home"] .project-carousel-card,
+body[data-page="home"] .game-card,
+body[data-page="home"] .game-card-media,
+body[data-page="home"] .game-panel,
+body[data-page="home"] .trivia-section,
+body[data-page="home"] .hero-logo-marquee,
+body[data-page="home"] .mini-stat-grid div,
+body[data-page="home"] .detail-strip span,
+body[data-page="home"] .project-card-meta span,
+body[data-page="home"] .insight-card-empty-state,
+body[data-page="home"] .insight-card-empty,
+body[data-page="home"] #sidebar {
+    background: #191919 !important;
+}
+
 body[data-page="home"] .hero-orb,
 body[data-page="home"] .hero-glow,
 body[data-page="home"] .hero-gridlines {
     display: none !important;
+}
+
+body[data-page="home"] #sidebar {
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body[data-page="home"] .nav-icon-wrap {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+}
+
+body[data-page="home"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="home"] #sidebar a:focus-visible .nav-icon-wrap {
+    background: #3A3D42 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body[data-page="home"] #sidebar li.active .nav-icon-wrap {
+    background: #4A4E55 !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+body[data-page="home"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="home"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="home"] #sidebar li.active .nav-icon-wrap::after {
+    opacity: 0 !important;
+}
+
+body[data-page="home"] #sidebar li.active .nav-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+body[data-page="home"] .nav-label {
+    background: #3A3D42 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body[data-page="home"] .hero,
+body[data-page="home"] .trivia-section,
+body[data-page="home"] .about-section,
+body[data-page="home"] .skills-section,
+body[data-page="home"] .projects-section,
+body[data-page="home"] .insights-section,
+body[data-page="home"] .brain-section {
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 /* =========================
@@ -3734,7 +3860,7 @@ body[data-page="insight-detail"] .project-carousel-link,
 body[data-page="insight-detail"] .insights-carousel-nav,
 body[data-page="insight-detail"] .project-page-label,
 body[data-page="insight-detail"] .floating-top-button {
-    background: #0F0F0F !important;
+    background: #191919 !important;
     border: 0 !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
@@ -3764,4 +3890,99 @@ body[data-page="insight-detail"] .project-carousel-image,
 body[data-page="insight-detail"] .insight-card-image {
     border: 0 !important;
     box-shadow: none !important;
+}
+
+body[data-page="home"] .floating-note,
+body[data-page="home"] .credential-link,
+body[data-page="home"] .skill-logo-card,
+body[data-page="home"] .insight-card,
+body[data-page="home"] .project-carousel-card,
+body[data-page="home"] .game-card,
+body[data-page="home"] .game-card-media,
+body[data-page="home"] .game-panel,
+body[data-page="home"] .trivia-section,
+body[data-page="home"] .hero-logo-marquee,
+body[data-page="home"] .mini-stat-grid div,
+body[data-page="home"] .detail-strip span,
+body[data-page="home"] .project-card-meta span,
+body[data-page="home"] .insight-card-empty-state,
+body[data-page="home"] .insight-card-empty,
+body[data-page="home"] #sidebar,
+body[data-page="project-detail"] #sidebar,
+body[data-page="project-detail"] .container,
+body[data-page="project-detail"] .project-summary-card,
+body[data-page="project-detail"] .project-metric-card,
+body[data-page="project-detail"] .project-story-card,
+body[data-page="project-detail"] .project-detail-card,
+body[data-page="project-detail"] .project-banner-card,
+body[data-page="project-detail"] .project-demo-card,
+body[data-page="project-detail"] .project-placeholder-surface,
+body[data-page="project-detail"] .project-detail-list li,
+body[data-page="project-detail"] .project-card-meta span,
+body[data-page="project-detail"] .project-highlight-list span,
+body[data-page="project-detail"] .project-stack-list span,
+body[data-page="project-detail"] .project-carousel-card,
+body[data-page="project-detail"] .project-carousel-link,
+body[data-page="project-detail"] .projects-carousel-nav,
+body[data-page="project-detail"] .project-page-label,
+body[data-page="project-detail"] .floating-top-button,
+body[data-page="insight-detail"] #sidebar,
+body[data-page="insight-detail"] .container,
+body[data-page="insight-detail"] .insight-tool-card,
+body[data-page="insight-detail"] .insight-card,
+body[data-page="insight-detail"] .project-carousel-card,
+body[data-page="insight-detail"] .insight-card-empty,
+body[data-page="insight-detail"] .insight-card-empty-state,
+body[data-page="insight-detail"] .project-carousel-link,
+body[data-page="insight-detail"] .insights-carousel-nav,
+body[data-page="insight-detail"] .project-page-label,
+body[data-page="insight-detail"] .floating-top-button {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(255, 255, 255, 0.025), 0 14px 32px rgba(0, 0, 0, 0.16) !important;
+}
+
+body[data-page="home"] .floating-note,
+body[data-page="home"] .skill-logo-card,
+body[data-page="home"] .insight-card,
+body[data-page="home"] .project-carousel-card,
+body[data-page="home"] .game-card,
+body[data-page="home"] .trivia-section,
+body[data-page="project-detail"] .container,
+body[data-page="project-detail"] .project-summary-card,
+body[data-page="project-detail"] .project-metric-card,
+body[data-page="project-detail"] .project-story-card,
+body[data-page="project-detail"] .project-detail-card,
+body[data-page="project-detail"] .project-banner-card,
+body[data-page="project-detail"] .project-demo-card,
+body[data-page="project-detail"] .project-carousel-card,
+body[data-page="insight-detail"] .container,
+body[data-page="insight-detail"] .insight-tool-card,
+body[data-page="insight-detail"] .insight-card,
+body[data-page="insight-detail"] .project-carousel-card {
+    position: relative;
+}
+
+body[data-page="home"] .floating-note::after,
+body[data-page="home"] .skill-logo-card::after,
+body[data-page="home"] .insight-card::after,
+body[data-page="home"] .project-carousel-card::after,
+body[data-page="home"] .game-card::after,
+body[data-page="home"] .trivia-section::after,
+body[data-page="project-detail"] .container::after,
+body[data-page="project-detail"] .project-summary-card::after,
+body[data-page="project-detail"] .project-metric-card::after,
+body[data-page="project-detail"] .project-story-card::after,
+body[data-page="project-detail"] .project-detail-card::after,
+body[data-page="project-detail"] .project-banner-card::after,
+body[data-page="project-detail"] .project-demo-card::after,
+body[data-page="project-detail"] .project-carousel-card::after,
+body[data-page="insight-detail"] .container::after,
+body[data-page="insight-detail"] .insight-tool-card::after,
+body[data-page="insight-detail"] .insight-card::after,
+body[data-page="insight-detail"] .project-carousel-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 24%);
+    opacity: 0.7;
 }
