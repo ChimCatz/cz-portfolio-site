@@ -3539,3 +3539,229 @@ body.image-lightbox-open {
 #home.hero .hero-sub-line {
     display: block !important;
 }
+
+/* =========================
+   HOME MONOTONE OVERRIDE
+========================= */
+
+body[data-page="home"] {
+    background: #0F0F0F !important;
+}
+
+body[data-page="home"]::before,
+body[data-page="home"]::after,
+body[data-page="home"] .hero::before,
+body[data-page="home"] .hero::after,
+body[data-page="home"] .hero-orb,
+body[data-page="home"] .hero-glow,
+body[data-page="home"] .hero-gridlines,
+body[data-page="home"] .container::before,
+body[data-page="home"] .container::after,
+body[data-page="home"] .glow-panel::before,
+body[data-page="home"] .callout-card::before,
+body[data-page="home"] .highlight-card::before,
+body[data-page="home"] .project-card::before,
+body[data-page="home"] .enjoyment-card::before,
+body[data-page="home"] .editor-card::before,
+body[data-page="home"] .project-banner-card::before,
+body[data-page="home"] .project-demo-card::before,
+body[data-page="home"] .insight-card-image::after,
+body[data-page="home"] .project-carousel-image::after,
+body[data-page="home"] .game-card-media::after {
+    content: none !important;
+    background: none !important;
+}
+
+body[data-page="home"] #sidebar,
+body[data-page="home"] .topbar::before,
+body[data-page="home"] .container,
+body[data-page="home"] .about-section,
+body[data-page="home"] .projects-section,
+body[data-page="home"] .insights-section,
+body[data-page="home"] .brain-section,
+body[data-page="home"] .skills-section,
+body[data-page="home"] .recovery-preview,
+body[data-page="home"] .recovery-hero,
+body[data-page="home"] .recovery-section,
+body[data-page="home"] .cover-card,
+body[data-page="home"] .glow-panel,
+body[data-page="home"] .callout-card,
+body[data-page="home"] .enjoyment-card,
+body[data-page="home"] .editor-card,
+body[data-page="home"] .skill-card,
+body[data-page="home"] .project-card,
+body[data-page="home"] .floating-note,
+body[data-page="home"] .recovery-preview-card,
+body[data-page="home"] .empty-state-card,
+body[data-page="home"] .skill-logo-card,
+body[data-page="home"] .insight-card,
+body[data-page="home"] .project-carousel-card,
+body[data-page="home"] .project-summary-card,
+body[data-page="home"] .project-metric-card,
+body[data-page="home"] .project-story-card,
+body[data-page="home"] .project-detail-card,
+body[data-page="home"] .project-banner-card,
+body[data-page="home"] .project-demo-card,
+body[data-page="home"] .insight-tool-card,
+body[data-page="home"] .game-panel,
+body[data-page="home"] .hero-logo-marquee,
+body[data-page="home"] .hero-social-link,
+body[data-page="home"] .credential-link,
+body[data-page="home"] .mini-stat-grid div,
+body[data-page="home"] .detail-strip span,
+body[data-page="home"] .project-card-meta span,
+body[data-page="home"] .insight-card-empty-state,
+body[data-page="home"] .insight-card-empty,
+body[data-page="home"] .topbar-nav a:hover,
+body[data-page="home"] .topbar-nav a:focus-visible,
+body[data-page="home"] .topbar-nav a.active,
+body[data-page="home"] .text-button,
+body[data-page="home"] .project-carousel-link,
+body[data-page="home"] .insights-carousel-nav,
+body[data-page="home"] .projects-carousel-nav,
+body[data-page="home"] .nav-icon-wrap,
+body[data-page="home"] .nav-label {
+    background: #0F0F0F !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+body[data-page="home"] main,
+body[data-page="home"] .about-layout,
+body[data-page="home"] .enjoyments-layout,
+body[data-page="home"] .projects-static-grid,
+body[data-page="home"] .skills-showcase,
+body[data-page="home"] .insights-carousel-shell,
+body[data-page="home"] .projects-carousel-shell,
+body[data-page="home"] .insights-card-grid,
+body[data-page="home"] .projects-carousel-grid,
+body[data-page="home"] .project-carousel-body,
+body[data-page="home"] .insight-card-body,
+body[data-page="home"] .game-card-body,
+body[data-page="home"] .game-panel-copy,
+body[data-page="home"] .game-panel-meta > div {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+
+body[data-page="home"] .hero,
+body[data-page="home"] .trivia-section,
+body[data-page="home"] .hero::before,
+body[data-page="home"] .hero::after,
+body[data-page="home"] .trivia-section::before,
+body[data-page="home"] .trivia-section::after,
+body[data-page="home"] .project-carousel-image,
+body[data-page="home"] .insight-card-image,
+body[data-page="home"] .game-card,
+body[data-page="home"] .game-card-media {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+body[data-page="home"] .hero,
+body[data-page="home"] .brain-section,
+body[data-page="home"] .game-card,
+body[data-page="home"] .game-card.active,
+body[data-page="home"] .game-card-media {
+    background: #0F0F0F !important;
+}
+
+body[data-page="home"] .hero-orb,
+body[data-page="home"] .hero-glow,
+body[data-page="home"] .hero-gridlines {
+    display: none !important;
+}
+
+/* =========================
+   DETAIL PAGE MONOTONE OVERRIDE
+========================= */
+
+body[data-page="project-detail"],
+body[data-page="insight-detail"] {
+    background: #0F0F0F !important;
+}
+
+body[data-page="project-detail"]::before,
+body[data-page="project-detail"]::after,
+body[data-page="insight-detail"]::before,
+body[data-page="insight-detail"]::after,
+body[data-page="project-detail"] .container::before,
+body[data-page="project-detail"] .container::after,
+body[data-page="insight-detail"] .container::before,
+body[data-page="insight-detail"] .container::after,
+body[data-page="project-detail"] .project-banner-card::before,
+body[data-page="project-detail"] .project-demo-card::before,
+body[data-page="insight-detail"] .project-banner-card::before,
+body[data-page="insight-detail"] .project-demo-card::before,
+body[data-page="project-detail"] .insight-card-image::after,
+body[data-page="project-detail"] .project-carousel-image::after,
+body[data-page="insight-detail"] .insight-card-image::after,
+body[data-page="insight-detail"] .project-carousel-image::after {
+    content: none !important;
+    background: none !important;
+}
+
+body[data-page="project-detail"] #sidebar,
+body[data-page="project-detail"] .container,
+body[data-page="project-detail"] .simple-project-page .container,
+body[data-page="project-detail"] .project-summary-card,
+body[data-page="project-detail"] .project-metric-card,
+body[data-page="project-detail"] .project-story-card,
+body[data-page="project-detail"] .project-detail-card,
+body[data-page="project-detail"] .project-banner-card,
+body[data-page="project-detail"] .project-demo-card,
+body[data-page="project-detail"] .project-placeholder-surface,
+body[data-page="project-detail"] .project-detail-list li,
+body[data-page="project-detail"] .project-card-meta span,
+body[data-page="project-detail"] .project-highlight-list span,
+body[data-page="project-detail"] .project-stack-list span,
+body[data-page="project-detail"] .project-carousel-card,
+body[data-page="project-detail"] .project-carousel-link,
+body[data-page="project-detail"] .projects-carousel-nav,
+body[data-page="project-detail"] .project-page-label,
+body[data-page="project-detail"] .floating-top-button,
+body[data-page="insight-detail"] #sidebar,
+body[data-page="insight-detail"] .container,
+body[data-page="insight-detail"] .simple-project-page .container,
+body[data-page="insight-detail"] .insight-tool-card,
+body[data-page="insight-detail"] .insight-card,
+body[data-page="insight-detail"] .project-carousel-card,
+body[data-page="insight-detail"] .insight-card-empty,
+body[data-page="insight-detail"] .insight-card-empty-state,
+body[data-page="insight-detail"] .project-carousel-link,
+body[data-page="insight-detail"] .insights-carousel-nav,
+body[data-page="insight-detail"] .project-page-label,
+body[data-page="insight-detail"] .floating-top-button {
+    background: #0F0F0F !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+body[data-page="project-detail"] .simple-project-page .container:nth-child(2),
+body[data-page="project-detail"] .simple-project-page .container:nth-child(3),
+body[data-page="insight-detail"] .simple-project-page .container:nth-child(2),
+body[data-page="insight-detail"] .simple-project-page .container:nth-child(3),
+body[data-page="project-detail"] .project-carousel-body,
+body[data-page="insight-detail"] .project-carousel-body,
+body[data-page="insight-detail"] .insight-card-body {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+body[data-page="project-detail"] .project-simple-banner img,
+body[data-page="project-detail"] .project-simple-image img,
+body[data-page="project-detail"] .project-image-gallery img,
+body[data-page="insight-detail"] .project-simple-banner img,
+body[data-page="insight-detail"] .project-simple-image img,
+body[data-page="insight-detail"] .project-image-gallery img,
+body[data-page="insight-detail"] .insight-inline-figure img,
+body[data-page="project-detail"] .project-carousel-image,
+body[data-page="insight-detail"] .project-carousel-image,
+body[data-page="insight-detail"] .insight-card-image {
+    border: 0 !important;
+    box-shadow: none !important;
+}

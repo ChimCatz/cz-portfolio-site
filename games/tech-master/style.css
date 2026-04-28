@@ -905,3 +905,40 @@ body::after {
         font-size: 0.64rem;
     }
 }
+
+body {
+    background: #0F0F0F !important;
+}
+
+body::before,
+body::after,
+.game-shell::before {
+    content: none !important;
+    background: none !important;
+}
+
+.game-shell,
+.tracker-panel,
+.question-card,
+.support-card,
+.game-launch-dialog,
+.game-win-dialog,
+.game-loss-dialog,
+.game-header .return-home-link,
+.meta-inline,
+.level-dot,
+.answer-button,
+.launch-button,
+.next-button {
+    background: #0F0F0F !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+.game-launch-overlay,
+.game-win-overlay,
+.game-loss-overlay {
+    background: rgba(15, 15, 15, 0.96) !important;
+    backdrop-filter: none !important;
+}

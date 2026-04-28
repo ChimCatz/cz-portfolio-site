@@ -133,8 +133,8 @@ const PROJECT_ITEMS = [
 
 const INSIGHT_ITEMS = [
     {
-        slug: 'insight-1',
-        href: 'insight-1.html',
+        slug: 'why-data-pulled-me-in-and-why-it-matters-more-than-ever',
+        href: 'why-data-pulled-me-in-and-why-it-matters-more-than-ever.html',
         title: 'Why Data Pulled Me In And Why It Matters More Than Ever',
         image: '../content/insights/insight-01/insight-1-header.png',
         image_alt: 'Why Data Pulled Me In And Why It Matters More Than Ever header image.',
@@ -142,8 +142,8 @@ const INSIGHT_ITEMS = [
         copy: 'A personal breakdown of how curiosity led me into Data Analytics, and why data, not AI, is the real driver behind modern systems.',
     },
     {
-        slug: 'insight-2',
-        href: 'insight-2.html',
+        slug: 'from-spreadsheets-to-scale-my-journey-through-excel-google-sheets-and-bigquery',
+        href: 'from-spreadsheets-to-scale-my-journey-through-excel-google-sheets-and-bigquery.html',
         title: 'From Spreadsheets to Scale - My Journey Through Excel, Google Sheets, and BigQuery',
         image: '../content/insights/insight-02/insight-2-header.png',
         image_alt: 'From Spreadsheets to Scale My Journey Through Excel Google Sheets and BigQuery header image.',
@@ -151,8 +151,8 @@ const INSIGHT_ITEMS = [
         copy: 'A practical journey through Excel, Google Sheets, and BigQuery: how each tool fits, where it breaks, and how combining them creates a scalable data workflow.',
     },
     {
-        slug: 'insight-3',
-        href: 'insight-3.html',
+        slug: 'vibe-coding-from-writing-code-to-designing-systems',
+        href: 'vibe-coding-from-writing-code-to-designing-systems.html',
         title: 'Vibe Coding - From Writing Code to Designing Systems',
         image: '../content/insights/insight-03/insight-3-header.png',
         image_alt: 'Vibe Coding From Writing Code to Designing Systems header image.',
@@ -160,8 +160,8 @@ const INSIGHT_ITEMS = [
         copy: 'I started by writing every line of code manually. Now I build systems by describing them. This is how vibe coding changed the way I think and work.',
     },
     {
-        slug: 'insight-4',
-        href: 'insight-4.html',
+        slug: 'hidden-data-what-websites-are-really-telling-you',
+        href: 'hidden-data-what-websites-are-really-telling-you.html',
         title: 'Hidden Data - What Websites Are Really Telling You',
         image: '../content/insights/insight-04/insight-4-header.png',
         image_alt: 'Hidden Data - What Websites Are Really Telling You header image.',
@@ -169,8 +169,8 @@ const INSIGHT_ITEMS = [
         copy: 'The most valuable data is often the hardest to see. Discover how Google Analytics and Microsoft Clarity turn invisible user actions into something you can actually understand.',
     },
     {
-        slug: 'insight-5',
-        href: 'insight-5.html',
+        slug: 'i-built-my-portfolio-without-knowing-how-to-code-and-it-still-worked',
+        href: 'i-built-my-portfolio-without-knowing-how-to-code-and-it-still-worked.html',
         title: 'I Built My Portfolio Without Knowing How to Code (And It Still Worked)',
         image: '../content/insights/insight-05/insight-5-header.png',
         image_alt: 'I Built My Portfolio Without Knowing How to Code (And It Still Worked) header image.',
@@ -730,3 +730,4 @@ window.addEventListener('resize', () => {
         carouselResizeFrame = null;
     });
 });
+
