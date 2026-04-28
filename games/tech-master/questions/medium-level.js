@@ -1,224 +1,223 @@
 window.TECH_MASTER_QUESTION_BANKS = window.TECH_MASTER_QUESTION_BANKS || {};
 window.TECH_MASTER_QUESTION_BANKS.medium = [
-  {
-    "question": "What type of model powers ChatGPT?",
-    "choices": [
-      "Convolutional Neural Network",
-      "Large Language Model",
-      "Decision Tree Model",
-      "Relational Database Model"
-    ],
-    "answer": 1,
-    "explanation": "ChatGPT is powered by a Large Language Model (LLM), which is trained on vast amounts of text data to understand and generate human-like language."
-  },
-  {
-    "question": "What does API stand for?",
-    "choices": [
-      "Application Programming Interface",
-      "Advanced Program Integration",
-      "Application Process Input",
-      "Automated Programming Instruction"
-    ],
-    "answer": 0,
-    "explanation": "API stands for Application Programming Interface. It allows different software systems to communicate and exchange data with each other."
-  },
-  {
-    "question": "Which language is primarily used for structuring web pages?",
-    "choices": [
-      "CSS",
-      "HTML",
-      "Python",
-      "SQL"
-    ],
-    "answer": 1,
-    "explanation": "HTML (HyperText Markup Language) is used to structure content on web pages, while CSS is used for styling and JavaScript for behavior."
-  },
-  {
-    "question": "What is the main purpose of a database?",
-    "choices": [
-      "Display images",
-      "Store and manage structured data",
-      "Run applications",
-      "Connect devices"
-    ],
-    "answer": 1,
-    "explanation": "A database is designed to store, organize, and manage structured data so it can be easily retrieved, updated, and analyzed."
-  },
-  {
-    "question": "Which of these is a programming language?",
-    "choices": [
-      "MySQL",
-      "Python",
-      "Chrome",
-      "Windows"
-    ],
-    "answer": 1,
-    "explanation": "Python is a programming language used to build applications and analyze data. MySQL is a database system, while Chrome and Windows are software platforms."
-  },
-  {
-    "question": "What does SQL primarily do?",
-    "choices": [
-      "Style web pages",
-      "Query and manage data in databases",
-      "Build mobile apps",
-      "Train AI models"
-    ],
-    "answer": 1,
-    "explanation": "SQL (Structured Query Language) is used to interact with databases, allowing users to retrieve, insert, update, and delete data."
-  },
-  {
-    "question": "Which company developed the GPT models?",
-    "choices": [
-      "Google",
-      "Microsoft",
-      "OpenAI",
-      "Amazon"
-    ],
-    "answer": 2,
-    "explanation": "OpenAI developed the GPT (Generative Pre-trained Transformer) models, which are widely used in AI applications like ChatGPT."
-  },
-  {
-    "question": "What is 'machine learning'?",
-    "choices": [
-      "Writing manual instructions for computers",
-      "Computers learning patterns from data",
-      "Building hardware components",
-      "Storing data in servers"
-    ],
-    "answer": 1,
-    "explanation": "Machine learning is a field of AI where computers learn patterns from data and improve their performance without being explicitly programmed for every task."
-  },
-  {
-    "question": "What does 'frontend' refer to in web development?",
-    "choices": [
-      "Server-side logic",
-      "User interface and visual part",
-      "Database structure",
-      "Network configuration"
-    ],
-    "answer": 1,
-    "explanation": "Frontend refers to the part of a website that users see and interact with, including layout, design, and user interface elements."
-  },
-  {
-    "question": "Which of these is a version control system?",
-    "choices": [
-      "Docker",
-      "Git",
-      "Linux",
-      "Node"
-    ],
-    "answer": 1,
-    "explanation": "Git is a version control system that tracks changes in code and allows multiple developers to collaborate efficiently."
-  },
-  {
-    "question": "What is the main function of an operating system?",
-    "choices": [
-      "Manage hardware and software resources",
-      "Only run web browsers",
-      "Store files permanently",
-      "Create internet connections"
-    ],
-    "answer": 0,
-    "explanation": "An operating system manages hardware resources, runs applications, and provides an interface for users to interact with the computer."
-  },
-  {
-    "question": "Which of these best describes cloud computing?",
-    "choices": [
-      "Running programs only on local devices",
-      "Using internet-based servers for computing",
-      "Storing files in USB drives",
-      "Connecting devices via Bluetooth"
-    ],
-    "answer": 1,
-    "explanation": "Cloud computing uses remote servers over the internet to store data and run applications, instead of relying only on local machines."
-  },
-  {
-    "question": "What does HTTP stand for?",
-    "choices": [
-      "HyperText Transfer Protocol",
-      "High Transmission Text Process",
-      "Hyper Transfer Tool Protocol",
-      "Host Transfer Text Protocol"
-    ],
-    "answer": 0,
-    "explanation": "HTTP (HyperText Transfer Protocol) is the foundation of data communication on the web, used to transfer web pages between servers and browsers."
-  },
-  {
-    "question": "Which of these is used for styling web pages?",
-    "choices": [
-      "HTML",
-      "CSS",
-      "Python",
-      "SQL"
-    ],
-    "answer": 1,
-    "explanation": "CSS (Cascading Style Sheets) is used to control the visual appearance of web pages, including layout, colors, and fonts."
-  },
-  {
-    "question": "What is a 'bug' in programming?",
-    "choices": [
-      "A hardware component",
-      "An error or flaw in code",
-      "A type of software feature",
-      "A testing tool"
-    ],
-    "answer": 1,
-    "explanation": "A bug is a mistake or flaw in a program that causes it to behave incorrectly or produce unexpected results."
-  },
-  {
-    "question": "Which of these best describes data analytics?",
-    "choices": [
-      "Collecting hardware parts",
-      "Analyzing data to extract insights",
-      "Building mobile applications",
-      "Designing user interfaces"
-    ],
-    "answer": 1,
-    "explanation": "Data analytics involves examining data sets to uncover patterns, trends, and insights that support decision-making."
-  },
-  {
-    "question": "What does AI stand for?",
-    "choices": [
-      "Automated Input",
-      "Artificial Intelligence",
-      "Advanced Interface",
-      "Applied Integration"
-    ],
-    "answer": 1,
-    "explanation": "AI stands for Artificial Intelligence, which refers to machines that can simulate human-like thinking, learning, and decision-making."
-  },
-  {
-    "question": "Which of these tools is commonly used for data visualization?",
-    "choices": [
-      "Tableau",
-      "Git",
-      "Docker",
-      "Node.js"
-    ],
-    "answer": 0,
-    "explanation": "Tableau is a popular data visualization tool used to create dashboards and charts for analyzing data."
-  },
-  {
-    "question": "What is the purpose of a function in programming?",
-    "choices": [
-      "Store images",
-      "Perform a reusable block of code",
-      "Connect to the internet",
-      "Display text on screen"
-    ],
-    "answer": 1,
-    "explanation": "A function is a reusable block of code designed to perform a specific task, helping make programs more organized and efficient."
-  },
-  {
-    "question": "Which of these best describes an algorithm?",
-    "choices": [
-      "A hardware device",
-      "A step-by-step problem-solving process",
-      "A programming language",
-      "A type of database"
-    ],
-    "answer": 1,
-    "explanation": "An algorithm is a set of step-by-step instructions used to solve a problem or perform a task in computing."
-  }
+    {
+        question: "What does API stand for?",
+        choices: [
+            "Application Programming Interface",
+            "Advanced Program Integration",
+            "Automated Processing Input",
+            "Application Protocol Interface"
+        ],
+        answer: 0,
+        explanation: "API allows different software systems to communicate. It defines how data is requested and exchanged between systems."
+    },
+    {
+        question: "Which language is mainly used to structure web pages?",
+        choices: [
+            "CSS",
+            "HTML",
+            "Python",
+            "SQL"
+        ],
+        answer: 1,
+        explanation: "HTML structures content on web pages. CSS styles it, and JavaScript adds behavior."
+    },
+    {
+        question: "What is SQL mainly used for?",
+        choices: [
+            "Building websites",
+            "Managing databases",
+            "Designing UI",
+            "Running operating systems"
+        ],
+        answer: 1,
+        explanation: "SQL is used to query, insert, update, and manage structured data inside databases."
+    },
+    {
+        question: "What type of model powers ChatGPT?",
+        choices: [
+            "Decision Tree",
+            "Large Language Model",
+            "Neural Graph Model",
+            "Statistical Engine"
+        ],
+        answer: 1,
+        explanation: "ChatGPT is based on a Large Language Model trained on large text datasets to understand and generate human-like responses."
+    },
+    {
+        question: "Which of these is a version control system?",
+        choices: [
+            "Docker",
+            "Git",
+            "Linux",
+            "Node.js"
+        ],
+        answer: 1,
+        explanation: "Git tracks changes in code and enables collaboration. It is used in most modern development workflows."
+    },
+    {
+        question: "What is the main purpose of a database?",
+        choices: [
+            "Display graphics",
+            "Store and manage structured data",
+            "Run programs",
+            "Connect networks"
+        ],
+        answer: 1,
+        explanation: "Databases store structured data so it can be queried efficiently. They support applications and analytics."
+    },
+    {
+        question: "What does 'frontend' refer to?",
+        choices: [
+            "Server logic",
+            "User interface",
+            "Database layer",
+            "API layer"
+        ],
+        answer: 1,
+        explanation: "Frontend is what users see and interact with. It includes layout, design, and UI behavior."
+    },
+    {
+        question: "What is cloud computing?",
+        choices: [
+            "Local processing",
+            "Using internet-based servers",
+            "Hardware networking",
+            "Bluetooth connection"
+        ],
+        answer: 1,
+        explanation: "Cloud computing uses remote servers to store and process data. It reduces dependency on local machines."
+    },
+    {
+        question: "Which language is widely used for data analysis?",
+        choices: [
+            "HTML",
+            "Python",
+            "CSS",
+            "XML"
+        ],
+        answer: 1,
+        explanation: "Python is widely used for data analytics due to libraries like pandas, NumPy, and matplotlib."
+    },
+    {
+        question: "What does HTTP stand for?",
+        choices: [
+            "HyperText Transfer Protocol",
+            "High Transfer Text Process",
+            "Hyper Transfer Tool Protocol",
+            "Host Transmission Protocol"
+        ],
+        answer: 0,
+        explanation: "HTTP is the protocol used to transfer web data between browsers and servers."
+    },
+    {
+        question: "What is a 'bug' in programming?",
+        choices: [
+            "A feature",
+            "An error in code",
+            "A tool",
+            "A database issue"
+        ],
+        answer: 1,
+        explanation: "A bug is a flaw that causes incorrect behavior. Debugging is the process of fixing it."
+    },
+    {
+        question: "What is machine learning?",
+        choices: [
+            "Manual coding",
+            "Computers learning from data",
+            "Hardware optimization",
+            "Database storage"
+        ],
+        answer: 1,
+        explanation: "Machine learning allows systems to learn patterns from data instead of explicit programming."
+    },
+    {
+        question: "Which company developed GPT models?",
+        choices: [
+            "Google",
+            "Microsoft",
+            "OpenAI",
+            "Amazon"
+        ],
+        answer: 2,
+        explanation: "OpenAI created GPT models used in tools like ChatGPT."
+    },
+    {
+        question: "What is the purpose of a function?",
+        choices: [
+            "Store files",
+            "Reusable code block",
+            "Connect networks",
+            "Display UI"
+        ],
+        answer: 1,
+        explanation: "Functions allow reuse of logic, making programs more organized and efficient."
+    },
+    {
+        question: "Which tool is used for data visualization?",
+        choices: [
+            "Git",
+            "Docker",
+            "Tableau",
+            "Node.js"
+        ],
+        answer: 2,
+        explanation: "Tableau is used to create dashboards and visual insights from data."
+    },
+    {
+        question: "What does CSS do?",
+        choices: [
+            "Structure pages",
+            "Style pages",
+            "Store data",
+            "Run servers"
+        ],
+        answer: 1,
+        explanation: "CSS controls layout, colors, fonts, and design of web pages."
+    },
+    {
+        question: "What is an algorithm?",
+        choices: [
+            "Hardware device",
+            "Step-by-step solution",
+            "Programming language",
+            "Database"
+        ],
+        answer: 1,
+        explanation: "An algorithm is a structured process to solve a problem efficiently."
+    },
+    {
+        question: "What does JSON stand for?",
+        choices: [
+            "JavaScript Object Notation",
+            "Java Structured Object Network",
+            "JSON System Output Node",
+            "JavaScript Output Network"
+        ],
+        answer: 0,
+        explanation: "JSON is a lightweight format used for data exchange between systems, especially APIs."
+    },
+    {
+        question: "What is backend development?",
+        choices: [
+            "UI design",
+            "Server-side logic",
+            "Graphic design",
+            "User testing"
+        ],
+        answer: 1,
+        explanation: "Backend handles databases, APIs, and server logic behind applications."
+    },
+    {
+        question: "Which database type uses tables?",
+        choices: [
+            "NoSQL",
+            "Relational Database",
+            "Graph Database",
+            "Document Store"
+        ],
+        answer: 1,
+        explanation: "Relational databases store data in tables with rows and columns, using SQL for queries."
+    }
 ];
-

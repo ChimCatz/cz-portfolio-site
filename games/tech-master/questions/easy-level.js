@@ -1,224 +1,223 @@
 window.TECH_MASTER_QUESTION_BANKS = window.TECH_MASTER_QUESTION_BANKS || {};
 window.TECH_MASTER_QUESTION_BANKS.easy = [
-  {
-    "question": "What does CPU stand for?",
-    "choices": [
-      "Central Process Unit",
-      "Central Processing Unit",
-      "Computer Processing Utility",
-      "Core Process Unit"
-    ],
-    "answer": 1,
-    "explanation": "CPU stands for Central Processing Unit. It is the main component of a computer that performs calculations and executes instructions, often referred to as the 'brain' of the computer."
-  },
-  {
-    "question": "Which of these is a web browser?",
-    "choices": [
-      "Windows",
-      "Google Chrome",
-      "Python",
-      "Linux"
-    ],
-    "answer": 1,
-    "explanation": "Google Chrome is a web browser used to access websites. Windows and Linux are operating systems, while Python is a programming language."
-  },
-  {
-    "question": "What device is used to move the cursor on a computer screen?",
-    "choices": [
-      "Keyboard",
-      "Monitor",
-      "Mouse",
-      "Touchpad Cable"
-    ],
-    "answer": 2,
-    "explanation": "A mouse is an input device used to control the cursor on the screen. It allows users to point, click, and interact with elements on a computer."
-  },
-  {
-    "question": "What does Wi-Fi allow you to do?",
-    "choices": [
-      "Connect to devices using cables",
-      "Connect to the internet wirelessly",
-      "Store files online",
-      "Run applications faster"
-    ],
-    "answer": 1,
-    "explanation": "Wi-Fi enables devices to connect to the internet without using physical cables, making it convenient for laptops, smartphones, and other wireless devices."
-  },
-  {
-    "question": "Which of these is used to store files permanently?",
-    "choices": [
-      "RAM",
-      "Cache",
-      "Hard Drive",
-      "Processor"
-    ],
-    "answer": 2,
-    "explanation": "A hard drive (or SSD) stores data permanently, even when the computer is turned off. RAM and cache are temporary memory types."
-  },
-  {
-    "question": "What does 'RAM' stand for?",
-    "choices": [
-      "Random Access Memory",
-      "Rapid Access Module",
-      "Read Access Memory",
-      "Runtime Allocation Memory"
-    ],
-    "answer": 0,
-    "explanation": "RAM stands for Random Access Memory. It temporarily stores data that the computer is actively using, allowing for fast access and performance."
-  },
-  {
-    "question": "Which of these is an operating system?",
-    "choices": [
-      "Microsoft Word",
-      "Windows",
-      "Google Docs",
-      "Photoshop"
-    ],
-    "answer": 1,
-    "explanation": "Windows is an operating system that manages hardware and software. The other options are applications that run on an operating system."
-  },
-  {
-    "question": "What is the main function of a keyboard?",
-    "choices": [
-      "Display images",
-      "Input text and commands",
-      "Store files",
-      "Control internet speed"
-    ],
-    "answer": 1,
-    "explanation": "A keyboard is used to input text, numbers, and commands into a computer, making it one of the primary input devices."
-  },
-  {
-    "question": "Which company developed the iPhone?",
-    "choices": [
-      "Google",
-      "Microsoft",
-      "Apple",
-      "Samsung"
-    ],
-    "answer": 2,
-    "explanation": "Apple developed the iPhone, which was first released in 2007 and helped popularize modern smartphones."
-  },
-  {
-    "question": "What is the internet?",
-    "choices": [
-      "A single computer system",
-      "A global network of connected computers",
-      "A type of software",
-      "A storage device"
-    ],
-    "answer": 1,
-    "explanation": "The internet is a global network that connects millions of computers and devices, allowing them to communicate and share information."
-  },
-  {
-    "question": "Which of these is used to browse websites?",
-    "choices": [
-      "Spreadsheet",
-      "Web browser",
-      "Compiler",
-      "Database"
-    ],
-    "answer": 1,
-    "explanation": "A web browser is software used to access and navigate websites. Examples include Chrome, Firefox, and Safari."
-  },
-  {
-    "question": "What does 'USB' stand for?",
-    "choices": [
-      "Universal Serial Bus",
-      "Unified Storage Board",
-      "Universal System Backup",
-      "User Serial Base"
-    ],
-    "answer": 0,
-    "explanation": "USB stands for Universal Serial Bus, a standard used to connect devices like flash drives, keyboards, and external storage to computers."
-  },
-  {
-    "question": "Which of these is a search engine?",
-    "choices": [
-      "Google",
-      "Chrome",
-      "Windows",
-      "Photoshop"
-    ],
-    "answer": 0,
-    "explanation": "Google is a search engine used to find information online. Chrome is a browser, Windows is an OS, and Photoshop is a design tool."
-  },
-  {
-    "question": "What is an email used for?",
-    "choices": [
-      "Sending digital messages",
-      "Browsing the web",
-      "Editing images",
-      "Running programs"
-    ],
-    "answer": 0,
-    "explanation": "Email is used to send and receive digital messages over the internet, often including attachments like documents and images."
-  },
-  {
-    "question": "Which device displays output from a computer?",
-    "choices": [
-      "Keyboard",
-      "Mouse",
-      "Monitor",
-      "Router"
-    ],
-    "answer": 2,
-    "explanation": "A monitor displays visual output from the computer, such as text, images, and videos."
-  },
-  {
-    "question": "What is a smartphone?",
-    "choices": [
-      "A basic phone for calls only",
-      "A mobile device with advanced computing features",
-      "A landline communication device",
-      "A portable storage device"
-    ],
-    "answer": 1,
-    "explanation": "A smartphone is a mobile device that combines communication with computing capabilities, including apps, internet access, and multimedia features."
-  },
-  {
-    "question": "Which of these is used to connect to the internet?",
-    "choices": [
-      "Router",
-      "Printer",
-      "Scanner",
-      "Speaker"
-    ],
-    "answer": 0,
-    "explanation": "A router connects devices to the internet and allows multiple devices to share the same network connection."
-  },
-  {
-    "question": "What does 'cloud storage' refer to?",
-    "choices": [
-      "Storing files on your local computer",
-      "Storing files on internet-based servers",
-      "Saving files on a USB drive",
-      "Printing files remotely"
-    ],
-    "answer": 1,
-    "explanation": "Cloud storage means saving files on remote servers accessed via the internet, allowing access from multiple devices."
-  },
-  {
-    "question": "Which of these is an example of software?",
-    "choices": [
-      "Keyboard",
-      "Monitor",
-      "Microsoft Excel",
-      "Hard Drive"
-    ],
-    "answer": 2,
-    "explanation": "Microsoft Excel is software used for spreadsheets. The other options are hardware components."
-  },
-  {
-    "question": "What is a password used for?",
-    "choices": [
-      "Speeding up the computer",
-      "Protecting access to accounts",
-      "Connecting to Wi-Fi automatically",
-      "Backing up files"
-    ],
-    "answer": 1,
-    "explanation": "A password is used to secure accounts and protect personal data from unauthorized access."
-  }
+    {
+        question: "What does CPU stand for?",
+        choices: [
+            "Central Processing Unit",
+            "Computer Power Unit",
+            "Core Performance Utility",
+            "Central Program Unit"
+        ],
+        answer: 0,
+        explanation: "CPU stands for Central Processing Unit. It executes instructions and processes data, acting as the main controller of a computer."
+    },
+    {
+        question: "Which of these is NOT an input device?",
+        choices: [
+            "Keyboard",
+            "Mouse",
+            "Monitor",
+            "Scanner"
+        ],
+        answer: 2,
+        explanation: "A monitor is an output device because it displays information. Input devices like keyboard and mouse send data into the computer."
+    },
+    {
+        question: "What does RAM do?",
+        choices: [
+            "Stores files permanently",
+            "Processes graphics",
+            "Temporarily stores active data",
+            "Controls internet speed"
+        ],
+        answer: 2,
+        explanation: "RAM temporarily holds data that programs are actively using. More RAM usually means smoother multitasking and faster performance."
+    },
+    {
+        question: "Which company created Windows OS?",
+        choices: [
+            "Apple",
+            "Microsoft",
+            "Google",
+            "IBM"
+        ],
+        answer: 1,
+        explanation: "Microsoft developed Windows as a graphical operating system. It is one of the most widely used OS globally."
+    },
+    {
+        question: "What is the main function of a browser?",
+        choices: [
+            "Store files",
+            "Run games",
+            "Access websites",
+            "Edit documents"
+        ],
+        answer: 2,
+        explanation: "A browser allows users to access and view websites. It interprets web code like HTML and displays it visually."
+    },
+    {
+        question: "Which of these is an example of cloud storage?",
+        choices: [
+            "Google Drive",
+            "USB Flash Drive",
+            "Hard Disk",
+            "CD-ROM"
+        ],
+        answer: 0,
+        explanation: "Google Drive stores files on remote servers accessed via the internet. Unlike physical storage, it allows access from anywhere."
+    },
+    {
+        question: "What does URL stand for?",
+        choices: [
+            "Universal Resource Locator",
+            "Uniform Resource Locator",
+            "Unified Routing Link",
+            "Universal Routing Location"
+        ],
+        answer: 1,
+        explanation: "URL stands for Uniform Resource Locator. It is the address used to access resources on the internet."
+    },
+    {
+        question: "Which device connects multiple devices to the internet?",
+        choices: [
+            "Router",
+            "Monitor",
+            "Keyboard",
+            "GPU"
+        ],
+        answer: 0,
+        explanation: "A router distributes internet connection to multiple devices. It acts as a gateway between your network and the internet."
+    },
+    {
+        question: "What is software?",
+        choices: [
+            "Physical computer parts",
+            "Programs and applications",
+            "Internet cables",
+            "Electrical signals"
+        ],
+        answer: 1,
+        explanation: "Software refers to programs that run on a computer. It includes apps, operating systems, and tools used by users."
+    },
+    {
+        question: "Which is a mobile operating system?",
+        choices: [
+            "Linux",
+            "Android",
+            "Windows Server",
+            "Oracle"
+        ],
+        answer: 1,
+        explanation: "Android is a mobile OS designed for smartphones and tablets. It is developed by Google and widely used worldwide."
+    },
+    {
+        question: "What is phishing?",
+        choices: [
+            "A type of virus",
+            "A hacking method using fake messages",
+            "A hardware failure",
+            "A software update"
+        ],
+        answer: 1,
+        explanation: "Phishing tricks users into giving sensitive information through fake emails or sites. It is one of the most common cyber threats."
+    },
+    {
+        question: "What does SSD stand for?",
+        choices: [
+            "Solid State Drive",
+            "Secure Storage Device",
+            "System Storage Disk",
+            "Solid Storage Disk"
+        ],
+        answer: 0,
+        explanation: "SSD stands for Solid State Drive. It is faster than HDD because it has no moving parts."
+    },
+    {
+        question: "Which key combination copies text?",
+        choices: [
+            "Ctrl + X",
+            "Ctrl + V",
+            "Ctrl + C",
+            "Ctrl + Z"
+        ],
+        answer: 2,
+        explanation: "Ctrl + C copies selected text into memory. It can then be pasted using Ctrl + V."
+    },
+    {
+        question: "What is a firewall?",
+        choices: [
+            "A physical wall for servers",
+            "A cooling system",
+            "A network security system",
+            "A type of storage"
+        ],
+        answer: 2,
+        explanation: "A firewall filters incoming and outgoing network traffic. It protects systems from unauthorized access."
+    },
+    {
+        question: "Which of these is a programming language?",
+        choices: [
+            "HTML",
+            "Python",
+            "Chrome",
+            "Windows"
+        ],
+        answer: 1,
+        explanation: "Python is a programming language used for automation, data analysis, and AI. HTML is markup, not a programming language."
+    },
+    {
+        question: "What is the purpose of antivirus software?",
+        choices: [
+            "Increase internet speed",
+            "Protect against malware",
+            "Store files",
+            "Edit videos"
+        ],
+        answer: 1,
+        explanation: "Antivirus software detects and removes malicious programs. It helps secure your system from threats."
+    },
+    {
+        question: "What is a file extension?",
+        choices: [
+            "A folder name",
+            "A file size indicator",
+            "A file type identifier",
+            "A password"
+        ],
+        answer: 2,
+        explanation: "File extensions like .jpg or .exe show the file type. They help the system know how to open the file."
+    },
+    {
+        question: "Which of these is an example of hardware?",
+        choices: [
+            "Photoshop",
+            "Excel",
+            "Keyboard",
+            "Google Docs"
+        ],
+        answer: 2,
+        explanation: "A keyboard is a physical component you can touch. Hardware refers to all physical parts of a computer."
+    },
+    {
+        question: "What does Bluetooth do?",
+        choices: [
+            "Connects devices wirelessly over short distances",
+            "Increases storage",
+            "Boosts internet speed",
+            "Processes data"
+        ],
+        answer: 0,
+        explanation: "Bluetooth connects devices like headphones or phones wirelessly. It works over short-range communication."
+    },
+    {
+        question: "What is an operating system?",
+        choices: [
+            "A type of app",
+            "A system that manages hardware and software",
+            "A storage device",
+            "A browser"
+        ],
+        answer: 1,
+        explanation: "An operating system controls hardware and runs applications. It acts as the bridge between user and machine."
+    }
 ];
-
