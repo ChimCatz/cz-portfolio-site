@@ -8,6 +8,171 @@
     <meta name="description" content="Learn more about Chimzoe Catalan, including personal background, workflow philosophy, and the tools used across data automation and analytics projects.">
     <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body[data-page="about-detail"] main {
+            width: min(calc(100% - 2rem), 580px);
+            padding: 1rem 0 1.75rem;
+            gap: 3.75rem;
+        }
+
+        body[data-page="about-detail"] .about-me-page {
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        body[data-page="about-detail"] .container,
+        body[data-page="about-detail"] .about-section,
+        body[data-page="about-detail"] .about-me-section {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+        }
+
+        body[data-page="about-detail"] .container {
+            padding: 0;
+        }
+
+        body[data-page="about-detail"] .section-heading {
+            margin-bottom: 1.9rem;
+        }
+
+        body[data-page="about-detail"] .about-copy,
+        body[data-page="about-detail"] .about-copy-text {
+            gap: 1.4rem;
+            max-width: 580px;
+        }
+
+        body[data-page="about-detail"] h1 {
+            font-size: clamp(2.15rem, 5.8vw, 2.9rem);
+        }
+
+        body[data-page="about-detail"] h2 {
+            font-size: clamp(1.55rem, 4vw, 2rem);
+        }
+
+        body[data-page="about-detail"] .about-copy p,
+        body[data-page="about-detail"] .about-copy li {
+            text-align: left !important;
+            text-justify: auto !important;
+        }
+
+        body[data-page="about-detail"] .about-copy p {
+            transition: color 180ms ease, transform 180ms ease;
+        }
+
+        body[data-page="about-detail"] .about-copy p:hover,
+        body[data-page="about-detail"] .about-copy li:hover {
+            color: #f3f7ff;
+        }
+
+        body[data-page="about-detail"] .about-copy p:hover {
+            transform: translateX(2px);
+        }
+
+        body[data-page="about-detail"] .about-accent {
+            color: #8eb8ff;
+            font-weight: 600;
+            transition: color 180ms ease;
+        }
+
+        body[data-page="about-detail"] .live-age {
+            display: inline-block;
+            min-width: 12ch;
+            margin-right: 0.08em;
+            white-space: nowrap;
+        }
+
+        body[data-page="about-detail"] .about-warm {
+            color: #f2d48b;
+            font-weight: 600;
+            transition: color 180ms ease;
+        }
+
+        body[data-page="about-detail"] .about-copy p:hover .about-accent {
+            color: #bfd5ff;
+        }
+
+        body[data-page="about-detail"] .about-copy p:hover .about-warm {
+            color: #f7e1a9;
+        }
+
+        body[data-page="about-detail"] .experience-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 1rem;
+            align-items: baseline;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        body[data-page="about-detail"] .experience-row span:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        body[data-page="about-detail"] .experience-row span:last-child {
+            text-align: right;
+            color: #d9e6ff;
+        }
+
+        body[data-page="about-detail"] ul {
+            margin: 0;
+            padding-left: 1.3rem;
+        }
+
+        body[data-page="about-detail"] li + li {
+            margin-top: 0.45rem;
+        }
+
+        body[data-page="about-detail"] .credential-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        body[data-page="about-detail"] .credential-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            width: fit-content;
+            padding: 0;
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            text-decoration: none;
+            transition: color 180ms ease, transform 180ms ease;
+        }
+
+        body[data-page="about-detail"] .credential-link:hover,
+        body[data-page="about-detail"] .credential-link:focus-visible {
+            color: #f3f7ff;
+            transform: translateX(2px);
+        }
+
+        body[data-page="about-detail"] .credential-link span:last-child {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        body[data-page="about-detail"] .credential-icon {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+        }
+
+        body[data-page="about-detail"] .credential-icon img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        body[data-page="about-detail"] .credential-icon img.credential-icon-gmail {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
     <script type="text/javascript">
         (function(c, l, a, r, i, t, y) {
             c[a] = c[a] || function() {
@@ -36,11 +201,14 @@
     <main class="about-me-page">
         <section class="container about-section about-me-section" id="me">
             <div class="section-heading">
-                <h1>About Me</h1>
+                <h1>Hello, Welcome World!</h1>
             </div>
-            <div class="about-copy">
-                <p class="section-intro justified">Me</p>
-                <p class="justified">Placeholder for the personal side of this page.</p>
+            <div class="about-copy about-copy-text">
+                <p class="justified">I'm Chim, but I go by CZ.</p>
+                <p class="justified">I'm an engineer who enjoys working with <span class="about-accent">data</span> and building small scripts in <span class="about-accent">Python</span> and sometimes <span class="about-warm">MySQL</span> to make things easier.</p>
+                <p class="justified">I'm a tech and AI enthusiast. I spend a lot of time exploring <span class="about-accent">data science</span> and <span class="about-accent">artificial intelligence</span>, with the goal of moving into <span class="about-warm">machine learning</span> and <span class="about-warm">data engineering</span>. Over time, I realized something simple: everything comes down to data. The best systems, programs, and even AI models are only as good as the data behind them.</p>
+                <p class="justified">I'm <span id="live-age" class="about-accent live-age">0.000000000</span> years old in real time and based in <span class="about-warm">Cagayan de Oro City, Philippines</span>. I graduated from <span class="about-accent">Xavier University - Ateneo de Cagayan</span> with a degree in Electronics and Communications Engineering, which sits somewhere between computers, electronics, and signals.</p>
+                <p class="justified">Outside of work, I'm a gamer. I enjoy <span class="about-accent">open-world games</span> and usually go for <span class="about-warm">100% completion</span> when I can. I like the Assassin's Creed and Far Cry series. I also play competitive games like Dota 2, League of Legends, and Valorant. I've also been a long-time fan of Pokemon.</p>
             </div>
         </section>
 
@@ -48,284 +216,100 @@
             <div class="section-heading">
                 <h2>Work</h2>
             </div>
-            <div class="about-layout">
-                <div class="about-copy">
-                    <div class="about-copy-text">
-                        <p class="section-intro justified">I work on messy data.</p>
-                        <p class="justified">Inconsistent CRM exports, duplicates, broken formats, and manual workflows. That's where I start.</p>
-                        <p class="justified">I build small systems that clean, match, and automate these processes so they run in seconds instead of hours.</p>
-                        <p class="justified">Across my work, I've reduced manual effort by 70-90% and cut data errors from 10-15% to under 3%. The goal is simple: make data reliable and repeatable.</p>
-                        <p class="justified">I use Python and automation tools, but the focus is always the same-remove friction, speed up workflows, and make data easier to use.</p>
-                        <p class="justified">Now I'm pushing further into analytics, turning cleaned data into insights that help teams decide faster.</p>
-                    </div>
+            <div class="about-copy about-copy-text">
+                <p class="justified">I'm currently a <span class="about-accent">Data Analyst</span> at <span class="about-warm">Thinklogic Media Group</span>.</p>
+                <p class="justified">My work focuses on managing <span class="about-accent">CRM</span> and database systems to keep data organized, usable, and reliable.</p>
+                <p class="justified">Beyond that, I build reports and analysis that help the team understand performance and make decisions. I work between raw data and actual business use, turning messy records into something clear and actionable.</p>
+                <p class="justified">I'm used to working under pressure and adapting fast. I don't stick to fixed workflows. I keep learning, reading, and improving how I approach problems.</p>
+                <p class="justified">I also build my own scripts and tools to remove repetitive work. In some cases, I've reduced manual processes by around <span class="about-warm">95-98%</span>, turning tasks that take <span class="about-accent">20-60 minutes</span> into a few seconds.</p>
+                <div class="experience-row" aria-label="Current role">
+                    <span>Thinklogic Media Group - Data Analyst</span>
+                    <span>2025-Present</span>
                 </div>
-                <aside class="overview-side about-social-block">
-                    <div class="floating-note about-social-note">
-                        <span class="panel-kicker">Social Credentials</span>
-                        <h3>Find me here</h3>
-                        <div class="credential-list" aria-label="Social credentials">
-                            <a class="credential-link" href="https://www.linkedin.com/in/chimzoecatalan/" target="_blank" rel="noreferrer">
-                                <span class="credential-icon" aria-hidden="true">
-                                    <img src="assets/icons/linkedin-png.png" alt="">
-                                </span>
-                                <span>linkedin.com/in/chimzoecatalan</span>
-                            </a>
-                            <a class="credential-link" href="https://github.com/ChimCatz" target="_blank" rel="noreferrer">
-                                <span class="credential-icon" aria-hidden="true">
-                                    <img src="assets/icons/github-png.png" alt="">
-                                </span>
-                                <span>github.com/ChimCatz</span>
-                            </a>
-                            <a class="credential-link" href="https://fb.com/chimzoecatalan/" target="_blank" rel="noreferrer">
-                                <span class="credential-icon" aria-hidden="true">
-                                    <img src="assets/icons/facebook-png.png" alt="">
-                                </span>
-                                <span>fb.com/chimzoecatalan</span>
-                            </a>
-                            <a class="credential-link" href="mailto:catalanchimzoe.business@gmail.com">
-                                <span class="credential-icon" aria-hidden="true">
-                                    <img class="credential-icon-gmail" src="assets/icons/gmail-png.png" alt="">
-                                </span>
-                                <span>catalanchimzoe.business@gmail.com</span>
-                            </a>
-                        </div>
-                    </div>
-                </aside>
             </div>
         </section>
 
-        <section class="container skills-section about-me-section" id="skills">
+        <section class="container about-section about-me-section" id="website">
             <div class="section-heading">
-                <h2>Skills</h2>
+                <h2>Website</h2>
             </div>
+            <div class="about-copy about-copy-text">
+                <p class="justified">I've been building and publishing this site since 2026.</p>
+                <p class="justified">Everything here is designed and coded by me, with the help of <span class="about-accent">AI</span>, using <span class="about-warm">VSCode</span> and standard web tools (HTML, CSS, JavaScript).</p>
+                <ul>
+                    <li>Built with VSCode, hosted on GitHub Pages</li>
+                    <li>Uses Microsoft Clarity and Google Analytics for tracking</li>
+                    <li>Fonts: Inter and Proxima Nova</li>
+                    <li>Icons from Flaticon, SVGrepo, LottieIcons, and Lordicon</li>
+                </ul>
+                <p class="justified">This site is still evolving. I treat it like a personal lab where I test ideas, share work, and improve over time.</p>
+            </div>
+        </section>
 
-            <div class="skills-showcase">
-                <p class="section-intro justified">The essential stack behind my data workflows and automation logic. I leverage these tools to move beyond manual spreadsheets and build smarter, faster ways to handle information. By scripting the repetitive parts of my process, I ensure that my analysis is always accurate and delivered when it's needed most.</p>
-                <div class="hero-actions hero-logo-marquee" aria-label="Skills logo carousel">
-                    <div class="hero-logo-track">
-                        <div class="hero-logo-sequence">
-                            <img src="assets/icons/sheets.svg" alt="Google Sheets">
-                            <img src="assets/icons/excel.svg" alt="Microsoft Excel">
-                            <img src="assets/icons/data-analysis.svg" alt="Data Analysis">
-                            <img src="assets/icons/prompt-engineering.svg" alt="Prompt Engineering">
-                            <img src="assets/icons/vibe-coding.svg" alt="Vibe Coding">
-                            <img src="assets/images/brand-logos/vtiger-crm-png.png" alt="Vtiger CRM">
-                            <img src="assets/images/brand-logos/zoho-analytics-svg.svg" alt="Zoho Analytics">
-                            <img src="assets/images/brand-logos/zoho-crm-svg.svg" alt="Zoho CRM">
-                            <img class="hero-logo-codex" src="assets/images/brand-logos/codex.svg" alt="Codex">
-                            <img src="assets/images/brand-logos/google-analytics.svg" alt="Google Analytics">
-                            <img src="assets/images/brand-logos/microsoft-clarity-svg.svg" alt="Microsoft Clarity">
-                            <img class="hero-logo-mysql" src="assets/icons/mysql.svg" alt="mySQL">
-                            <img src="assets/icons/python.svg" alt="Python">
-                            <img src="assets/images/brand-logos/big-query.svg" alt="Big Query">
-                            <img src="assets/images/brand-logos/tableau.svg" alt="Tableau">
-                        </div>
-                        <div class="hero-logo-sequence" aria-hidden="true">
-                            <img src="assets/icons/sheets.svg" alt="">
-                            <img src="assets/icons/excel.svg" alt="">
-                            <img src="assets/icons/data-analysis.svg" alt="">
-                            <img src="assets/icons/prompt-engineering.svg" alt="">
-                            <img src="assets/icons/vibe-coding.svg" alt="">
-                            <img src="assets/images/brand-logos/vtiger-crm-png.png" alt="">
-                            <img src="assets/images/brand-logos/zoho-analytics-svg.svg" alt="">
-                            <img src="assets/images/brand-logos/zoho-crm-svg.svg" alt="">
-                            <img class="hero-logo-codex" src="assets/images/brand-logos/codex.svg" alt="">
-                            <img src="assets/images/brand-logos/google-analytics.svg" alt="">
-                            <img src="assets/images/brand-logos/microsoft-clarity-svg.svg" alt="">
-                            <img class="hero-logo-mysql" src="assets/icons/mysql.svg" alt="">
-                            <img src="assets/icons/python.svg" alt="">
-                            <img src="assets/images/brand-logos/big-query.svg" alt="">
-                            <img src="assets/images/brand-logos/tableau.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="skills-grid" aria-label="Skills grid">
-                    <article class="skill-logo-card" style="--skill-tint: rgba(117, 212, 127, 0.09); --skill-glow: rgba(117, 212, 127, 0.08);" aria-label="Google Sheets - Expert">
-                        <img src="assets/icons/sheets.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Google Sheets</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                        </div>
-                        <span class="skill-level-name">Expert</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(95, 189, 255, 0.09); --skill-glow: rgba(95, 189, 255, 0.08);" aria-label="Microsoft Excel - Expert">
-                        <img src="assets/icons/excel.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Microsoft Excel</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                        </div>
-                        <span class="skill-level-name">Expert</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(88, 148, 255, 0.1); --skill-glow: rgba(88, 148, 255, 0.08);" aria-label="Data Analysis - Advanced">
-                        <img src="assets/icons/data-analysis.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Data Analysis</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(246, 180, 79, 0.1); --skill-glow: rgba(246, 180, 79, 0.08);" aria-label="Prompt Engineering - Advanced">
-                        <img src="assets/icons/prompt-engineering.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Prompt Engineering</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(170, 118, 255, 0.1); --skill-glow: rgba(170, 118, 255, 0.08);" aria-label="Vibe Coding - Advanced">
-                        <img src="assets/icons/vibe-coding.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Vibe Coding</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card skill-logo-card-wide" style="--skill-tint: rgba(125, 165, 255, 0.09); --skill-glow: rgba(125, 165, 255, 0.08);" aria-label="Vtiger CRM - Advanced">
-                        <img src="assets/images/brand-logos/vtiger-crm-png.png" alt="" aria-hidden="true">
-                        <span class="skill-name">Vtiger CRM</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card skill-logo-card-wide" style="--skill-tint: rgba(116, 184, 255, 0.1); --skill-glow: rgba(116, 184, 255, 0.08);" aria-label="Zoho Analytics - Advanced">
-                        <img src="assets/images/brand-logos/zoho-analytics-svg.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Zoho Analytics</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card skill-logo-card-wide" style="--skill-tint: rgba(255, 106, 138, 0.09); --skill-glow: rgba(255, 106, 138, 0.08);" aria-label="Zoho CRM - Advanced">
-                        <img src="assets/images/brand-logos/zoho-crm-svg.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Zoho CRM</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Advanced</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(103, 206, 255, 0.09); --skill-glow: rgba(103, 206, 255, 0.08);" aria-label="Codex - Intermediate">
-                        <img src="assets/images/brand-logos/codex.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Codex</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Intermediate</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(255, 147, 99, 0.09); --skill-glow: rgba(255, 147, 99, 0.08);" aria-label="Google Analytics - Intermediate">
-                        <img src="assets/icons/google-analytics.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Google Analytics</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Intermediate</span>
-                    </article>
-                    <article class="skill-logo-card skill-logo-card-wide" style="--skill-tint: rgba(84, 195, 210, 0.1); --skill-glow: rgba(84, 195, 210, 0.08);" aria-label="Microsoft Clarity - Intermediate">
-                        <img src="assets/images/brand-logos/microsoft-clarity-svg.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Microsoft Clarity</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Intermediate</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(84, 201, 183, 0.09); --skill-glow: rgba(84, 201, 183, 0.08);" aria-label="mySQL - Intermediate">
-                        <img class="skill-logo-invert" src="assets/icons/mysql.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">mySQL</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Intermediate</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(109, 184, 255, 0.09); --skill-glow: rgba(109, 184, 255, 0.08);" aria-label="Python - Intermediate">
-                        <img src="assets/icons/python.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Python</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Intermediate</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(101, 176, 255, 0.09); --skill-glow: rgba(101, 176, 255, 0.08);" aria-label="Big Query - Novice">
-                        <img src="assets/images/brand-logos/big-query.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Big Query</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Novice</span>
-                    </article>
-                    <article class="skill-logo-card" style="--skill-tint: rgba(255, 167, 82, 0.09); --skill-glow: rgba(255, 167, 82, 0.08);" aria-label="Tableau - Novice">
-                        <img src="assets/images/brand-logos/tableau.svg" alt="" aria-hidden="true">
-                        <span class="skill-name">Tableau</span>
-                        <div class="skill-level-bar" aria-hidden="true">
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill is-filled"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                            <span class="skill-level-pill"></span>
-                        </div>
-                        <span class="skill-level-name">Novice</span>
-                    </article>
+        <section class="container about-section about-me-section" id="socials">
+            <div class="section-heading">
+                <h2>Socials</h2>
+            </div>
+            <div class="about-copy about-copy-text">
+                <p class="justified">Hey, want to connect? Find me with these links.</p>
+                <div class="credential-list" aria-label="Social credentials">
+                    <a class="credential-link" href="https://www.linkedin.com/in/chimzoecatalan/" target="_blank" rel="noreferrer">
+                        <span class="credential-icon" aria-hidden="true">
+                            <img src="assets/icons/linkedin-png.png" alt="">
+                        </span>
+                        <span>linkedin.com/in/chimzoecatalan</span>
+                    </a>
+                    <a class="credential-link" href="https://github.com/ChimCatz" target="_blank" rel="noreferrer">
+                        <span class="credential-icon" aria-hidden="true">
+                            <img src="assets/icons/github-png.png" alt="">
+                        </span>
+                        <span>github.com/ChimCatz</span>
+                    </a>
+                    <a class="credential-link" href="https://fb.com/chimzoecatalan/" target="_blank" rel="noreferrer">
+                        <span class="credential-icon" aria-hidden="true">
+                            <img src="assets/icons/facebook-png.png" alt="">
+                        </span>
+                        <span>fb.com/chimzoecatalan</span>
+                    </a>
+                    <a class="credential-link" href="mailto:catalanchimzoe.business@gmail.com">
+                        <span class="credential-icon" aria-hidden="true">
+                            <img class="credential-icon-gmail" src="assets/icons/gmail-png.png" alt="">
+                        </span>
+                        <span>catalanchimzoe.business@gmail.com</span>
+                    </a>
                 </div>
             </div>
         </section>
     </main>
 
     <script src="assets/js/app.js"></script>
+    <script>
+        (function() {
+            const ageNode = document.getElementById("live-age");
+
+            if (!ageNode) {
+                return;
+            }
+
+            const birthTime = new Date("1999-12-29T01:00:00+08:00").getTime();
+            const yearMs = 365.2425 * 24 * 60 * 60 * 1000;
+            let lastText = "";
+
+            function updateAge() {
+                const age = (Date.now() - birthTime) / yearMs;
+                const nextText = age.toFixed(9);
+
+                if (nextText !== lastText) {
+                    ageNode.textContent = nextText;
+                    lastText = nextText;
+                }
+
+                window.requestAnimationFrame(updateAge);
+            }
+
+            updateAge();
+        })();
+    </script>
 </body>
 
 </html>
