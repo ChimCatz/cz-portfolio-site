@@ -4,7 +4,7 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 
 ## Pages
 
-- `index.html`: main portfolio page
+- `czcatzzz.html`: main portfolio page
 
 ## Current Structure
 
@@ -26,7 +26,7 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 
 ## Local Preview
 
-Open `index.html` directly in a browser.
+Open `czcatzzz.html` directly in a browser.
 
 ## Notes
 

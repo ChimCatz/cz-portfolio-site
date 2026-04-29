@@ -1,5 +1,5 @@
 Read these files first:
-- index.html
+- czcatzzz.html
 - assets/css/styles.css
 - assets/js/app.js
 - trivia/README.md

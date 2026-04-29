@@ -6,7 +6,7 @@ This file preserves the key working context, design choices, and content decisio
 ## Project Overview
 - Repo type: static multi-page portfolio site
 - Main pages:
-  - `index.html`
+  - `czcatzzz.html`
   - `projects/leadflow-etl.html`
   - `projects/data-pivot-table-tool.html`
   - `projects/csv-advanced-search-engine.html`
@@ -21,7 +21,7 @@ This file preserves the key working context, design choices, and content decisio
 - The site uses static HTML pages, not a JS router or framework.
 - Sidebar navigation is shared across pages.
 - `assets/js/app.js` handles:
-  - section spy on `index.html`
+  - section spy on `czcatzzz.html`
   - remaining carousel behavior for non-project sections
   - special sidebar active state for pages with `data-page="project-detail"`
 - Project subpages should keep `body data-page="project-detail"` so the Projects nav item stays active.
@@ -228,7 +228,7 @@ This file preserves the key working context, design choices, and content decisio
   - full width on mobile
 
 ## Future Development Priorities
-- Continue refining the Projects section on `index.html` so card text and spacing feel balanced within the carousel layout.
+- Continue refining the Projects section on `czcatzzz.html` so card text and spacing feel balanced within the carousel layout.
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
 - Treat mobile responsiveness as part of the acceptance check for future additions and design changes.
