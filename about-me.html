@@ -25,6 +25,7 @@
             width: min(calc(100% - 2rem), 580px);
             padding: 1rem 0 1.75rem;
             gap: 2.6rem;
+            position: relative;
         }
 
         body[data-page="about-detail"] .about-me-page {
@@ -66,8 +67,8 @@
 
         body[data-page="about-detail"] .about-chibi {
             display: block;
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             padding: 0;
             object-fit: contain;
         }
@@ -78,6 +79,94 @@
 
         body[data-page="about-detail"] .about-inline-chibi {
             margin: -0.45rem auto -0.85rem;
+        }
+
+        body[data-page="about-detail"] .about-inline-chibi.after-work-copy {
+            margin: 0.2rem auto -0.85rem;
+        }
+
+        body[data-page="about-detail"] .about-inline-chibi.align-left {
+            margin: -0.2rem 0 -0.85rem;
+        }
+
+        body[data-page="about-detail"] .about-inline-chibi.align-right {
+            margin: -0.2rem 0 -0.85rem auto;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi {
+            position: absolute;
+            display: block;
+            width: 180px;
+            height: 180px;
+            padding: 0;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-hello {
+            width: 190px;
+            height: 190px;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-thinking,
+        body[data-page="about-detail"] .about-floating-chibi.chibi-gaming,
+        body[data-page="about-detail"] .about-floating-chibi.chibi-coding,
+        body[data-page="about-detail"] .about-floating-chibi.chibi-reporting {
+            width: 200px;
+            height: 200px;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-socialmedia {
+            width: 220px;
+            height: 220px;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-hello {
+            top: 8.1rem;
+            left: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-thinking {
+            top: 22.8rem;
+            right: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-gaming {
+            top: 39.8rem;
+            left: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-coding {
+            top: 57.6rem;
+            right: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-reporting {
+            top: 76.4rem;
+            left: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-building {
+            top: 94.4rem;
+            right: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-coffee {
+            top: 112.2rem;
+            left: -12.35rem;
+        }
+
+        body[data-page="about-detail"] .about-floating-chibi.chibi-socialmedia {
+            top: 129.8rem;
+            right: -12.35rem;
+        }
+
+        @media (max-width: 979px) {
+            body[data-page="about-detail"] .about-floating-chibi {
+                display: none;
+            }
         }
 
         body[data-page="about-detail"] .about-copy p,
@@ -235,17 +324,23 @@
     </nav>
 
     <main class="about-me-page">
+        <img class="about-floating-chibi chibi-hello" src="assets/chibicz/chibicz-2-welcome.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-thinking" src="assets/chibicz/chibicz-4-thinking.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-gaming" src="assets/chibicz/chibicz-5-gaming.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-coding" src="assets/chibicz/chibicz-3-coding.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-reporting" src="assets/chibicz/chibicz-7-datareporting.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-building" src="assets/chibicz/chibicz-8-building.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-coffee" src="assets/chibicz/chibicz-9-coffee.png" alt="" aria-hidden="true">
+        <img class="about-floating-chibi chibi-socialmedia" src="assets/chibicz/chibicz-10-socialmedia.png" alt="" aria-hidden="true">
         <section class="container about-section about-me-section" id="me">
             <div class="section-heading">
                 <h1>Hello, Welcome World!</h1>
             </div>
-            <img class="about-chibi about-welcome-chibi" src="assets/chibicz/chibicz-2-welcome.png" alt="Chibi welcome illustration of CZ.">
             <div class="about-copy about-copy-text">
                 <p class="justified">I'm Chim, but I go by CZ.</p>
                 <p class="justified">I'm an engineer who enjoys working with <span class="about-accent">data</span> and building small scripts in <span class="about-accent">Python</span> and sometimes <span class="about-warm">MySQL</span> to make things easier.</p>
                 <p class="justified">I'm a tech and AI enthusiast. I spend a lot of time exploring <span class="about-accent">data science</span> and <span class="about-accent">artificial intelligence</span>, with the goal of moving into <span class="about-warm">machine learning</span> and <span class="about-warm">data engineering</span>. Over time, I realized something simple: everything comes down to data. The best systems, programs, and even AI models are only as good as the data behind them.</p>
                 <p class="justified">I'm <span id="live-age" class="about-accent live-age">0.000000000</span> years old in real time and based in <span class="about-warm">Cagayan de Oro City, Philippines</span>. I graduated from <span class="about-accent">Xavier University - Ateneo de Cagayan</span> with a degree in Electronics and Communications Engineering, which sits somewhere between computers, electronics, and signals.</p>
-                <img class="about-chibi about-inline-chibi" src="assets/chibicz/chibicz-3-coding.png" alt="Chibi coding illustration of CZ.">
                 <p class="justified">Outside of work, I'm a gamer. I enjoy <span class="about-accent">open-world games</span> and usually go for <span class="about-warm">100% completion</span> when I can. I like the Assassin's Creed and Far Cry series. I also play competitive games like Dota 2, League of Legends, and Valorant. I've also been a long-time fan of Pokemon.</p>
             </div>
         </section>
@@ -278,7 +373,9 @@
                     <li>Built with VSCode, hosted on GitHub Pages</li>
                     <li>Uses Microsoft Clarity and Google Analytics for tracking</li>
                     <li>Fonts: Inter and Proxima Nova</li>
+                    <li>Supabase for Database and API fetching</li>
                     <li>Icons from Flaticon, SVGrepo, LottieIcons, and Lordicon</li>
+                    <li>Chibi CZ forms generated using ChatGPT</li>
                 </ul>
                 <p class="justified">This site is still evolving. I treat it like a personal lab where I test ideas, share work, and improve over time.</p>
             </div>
