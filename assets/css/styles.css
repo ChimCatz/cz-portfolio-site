@@ -565,6 +565,15 @@ main {
     max-width: 54rem;
 }
 
+.hero-chibi {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: -0.35rem auto 0;
+    padding: 0;
+    object-fit: contain;
+}
+
 .hero-data-block {
     max-width: 600px;
     margin: 0.45rem 0 0.25rem;
