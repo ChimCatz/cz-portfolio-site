@@ -36,6 +36,10 @@ Open `czcatzzz.html` directly in a browser.
 - The current detail page is excluded automatically from its own related carousel.
 - To add future project or insight pages more easily, update the matching metadata list in `assets/js/app.js` and use the existing placeholder section pattern on the detail page.
 - The Skills section uses logo cards sourced from `assets/icons/`.
+- Theme support is built in:
+  - dark mode is the default
+  - light mode is stored in `localStorage` with key `cz-theme`
+  - shared light-mode overrides live in `assets/css/styles.css`
 - Check mobile view whenever adding or changing sections.
 - Current mobile expectations:
   - Skills show `2` logo cards per row

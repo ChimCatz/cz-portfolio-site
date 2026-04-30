@@ -27,7 +27,9 @@
     --amber: #f2d48b;
     --rose: #d38ab6;
     --text: #ffffff;
-    --muted: #ffffff;
+    --text-strong: #ffffff;
+    --muted: rgba(255, 255, 255, 0.78);
+    --muted-strong: #dce6ff;
     --line: rgba(194, 214, 255, 0.16);
     --line-strong: rgba(242, 246, 255, 0.46);
     --panel: rgba(7, 12, 30, 0.72);
@@ -36,10 +38,75 @@
     --surface-soft: linear-gradient(145deg, rgba(18, 34, 78, 0.62), rgba(7, 11, 28, 0.82));
     --surface-elevated: linear-gradient(145deg, rgba(20, 39, 92, 0.72), rgba(8, 14, 34, 0.88));
     --surface-glass: rgba(255, 255, 255, 0.05);
+    --body-grid-line: rgba(255, 255, 255, 0.016);
+    --body-overlay-top: rgba(255, 255, 255, 0.04);
+    --body-overlay-radial: rgba(255, 255, 255, 0.05);
+    --shadow-soft: rgba(0, 0, 0, 0.12);
+    --shadow-medium: rgba(0, 0, 0, 0.22);
+    --shadow-strong: rgba(0, 0, 0, 0.28);
+    --sidebar-shell: linear-gradient(180deg, rgba(15, 15, 15, 0.12), rgba(15, 15, 15, 0.03));
+    --sidebar-shell-hover: linear-gradient(180deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0.78));
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --sidebar-border-strong: rgba(255, 255, 255, 0.12);
+    --sidebar-label-bg: rgba(15, 15, 15, 0.94);
+    --sidebar-label-border: rgba(255, 255, 255, 0.1);
+    --nav-icon-bg: rgba(255, 255, 255, 0.025);
+    --nav-icon-border: rgba(255, 255, 255, 0.05);
+    --nav-icon-hover-bg: rgba(142, 184, 255, 0.14);
+    --nav-icon-hover-border: rgba(142, 184, 255, 0.34);
+    --nav-icon-active-bg: rgba(142, 184, 255, 0.16);
+    --nav-icon-active-border: rgba(142, 184, 255, 0.42);
+    --nav-icon-filter: brightness(0) invert(1);
+    --nav-icon-active-filter: brightness(0) invert(1);
+    --mode-glow: rgba(142, 184, 255, 0.22);
+    --mode-button-bg: rgba(255, 255, 255, 0.04);
+    --mode-button-border: rgba(255, 255, 255, 0.08);
+    --mode-button-hover-bg: rgba(142, 184, 255, 0.12);
+    --mode-button-hover-border: rgba(142, 184, 255, 0.32);
     --font-sans: "Inter", "Proxima Nova", "Segoe UI", sans-serif;
     --content-max: 1180px;
     --radius: 28px;
     --transition: 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme="light"] {
+    --text: #222222;
+    --text-strong: #111111;
+    --muted: #666666;
+    --muted-strong: #555555;
+    --line: rgba(0, 0, 0, 0.1);
+    --line-strong: rgba(0, 0, 0, 0.16);
+    --panel: rgba(255, 255, 255, 0.9);
+    --site-bg: #ebebeb;
+    --surface-main: #dddddd;
+    --surface-soft: #f7f7f7;
+    --surface-elevated: #ffffff;
+    --surface-glass: rgba(255, 255, 255, 0.72);
+    --body-grid-line: rgba(0, 0, 0, 0.035);
+    --body-overlay-top: rgba(255, 255, 255, 0.18);
+    --body-overlay-radial: rgba(255, 255, 255, 0.12);
+    --shadow-soft: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.08);
+    --shadow-strong: rgba(0, 0, 0, 0.11);
+    --sidebar-shell: rgba(255, 255, 255, 0.6);
+    --sidebar-shell-hover: rgba(245, 245, 245, 0.96);
+    --sidebar-border: rgba(0, 0, 0, 0.1);
+    --sidebar-border-strong: rgba(0, 0, 0, 0.14);
+    --sidebar-label-bg: rgba(255, 255, 255, 0.96);
+    --sidebar-label-border: rgba(0, 0, 0, 0.1);
+    --nav-icon-bg: rgba(0, 0, 0, 0.035);
+    --nav-icon-border: rgba(0, 0, 0, 0.08);
+    --nav-icon-hover-bg: rgba(142, 184, 255, 0.16);
+    --nav-icon-hover-border: rgba(142, 184, 255, 0.24);
+    --nav-icon-active-bg: rgba(142, 184, 255, 0.24);
+    --nav-icon-active-border: rgba(142, 184, 255, 0.3);
+    --nav-icon-filter: none;
+    --nav-icon-active-filter: none;
+    --mode-glow: rgba(142, 184, 255, 0.16);
+    --mode-button-bg: rgba(255, 255, 255, 0.5);
+    --mode-button-border: rgba(0, 0, 0, 0.08);
+    --mode-button-hover-bg: rgba(142, 184, 255, 0.14);
+    --mode-button-hover-border: rgba(142, 184, 255, 0.22);
 }
 
 * {
@@ -79,6 +146,7 @@ body {
         radial-gradient(circle at 24% 86%, rgba(74, 107, 194, 0.18), transparent 24%),
         radial-gradient(circle at 52% 42%, rgba(84, 54, 176, 0.1), transparent 28%),
         var(--site-bg);
+    transition: background-color 200ms ease, background-image 200ms ease, color 200ms ease;
 }
 
 body,
@@ -96,7 +164,8 @@ label,
 strong,
 a,
 button {
-    color: #ffffff;
+    color: var(--text);
+    transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, opacity 200ms ease, transform var(--transition);
 }
 
 body::before,
@@ -110,16 +179,16 @@ body::after {
 
 body::before {
     background:
-        linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px);
+        linear-gradient(var(--body-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--body-grid-line) 1px, transparent 1px);
     background-size: 48px 48px;
     mask-image: radial-gradient(circle at center, black 42%, transparent 100%);
 }
 
 body::after {
     background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
-        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05), transparent 34%);
+        linear-gradient(180deg, var(--body-overlay-top), transparent 30%),
+        radial-gradient(circle at 50% 0%, var(--body-overlay-radial), transparent 34%);
 }
 
 a {
@@ -213,12 +282,12 @@ a {
     width: 19px;
     height: 19px;
     object-fit: contain;
-    filter: brightness(0) invert(1);
+    filter: var(--nav-icon-filter);
     transition: filter var(--transition);
 }
 
 #sidebar li.active .nav-icon {
-    filter: none;
+    filter: var(--nav-icon-active-filter);
 }
 
 .nav-label {
@@ -4505,12 +4574,12 @@ body[data-page="about-detail"] #sidebar {
     width: fit-content !important;
     max-width: none !important;
     padding: 0.6rem !important;
-    background: linear-gradient(180deg, rgba(15, 15, 15, 0.12), rgba(15, 15, 15, 0.03)) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    background: var(--sidebar-shell) !important;
+    border: 1px solid var(--sidebar-border) !important;
     border-radius: 14px !important;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 10px 24px var(--shadow-soft) !important;
     backdrop-filter: blur(14px) !important;
-    opacity: 0.38 !important;
+    opacity: 1 !important;
 }
 
 body[data-page="home"] #sidebar:hover,
@@ -4521,9 +4590,9 @@ body[data-page="insight-detail"] #sidebar:hover,
 body[data-page="insight-detail"] #sidebar:focus-within,
 body[data-page="about-detail"] #sidebar:hover,
 body[data-page="about-detail"] #sidebar:focus-within {
-    background: linear-gradient(180deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0.78)) !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26) !important;
+    background: var(--sidebar-shell-hover) !important;
+    border-color: var(--sidebar-border-strong) !important;
+    box-shadow: 0 18px 38px var(--shadow-strong) !important;
     opacity: 1 !important;
 }
 
@@ -4548,8 +4617,8 @@ body[data-page="about-detail"] .nav-icon-wrap {
     width: 42px !important;
     height: 42px !important;
     border-radius: 10px !important;
-    background: rgba(255, 255, 255, 0.025) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background: var(--nav-icon-bg) !important;
+    border: 1px solid var(--nav-icon-border) !important;
     box-shadow: none !important;
 }
 
@@ -4561,20 +4630,20 @@ body[data-page="insight-detail"] #sidebar a:hover .nav-icon-wrap,
 body[data-page="insight-detail"] #sidebar a:focus-visible .nav-icon-wrap,
 body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap,
 body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap {
-    background: rgba(142, 184, 255, 0.14) !important;
-    border-color: rgba(142, 184, 255, 0.34) !important;
+    background: var(--nav-icon-hover-bg) !important;
+    border-color: var(--nav-icon-hover-border) !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2), 0 0 18px rgba(142, 184, 255, 0.14) !important;
+    box-shadow: 0 10px 22px var(--shadow-medium), 0 0 18px var(--mode-glow) !important;
 }
 
 body[data-page="home"] #sidebar li.active .nav-icon-wrap,
 body[data-page="project-detail"] #sidebar li.active .nav-icon-wrap,
 body[data-page="insight-detail"] #sidebar li.active .nav-icon-wrap,
 body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap {
-    background: rgba(142, 184, 255, 0.16) !important;
-    border-color: rgba(142, 184, 255, 0.42) !important;
+    background: var(--nav-icon-active-bg) !important;
+    border-color: var(--nav-icon-active-border) !important;
     transform: translateY(-1px) !important;
-    box-shadow: inset 0 0 0 1px rgba(191, 213, 255, 0.2), 0 12px 26px rgba(0, 0, 0, 0.2), 0 0 20px rgba(142, 184, 255, 0.18) !important;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sky) 28%, transparent), 0 12px 26px var(--shadow-medium), 0 0 20px var(--mode-glow) !important;
 }
 
 body[data-page="home"] #sidebar a:hover .nav-icon-wrap::after,
@@ -4603,10 +4672,387 @@ body[data-page="home"] .nav-label,
 body[data-page="project-detail"] .nav-label,
 body[data-page="insight-detail"] .nav-label,
 body[data-page="about-detail"] .nav-label {
-    background: rgba(15, 15, 15, 0.94) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22) !important;
+    background: var(--sidebar-label-bg) !important;
+    border: 1px solid var(--sidebar-label-border) !important;
+    box-shadow: 0 12px 30px var(--shadow-medium) !important;
     backdrop-filter: blur(14px) !important;
+    color: var(--text) !important;
+}
+
+#sidebar a .nav-icon-wrap,
+#sidebar button .nav-icon-wrap,
+#sidebar a .nav-icon,
+#sidebar button .nav-icon {
+    transition: transform 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, filter var(--transition), opacity 180ms ease !important;
+}
+
+#sidebar a:hover .nav-icon-wrap,
+#sidebar a:focus-visible .nav-icon-wrap {
+    transform: translateY(-1px) rotate(8deg) !important;
+}
+
+#sidebar a:hover .nav-icon,
+#sidebar a:focus-visible .nav-icon {
+    transform: rotate(-8deg);
+}
+
+#sidebar .sidebar-theme-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+#sidebar .sidebar-theme-toggle .nav-icon-wrap {
+    background: var(--nav-icon-bg) !important;
+    border-color: var(--nav-icon-border) !important;
+}
+
+#sidebar .sidebar-theme-toggle:hover .nav-icon-wrap,
+#sidebar .sidebar-theme-toggle:focus-visible .nav-icon-wrap {
+    background: var(--nav-icon-hover-bg) !important;
+    border-color: var(--nav-icon-hover-border) !important;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--sky) 22%, transparent), 0 10px 22px var(--shadow-medium), 0 0 18px var(--mode-glow) !important;
+    transform: translateY(-1px) rotate(8deg) !important;
+}
+
+#sidebar .sidebar-theme-toggle:focus-visible {
+    outline: none;
+}
+
+#sidebar .sidebar-theme-toggle:focus-visible .nav-label {
+    opacity: 1;
+    transform: translate3d(0, -50%, 0);
+}
+
+#sidebar .sidebar-theme-toggle .nav-label {
+    pointer-events: none;
+}
+
+#sidebar .theme-toggle-icon {
+    transition: transform 200ms ease, opacity 180ms ease, filter var(--transition);
+}
+
+#sidebar .sidebar-theme-toggle.is-switching .nav-icon-wrap {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--sky) 24%, transparent), 0 0 22px var(--mode-glow), 0 10px 22px var(--shadow-medium) !important;
+}
+
+#sidebar .sidebar-theme-toggle.is-switching .theme-toggle-icon {
+    opacity: 0.76;
+    transform: rotate(165deg);
+}
+
+:root[data-theme="light"] body {
+    background: #ebebeb !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body::before,
+:root[data-theme="light"] body::after {
+    opacity: 0;
+}
+
+:root[data-theme="light"] h1,
+:root[data-theme="light"] h2,
+:root[data-theme="light"] h3 {
+    color: #111111 !important;
+}
+
+:root[data-theme="light"] h4,
+:root[data-theme="light"] h5,
+:root[data-theme="light"] h6,
+:root[data-theme="light"] strong {
+    color: #1a1a1a !important;
+}
+
+:root[data-theme="light"] p,
+:root[data-theme="light"] span,
+:root[data-theme="light"] label,
+:root[data-theme="light"] li,
+:root[data-theme="light"] figcaption,
+:root[data-theme="light"] .project-simple-copy,
+:root[data-theme="light"] .insight-content-flow,
+:root[data-theme="light"] .about-me-page {
+    color: #2b2b2b !important;
+}
+
+:root[data-theme="light"] .section-kicker,
+:root[data-theme="light"] .project-page-date,
+:root[data-theme="light"] .insight-card-date,
+:root[data-theme="light"] .project-carousel-copy,
+:root[data-theme="light"] .insight-card-copy,
+:root[data-theme="light"] .game-card p,
+:root[data-theme="light"] .section-intro,
+:root[data-theme="light"] .hero-stat,
+:root[data-theme="light"] .hero-sub-line,
+:root[data-theme="light"] .hero-trivia-text,
+:root[data-theme="light"] .project-results-strip span,
+:root[data-theme="light"] figcaption,
+:root[data-theme="light"] .eyebrow {
+    color: #666666 !important;
+}
+
+:root[data-theme="light"] a,
+:root[data-theme="light"] .text-button,
+:root[data-theme="light"] .project-flow-link,
+:root[data-theme="light"] .project-carousel-link,
+:root[data-theme="light"] .insight-read-more,
+:root[data-theme="light"] .hero-read-more {
+    color: #3e6fb7 !important;
+}
+
+:root[data-theme="light"] .topbar {
+    background: #f7f7f7 !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 8px 18px var(--shadow-soft) !important;
+}
+
+:root[data-theme="light"] .topbar::before,
+:root[data-theme="light"] .hero::before,
+:root[data-theme="light"] .hero::after,
+:root[data-theme="light"] .project-simple-banner::before,
+:root[data-theme="light"] .project-simple-content::before,
+:root[data-theme="light"] .project-simple-image::before {
+    opacity: 0 !important;
+}
+
+:root[data-theme="light"] .topbar-nav a,
+:root[data-theme="light"] .topbar-nav a.active,
+:root[data-theme="light"] .topbar-nav a:hover,
+:root[data-theme="light"] .topbar-nav a:focus-visible {
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a:hover,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a:focus-visible,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a.active {
+    background: #f7f7f7 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] .hero,
+:root[data-theme="light"] .project-simple-banner,
+:root[data-theme="light"] .project-simple-content,
+:root[data-theme="light"] .project-simple-image,
+:root[data-theme="light"] .trivia-section,
+:root[data-theme="light"] .hero-data-block,
+:root[data-theme="light"] .projects-carousel-shell,
+:root[data-theme="light"] .insights-carousel-shell,
+:root[data-theme="light"] .game-display,
+:root[data-theme="light"] .game-panel,
+:root[data-theme="light"] .project-results-strip,
+:root[data-theme="light"] .hero-trivia-content {
+    background: #dddddd !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 8px 18px var(--shadow-soft) !important;
+}
+
+:root[data-theme="light"] .project-carousel-card,
+:root[data-theme="light"] .insight-card-link,
+:root[data-theme="light"] .game-card,
+:root[data-theme="light"] .project-results-strip > div,
+:root[data-theme="light"] .insight-tool-card,
+:root[data-theme="light"] .project-image-gallery img,
+:root[data-theme="light"] .insight-inline-figure,
+:root[data-theme="light"] .project-flow-link,
+:root[data-theme="light"] .project-tag,
+:root[data-theme="light"] .game-panel-meta > div,
+:root[data-theme="light"] .insight-tool-grid > div {
+    background: #f7f7f7 !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 6px 14px var(--shadow-soft) !important;
+}
+
+:root[data-theme="light"] .carousel-shell,
+:root[data-theme="light"] .carousel-track,
+:root[data-theme="light"] .carousel-card,
+:root[data-theme="light"] .project-carousel-image,
+:root[data-theme="light"] .insight-card-image,
+:root[data-theme="light"] .project-simple-banner img,
+:root[data-theme="light"] .project-simple-image img {
+    background: transparent !important;
+}
+
+:root[data-theme="light"] .project-results-strip,
+:root[data-theme="light"] .project-image-gallery img,
+:root[data-theme="light"] .insight-inline-figure,
+:root[data-theme="light"] .game-display,
+:root[data-theme="light"] .game-panel,
+:root[data-theme="light"] .hero-trivia-content,
+:root[data-theme="light"] .project-carousel-card,
+:root[data-theme="light"] .insight-card-link,
+:root[data-theme="light"] .game-card,
+:root[data-theme="light"] .hero,
+:root[data-theme="light"] .project-simple-banner,
+:root[data-theme="light"] .project-simple-content,
+:root[data-theme="light"] .project-simple-image,
+:root[data-theme="light"] .trivia-section {
+    border-color: #d0d0d0 !important;
+}
+
+:root[data-theme="light"] .carousel-button,
+:root[data-theme="light"] .floating-top-button {
+    background: #f7f7f7 !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 6px 14px var(--shadow-soft) !important;
+}
+
+:root[data-theme="light"] .carousel-button img,
+:root[data-theme="light"] .floating-top-button img,
+:root[data-theme="light"] .project-flow-link img,
+:root[data-theme="light"] .topbar-brand img {
+    filter: none !important;
+}
+
+:root[data-theme="light"] #sidebar,
+:root[data-theme="light"] .nav-label {
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #sidebar li.active .nav-icon,
+:root[data-theme="light"] body[data-page="project-detail"] #sidebar li.active .nav-icon,
+:root[data-theme="light"] body[data-page="insight-detail"] #sidebar li.active .nav-icon,
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar li.active .nav-icon,
+:root[data-theme="light"] #sidebar .theme-toggle-icon {
+    filter: none !important;
+}
+
+:root[data-theme="light"] .project-tag,
+:root[data-theme="light"] .hero-inline-accent,
+:root[data-theme="light"] .about-accent {
+    color: #4a79bd !important;
+}
+
+:root[data-theme="light"] .hero-inline-warm,
+:root[data-theme="light"] .about-warm {
+    color: #a8863b !important;
+}
+
+:root[data-theme="light"] .insight-read-more,
+:root[data-theme="light"] .project-carousel-link,
+:root[data-theme="light"] .hero-read-more,
+:root[data-theme="light"] .project-flow-link span {
+    color: #4a79bd !important;
+}
+
+:root[data-theme="light"] .project-image-lightbox {
+    background: rgba(17, 17, 17, 0.72) !important;
+}
+
+:root[data-theme="light"] .hero-orb,
+:root[data-theme="light"] .hero-glow,
+:root[data-theme="light"] .hero-gridlines {
+    opacity: 0.16 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .hero,
+:root[data-theme="light"] body[data-page="home"] .projects-section,
+:root[data-theme="light"] body[data-page="home"] .insights-section,
+:root[data-theme="light"] body[data-page="home"] .brain-section {
+    background: #dddddd !important;
+    color: #222222 !important;
+    border: 1px solid #d0d0d0 !important;
+    box-shadow: 0 8px 18px var(--shadow-soft) !important;
+    background-image: none !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .hero::before,
+:root[data-theme="light"] body[data-page="home"] .hero::after,
+:root[data-theme="light"] body[data-page="home"] .hero-orb,
+:root[data-theme="light"] body[data-page="home"] .hero-glow,
+:root[data-theme="light"] body[data-page="home"] .hero-gridlines {
+    opacity: 0 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .project-carousel-body,
+:root[data-theme="light"] body[data-page="home"] .insight-card-body,
+:root[data-theme="light"] body[data-page="home"] .game-card-body,
+:root[data-theme="light"] body[data-page="home"] .game-panel-copy,
+:root[data-theme="light"] body[data-page="home"] .game-panel-meta > div {
+    background: transparent !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #home.hero h1,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-main-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-sub-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-data-block p,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-copy-group,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-stat,
+:root[data-theme="light"] body[data-page="home"] .projects-section h2,
+:root[data-theme="light"] body[data-page="home"] .projects-section p,
+:root[data-theme="light"] body[data-page="home"] .insights-section h2,
+:root[data-theme="light"] body[data-page="home"] .insights-section p,
+:root[data-theme="light"] body[data-page="home"] .brain-section h2,
+:root[data-theme="light"] body[data-page="home"] .brain-section p,
+:root[data-theme="light"] body[data-page="home"] .brain-section .game-mobile-note {
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .projects-section .section-intro,
+:root[data-theme="light"] body[data-page="home"] .insights-section .section-intro,
+:root[data-theme="light"] body[data-page="home"] .brain-section .section-intro,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-sub-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-stat {
+    color: #666666 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #home.hero,
+:root[data-theme="light"] body[data-page="home"] #home.hero > h1,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-copy-group,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-copy-group p,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-main-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-sub-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-data-block,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-data-block p,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-copy,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-intro,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-subcopy,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-stat,
+:root[data-theme="light"] body[data-page="home"] #home.hero .stat-highlight {
+    color: #222222 !important;
+    -webkit-text-fill-color: #222222 !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #home.hero > h1,
+:root[data-theme="light"] body[data-page="home"] .projects-section h2,
+:root[data-theme="light"] body[data-page="home"] .insights-section h2,
+:root[data-theme="light"] body[data-page="home"] .brain-section h2 {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-sub-line,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-stat,
+:root[data-theme="light"] body[data-page="home"] .projects-section .section-intro,
+:root[data-theme="light"] body[data-page="home"] .insights-section .section-intro,
+:root[data-theme="light"] body[data-page="home"] .brain-section .section-intro {
+    color: #666666 !important;
+    -webkit-text-fill-color: #666666 !important;
+}
+
+:root[data-theme="light"] .project-simple-banner,
+:root[data-theme="light"] .project-simple-content,
+:root[data-theme="light"] .project-simple-image,
+:root[data-theme="light"] .hero,
+:root[data-theme="light"] .trivia-section,
+:root[data-theme="light"] .project-carousel-card,
+:root[data-theme="light"] .insight-card-link,
+:root[data-theme="light"] .game-card {
+    background-image: none !important;
 }
 
 @media (max-width: 980px) {
@@ -4621,7 +5067,7 @@ body[data-page="about-detail"] .nav-label {
         transform: translateY(-50%) !important;
         padding: 0.6rem !important;
         border-radius: 12px !important;
-        opacity: 0.38 !important;
+        opacity: 1 !important;
     }
 
     #sidebar ul,
@@ -4686,4 +5132,264 @@ body[data-page="home"].is-at-top #sidebar {
     body[data-page="home"].is-at-top #sidebar {
         transform: translateY(-50%) translateX(-1.4rem) !important;
     }
+}
+
+:root[data-theme="light"] .topbar::before,
+:root[data-theme="light"] body[data-page="home"] .topbar::before {
+    background: #ebebeb !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .hero,
+:root[data-theme="light"] body[data-page="home"] .trivia-section,
+:root[data-theme="light"] body[data-page="home"] .about-section,
+:root[data-theme="light"] body[data-page="home"] .skills-section,
+:root[data-theme="light"] body[data-page="home"] .projects-section,
+:root[data-theme="light"] body[data-page="home"] .insights-section,
+:root[data-theme="light"] body[data-page="home"] .brain-section {
+    background: transparent !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] #home > .hero-data-block,
+:root[data-theme="light"] body[data-page="home"] #home.hero .hero-data-block {
+    background:
+        radial-gradient(circle at top left, rgba(142, 184, 255, 0.22), transparent 56%),
+        radial-gradient(circle at 88% 78%, rgba(211, 138, 182, 0.16), transparent 34%),
+        linear-gradient(110deg, rgba(255, 255, 255, 0.82), rgba(240, 244, 252, 0.56) 62%, rgba(242, 212, 139, 0.12));
+    border: 1px solid rgba(74, 121, 189, 0.18) !important;
+    border-left: 3px solid rgba(74, 121, 189, 0.5) !important;
+    border-radius: 0 16px 16px 0 !important;
+    box-shadow: 0 10px 22px rgba(17, 17, 17, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .project-carousel-link,
+:root[data-theme="light"] body[data-page="project-detail"] .project-carousel-link,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-carousel-link {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(239, 244, 253, 0.96)) !important;
+    border: 1px solid rgba(74, 121, 189, 0.22) !important;
+    color: #3e6fb7 !important;
+    box-shadow: 0 8px 18px rgba(17, 17, 17, 0.06) !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .project-carousel-link:hover,
+:root[data-theme="light"] body[data-page="home"] .project-carousel-link:focus-visible,
+:root[data-theme="light"] body[data-page="project-detail"] .project-carousel-link:hover,
+:root[data-theme="light"] body[data-page="project-detail"] .project-carousel-link:focus-visible,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-carousel-link:hover,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-carousel-link:focus-visible {
+    border-color: rgba(74, 121, 189, 0.34) !important;
+    box-shadow: 0 12px 22px rgba(17, 17, 17, 0.08) !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"],
+:root[data-theme="light"] body[data-page="insight-detail"] {
+    background: #ebebeb !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-banner,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-content,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-image,
+:root[data-theme="light"] body[data-page="project-detail"] .project-related-section,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-banner,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-content,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-image,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-related-section {
+    background: transparent !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-banner *,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-content *,
+:root[data-theme="light"] body[data-page="project-detail"] .project-related-section *,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-banner *,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-content *,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-related-section * {
+    color: inherit;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-banner h1,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-banner h2,
+:root[data-theme="light"] body[data-page="project-detail"] .project-related-section h2,
+:root[data-theme="light"] body[data-page="project-detail"] .project-related-section h3,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-banner h1,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-banner h2,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-related-section h2,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-related-section h3 {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-banner p,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-content p,
+:root[data-theme="light"] body[data-page="project-detail"] .project-related-section p,
+:root[data-theme="light"] body[data-page="project-detail"] .project-simple-copy,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-banner p,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-content p,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-related-section p,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-simple-copy,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-content-flow {
+    color: #2b2b2b !important;
+    -webkit-text-fill-color: #2b2b2b !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-page-date,
+:root[data-theme="light"] body[data-page="project-detail"] .section-intro,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-page-date,
+:root[data-theme="light"] body[data-page="insight-detail"] .section-intro,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card-date,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card-copy {
+    color: #666666 !important;
+    -webkit-text-fill-color: #666666 !important;
+}
+
+:root[data-theme="light"] body[data-page="project-detail"] .project-carousel-card,
+:root[data-theme="light"] body[data-page="project-detail"] .project-carousel-link,
+:root[data-theme="light"] body[data-page="project-detail"] .project-page-label,
+:root[data-theme="light"] body[data-page="project-detail"] .projects-carousel-nav,
+:root[data-theme="light"] body[data-page="project-detail"] .floating-top-button,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-carousel-card,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card-link,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-tool-card,
+:root[data-theme="light"] body[data-page="insight-detail"] .project-page-label,
+:root[data-theme="light"] body[data-page="insight-detail"] .insights-carousel-nav,
+:root[data-theme="light"] body[data-page="insight-detail"] .floating-top-button,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card-empty,
+:root[data-theme="light"] body[data-page="insight-detail"] .insight-card-empty-state {
+    background: #f7f7f7 !important;
+    border: 1px solid #d0d0d0 !important;
+    box-shadow: 0 6px 14px rgba(17, 17, 17, 0.05) !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] .topbar,
+:root[data-theme="light"] body[data-page="home"] .topbar {
+    background: #ebebeb !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="light"] .topbar-nav a,
+:root[data-theme="light"] .topbar-nav a.active,
+:root[data-theme="light"] .topbar-nav a:hover,
+:root[data-theme="light"] .topbar-nav a:focus-visible,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a.active,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a:hover,
+:root[data-theme="light"] body[data-page="home"] .topbar-nav a:focus-visible {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="light"] .projects-carousel-shell,
+:root[data-theme="light"] body[data-page="home"] .projects-carousel-shell {
+    background: #ebebeb !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .game-card-media {
+    background: #f7f7f7 !important;
+}
+
+:root[data-theme="light"] .game-card-media,
+:root[data-theme="light"] body[data-page="home"] .game-card-media {
+    overflow: hidden !important;
+}
+
+:root[data-theme="light"] .game-card img,
+:root[data-theme="light"] body[data-page="home"] .game-card img {
+    width: clamp(42px, 7vw, 62px) !important;
+    height: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: clamp(42px, 7vw, 62px) !important;
+    object-fit: contain !important;
+}
+
+@media (max-width: 480px) {
+    :root[data-theme="light"] body[data-page="home"] .game-card-media {
+        width: clamp(62px, 18vw, 78px) !important;
+        min-width: clamp(62px, 18vw, 78px) !important;
+        max-width: clamp(62px, 18vw, 78px) !important;
+        padding: 0.65rem 0 0.65rem 0.65rem !important;
+    }
+}
+
+:root[data-theme="light"] body[data-page="home"] .floating-note,
+:root[data-theme="light"] body[data-page="home"] .skill-logo-card,
+:root[data-theme="light"] body[data-page="home"] .insight-card,
+:root[data-theme="light"] body[data-page="home"] .project-carousel-card,
+:root[data-theme="light"] body[data-page="home"] .game-card,
+:root[data-theme="light"] body[data-page="home"] .game-panel,
+:root[data-theme="light"] body[data-page="home"] .trivia-section,
+:root[data-theme="light"] body[data-page="home"] .hero-logo-marquee,
+:root[data-theme="light"] body[data-page="home"] .mini-stat-grid div,
+:root[data-theme="light"] body[data-page="home"] .detail-strip span,
+:root[data-theme="light"] body[data-page="home"] .project-card-meta span,
+:root[data-theme="light"] body[data-page="home"] .insight-card-empty-state,
+:root[data-theme="light"] body[data-page="home"] .insight-card-empty {
+    background: #f7f7f7 !important;
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 6px 14px rgba(17, 17, 17, 0.05) !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .projects-carousel-nav,
+:root[data-theme="light"] body[data-page="home"] .insights-carousel-nav {
+    background: #f7f7f7 !important;
+    border: 1px solid #d0d0d0 !important;
+    box-shadow: 0 6px 14px rgba(17, 17, 17, 0.05) !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .projects-carousel-nav:hover,
+:root[data-theme="light"] body[data-page="home"] .insights-carousel-nav:hover {
+    background: #ffffff !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .projects-carousel-nav:disabled,
+:root[data-theme="light"] body[data-page="home"] .insights-carousel-nav:disabled {
+    background: #f1f1f1 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .projects-carousel-nav img,
+:root[data-theme="light"] body[data-page="home"] .insights-carousel-nav img {
+    filter: none !important;
+}
+
+:root[data-theme="light"] body[data-page="about-detail"] {
+    background: #ebebeb !important;
+    color: #222222 !important;
+}
+
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar,
+:root[data-theme="light"] body[data-page="about-detail"] .nav-label {
+    background: #f7f7f7 !important;
+    border: 1px solid #d0d0d0 !important;
+    box-shadow: 0 6px 14px rgba(17, 17, 17, 0.05) !important;
+}
+
+:root[data-theme="light"] body[data-page="about-detail"] .nav-icon-wrap {
+    border-color: rgba(74, 121, 189, 0.12) !important;
+}
+
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap,
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap,
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap {
+    background: rgba(142, 184, 255, 0.18) !important;
+    border-color: rgba(74, 121, 189, 0.24) !important;
+}
+
+:root[data-theme="light"] body[data-page="about-detail"] #sidebar li.active .nav-icon {
+    filter: none !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .hero-trivia-text {
+    background: #f7f7f7 !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
 }

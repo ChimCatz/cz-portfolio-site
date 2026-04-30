@@ -7,6 +7,18 @@
     <title>Chimzoe Catalan | Data Analyst Portfolio, Automation Projects & Insights</title>
     <meta name="description" content="Explore Chimzoe Catalan's portfolio featuring data analytics, workflow automation, CRM tools, case studies, and practical insights on systems, AI, and analytics.">
     <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <script type="text/javascript">
         (function(c, l, a, r, i, t, y) {
@@ -77,6 +89,14 @@
                     </span>
                     <span class="nav-label">Challenges</span>
                 </a>
+            </li>
+            <li>
+                <button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="assets/icons/light-mode.svg" data-icon-dark="assets/icons/dark-mode.svg">
+                    <span class="nav-icon-wrap">
+                        <img class="nav-icon theme-toggle-icon" src="assets/icons/light-mode.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span class="nav-label">Light Mode</span>
+                </button>
             </li>
         </ul>
     </nav>

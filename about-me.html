@@ -7,6 +7,18 @@
     <title>About Me | Chimzoe Catalan</title>
     <meta name="description" content="Learn more about Chimzoe Catalan, including personal background, workflow philosophy, and the tools used across data automation and analytics projects.">
     <link rel="icon" type="image/svg+xml" href="assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <style>
         body[data-page="about-detail"] main {
@@ -80,7 +92,7 @@
 
         body[data-page="about-detail"] .about-copy p:hover,
         body[data-page="about-detail"] .about-copy li:hover {
-            color: #f3f7ff;
+            color: var(--text);
         }
 
         body[data-page="about-detail"] .about-copy p:hover {
@@ -88,7 +100,7 @@
         }
 
         body[data-page="about-detail"] .about-accent {
-            color: #8eb8ff;
+            color: var(--sky);
             font-weight: 600;
             transition: color 180ms ease;
         }
@@ -101,17 +113,17 @@
         }
 
         body[data-page="about-detail"] .about-warm {
-            color: #f2d48b;
+            color: var(--amber);
             font-weight: 600;
             transition: color 180ms ease;
         }
 
         body[data-page="about-detail"] .about-copy p:hover .about-accent {
-            color: #bfd5ff;
+            color: color-mix(in srgb, var(--sky) 82%, white);
         }
 
         body[data-page="about-detail"] .about-copy p:hover .about-warm {
-            color: #f7e1a9;
+            color: color-mix(in srgb, var(--amber) 78%, white);
         }
 
         body[data-page="about-detail"] .experience-row {
@@ -130,7 +142,7 @@
 
         body[data-page="about-detail"] .experience-row span:last-child {
             text-align: right;
-            color: #d9e6ff;
+            color: var(--muted-strong);
         }
 
         body[data-page="about-detail"] ul {
@@ -163,7 +175,7 @@
 
         body[data-page="about-detail"] .credential-link:hover,
         body[data-page="about-detail"] .credential-link:focus-visible {
-            color: #f3f7ff;
+            color: var(--text);
             transform: translateX(2px);
         }
 
@@ -211,6 +223,14 @@
             <li><a href="czcatzzz.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
             <li><a href="czcatzzz.html#insights" aria-label="Insights" data-target="insights"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/insights.svg" alt="" aria-hidden="true"></span><span class="nav-label">Insights</span></a></li>
             <li><a href="czcatzzz.html#brain-challenge" aria-label="Challenges" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenges</span></a></li>
+            <li>
+                <button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="assets/icons/light-mode.svg" data-icon-dark="assets/icons/dark-mode.svg">
+                    <span class="nav-icon-wrap">
+                        <img class="nav-icon theme-toggle-icon" src="assets/icons/light-mode.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span class="nav-label">Light Mode</span>
+                </button>
+            </li>
         </ul>
     </nav>
 

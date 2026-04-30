@@ -3,6 +3,8 @@ const navItems = [...document.querySelectorAll('#sidebar li')];
 const navLinks = [...document.querySelectorAll('#sidebar a[data-target]')];
 const topbar = document.querySelector('[data-topbar]');
 const topbarLinks = [...document.querySelectorAll('.topbar-nav a[data-target]')];
+const themeToggleButtons = [...document.querySelectorAll('[data-theme-toggle]')];
+const THEME_STORAGE_KEY = 'cz-theme';
 const pageSections = navLinks
     .map((link) => {
         const href = link.getAttribute('href');
@@ -23,6 +25,76 @@ const setActiveNav = (target) => {
 
     topbarLinks.forEach((link) => {
         link.classList.toggle('active', link.dataset.target === target);
+    });
+};
+
+const getStoredTheme = () => {
+    try {
+        return localStorage.getItem(THEME_STORAGE_KEY) || 'dark';
+    } catch (error) {
+        return 'dark';
+    }
+};
+
+const persistTheme = (theme) => {
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+        // Ignore storage issues and keep the current in-memory theme.
+    }
+};
+
+const syncThemeToggleButton = (button, theme) => {
+    if (!button) {
+        return;
+    }
+
+    const isDark = theme === 'dark';
+    const icon = button.querySelector('.theme-toggle-icon');
+    const label = button.querySelector('.nav-label');
+    const nextLabel = isDark ? 'Light Mode' : 'Dark Mode';
+    const iconPath = isDark ? button.dataset.iconLight : button.dataset.iconDark;
+
+    button.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+
+    if (icon && iconPath) {
+        icon.src = iconPath;
+    }
+
+    if (label) {
+        label.textContent = nextLabel;
+    }
+};
+
+const applyTheme = (theme) => {
+    const nextTheme = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    document.documentElement.style.colorScheme = nextTheme;
+    document.body.dataset.themeMode = nextTheme;
+    document.body.classList.toggle('theme-light', nextTheme === 'light');
+    document.body.classList.toggle('theme-dark', nextTheme === 'dark');
+
+    themeToggleButtons.forEach((button) => syncThemeToggleButton(button, nextTheme));
+};
+
+const initTheme = () => {
+    const initialTheme = getStoredTheme();
+    applyTheme(initialTheme);
+
+    themeToggleButtons.forEach((button) => {
+        let switchTimer = null;
+
+        button.addEventListener('click', () => {
+            const nextTheme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+            applyTheme(nextTheme);
+            persistTheme(nextTheme);
+
+            button.classList.add('is-switching');
+            window.clearTimeout(switchTimer);
+            switchTimer = window.setTimeout(() => {
+                button.classList.remove('is-switching');
+            }, 220);
+        });
     });
 };
 
@@ -711,6 +783,7 @@ const initGameSwitch = () => {
 };
 
 initRelatedContent();
+initTheme();
 initTrivia();
 initGameSwitch();
 initSectionSpy();

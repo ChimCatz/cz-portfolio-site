@@ -190,6 +190,12 @@ This file preserves the key working context, design choices, and content decisio
   - project results strip styles
 - When changing project page styling, favor subtle variation over identical repeated containers.
 - Any new section or visual adjustment should be checked in mobile view as part of the default workflow, not only on desktop.
+- Theme system notes:
+  - dark mode is the default theme
+  - light mode is driven from `:root[data-theme="light"]`
+  - `assets/js/app.js` also syncs `body[data-theme-mode]` plus `body.theme-light` / `body.theme-dark` for future targeting
+  - prefer adding theme-specific overrides near the shared theme section instead of creating more scattered per-page color fixes
+  - if an older homepage override forces colors with `!important`, add the light-mode correction with equal or higher specificity rather than changing layout structure
 - Current homepage mobile behaviors to preserve:
   - Skills section: `2` skill logo cards per row
   - Insights section: prev/next buttons grouped side-by-side at the top-right of the insights content area
@@ -202,6 +208,10 @@ This file preserves the key working context, design choices, and content decisio
   - section spy on homepage
   - active Projects nav item on project detail pages
   - Brain Challenge reveal-on-click behavior
+- Theme behavior:
+  - selected theme is stored in `localStorage` under `cz-theme`
+  - HTML pages set the saved theme early in `<head>` before loading CSS
+  - the sidebar theme toggle swaps icons based on the next available mode
 - Related content is now metadata-driven in `assets/js/app.js`:
   - `PROJECT_ITEMS` powers project carousels
   - `INSIGHT_ITEMS` powers insight carousels
