@@ -133,11 +133,12 @@ a {
     transform: translateY(-50%);
     z-index: 30;
     padding: 0.48rem;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 999px;
-    background: linear-gradient(180deg, rgba(11, 18, 42, 0.42), rgba(8, 14, 34, 0.16));
+    background: linear-gradient(180deg, rgba(11, 18, 42, 0.14), rgba(8, 14, 34, 0.04));
     backdrop-filter: blur(14px);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    opacity: 0.38;
     transition: opacity var(--transition), transform var(--transition), border-color var(--transition), background var(--transition);
 }
 
@@ -153,6 +154,14 @@ a {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+}
+
+#sidebar:hover,
+#sidebar:focus-within {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, rgba(11, 18, 42, 0.88), rgba(8, 14, 34, 0.76));
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26);
 }
 
 #sidebar a:hover .nav-icon-wrap,
@@ -180,8 +189,8 @@ a {
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
@@ -4486,5 +4495,195 @@ body[data-page="home"] .hero-trivia-text {
     body[data-page="home"] .projects-carousel-nav-prev,
     body[data-page="home"] .insights-carousel-nav-prev {
         right: 2rem;
+    }
+}
+
+body[data-page="home"] #sidebar,
+body[data-page="project-detail"] #sidebar,
+body[data-page="insight-detail"] #sidebar,
+body[data-page="about-detail"] #sidebar {
+    width: fit-content !important;
+    max-width: none !important;
+    padding: 0.6rem !important;
+    background: linear-gradient(180deg, rgba(15, 15, 15, 0.12), rgba(15, 15, 15, 0.03)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
+    backdrop-filter: blur(14px) !important;
+    opacity: 0.38 !important;
+}
+
+body[data-page="home"] #sidebar:hover,
+body[data-page="home"] #sidebar:focus-within,
+body[data-page="project-detail"] #sidebar:hover,
+body[data-page="project-detail"] #sidebar:focus-within,
+body[data-page="insight-detail"] #sidebar:hover,
+body[data-page="insight-detail"] #sidebar:focus-within,
+body[data-page="about-detail"] #sidebar:hover,
+body[data-page="about-detail"] #sidebar:focus-within {
+    background: linear-gradient(180deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0.78)) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.26) !important;
+    opacity: 1 !important;
+}
+
+body[data-page="home"] #sidebar ul,
+body[data-page="project-detail"] #sidebar ul,
+body[data-page="insight-detail"] #sidebar ul,
+body[data-page="about-detail"] #sidebar ul {
+    gap: 0.48rem !important;
+}
+
+body[data-page="home"] #sidebar a,
+body[data-page="project-detail"] #sidebar a,
+body[data-page="insight-detail"] #sidebar a,
+body[data-page="about-detail"] #sidebar a {
+    width: 100%;
+}
+
+body[data-page="home"] .nav-icon-wrap,
+body[data-page="project-detail"] .nav-icon-wrap,
+body[data-page="insight-detail"] .nav-icon-wrap,
+body[data-page="about-detail"] .nav-icon-wrap {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: none !important;
+}
+
+body[data-page="home"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="home"] #sidebar a:focus-visible .nav-icon-wrap,
+body[data-page="project-detail"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="project-detail"] #sidebar a:focus-visible .nav-icon-wrap,
+body[data-page="insight-detail"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="insight-detail"] #sidebar a:focus-visible .nav-icon-wrap,
+body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap,
+body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap {
+    background: rgba(142, 184, 255, 0.14) !important;
+    border-color: rgba(142, 184, 255, 0.34) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2), 0 0 18px rgba(142, 184, 255, 0.14) !important;
+}
+
+body[data-page="home"] #sidebar li.active .nav-icon-wrap,
+body[data-page="project-detail"] #sidebar li.active .nav-icon-wrap,
+body[data-page="insight-detail"] #sidebar li.active .nav-icon-wrap,
+body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap {
+    background: rgba(142, 184, 255, 0.16) !important;
+    border-color: rgba(142, 184, 255, 0.42) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: inset 0 0 0 1px rgba(191, 213, 255, 0.2), 0 12px 26px rgba(0, 0, 0, 0.2), 0 0 20px rgba(142, 184, 255, 0.18) !important;
+}
+
+body[data-page="home"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="home"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="home"] #sidebar li.active .nav-icon-wrap::after,
+body[data-page="project-detail"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="project-detail"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="project-detail"] #sidebar li.active .nav-icon-wrap::after,
+body[data-page="insight-detail"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="insight-detail"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="insight-detail"] #sidebar li.active .nav-icon-wrap::after,
+body[data-page="about-detail"] #sidebar a:hover .nav-icon-wrap::after,
+body[data-page="about-detail"] #sidebar a:focus-visible .nav-icon-wrap::after,
+body[data-page="about-detail"] #sidebar li.active .nav-icon-wrap::after {
+    opacity: 1 !important;
+}
+
+body[data-page="home"] #sidebar li.active .nav-icon,
+body[data-page="project-detail"] #sidebar li.active .nav-icon,
+body[data-page="insight-detail"] #sidebar li.active .nav-icon,
+body[data-page="about-detail"] #sidebar li.active .nav-icon {
+    filter: brightness(0) invert(1) !important;
+}
+
+body[data-page="home"] .nav-label,
+body[data-page="project-detail"] .nav-label,
+body[data-page="insight-detail"] .nav-label,
+body[data-page="about-detail"] .nav-label {
+    background: rgba(15, 15, 15, 0.94) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22) !important;
+    backdrop-filter: blur(14px) !important;
+}
+
+@media (max-width: 980px) {
+    #sidebar,
+    body[data-page="home"] #sidebar,
+    body[data-page="project-detail"] #sidebar,
+    body[data-page="insight-detail"] #sidebar,
+    body[data-page="about-detail"] #sidebar {
+        left: 1rem !important;
+        top: 50% !important;
+        bottom: auto !important;
+        transform: translateY(-50%) !important;
+        padding: 0.6rem !important;
+        border-radius: 12px !important;
+        opacity: 0.38 !important;
+    }
+
+    #sidebar ul,
+    body[data-page="home"] #sidebar ul,
+    body[data-page="project-detail"] #sidebar ul,
+    body[data-page="insight-detail"] #sidebar ul,
+    body[data-page="about-detail"] #sidebar ul {
+        display: grid !important;
+        gap: 0.45rem !important;
+    }
+
+    .nav-label,
+    body[data-page="home"] .nav-label,
+    body[data-page="project-detail"] .nav-label,
+    body[data-page="insight-detail"] .nav-label,
+    body[data-page="about-detail"] .nav-label {
+        left: calc(100% + 0.75rem) !important;
+        top: 50% !important;
+        bottom: auto !important;
+        transform: translate3d(-6px, -50%, 0) !important;
+    }
+
+    #sidebar a:hover .nav-label,
+    #sidebar a:focus-visible .nav-label {
+        transform: translate3d(0, -50%, 0) !important;
+    }
+}
+
+body[data-page="about-detail"] #sidebar {
+    left: 1.15rem !important;
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0.6rem !important;
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+    transform: translateY(-50%) !important;
+}
+
+body[data-page="about-detail"] #sidebar ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0.48rem !important;
+}
+
+body[data-page="about-detail"] #sidebar li,
+body[data-page="about-detail"] #sidebar a {
+    margin: 0 !important;
+}
+
+body[data-page="home"].is-at-top #sidebar {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(-50%) translateX(-1.4rem) !important;
+}
+
+@media (max-width: 980px) {
+    body[data-page="home"].is-at-top #sidebar {
+        transform: translateY(-50%) translateX(-1.4rem) !important;
     }
 }

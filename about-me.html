@@ -12,7 +12,7 @@
         body[data-page="about-detail"] main {
             width: min(calc(100% - 2rem), 580px);
             padding: 1rem 0 1.75rem;
-            gap: 3.75rem;
+            gap: 2.6rem;
         }
 
         body[data-page="about-detail"] .about-me-page {
@@ -50,6 +50,22 @@
 
         body[data-page="about-detail"] h2 {
             font-size: clamp(1.55rem, 4vw, 2rem);
+        }
+
+        body[data-page="about-detail"] .about-chibi {
+            display: block;
+            width: 150px;
+            height: 150px;
+            padding: 0;
+            object-fit: contain;
+        }
+
+        body[data-page="about-detail"] .about-welcome-chibi {
+            margin: -1.2rem auto -0.85rem;
+        }
+
+        body[data-page="about-detail"] .about-inline-chibi {
+            margin: -0.45rem auto -0.85rem;
         }
 
         body[data-page="about-detail"] .about-copy p,
@@ -203,11 +219,13 @@
             <div class="section-heading">
                 <h1>Hello, Welcome World!</h1>
             </div>
+            <img class="about-chibi about-welcome-chibi" src="assets/chibicz/chibicz-2-welcome.png" alt="Chibi welcome illustration of CZ.">
             <div class="about-copy about-copy-text">
                 <p class="justified">I'm Chim, but I go by CZ.</p>
                 <p class="justified">I'm an engineer who enjoys working with <span class="about-accent">data</span> and building small scripts in <span class="about-accent">Python</span> and sometimes <span class="about-warm">MySQL</span> to make things easier.</p>
                 <p class="justified">I'm a tech and AI enthusiast. I spend a lot of time exploring <span class="about-accent">data science</span> and <span class="about-accent">artificial intelligence</span>, with the goal of moving into <span class="about-warm">machine learning</span> and <span class="about-warm">data engineering</span>. Over time, I realized something simple: everything comes down to data. The best systems, programs, and even AI models are only as good as the data behind them.</p>
                 <p class="justified">I'm <span id="live-age" class="about-accent live-age">0.000000000</span> years old in real time and based in <span class="about-warm">Cagayan de Oro City, Philippines</span>. I graduated from <span class="about-accent">Xavier University - Ateneo de Cagayan</span> with a degree in Electronics and Communications Engineering, which sits somewhere between computers, electronics, and signals.</p>
+                <img class="about-chibi about-inline-chibi" src="assets/chibicz/chibicz-3-coding.png" alt="Chibi coding illustration of CZ.">
                 <p class="justified">Outside of work, I'm a gamer. I enjoy <span class="about-accent">open-world games</span> and usually go for <span class="about-warm">100% completion</span> when I can. I like the Assassin's Creed and Far Cry series. I also play competitive games like Dota 2, League of Legends, and Valorant. I've also been a long-time fan of Pokemon.</p>
             </div>
         </section>

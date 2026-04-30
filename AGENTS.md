@@ -163,6 +163,12 @@ This file preserves the key working context, design choices, and content decisio
 - Project assets live in their own folders under `assets/images/`.
 - Project detail pages now live under `projects/`.
 - Insight detail pages now live under `insights/`.
+- Chibi art assets live under `assets/chibicz/`.
+- Current chibi placement rule:
+  - all chibi images should use the same displayed size across the site
+  - if one chibi size is changed, update all chibi images to match
+  - current shared target size is `150x150` pixels unless the user asks otherwise
+  - keep chibi wrappers visually tight: no extra padding and only minimal margin needed for placement
 - Existing project asset folders:
   - `assets/images/leadflow-etl/`
   - `assets/images/csv-advanced-search-engine/`
