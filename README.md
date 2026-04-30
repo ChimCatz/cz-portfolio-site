@@ -45,3 +45,15 @@ Open `czcatzzz.html` directly in a browser.
   - Skills show `2` logo cards per row
   - Insights prev/next buttons sit together at the top-right of the section content
   - Challenges game cards stack vertically
+
+## Supabase Integration
+
+- Supabase is set up for frontend features that may need shared data later, such as likes, scoreboards, saved stats, comments, or lightweight content actions.
+- Shared config lives in `assets/js/supabase.js`.
+- The site uses the Supabase CDN plus the publishable key only.
+- Global access is exposed through `window.supabaseClient` and `window.supabaseReady`.
+- Security rule: never place a `service_role` key in this frontend project.
+- To extend it later:
+  - create the new table or policy in Supabase
+  - add the page-specific read/write logic in the relevant script
+  - reuse `window.supabaseClient` instead of creating extra clients per page

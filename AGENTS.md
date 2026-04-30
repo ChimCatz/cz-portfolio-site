@@ -224,6 +224,24 @@ This file preserves the key working context, design choices, and content decisio
   - add the new detail page with the correct `data-current-slug`
   - update homepage content only where needed
 
+## Supabase Integration
+- Shared frontend client file: `assets/js/supabase.js`
+- Load order pattern on pages that use shared scripts:
+  - Supabase CDN first
+  - `assets/js/supabase.js` second
+  - page-specific/shared scripts after that
+- Global client access:
+  - `window.supabaseClient`
+  - `window.supabaseReady`
+  - `window.supabaseInitError`
+- Only the publishable key is allowed in the frontend.
+- Never place a `service_role` key in any HTML or browser JS file.
+- Intended future uses include likes, scoreboards, run history, or other lightweight shared data features.
+- When extending Supabase features later:
+  - create the table/policies in Supabase first
+  - keep queries in page-specific JS where the feature lives
+  - reuse the shared client instead of creating duplicate initializers
+
 ## Content and Writing Preferences
 - The user likes direct, practical project storytelling.
 - Case studies should focus on:
