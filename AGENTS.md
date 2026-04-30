@@ -242,6 +242,21 @@ This file preserves the key working context, design choices, and content decisio
   - keep queries in page-specific JS where the feature lives
   - reuse the shared client instead of creating duplicate initializers
 
+### Insight Likes
+- Frontend table used: `insight_likes`
+- Frontend columns used:
+  - `slug`
+  - `visitor_id`
+  - `created_at`
+- Visitor identity is anonymous and local-only through `localStorage` key `cz-visitor-id`
+- One-like-per-user rule is enforced by unique `(slug, visitor_id)`
+- Files involved:
+  - `assets/js/insight-likes.js`
+  - all `insights/*.html` detail pages
+  - `assets/css/styles.css`
+- Keep this feature frontend-safe only:
+  - never place a Supabase `service_role` key in HTML or client-side JS
+
 ## Content and Writing Preferences
 - The user likes direct, practical project storytelling.
 - Case studies should focus on:

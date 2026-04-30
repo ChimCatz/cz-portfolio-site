@@ -57,3 +57,16 @@ Open `czcatzzz.html` directly in a browser.
   - create the new table or policy in Supabase
   - add the page-specific read/write logic in the relevant script
   - reuse `window.supabaseClient` instead of creating extra clients per page
+
+### Insight Likes
+
+- Table name: `insight_likes`
+- Columns used by the frontend: `slug`, `visitor_id`, `created_at`
+- Visitor identity is stored locally in `localStorage` under `cz-visitor-id`
+- Rule: one like per visitor per insight, enforced by unique `(slug, visitor_id)`
+- Files involved:
+  - `assets/js/supabase.js`
+  - `assets/js/insight-likes.js`
+  - `insights/*.html`
+  - `assets/css/styles.css`
+- Never use a Supabase `service_role` key in frontend HTML or browser JavaScript
