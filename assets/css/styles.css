@@ -4354,11 +4354,16 @@ body[data-page="home"] .container {
 
 body[data-page="home"] .section-heading,
 body[data-page="home"] .section-intro,
-body[data-page="home"] .projects-carousel-shell,
-body[data-page="home"] .insights-carousel-shell,
 body[data-page="home"] .game-selector,
 body[data-page="home"] .trivia-section > * {
     max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body[data-page="home"] .projects-carousel-shell,
+body[data-page="home"] .insights-carousel-shell {
+    max-width: 640px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -4383,7 +4388,7 @@ body[data-page="home"] .section-intro {
 }
 
 body[data-page="home"] .projects-section {
-    padding-bottom: 0.4rem !important;
+    padding-bottom: 0 !important;
 }
 
 body[data-page="home"] .insights-section {
@@ -4392,31 +4397,34 @@ body[data-page="home"] .insights-section {
 
 body[data-page="home"] .projects-carousel-shell,
 body[data-page="home"] .insights-carousel-shell {
-    padding: 1.25rem 0 0 !important;
+    padding: 1.1rem 0 2.4rem !important;
     position: relative;
 }
 
 body[data-page="home"] .projects-carousel-grid,
 body[data-page="home"] .insights-card-grid {
-    justify-content: stretch !important;
+    justify-content: center !important;
     gap: 0.6rem;
+    align-items: start;
 }
 
 body[data-page="home"] .projects-carousel-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, 310px) !important;
+    grid-auto-rows: 280px;
 }
 
 body[data-page="home"] .insights-card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, 300px) !important;
+    grid-auto-rows: 260px;
 }
 
 body[data-page="home"] .projects-carousel-track {
-    min-height: clamp(332px, 52vw, 372px);
+    min-height: 570px;
     height: auto;
 }
 
 body[data-page="home"] .insights-carousel-track {
-    min-height: clamp(308px, 48vw, 340px);
+    min-height: 530px;
     height: auto;
 }
 
@@ -4425,58 +4433,87 @@ body[data-page="home"] .insight-card {
     width: 100% !important;
     min-height: 0;
     border-radius: 16px;
+    align-self: start;
+    justify-self: center;
 }
 
 body[data-page="home"] .project-carousel-card {
-    grid-template-rows: 106px auto;
-    height: auto;
+    width: 310px !important;
+    height: 280px;
+    grid-template-rows: 104px 176px;
+}
+
+body[data-page="home"] .insight-card {
+    width: 300px !important;
+    height: 260px;
 }
 
 body[data-page="home"] .project-carousel-body,
 body[data-page="home"] .insight-card-body {
-    padding: 0.68rem 0.68rem 0.72rem !important;
-    gap: 0.34rem;
+    padding: 0.55rem 0.6rem 0.5rem !important;
+    gap: 0.22rem;
+}
+
+body[data-page="home"] .insight-card-link {
+    min-height: 0;
+    height: 260px;
+}
+
+body[data-page="home"] .insights-card-grid > .insight-card:only-child {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    justify-self: start;
 }
 
 body[data-page="home"] .project-carousel-body h3,
 body[data-page="home"] .insight-card-body h3 {
-    font-size: 0.9rem;
-    line-height: 1.26;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 body[data-page="home"] .project-carousel-copy,
 body[data-page="home"] .insight-card-copy {
-    font-size: 0.78rem;
-    line-height: 1.4;
+    font-size: 0.74rem;
+    line-height: 1.32;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 body[data-page="home"] .project-carousel-list {
-    gap: 0.24rem;
-    font-size: 0.72rem;
-    line-height: 1.3;
+    gap: 0.14rem;
+    font-size: 0.66rem;
+    line-height: 1.18;
+    overflow: hidden;
 }
 
 body[data-page="home"] .project-carousel-link,
 body[data-page="home"] .insight-read-more {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
 }
 
 body[data-page="home"] .project-carousel-link {
-    min-height: 32px;
-    padding: 0.42rem 0.62rem;
+    min-height: 28px;
+    padding: 0.34rem 0.56rem;
 }
 
 body[data-page="home"] .insight-card-link {
-    grid-template-rows: 116px auto;
+    grid-template-rows: 96px 164px;
 }
 
 body[data-page="home"] .insight-card-date {
-    font-size: 0.68rem;
+    font-size: 0.64rem;
 }
 
 body[data-page="home"] .projects-carousel-nav,
 body[data-page="home"] .insights-carousel-nav {
-    top: 0.2rem;
+    top: auto;
+    bottom: 0.25rem;
+    transform: none;
     width: 28px !important;
     height: 28px !important;
     min-width: 28px !important;
@@ -4512,6 +4549,21 @@ body[data-page="home"] .insights-carousel-nav-prev {
 body[data-page="home"] .projects-carousel-nav-next,
 body[data-page="home"] .insights-carousel-nav-next {
     right: 0;
+}
+
+body[data-page="home"] .projects-carousel-nav:hover,
+body[data-page="home"] .insights-carousel-nav:hover {
+    transform: scale(1.08);
+}
+
+body[data-page="home"] .projects-carousel-nav:active,
+body[data-page="home"] .insights-carousel-nav:active {
+    transform: scale(0.96);
+}
+
+body[data-page="home"] .projects-carousel-nav:disabled:hover,
+body[data-page="home"] .insights-carousel-nav:disabled:hover {
+    transform: none;
 }
 
 body[data-page="home"] .game-selector {
@@ -4634,10 +4686,11 @@ body[data-page="home"] .hero-trivia-text {
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 899px) {
     body[data-page="home"] .projects-carousel-grid,
     body[data-page="home"] .insights-card-grid {
         grid-template-columns: 1fr !important;
+        grid-auto-rows: auto;
     }
 
     body[data-page="home"] .projects-carousel-track {
@@ -4650,11 +4703,23 @@ body[data-page="home"] .hero-trivia-text {
 
     body[data-page="home"] .projects-carousel-shell,
     body[data-page="home"] .insights-carousel-shell {
-        padding-top: 1.65rem !important;
+        padding-top: 1.25rem !important;
     }
 
     body[data-page="home"] .insight-card-link {
         grid-template-rows: 112px auto;
+    }
+
+    body[data-page="home"] .project-carousel-card,
+    body[data-page="home"] .insight-card,
+    body[data-page="home"] .insight-card-link {
+        width: 100% !important;
+        max-width: 100%;
+        height: auto;
+    }
+
+    body[data-page="home"] .project-carousel-card {
+        grid-template-rows: 106px auto;
     }
 
     body[data-page="home"] .projects-carousel-nav-prev,

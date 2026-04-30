@@ -146,7 +146,7 @@ const initSectionSpy = () => {
     updateActiveSection();
 };
 
-const isMobileCarouselViewport = () => window.matchMedia('(max-width: 980px)').matches;
+const isMobileCarouselViewport = () => window.matchMedia('(max-width: 899px)').matches;
 
 const PROJECT_ITEMS = [
     {
