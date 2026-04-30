@@ -308,48 +308,53 @@ const renderRelatedSection = (section) => {
     const kind = section.dataset.relatedKind;
     const currentSlug = section.dataset.currentSlug;
     const items = kind === 'projects' ? PROJECT_ITEMS : INSIGHT_ITEMS;
-    const headingLabel = kind === 'projects' ? 'Builds' : 'Insights';
-    const headingTitle = kind === 'projects' ? 'More Projects' : 'More Insights';
+    const page = document.body?.dataset.page || '';
+    const isDetailPage = page === 'project-detail' || page === 'insight-detail';
+    if (isDetailPage) {
+        section.classList.add('related-home-clone-host');
+    }
+    const headingTitle = kind === 'projects' ? 'Projects' : 'Insights';
     const shellClass = kind === 'projects' ? 'projects-carousel-shell' : 'insights-carousel-shell';
     const navClass = kind === 'projects' ? 'projects-carousel-nav' : 'insights-carousel-nav';
     const navPrevClass = kind === 'projects' ? 'projects-carousel-nav-prev' : 'insights-carousel-nav-prev';
     const navNextClass = kind === 'projects' ? 'projects-carousel-nav-next' : 'insights-carousel-nav-next';
     const trackClass = kind === 'projects' ? 'projects-carousel-track' : 'insights-carousel-track';
     const gridClass = kind === 'projects' ? 'projects-carousel-grid' : 'insights-card-grid';
-    const desktopChunkSize = kind === 'projects' ? 2 : 3;
+    const desktopChunkSize = isDetailPage ? 4 : kind === 'projects' ? 2 : 3;
     const renderCard = kind === 'projects' ? renderProjectCard : renderInsightCard;
     const relatedItems = items.filter((item) => item.slug !== currentSlug);
     const slides = chunkItems(relatedItems, desktopChunkSize);
     const carouselName = `related-${kind}-${currentSlug}`;
 
     section.innerHTML = `
-        <div class="section-heading section-heading-row">
-            <div>
-                <span class="section-kicker">${headingLabel}</span>
-                <h2>${headingTitle}</h2>
-            </div>
-        </div>
-
-        <div class="${shellClass}">
-            <button class="carousel-button icon-carousel-button ${navClass} ${navPrevClass}" type="button" data-carousel-prev="${carouselName}" aria-label="Previous ${kind}">
-                <img src="../assets/icons/left-arrow.svg" alt="" aria-hidden="true">
-            </button>
-
-            <div class="carousel-shell" data-carousel="${carouselName}" data-carousel-kind="${kind}">
-                <div class="carousel-track ${trackClass}">
-                    ${slides.map((slide, slideIndex) => `
-                        <div class="carousel-card${slideIndex === 0 ? ' is-active' : ''}">
-                            <div class="${gridClass}">
-                                ${slide.map((item) => renderCard(item)).join('')}
-                            </div>
-                        </div>
-                    `).join('')}
+        <div class="related-home-clone related-home-clone--${kind}">
+            <div class="related-home-clone-heading">
+                <div class="related-home-clone-heading-inner">
+                    <h2>${headingTitle}</h2>
                 </div>
             </div>
 
-            <button class="carousel-button icon-carousel-button ${navClass} ${navNextClass}" type="button" data-carousel-next="${carouselName}" aria-label="Next ${kind}">
-                <img src="../assets/icons/right-arrow.svg" alt="" aria-hidden="true">
-            </button>
+            <div class="related-home-clone-shell ${shellClass}">
+                <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-prev ${navClass} ${navPrevClass}" type="button" data-carousel-prev="${carouselName}" aria-label="Previous ${kind}">
+                    <img src="../assets/icons/left-arrow.svg" alt="" aria-hidden="true">
+                </button>
+
+                <div class="carousel-shell related-home-clone-carousel" data-carousel="${carouselName}" data-carousel-kind="${kind}">
+                    <div class="carousel-track ${trackClass}">
+                        ${slides.map((slide, slideIndex) => `
+                            <div class="carousel-card${slideIndex === 0 ? ' is-active' : ''}">
+                                <div class="${gridClass}">
+                                    ${slide.map((item) => renderCard(item)).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-next ${navClass} ${navNextClass}" type="button" data-carousel-next="${carouselName}" aria-label="Next ${kind}">
+                    <img src="../assets/icons/right-arrow.svg" alt="" aria-hidden="true">
+                </button>
+            </div>
         </div>
     `;
 };
