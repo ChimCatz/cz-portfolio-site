@@ -63,10 +63,31 @@
     --mode-button-border: rgba(255, 255, 255, 0.08);
     --mode-button-hover-bg: rgba(142, 184, 255, 0.12);
     --mode-button-hover-border: rgba(142, 184, 255, 0.32);
+    --page-bg: #EBEBEB;
+    --particle-color: rgba(34, 34, 34, 0.18);
+    --particle-accent: #222222;
     --font-sans: "Inter", "Proxima Nova", "Segoe UI", sans-serif;
     --content-max: 1180px;
     --radius: 28px;
     --transition: 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root[data-theme="dark"],
+[data-theme="dark"],
+body.theme-dark,
+body.dark-mode {
+    --page-bg: #0F0F0F;
+    --particle-color: rgba(255, 255, 255, 0.24);
+    --particle-accent: #FFFFFF;
+}
+
+:root[data-theme="light"],
+[data-theme="light"],
+body.theme-light,
+body.light-mode {
+    --page-bg: #EBEBEB;
+    --particle-color: rgba(34, 34, 34, 0.18);
+    --particle-accent: #222222;
 }
 
 :root[data-theme="light"] {
@@ -133,20 +154,28 @@ option {
 
 html {
     scroll-behavior: smooth;
+    background: var(--page-bg);
 }
 
 body {
     min-height: 100vh;
     font-family: var(--font-sans);
     color: var(--text);
-    background:
-        radial-gradient(circle at 10% 16%, rgba(211, 138, 182, 0.13), transparent 21%),
-        radial-gradient(circle at 84% 11%, rgba(142, 184, 255, 0.22), transparent 24%),
-        radial-gradient(circle at 74% 74%, rgba(242, 212, 139, 0.1), transparent 22%),
-        radial-gradient(circle at 24% 86%, rgba(74, 107, 194, 0.18), transparent 24%),
-        radial-gradient(circle at 52% 42%, rgba(84, 54, 176, 0.1), transparent 28%),
-        var(--site-bg);
+    position: relative;
+    isolation: isolate;
+    background: transparent;
     transition: background-color 200ms ease, background-image 200ms ease, color 200ms ease;
+}
+
+#site-particles-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    pointer-events: none;
+    background: var(--page-bg);
+    z-index: 0;
 }
 
 body,
@@ -174,7 +203,7 @@ body::after {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
 }
 
 body::before {
@@ -399,6 +428,22 @@ main {
     padding: 3rem clamp(1.2rem, 3vw, 3rem) 3rem clamp(4.9rem, 9vw, 8.4rem);
     display: grid;
     gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--page-bg);
+    pointer-events: none;
+    z-index: 0;
+}
+
+main > * {
+    position: relative;
+    z-index: 1;
 }
 
 .hero,
@@ -5377,7 +5422,7 @@ body[data-page="about-detail"] .nav-label {
 }
 
 :root[data-theme="light"] body {
-    background: #ebebeb !important;
+    background: transparent !important;
     color: #222222 !important;
 }
 

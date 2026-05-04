@@ -305,6 +305,7 @@
 </head>
 
 <body data-page="about-detail" class="about-detail-page">
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
     <nav id="sidebar" aria-label="Primary">
         <ul>
             <li><a href="czcatzzz.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
@@ -374,6 +375,7 @@
                     <li>Uses Microsoft Clarity and Google Analytics for tracking</li>
                     <li>Fonts: Inter and Proxima Nova</li>
                     <li>Supabase for Database and API fetching</li>
+                    <li>Big thanks to Kyle Hoeckman for Canvas Particles JS: <a href="https://github.com/Khoeckman/canvasparticles-js" target="_blank" rel="noreferrer">github.com/Khoeckman/canvasparticles-js</a></li>
                     <li>Icons from Flaticon, SVGrepo, LottieIcons, and Lordicon</li>
                     <li>Chibi CZ forms generated using ChatGPT</li>
                 </ul>
@@ -419,6 +421,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="assets/js/particles-background.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
         (function() {

@@ -7,6 +7,18 @@
     <title>Who Wants to Be a Tech Master? | Tech Quiz Game by Chimzoe Catalan</title>
     <meta name="description" content="Play Who Wants to Be a Tech Master, a 30-level timed tech quiz game by Chimzoe Catalan featuring ranked progression from Intern to Chief Technology Officer.">
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
     <script type="text/javascript">
         (function(c, l, a, r, i, t, y) {
             c[a] = c[a] || function() {
@@ -22,6 +34,7 @@
 </head>
 
 <body>
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
     <div class="game-launch-overlay" data-launch-overlay>
         <div class="game-launch-dialog" role="dialog" aria-modal="true" aria-labelledby="launch-title">
             <span class="support-card-kicker">Instructions</span>
@@ -130,6 +143,8 @@
     <script src="sample-questions.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="../../assets/js/particles-background.js"></script>
     <script src="script.js"></script>
 </body>
 
