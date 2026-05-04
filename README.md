@@ -20,6 +20,7 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 
 - `assets/css/styles.css`: shared site styling
 - `assets/js/app.js`: sidebar state, game reveal logic, and remaining carousel behavior
+- `assets/js/particles-background.js`: shared CanvasParticles background controller
 - `assets/icons/`: navigation and social icons
 - `assets/images/`: image assets including the profile cover
 - `page-elements/`: reference UI elements used as styling direction for some sections
@@ -40,11 +41,24 @@ Open `czcatzzz.html` directly in a browser.
   - dark mode is the default
   - light mode is stored in `localStorage` with key `cz-theme`
   - shared light-mode overrides live in `assets/css/styles.css`
+  - `assets/js/app.js` dispatches `cz-themechange` so shared effects like the particles background can refresh safely
+- CanvasParticles background support is built in:
+  - pages use a shared `<canvas id="site-particles-canvas" aria-hidden="true"></canvas>`
+  - CanvasParticles is loaded from CDN, with site logic in `assets/js/particles-background.js`
+  - particles are meant to behave as background atmosphere, not as an overlay over the main content area
+  - current subtle particle colors:
+    - dark mode: page background `#0F0F0F`, particles `rgba(255, 255, 255, 0.24)`
+    - light mode: page background `#EBEBEB`, particles `rgba(34, 34, 34, 0.18)`
 - Check mobile view whenever adding or changing sections.
 - Current mobile expectations:
   - Skills show `2` logo cards per row
   - Insights prev/next buttons sit together at the top-right of the section content
   - Challenges game cards stack vertically
+
+## Attribution
+
+- Canvas Particles JS by Kyle Hoeckman:
+  - `https://github.com/Khoeckman/canvasparticles-js`
 
 ## Supabase Integration
 

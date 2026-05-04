@@ -200,6 +200,18 @@ This file preserves the key working context, design choices, and content decisio
   - Skills section: `2` skill logo cards per row
   - Insights section: prev/next buttons grouped side-by-side at the top-right of the insights content area
   - Challenges section: game cards stacked vertically
+- Particle background notes:
+  - shared particle logic lives in `assets/js/particles-background.js`
+  - CanvasParticles is loaded by CDN on all main site pages and `games/tech-master/index.html`
+  - each supported page includes `<canvas id="site-particles-canvas" aria-hidden="true"></canvas>`
+  - particle colors are controlled with `--page-bg` and `--particle-color`
+  - current shared particle colors are intentionally subtle:
+    - light mode: `--page-bg: #EBEBEB`, `--particle-color: rgba(34, 34, 34, 0.18)`
+    - dark mode: `--page-bg: #0F0F0F`, `--particle-color: rgba(255, 255, 255, 0.24)`
+  - particles should behave like page background only and should not visually sit on top of the main reading/content area
+  - `main::before` in `assets/css/styles.css` is used so the main content area sits on the page background color while particles remain visible around it
+  - if particle visibility breaks in light mode, check for older `body { background: ... !important; }` overrides later in the stylesheet
+  - if theme switching breaks, keep the `cz-themechange` event flow in `assets/js/app.js` compatible with `assets/js/particles-background.js`
 
 ## JS Notes
 - Main JS file: `assets/js/app.js`
@@ -212,6 +224,11 @@ This file preserves the key working context, design choices, and content decisio
   - selected theme is stored in `localStorage` under `cz-theme`
   - HTML pages set the saved theme early in `<head>` before loading CSS
   - the sidebar theme toggle swaps icons based on the next available mode
+  - `assets/js/app.js` dispatches `cz-themechange` after theme updates so shared background effects can reinitialize safely
+- Particle behavior:
+  - `assets/js/particles-background.js` uses CanvasParticles mouse interaction for cursor response
+  - reduced motion should keep a static background and skip the animation
+  - avoid duplicate particle loops; rebuild or refresh the single shared canvas instance instead
 - Related content is now metadata-driven in `assets/js/app.js`:
   - `PROJECT_ITEMS` powers project carousels
   - `INSIGHT_ITEMS` powers insight carousels
@@ -266,6 +283,9 @@ This file preserves the key working context, design choices, and content decisio
   - business/workflow impact
 - Avoid overly generic portfolio filler text.
 - Prefer clear operational language over buzzwords.
+- The About Me page Website section now includes a library attribution bullet for Canvas Particles JS:
+  - author: `Kyle Hoeckman`
+  - repo: `https://github.com/Khoeckman/canvasparticles-js`
 
 ## Insight Page Notes
 - Insight header images should be reused in two places:

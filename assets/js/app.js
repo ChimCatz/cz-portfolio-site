@@ -73,8 +73,11 @@ const applyTheme = (theme) => {
     document.body.dataset.themeMode = nextTheme;
     document.body.classList.toggle('theme-light', nextTheme === 'light');
     document.body.classList.toggle('theme-dark', nextTheme === 'dark');
+    document.body.classList.toggle('dark-mode', nextTheme === 'dark');
+    document.body.classList.toggle('light-mode', nextTheme === 'light');
 
     themeToggleButtons.forEach((button) => syncThemeToggleButton(button, nextTheme));
+    window.dispatchEvent(new CustomEvent('cz-themechange', { detail: { theme: nextTheme } }));
 };
 
 const initTheme = () => {
