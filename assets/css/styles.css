@@ -4445,8 +4445,11 @@ body[data-page="home"] .insights-section {
 
 body[data-page="home"] .data-studies-list {
     display: grid;
-    gap: 1.5rem;
-    padding: 0.55rem 0 0.2rem;
+    gap: 1rem;
+    padding: 0.4rem 0 0.1rem;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 body[data-page="home"] .projects-section,
@@ -4473,7 +4476,7 @@ body[data-page="home"] .data-study-preview {
 
 body[data-page="home"] .data-study-preview-link {
     display: grid;
-    gap: 0.42rem;
+    gap: 0.22rem;
     color: inherit;
     text-decoration: none;
     transition: transform 180ms ease;
@@ -4482,9 +4485,9 @@ body[data-page="home"] .data-study-preview-link {
 body[data-page="home"] .data-study-preview-link h3 {
     margin: 0;
     color: #cfe0ff;
-    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-size: clamp(0.88rem, 1.8vw, 1rem);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.22;
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.16em;
@@ -4496,8 +4499,8 @@ body[data-page="home"] .data-study-preview-link p {
     width: 100%;
     margin: 0;
     color: var(--muted);
-    font-size: 0.84rem;
-    line-height: 1.65;
+    font-size: 0.74rem;
+    line-height: 1.5;
     text-align: justify;
     text-justify: inter-word;
     transition: transform 180ms ease, color 180ms ease;
@@ -6059,7 +6062,6 @@ body[data-page="about-detail"] .nav-label {
 :root[data-theme="light"] body[data-page="home"] .projects-section h2,
 :root[data-theme="light"] body[data-page="home"] .projects-section p,
 :root[data-theme="light"] body[data-page="home"] .data-studies-section h2,
-:root[data-theme="light"] body[data-page="home"] .data-studies-section h3,
 :root[data-theme="light"] body[data-page="home"] .data-studies-section p,
 :root[data-theme="light"] body[data-page="home"] .insights-section h2,
 :root[data-theme="light"] body[data-page="home"] .insights-section p,
@@ -6076,6 +6078,17 @@ body[data-page="about-detail"] .nav-label {
 :root[data-theme="light"] body[data-page="home"] #home.hero .hero-sub-line,
 :root[data-theme="light"] body[data-page="home"] #home.hero .hero-stat {
     color: #666666 !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .data-study-preview-link h3 {
+    color: #3e6fb7 !important;
+    text-decoration-color: rgba(62, 111, 183, 0.72) !important;
+}
+
+:root[data-theme="light"] body[data-page="home"] .data-study-preview-link:hover h3,
+:root[data-theme="light"] body[data-page="home"] .data-study-preview-link:focus-visible h3 {
+    color: #2f5fa6 !important;
+    text-decoration-color: rgba(47, 95, 166, 0.88) !important;
 }
 
 :root[data-theme="light"] body[data-page="home"] #home.hero,
