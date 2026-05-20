@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Studies | Netflix Genre Performance Study</title>
+    <meta name="description" content="A genre-level Netflix movie study comparing ratings, popularity, and title count to understand why Animation leads while Horror falls behind.">
+    <link rel="icon" type="image/svg+xml" href="../../assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+
+<body data-page="data-study-detail" class="data-study-detail-page">
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li><a href="../../czcatzzz.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
+            <li><a href="../../about-me.html" aria-label="About Me" data-target="about"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/about-me.svg" alt="" aria-hidden="true"></span><span class="nav-label">About Me</span></a></li>
+            <li><a href="../../czcatzzz.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
+            <li class="active"><a href="../../czcatzzz.html#data-studies" aria-label="Data Studies" data-target="data-studies"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/data-studies.svg" alt="" aria-hidden="true"></span><span class="nav-label">Data Studies</span></a></li>
+            <li><a href="../../czcatzzz.html#insights" aria-label="Insights" data-target="insights"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/insights.svg" alt="" aria-hidden="true"></span><span class="nav-label">Insights</span></a></li>
+            <li><a href="../../czcatzzz.html#brain-challenge" aria-label="Challenges" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenges</span></a></li>
+            <li><button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="../../assets/icons/light-mode.svg" data-icon-dark="../../assets/icons/dark-mode.svg"><span class="nav-icon-wrap"><img class="nav-icon theme-toggle-icon" src="../../assets/icons/light-mode.svg" alt="" aria-hidden="true"></span><span class="nav-label">Light Mode</span></button></li>
+        </ul>
+    </nav>
+
+    <main class="simple-project-page data-study-page">
+        <section class="container data-study-section">
+            <div class="data-study-copy">
+                <a class="text-button project-page-label" href="../../czcatzzz.html#data-studies">Back to Data Studies</a>
+                <h1>"Netflix Genre Performance Study: Why Animation Leads and Horror Falls Behind"</h1>
+                <figure class="data-study-header-figure">
+                    <img class="data-study-header-image" src="header-image.png" alt="Header visual for the Netflix Genre Performance Study.">
+                </figure>
+                <p class="data-study-subtitle">A genre-level analysis of Netflix movie data up to 2025, comparing average rating, average popularity, and title count to understand how audience interest differs across categories.</p>
+                <div class="data-study-meta-list" aria-label="Study metadata">
+                    <span>Dataset: Netflix Movies up to 2025</span>
+                    <span>Tools: Python, Tableau</span>
+                    <span>Focus: Genre Analysis</span>
+                    <span>Records: 15,893 unique movie titles</span>
+                    <span>Output: Genre visuals and insights</span>
+                </div>
+                <p class="data-study-note">This study focuses on movie genres only. Since many titles belong to more than one category, the original genre field was split into one genre per row before analysis.</p>
+                <div class="data-study-download">
+                    <p>You can view and analyze the dataset yourself using the original export behind this study.</p>
+                    <a class="data-study-download-link" href="netflix_movies_detailed_up_to_2025.csv" download="netflix_movies_detailed_up_to_2025.csv">Dataset: "netflix-movies-up-to-2025.csv"</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Introduction</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Netflix has one of the largest movie catalogs in streaming, covering family films, anime, action, documentaries, horror, romance, and many other categories. That variety makes genre analysis useful because title volume alone does not explain how well a category actually performs. A genre can have thousands of titles and still feel weak if audience response is inconsistent.</p>
+                <p class="justified">For this study, I looked at Netflix movie data up to 2025 and compared genres using three measures: average rating, average popularity, and title count. The goal was to see which genres perform strongly, which ones serve narrower audiences, and whether having more titles in a genre actually leads to better outcomes.</p>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Methodology</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">The original dataset contained roughly <strong>16,000 movie records</strong>. Because the genre field included multiple comma-separated labels, each title had to be expanded into separate genre rows before analysis. A movie tagged as Action, Animation, and Comedy was counted once under each of those categories.</p>
+                <p class="justified">After cleaning, the expanded genre dataset reached <strong>37,460 rows</strong>. From there, I summarized the data by average rating, average popularity, title count, and total vote count, then used Tableau to compare the final <strong>19 genre groups</strong>. That produced a much clearer view of how reach and satisfaction differ across the catalog.</p>
+                <div class="data-study-highlight">
+                    <p><strong>Study snapshot:</strong> original dataset of about <strong>16,000 rows</strong>, expanded to <strong>37,460 genre rows</strong>, then summarized into <strong>19 final genre bubbles</strong> for comparison.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Animation Leads in Rating and Stays Strong in Popularity</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Animation is the strongest all-around genre in this dataset. It records the highest average rating at <strong>6.74</strong> and still maintains strong average popularity at <strong>28.61</strong> across <strong>1,579 titles</strong>. While Adventure, Science Fiction, and Action lead the popularity ranking, Animation stands out because it balances both broad interest and positive viewer response.</p>
+                <p class="justified">That matters more than a simple top-three ranking. Some genres win attention but not satisfaction, while others rate well without reaching a wide audience. Animation performs strongly on both sides, which makes it the most complete genre performer in the study.</p>
+                <p class="justified">The result also lines up with how Netflix has expanded animated movies and anime. Animation is no longer just a kids category. It reaches family viewers, anime audiences, and even older viewers looking for highly visual storytelling, which helps explain why it performs well across different signals at the same time.</p>
+                <figure class="data-study-figure">
+                    <img src="average-popularity-vs-average-rating-by-genre.png" alt="Bubble chart comparing average popularity and average rating across Netflix movie genres.">
+                    <figcaption>Each bubble represents one genre. Bubble position shows average popularity and average rating, while bubble size reflects title count. Animation sits in the strongest overall area, while Adventure, Science Fiction, and Action pull the popularity side upward.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>History and Music Show Niche Strength</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">History and Music do not rank near the top in popularity, but both perform well in average rating. History reaches <strong>6.67</strong> in rating with <strong>16.10</strong> in popularity across <strong>732 titles</strong>, while Music reaches <strong>6.53</strong> in rating with <strong>14.91</strong> in popularity across <strong>488 titles</strong>.</p>
+                <p class="justified">That pattern suggests these genres serve more focused audiences rather than mass-viewer demand. They may not attract the same attention as Action or Adventure, but the viewers who choose them appear to respond more positively once they do.</p>
+                <div class="data-study-highlight">
+                    <p><strong>Important pattern:</strong> high rating does not always mean high popularity. History and Music perform more like satisfaction genres than reach genres.</p>
+                </div>
+                <figure class="data-study-figure data-study-figure-compact">
+                    <img src="top-genres-by-average-rating.png" alt="Bar chart showing the top Netflix movie genres by average rating.">
+                    <figcaption>Animation leads the rating ranking, followed by History and War. The chart makes it easier to see that several well-rated genres are not necessarily the biggest or most visible parts of the catalog.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Horror Has Scale, but Weak Average Rating</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Horror is one of the clearest underperformers in the dataset. It carries <strong>2,425 titles</strong>, making it one of the larger genres in the catalog, yet it records the lowest average rating at <strong>5.44</strong>. Its average popularity sits at <strong>21.45</strong>, which means the genre still attracts viewers even if satisfaction remains weak.</p>
+                <p class="justified">That combination points to a quality gap. Horror may bring in clicks because the genre has a loyal audience and seasonal demand, but title volume is not translating into stronger ratings. If too many releases feel repetitive, low-budget, or forgettable, the catalog can still get watched while dragging its average quality perception down.</p>
+                <p class="justified">The data does not say Horror has no value. It says broad volume alone is not working. A smaller set of stronger horror titles would likely outperform a larger pool of weaker ones.</p>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Kids and Family Content Punch Above Their Size</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Animation, Family, and Adventure appear near the top of the study for a reason. Together, Animation and Family account for about <strong>14%</strong> of the unique movie catalog, or roughly <strong>2,241 out of 15,893 titles</strong>. That is not a majority share, but these categories generate stronger engagement than their size alone would suggest.</p>
+                <p class="justified">Animation benefits from a wider audience than the usual kids-content label suggests. It includes family films, anime, and adult animation, which helps it travel across age groups. Adventure adds another layer because it often overlaps with family, action, fantasy, and animation, making it one of the broadest appeal genres in the dataset.</p>
+                <p class="justified">The better conclusion is not that Netflix wins here because it simply has more children's content. It wins because Animation, Family, and Adventure combine accessibility, repeat viewing, and strong audience fit.</p>
+                <figure class="data-study-figure data-study-figure-compact">
+                    <img src="top-genres-by-average-popularity.png" alt="Bar chart showing the top Netflix movie genres by average popularity.">
+                    <figcaption>Adventure leads the popularity ranking, with Science Fiction and Action close behind. Animation remains just below them while still holding the strongest average rating, which is why it stands out as the most balanced genre overall.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>More Titles Do Not Guarantee Better Performance</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">One of the most useful takeaways from this study is that catalog size does not strongly predict success. The relationship between title count and average rating is slightly negative at around <strong>-0.35</strong>, while the relationship between title count and average popularity is weak at around <strong>+0.11</strong>.</p>
+                <figure class="data-study-figure data-study-figure-compact">
+                    <img src="correlation-statistics.png" alt="Correlation statistics comparing genre title count with average rating and average popularity.">
+                    <figcaption>Using correlation statistics to find out the relationship between the metrics.</figcaption>
+                </figure>
+                <p class="justified">In practical terms, having more titles in a genre does not automatically produce better ratings or stronger audience interest. Drama, for example, has <strong>6,910 titles</strong> but only moderate rating and popularity performance. Animation, by contrast, has far fewer titles but leads the rating ranking and stays strong in popularity.</p>
+                <p class="justified">That matters for content strategy. A large catalog increases choice, but it does not guarantee stronger viewer response. Quality, positioning, audience fit, and genre expectations matter more than raw volume.</p>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Key Takeaways</h2>
+            </div>
+            <div class="data-study-copy">
+                <ul>
+                    <li><strong>Animation is the strongest all-around genre.</strong> It leads the rating ranking at <strong>6.74</strong> while staying strong in popularity at <strong>28.61</strong>.</li>
+                    <li><strong>Adventure, Science Fiction, and Action lead popularity.</strong> These genres benefit from broad visual appeal and wider audience reach.</li>
+                    <li><strong>History and Music are niche but well-rated.</strong> They show that smaller audience categories can still deliver strong viewer satisfaction.</li>
+                    <li><strong>Horror has a clear quality gap.</strong> It carries <strong>2,425 titles</strong> but records the weakest average rating at <strong>5.44</strong>.</li>
+                    <li><strong>Genre volume is not enough.</strong> Title count has only a weak relationship with popularity and a slightly negative one with rating.</li>
+                    <li><strong>Kids and family content outperform their catalog share.</strong> Animation and Family make up about <strong>14%</strong> of unique titles but produce stronger engagement than that share would suggest.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Sources</h2>
+            </div>
+            <div class="data-study-copy">
+                <ol class="data-study-source-list">
+                    <li>Netflix movies dataset up to 2025, used for the genre-level calculations and Tableau visuals in this study.</li>
+                    <li><a href="https://senalnews.com/en/content/netflix-more-than-half-of-members-watch-anime" target="_blank" rel="noreferrer">Señal News</a> on the global scale of anime viewership among Netflix members.</li>
+                    <li><a href="https://www.licensing.biz/netflix-kids-content-report/" target="_blank" rel="noreferrer">Licensing.biz</a> coverage of Netflix kids content and animated engagement trends.</li>
+                    <li><a href="https://www2.deloitte.com/" target="_blank" rel="noreferrer">Deloitte Insights</a> for broader audience and genre preference context.</li>
+                    <li><a href="https://entertainmentstrategyguy.com/" target="_blank" rel="noreferrer">Entertainment Strategy Guy</a> for streaming and seasonal content performance context.</li>
+                    <li><a href="https://www.netflix.com/tudum" target="_blank" rel="noreferrer">Netflix Tudum</a> for category and audience context around music and documentary viewing.</li>
+                </ol>
+                <p class="data-study-note">This analysis suggests that genre performance on Netflix is not just about catalog size. Animation, Family, and Adventure succeed because they combine broad appeal, repeat viewing, and strong audience fit, while Horror shows the risk of scale without consistent quality.</p>
+            </div>
+        </section>
+    </main>
+
+    <button class="floating-top-button" type="button" data-scroll-top aria-label="Scroll to top">
+        <img src="../../assets/icons/up-arrow.svg" alt="" aria-hidden="true">
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="../../assets/js/particles-background.js"></script>
+    <script src="../../assets/js/app.js"></script>
+</body>
+
+</html>

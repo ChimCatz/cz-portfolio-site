@@ -12,7 +12,7 @@
 ## Current Scope
 - UI prototype now exists in:
   - `index.html`
-  - `style.css`
+  - `tech-master.css`
   - `script.js`
   - `sample-questions.js`
 - Gameplay logic is still partial and prototype-only

@@ -5,24 +5,37 @@ Static portfolio site built with plain HTML, CSS, and JavaScript.
 ## Pages
 
 - `czcatzzz.html`: main portfolio page
+- `about-me.html`: profile and background page
+- `projects/*.html`: project case studies
+- `insights/*.html`: editorial insight pages
+- `data-studies/*/*.html`: longform data analysis pages
 
 ## Current Structure
 
 - Floating sidebar with section navigation
 - Hero section with portfolio summary
-- Professional Overview with cover image and social links
+- Projects homepage carousel
+- Data Studies homepage text list
+- Insights homepage carousel
 - Brain Challenge section
-- Skills logo grid
-- Projects carousel on homepage and project listings on project pages
-- Lord's Recovery preview section
+- Trivia block
+
+## Data Studies
+
+- Each study lives in its own folder under `data-studies/<slug>/`
+- Keep the HTML page, charts, header image, and dataset in that same folder
+- Current live example:
+  - `data-studies/netflix-genre-performance-study/netflix-genre-performance-study.html`
+- Layout guide:
+  - `data-studies/README.md`
 
 ## Assets
 
 - `assets/css/styles.css`: shared site styling
-- `assets/js/app.js`: sidebar state, game reveal logic, and remaining carousel behavior
+- `assets/js/app.js`: sidebar state, theme handling, game reveal logic, and remaining carousel behavior
 - `assets/js/particles-background.js`: shared CanvasParticles background controller
 - `assets/icons/`: navigation and social icons
-- `assets/images/`: image assets including the profile cover
+- `assets/images/`: shared image assets
 - `page-elements/`: reference UI elements used as styling direction for some sections
 
 ## Local Preview
@@ -35,7 +48,9 @@ Open `czcatzzz.html` directly in a browser.
 - Skills are content-driven directly in HTML.
 - Related `More Projects` and `More Insights` sections on detail pages are rendered from metadata in `assets/js/app.js`.
 - The current detail page is excluded automatically from its own related carousel.
+- Data Studies pages are static and currently linked directly from `czcatzzz.html`.
 - To add future project or insight pages more easily, update the matching metadata list in `assets/js/app.js` and use the existing placeholder section pattern on the detail page.
+- To add future Data Studies pages, follow `data-studies/README.md` and add the new homepage link in `czcatzzz.html`.
 - The Skills section uses logo cards sourced from `assets/icons/`.
 - Theme support is built in:
   - dark mode is the default

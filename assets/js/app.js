@@ -107,6 +107,11 @@ const initSectionSpy = () => {
         return;
     }
 
+    if (page === 'data-study-detail') {
+        setActiveNav('data-studies');
+        return;
+    }
+
     if (page === 'insight-detail') {
         setActiveNav('insights');
         return;
