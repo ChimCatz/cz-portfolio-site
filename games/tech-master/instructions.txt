@@ -83,7 +83,7 @@ Create a new front-end prototype for the Tech Master quiz in this folder:
 games/
   tech-master/
     index.html
-    style.css
+    tech-master.css
     script.js
     sample-questions.js
 
@@ -110,9 +110,9 @@ Requirements for the new files:
   - "Prototype UI only"
 - no extra clutter
 - no footer navigation unless necessary
-- include links to local style.css, sample-questions.js, and script.js
+- include links to local tech-master.css, sample-questions.js, and script.js
 
-2) games/tech-master/style.css
+2) games/tech-master/tech-master.css
 Build a polished minimal UI prototype.
 Important style rules:
 - full viewport fit
@@ -220,7 +220,7 @@ Output requirements:
 - show the created file tree for games/tech-master/
 - show the full contents of:
   - games/tech-master/index.html
-  - games/tech-master/style.css
+  - games/tech-master/tech-master.css
   - games/tech-master/sample-questions.js
   - games/tech-master/script.js
 - show the updated full contents of:

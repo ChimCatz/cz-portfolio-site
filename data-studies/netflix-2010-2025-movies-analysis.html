@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Studies | Netflix 2010-2025 Movies Analysis</title>
+    <meta name="description" content="Sample Data Studies page exploring how Netflix movie releases, genres, and catalog patterns evolved from 2010 to 2025.">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+        body[data-page="data-study-detail"] main {
+            width: min(calc(100% - 2rem), 580px);
+            padding: 1rem 0 1.75rem;
+            gap: 2.6rem;
+            position: relative;
+        }
+
+        body[data-page="data-study-detail"] .data-study-page {
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        body[data-page="data-study-detail"] .container,
+        body[data-page="data-study-detail"] .data-study-section {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+        }
+
+        body[data-page="data-study-detail"] .section-heading {
+            margin-bottom: 1.25rem;
+        }
+
+        body[data-page="data-study-detail"] .data-study-copy {
+            display: grid;
+            gap: 1.1rem;
+            max-width: 580px;
+        }
+
+        body[data-page="data-study-detail"] h1 {
+            font-size: clamp(2.15rem, 5.8vw, 2.9rem);
+            margin: 0;
+        }
+
+        body[data-page="data-study-detail"] h2 {
+            font-size: clamp(1.55rem, 4vw, 2rem);
+            margin: 0;
+        }
+
+        body[data-page="data-study-detail"] p,
+        body[data-page="data-study-detail"] li {
+            text-align: left !important;
+            text-justify: auto !important;
+        }
+
+        body[data-page="data-study-detail"] ul {
+            margin: 0;
+            padding-left: 1.3rem;
+        }
+
+        body[data-page="data-study-detail"] .data-study-date {
+            color: var(--muted-strong);
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        body[data-page="data-study-detail"] .data-study-kicker {
+            color: var(--sky);
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        body[data-page="data-study-detail"] .data-study-note {
+            color: var(--muted);
+            font-size: 0.98rem;
+            line-height: 1.65;
+        }
+    </style>
+</head>
+
+<body data-page="data-study-detail" class="data-study-detail-page">
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li><a href="../czcatzzz.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
+            <li><a href="../about-me.html" aria-label="About Me" data-target="about"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/about-me.svg" alt="" aria-hidden="true"></span><span class="nav-label">About Me</span></a></li>
+            <li><a href="../czcatzzz.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
+            <li class="active"><a href="../czcatzzz.html#data-studies" aria-label="Data Studies" data-target="data-studies"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/data-studies.svg" alt="" aria-hidden="true"></span><span class="nav-label">Data Studies</span></a></li>
+            <li><a href="../czcatzzz.html#insights" aria-label="Insights" data-target="insights"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/insights.svg" alt="" aria-hidden="true"></span><span class="nav-label">Insights</span></a></li>
+            <li><a href="../czcatzzz.html#brain-challenge" aria-label="Challenges" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenges</span></a></li>
+            <li><button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="../assets/icons/light-mode.svg" data-icon-dark="../assets/icons/dark-mode.svg"><span class="nav-icon-wrap"><img class="nav-icon theme-toggle-icon" src="../assets/icons/light-mode.svg" alt="" aria-hidden="true"></span><span class="nav-label">Light Mode</span></button></li>
+        </ul>
+    </nav>
+
+    <main class="data-study-page">
+        <section class="container data-study-section">
+            <div class="data-study-copy">
+                <a class="text-button project-page-label" href="../czcatzzz.html#data-studies">Back to Data Studies</a>
+                <span class="data-study-kicker">Sample Study</span>
+                <h1>Netflix 2010-2025 Movies Analysis</h1>
+                <p class="data-study-date">May 20, 2026</p>
+                <p class="justified">This sample page tests the new Data Studies reading layout using the same narrow editorial width as the About Me page. The goal is to keep the analysis focused, readable, and self-contained without introducing card-heavy dashboard patterns.</p>
+                <p class="justified">For this mock study, the core question is simple: how did Netflix's movie catalog evolve between 2010 and 2025? A finished version would likely break this down by release volume, genre concentration, movie duration patterns, and the balance between older licensed titles and newer additions.</p>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>What This Page Is Testing</h2>
+            </div>
+            <div class="data-study-copy">
+                <ul>
+                    <li>A narrow reading column that keeps all content within one controlled width.</li>
+                    <li>A text-first structure where insight and interpretation come before visual complexity.</li>
+                    <li>A reusable page shell for future public-dataset and niche-data studies.</li>
+                </ul>
+                <p class="data-study-note">When you review this page in the browser, the main thing to evaluate is whether the reading experience feels calm and intentional enough for longer-form analysis.</p>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Sample Findings Direction</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">A complete study could surface patterns such as whether Netflix expanded certain genres more aggressively in specific years, whether movie runtimes clustered differently across periods, and whether catalog growth aligned with broader platform strategy changes.</p>
+                <p class="justified">Because this is a test page, the content is intentionally lightweight. What matters right now is validating the layout, navigation behavior, theme handling, and how comfortably future charts or tables can sit inside this narrower content format.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="../assets/js/particles-background.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

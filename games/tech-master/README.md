@@ -35,7 +35,7 @@ This feature is a planned quiz-style mini-game that will live inside the same CZ
 
 ## Future File Expectations
 - `index.html`
-- `style.css`
+- `tech-master.css`
 - `script.js`
 - `sample-questions.js`
 - future full dataset file can replace the sample questions later
