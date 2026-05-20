@@ -24,6 +24,7 @@ This file preserves the key working context, design choices, and content decisio
   - section spy on `czcatzzz.html`
   - remaining carousel behavior for non-project sections
   - special sidebar active state for pages with `data-page="project-detail"`
+- Data Studies detail pages should keep `body data-page="data-study-detail"` so the Data Studies nav item stays active.
 - Project subpages should keep `body data-page="project-detail"` so the Projects nav item stays active.
 
 ## Current Design Direction
@@ -94,6 +95,16 @@ This file preserves the key working context, design choices, and content decisio
   - use each project's leaderboard/banner image at the top of the card
 - Preserve the existing project card wording unless the user explicitly asks for copy changes.
 
+### Data Studies Section on Homepage
+- Homepage Data Studies uses a simple editorial text list, not cards and not a carousel.
+- Keep the section heading as `Data Studies`.
+- Each study entry should be:
+  - linked title
+  - short supporting description underneath
+- The current homepage should only show the real published studies.
+- Current live homepage study:
+  - `"Netflix Genre Performance Study: Why Animation Leads and Horror Falls Behind"`
+
 ## Project Subpage Pattern
 - Project pages were intentionally simplified.
 - Desired order:
@@ -163,6 +174,10 @@ This file preserves the key working context, design choices, and content decisio
 - Project assets live in their own folders under `assets/images/`.
 - Project detail pages now live under `projects/`.
 - Insight detail pages now live under `insights/`.
+- Data Studies now use a self-contained folder-per-study structure under `data-studies/`.
+- Keep each Data Study's HTML file, charts, header image, dataset, and related assets in the same study folder.
+- Current live example:
+  - `data-studies/netflix-genre-performance-study/`
 - Chibi art assets live under `assets/chibicz/`.
 - Current chibi placement rule:
   - all chibi images should use the same displayed size across the site
@@ -174,6 +189,7 @@ This file preserves the key working context, design choices, and content decisio
   - `assets/images/csv-advanced-search-engine/`
 - Prefer this structure for future project pages as well.
 - Insight source files can live under `content/insights/<insight-name>/`.
+- Use `data-studies/README.md` as the structural guide for future Data Studies pages.
 - For insight pages, use the insight header image in both places:
   - the homepage Insights card image
   - the top header image on the individual Insight page
@@ -188,7 +204,9 @@ This file preserves the key working context, design choices, and content decisio
   - simple project page styles
   - project GitHub link styles
   - project results strip styles
+  - Data Studies detail page styles
 - When changing project page styling, favor subtle variation over identical repeated containers.
+- Data Studies page rules should stay centralized in `assets/css/styles.css`, not duplicated inline per page.
 - Any new section or visual adjustment should be checked in mobile view as part of the default workflow, not only on desktop.
 - Theme system notes:
   - dark mode is the default theme
@@ -219,6 +237,7 @@ This file preserves the key working context, design choices, and content decisio
   - non-project carousels
   - section spy on homepage
   - active Projects nav item on project detail pages
+  - active Data Studies nav item on Data Studies detail pages
   - Brain Challenge reveal-on-click behavior
 - Theme behavior:
   - selected theme is stored in `localStorage` under `cz-theme`
