@@ -5661,6 +5661,10 @@ body[data-page="data-study-detail"] .data-study-figure {
     margin: 0.2rem 0;
 }
 
+body[data-page="data-study-detail"] .data-study-figure-centered {
+    justify-items: center;
+}
+
 body[data-page="data-study-detail"] .data-study-figure img {
     display: block;
     width: 100%;
@@ -5684,6 +5688,11 @@ body[data-page="data-study-detail"] .data-study-figure-compact {
 body[data-page="data-study-detail"] .data-study-figure-compact img,
 body[data-page="data-study-detail"] .data-study-figure-compact figcaption {
     width: min(100%, 400px);
+}
+
+body[data-page="data-study-detail"] .data-study-figure-centered img,
+body[data-page="data-study-detail"] .data-study-figure-centered figcaption {
+    width: min(100%, 760px);
 }
 
 body[data-page="data-study-detail"] .data-study-question-list {
@@ -5754,6 +5763,44 @@ body[data-page="data-study-detail"] .data-study-question-body {
     display: grid;
     gap: 1rem;
     padding: 0 1.1rem 1.1rem;
+}
+
+body[data-page="data-study-detail"] .data-study-mini-heading {
+    margin: 0;
+    color: var(--muted-strong);
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body[data-page="data-study-detail"] .data-study-chart-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+body[data-page="data-study-detail"] .data-study-file-list {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+body[data-page="data-study-detail"] .data-study-file-list li {
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+body[data-page="data-study-detail"] .data-study-file-list code {
+    color: var(--text-strong);
+}
+
+@media (min-width: 900px) {
+    body[data-page="data-study-detail"] .data-study-chart-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
 }
 
 body[data-page="data-study-detail"] .data-study-inline-type {
@@ -5852,6 +5899,43 @@ body[data-page="data-study-detail"] .data-study-source-list a {
     color: #dfeaff;
     text-decoration: underline;
     text-underline-offset: 0.15em;
+}
+
+body.pokemon-data-study-page h1 {
+    font-size: clamp(1.95rem, 5vw, 2.45rem);
+}
+
+body.pokemon-data-study-page h2 {
+    font-size: clamp(1.35rem, 3.4vw, 1.72rem);
+}
+
+body.pokemon-data-study-page p,
+body.pokemon-data-study-page li {
+    font-size: 0.96rem;
+    line-height: 1.68;
+}
+
+body.pokemon-data-study-page .data-study-subtitle,
+body.pokemon-data-study-page .data-study-note,
+body.pokemon-data-study-page .data-study-download p,
+body.pokemon-data-study-page .data-study-source-list li,
+body.pokemon-data-study-page .data-study-figure figcaption,
+body.pokemon-data-study-page .data-study-lightbox-caption {
+    font-size: 0.92rem;
+    line-height: 1.62;
+}
+
+body.pokemon-data-study-page .data-study-question-summary {
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+body.pokemon-data-study-page .data-study-question-label {
+    font-size: 0.76rem;
+}
+
+body.pokemon-data-study-page .data-study-meta-list span {
+    font-size: 0.78rem;
 }
 
 :root[data-theme="light"] body[data-page="data-study-detail"] .data-study-meta-list span {

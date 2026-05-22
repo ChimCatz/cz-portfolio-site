@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 
-<body data-page="data-study-detail" class="data-study-detail-page">
+<body data-page="data-study-detail" class="data-study-detail-page pokemon-data-study-page">
     <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
     <nav id="sidebar" aria-label="Primary">
         <ul>
@@ -40,19 +40,19 @@
         <section class="container data-study-section">
             <div class="data-study-copy">
                 <a class="text-button project-page-label" href="../../czcatzzz.html#data-studies">Back to Data Studies</a>
-                <h1>Pokémon Data Study: What 1,025 Pokémon Reveal About Type Matchups, Stats, and Rarity</h1>
+                <h1>Pok&eacute;mon Data Study: What 1,025 Pok&eacute;mon Reveal About Type Matchups, Stats, and Rarity</h1>
                 <figure class="data-study-header-figure">
                     <img class="data-study-header-image" src="header-image.png" alt="Header visual for the Pokemon Data Study.">
                 </figure>
-                <p class="data-study-subtitle">A three-part Pokémon analysis covering type matchups, base stat patterns, and capture rarity across Generations 1 to 9 using Python, pandas, numpy, and matplotlib.</p>
+                <p class="data-study-subtitle">A three-part Pok&eacute;mon analysis covering type matchups, base-stat patterns, and rarity signals across Generations 1 to 9 using Python, pandas, numpy, and matplotlib.</p>
                 <div class="data-study-meta-list" aria-label="Study metadata">
-                    <span>Dataset: Pokémon Gen 1 to 9</span>
+                    <span>Dataset: Pok&eacute;mon Gen 1 to 9</span>
                     <span>Tools: Python, pandas, numpy, matplotlib</span>
-                    <span>Focus: Typing, stats, rarity</span>
-                    <span>Records: 1,025 Pokédex IDs</span>
+                    <span>Records: 1,025 Pok&eacute;dex IDs</span>
                     <span>Expanded Rows: 1,207 forms and variants</span>
+                    <span>Focus: Typing, stats, rarity</span>
                 </div>
-                <p class="data-study-note">This page follows the working markdown draft for the study and uses the locally copied charts from the original analysis project so it can be deployed independently inside this portfolio site.</p>
+                <p class="data-study-note">This page now follows the latest working markdown draft more closely, including the updated Standard Pokemon versus Special Pokemon chart split and the fuller written interpretation behind each section.</p>
                 <div class="data-study-download">
                     <p>You can inspect the cleaned dataset used behind the visuals and notes on this page.</p>
                     <a class="data-study-download-link" href="complete_1025_pokemon_dataset.csv" download="complete_1025_pokemon_dataset.csv">Dataset: "complete_1025_pokemon_dataset.csv"</a>
@@ -64,12 +64,15 @@
             <div class="section-heading">
                 <h2>Introduction</h2>
             </div>
-            <div class="data-study-copy">
-                <p class="justified">Pokémon has been part of my life since childhood. I first discovered it through Pokémon Emerald, then kept playing through the Nintendo DS era and later on the Switch. That long history made this project a fun way to look at a familiar game world through a data analyst's lens instead of only as a player.</p>
-                <p class="justified">The study focuses on three main areas. First, I look at how type matchups behave across single and dual typings. Second, I explore which non-Legendary and non-Mythical Pokémon look strongest on paper through base stats. Third, I compare capture rate, experience growth, and official class to see how rarity is structured behind the scenes.</p>
+            <div class="data-study-copy" data-type-icons>
+                <p class="justified">Pok&eacute;mon has been part of my life since childhood. I first discovered it through <strong>Pok&eacute;mon Emerald</strong>, and from there I got hooked. I played the mainline Gen 3 games like <strong>Emerald, Sapphire, FireRed,</strong> and <strong>LeafGreen</strong>, then moved into the Nintendo DS era with <strong>Black, White, Black 2, White 2, HeartGold,</strong> and <strong>SoulSilver</strong>. Years later, I continued with the Switch titles like <strong>Sword/Shield, Scarlet/Violet,</strong> and <strong>Legends: Arceus</strong>.</p>
+                <p class="justified">Now that Pok&eacute;mon continues to stay popular with newer titles like <strong>Pok&eacute;mon Legends: Z-A</strong>, I wanted to look at the franchise in a different way: not only as a player, but as a data analyst.</p>
+                <p class="justified">For this study, I used a cleaned Pok&eacute;mon dataset based on public data from Kaggle. The dataset covers <strong>1,025 Pok&eacute;dex IDs</strong> from <strong>Generation 1 to Generation 9</strong>, with <strong>1,207 total rows</strong> after including alternate forms, Mega Evolutions, Primal forms, Paradox forms, and other special variants.</p>
+                <p class="justified">The final dataset includes the familiar battle stats like <strong>HP, Attack, Defense, Special Attack, Special Defense,</strong> and <strong>Speed</strong>, but it also includes extra fields such as <strong>type matchups, experience growth, height, weight, base egg steps, base happiness, capture rate, official class,</strong> and <strong>special group</strong>.</p>
                 <div class="data-study-highlight">
-                    <p><strong>Core questions:</strong> Which types are most common, which typings look strongest offensively or defensively, which Pokémon dominate raw stats, and how clearly do Legendary and Mythical classes separate from the rest?</p>
+                    <p><strong>Questions that guided the study:</strong> Which types are most common, which typings are strongest offensively and defensively, which Pok&eacute;mon rise to the top among Standard Pokemon and Special Pokemon, whether defensive Pok&eacute;mon are really slower, and whether Legendary and Mythical Pok&eacute;mon are actually harder to catch and slower to train.</p>
                 </div>
+                <p class="justified">This study answers those questions using <strong>Python, pandas, numpy,</strong> and <strong>matplotlib</strong> inside VS Code.</p>
             </div>
         </section>
 
@@ -78,80 +81,107 @@
                 <h2>Section 1: Type Matchups</h2>
             </div>
             <div class="data-study-copy" data-type-icons>
-                <p class="justified">At first glance, Pokémon type matchups can feel like a simple rock-paper-scissors system. But the moment dual typings enter the picture, the defensive and offensive profile of a Pokémon becomes much more layered. This section uses the draft findings together with the matchup visual to frame the first set of questions.</p>
-                <figure class="data-study-figure">
-                    <img src="type-match-matrix.png" alt="18 by 18 Pokemon type matchup matrix showing defensive damage multipliers.">
-                    <figcaption>The matchup matrix anchors the type-analysis section by showing how each Pokémon type responds defensively across the full type chart.</figcaption>
+                <p class="justified">The first part of the study focuses on Pok&eacute;mon types. At first glance, type matchups look like a simple rock-paper-scissors system. Fire beats Grass, Water beats Fire, Electric beats Water, and so on. But Pok&eacute;mon becomes more interesting because many Pok&eacute;mon have <strong>two types</strong>. A dual-type Pok&eacute;mon can gain more resistances, more weaknesses, or sometimes both.</p>
+                <p class="justified">To study this, I generated an <strong>18x18 type matchup matrix</strong> and populated it with defensive damage multipliers.</p>
+                <figure class="data-study-figure data-study-figure-centered">
+                    <img src="type_matchup_matrix.png" alt="18 by 18 Pokemon type matchup matrix showing defensive damage multipliers.">
+                    <figcaption>The matchup matrix anchors the type-analysis section by showing how each Pok&eacute;mon type responds defensively across the full type chart.</figcaption>
                 </figure>
                 <div class="data-study-question-list">
                     <details class="data-study-question-card" open>
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q1</span><span>From Generation 1 to 9, which single typing is the most and least common?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">The draft identifies <strong>Water</strong> as the most common single type, with <strong>81 single-type Water Pokémon</strong>, and <strong>Flying</strong> as the least common, with only <strong>4 single-type Flying Pokémon</strong>.</p>
-                            <p class="justified">That pattern fits the world design of the games. Water Pokémon show up across oceans, fishing routes, rivers, caves, lakes, and coastal areas, while pure Flying is much rarer because Flying is often paired with another type rather than standing alone.</p>
+                            <p class="justified">The most common single type is <strong>Water</strong>, with <strong>81 single-type Water Pok&eacute;mon</strong>. The least common single type is <strong>Flying</strong>, with only <strong>4 single-type Flying Pok&eacute;mon</strong>.</p>
+                            <p class="justified">This makes sense from a game-design point of view. Water Pok&eacute;mon appear across oceans, rivers, lakes, fishing encounters, surfing routes, and many regional Pok&eacute;dex areas. Flying, on the other hand, is often paired with Normal, so pure Flying Pok&eacute;mon remain rare.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q2</span><span>From Generation 1 to 9, which double typing is the most and least common?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">The most common dual typing in the draft is <strong>Normal/Flying</strong>, with <strong>31 Pokémon</strong>. Several dual-type combinations appear only once, including <strong>Fairy/Ice, Electric/Psychic, Dragon/Fairy, Bug/Ghost, Steel/Water, Normal/Water, Ghost/Ice, Electric/Fire,</strong> and <strong>Fire/Steel</strong>.</p>
-                            <p class="justified">Normal/Flying being the leader makes sense because early-route birds have been one of the most repeated design patterns in the franchise since Gen 1.</p>
+                            <p class="justified">The most common dual typing is <strong>Normal/Flying</strong>, with <strong>31 Pok&eacute;mon</strong>. Several dual-type combinations appear only once in the dataset.</p>
+                            <ul class="data-study-file-list">
+                                <li><code>Fairy/Ice</code></li>
+                                <li><code>Electric/Psychic</code></li>
+                                <li><code>Dragon/Fairy</code></li>
+                                <li><code>Bug/Ghost</code></li>
+                                <li><code>Steel/Water</code></li>
+                                <li><code>Normal/Water</code></li>
+                                <li><code>Ghost/Ice</code></li>
+                                <li><code>Electric/Fire</code></li>
+                                <li><code>Fire/Steel</code></li>
+                            </ul>
+                            <p class="justified">Normal/Flying being the most common is not surprising. Early-route birds have been a repeated design pattern since Gen 1, and many of them share that typing.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q3</span><span>Which single typing has the best offensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Fighting</strong> and <strong>Ground</strong> are tied as the strongest offensive single types in the draft, with each one hitting <strong>5 types</strong> for super-effective damage.</p>
-                            <p class="justified">Fighting is strong against Normal, Ice, Rock, Dark, and Steel. Ground is strong against Fire, Electric, Poison, Rock, and Steel. They arrive at the same result, but they solve different kinds of matchups.</p>
+                            <p class="justified"><strong>Fighting</strong> and <strong>Ground</strong> are tied as the best offensive single types. Each one hits <strong>5 types</strong> for super-effective damage.</p>
+                            <p class="justified">Fighting is strong against Normal, Ice, Rock, Dark, and Steel. Ground is strong against Fire, Electric, Poison, Rock, and Steel. Both are strong offensive types, but they win in different matchups.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q4</span><span>Which single typing has the best defensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Steel</strong> leads the draft as the best defensive single type with a defensive score of <strong>10</strong>. It carries <strong>11 resistances</strong> and only <strong>3 weaknesses</strong>.</p>
-                            <p class="justified">That helps explain why Steel types often feel naturally safe in battle even before their individual stat spreads are taken into account.</p>
+                            <p class="justified"><strong>Steel</strong> is the best defensive single type, with a defensive score of <strong>10</strong>. It has <strong>11 resistances</strong> and only <strong>3 weaknesses</strong>, making it one of the strongest defensive types in the game.</p>
+                            <p class="justified">This explains why Steel Pok&eacute;mon often feel hard to break. Even when their stats are not always the highest, their type profile gives them many safe matchups.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q5</span><span>Which single typing has the worst offensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Normal</strong> is the weakest offensive single type in the draft because it has <strong>0 super-effective matchups</strong> and cannot affect Ghost-type Pokémon at all.</p>
-                            <p class="justified">That does not make Normal Pokémon weak overall, but it does mean the typing itself offers the least offensive coverage when viewed alone.</p>
+                            <p class="justified"><strong>Normal</strong> is the worst offensive single type. Normal has <strong>0 super-effective matchups</strong>. It does not hit any type for extra damage, and it cannot affect Ghost-type Pok&eacute;mon at all.</p>
+                            <p class="justified">This does not mean Normal Pok&eacute;mon are useless. Many Normal Pok&eacute;mon have strong stats or good move pools. But as an attacking type alone, Normal has the weakest offensive coverage.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q6</span><span>Which single typing has the worst defensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Ice</strong> is the weakest defensive single type in the draft, with a defensive score of <strong>-3</strong>. It has just <strong>1 resistance</strong> and <strong>4 weaknesses</strong>: Fire, Fighting, Rock, and Steel.</p>
-                            <p class="justified">That is one of those findings that lines up closely with how Ice often feels in actual gameplay: dangerous offensively, but fragile once it has to take hits.</p>
+                            <p class="justified"><strong>Ice</strong> is the worst defensive single type, with a defensive score of <strong>-3</strong>. Ice has only <strong>1 resistance</strong> and <strong>4 weaknesses</strong>: Fire, Fighting, Rock, and Steel.</p>
+                            <p class="justified">This confirms something many players already feel in battle: Ice is dangerous offensively, but fragile defensively.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q7</span><span>Which double typing has the best offensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">Several dual typings are tied for the best offensive coverage in the draft with <strong>7 super-effective matchups</strong>. Examples include <strong>Grass/Dark, Grass/Ice, Grass/Psychic, Rock/Fighting,</strong> and <strong>Rock/Psychic</strong>.</p>
-                            <p class="justified">The bigger point is that dual typing can widen offensive reach much more than a single type can do on its own.</p>
+                            <p class="justified">Several dual-type combinations are tied for the best offensive coverage, each with <strong>7 super-effective matchups</strong>.</p>
+                            <ul class="data-study-file-list">
+                                <li><code>Grass/Dark</code></li>
+                                <li><code>Grass/Ice</code></li>
+                                <li><code>Grass/Psychic</code></li>
+                                <li><code>Rock/Fighting</code></li>
+                                <li><code>Rock/Psychic</code></li>
+                            </ul>
+                            <p class="justified">This shows that dual typing can greatly expand offensive reach. Some combinations cover many more matchups than either type could handle alone.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q8</span><span>Which double typing has the worst offensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">Several dual-type combinations have only <strong>1 super-effective matchup</strong> in the draft. Examples include <strong>Bug/Steel, Dark/Ghost, Dark/Poison, Electric/Water, Normal/Ghost,</strong> and <strong>Water/Ground</strong>.</p>
-                            <p class="justified">That makes this a good reminder that a typing can be weak offensively while still remaining useful for defensive or utility reasons.</p>
+                            <p class="justified">Several dual-type combinations have only <strong>1 super-effective matchup</strong>.</p>
+                            <ul class="data-study-file-list">
+                                <li><code>Bug/Steel</code></li>
+                                <li><code>Dark/Ghost</code></li>
+                                <li><code>Dark/Poison</code></li>
+                                <li><code>Electric/Water</code></li>
+                                <li><code>Normal/Ghost</code></li>
+                                <li><code>Water/Ground</code></li>
+                            </ul>
+                            <p class="justified">This is interesting because some of these typings are still good defensively. A typing can be poor offensively but strong as a defensive profile.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q9</span><span>Which double typing has the best defensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Fairy/Steel</strong> and <strong>Steel/Ghost</strong> are tied in the draft as the strongest defensive dual typings, each with a defensive score of <strong>11</strong>.</p>
-                            <p class="justified">These combinations resist a large share of attack types while avoiding many harsh punishments, which is exactly why they feel hard to break in battle.</p>
+                            <p class="justified"><strong>Fairy/Steel</strong> and <strong>Steel/Ghost</strong> are tied as the strongest defensive combinations, each with a defensive score of <strong>11</strong>.</p>
+                            <p class="justified">These combinations resist many attacker types and have very few bad matchups. This is why Pok&eacute;mon with these typings often feel difficult to remove from battle.</p>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q10</span><span>Which double typing has the worst defensive capability?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Grass/Dragon</strong> and <strong>Ice/Psychic</strong> are tied in the draft for the weakest defensive score at <strong>-4</strong>.</p>
-                            <p class="justified">Both combinations suffer from multiple bad matchups and do not gain enough defensive value back to compensate, especially against teams with broad type coverage.</p>
+                            <p class="justified"><strong>Grass/Dragon</strong> and <strong>Ice/Psychic</strong> are tied for the weakest defensive score at <strong>-4</strong>.</p>
+                            <p class="justified">Both combinations suffer from several weaknesses and limited resistance value. This makes them harder to use defensively, especially against teams with wide type coverage.</p>
                         </div>
                     </details>
                 </div>
@@ -163,72 +193,151 @@
                 <h2>Section 2: Base Stats</h2>
             </div>
             <div class="data-study-copy">
-                <p class="justified">The second section looks at the familiar six core stats: HP, Attack, Defense, Special Attack, Special Defense, and Speed. To keep the comparisons more interesting, the draft frames these questions around non-Legendary and non-Mythical Pokémon rather than letting the usual box-art powerhouses dominate every category.</p>
+                <p class="justified">After type matchups, the next part of the study focuses on base stats. Every Pok&eacute;mon has six main stats: <strong>HP, Attack, Defense, Special Attack, Special Defense,</strong> and <strong>Speed</strong>. These numbers shape how a Pok&eacute;mon performs in battle, from raw physical damage to bulk and turn order.</p>
+                <p class="justified">For the ranking questions in this section, I split the dataset into <strong>two reader-friendly groups</strong>. <strong>Standard Pokemon</strong> refers to the main regular roster, while <strong>Special Pokemon</strong> refers to alternate forms and rare high-tier entries such as Mega Evolutions, Primal forms, Ultra Beasts, Paradox forms, Mythicals, Legendaries, and other non-standard variants.</p>
+                <div class="data-study-highlight">
+                    <p><strong>Why the split matters:</strong> if everything is ranked together, special forms and rare high-tier entries immediately dominate the charts. Splitting them creates a cleaner comparison: Standard Pokemon show the regular roster on its own terms, while Special Pokemon isolate the extreme side of the dataset.</p>
+                </div>
+                <p class="justified">The Standard Pokemon group contains <strong>990 rows</strong>, while the Special Pokemon group contains <strong>217 rows</strong> in the current cleaned dataset.</p>
                 <div class="data-study-question-list">
                     <details class="data-study-question-card" open>
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q11</span><span>Which non-Legendary and non-Mythical Pokémon have the highest total base stats?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q11A</span><span>Which Standard Pokemon have the highest total base stats?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Eternatus Eternamax</strong> ranks first in the draft with <strong>1,125 total base stats</strong>. The rest of the top end is dominated by special forms such as Mega Evolutions, Primal forms, Ultra Necrozma, and Zygarde Complete Forme.</p>
+                            <p class="justified">Among Standard Pokemon, <strong>Slaking</strong> ranks first with <strong>670 total base stats</strong>. The next few names are <strong>Palafin Hero Form (650)</strong>, <strong>Greninja Ash-Greninja (640)</strong>, and <strong>Wishiwashi School Form (620)</strong>.</p>
+                            <p class="justified">This is a much more interesting result than the old mixed ranking because it highlights powerful non-legendary roster entries without letting Mega or legendary forms immediately take over the chart.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_total_base_stats.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by total base stats.">
-                                <figcaption>The total-base-stat ranking shows how much alternate forms dominate the very top of the dataset once raw numbers are compared directly.</figcaption>
+                                <img src="top10_standard_pool_total.png" alt="Top 10 Standard Pokemon by total base stats.">
+                                <figcaption>The Standard Pokemon total-base-stat chart highlights powerful regular-roster entries without letting the special-form tier dominate the view.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q12</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Attack?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q11B</span><span>Which Special Pokemon have the highest total base stats?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Mewtwo Mega Mewtwo X</strong> leads the Attack ranking in the draft with an Attack stat of <strong>190</strong>. The list is packed with high-power alternate forms, with <strong>Kartana</strong> standing out as one of the most notable physical attackers in the group.</p>
+                            <p class="justified">Among Special Pokemon, <strong>Eternatus Eternamax</strong> ranks first by a huge margin with <strong>1,125 total base stats</strong>. Behind it are <strong>Mega Mewtwo X</strong>, <strong>Mega Mewtwo Y</strong>, and <strong>Mega Rayquaza</strong>, all tied at <strong>780</strong>, followed by <strong>Primal Groudon</strong> and <strong>Primal Kyogre</strong> at <strong>770</strong>.</p>
+                            <p class="justified">Once the full non-standard bucket is included, the chart becomes a true ranking of extreme forms rather than a tiny Mega-only snapshot.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_attack.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Attack stat.">
-                                <figcaption>The Attack chart highlights how heavily the physical-offense leaderboard is shaped by Mega and other boosted forms.</figcaption>
+                                <img src="top10_special_pool_total.png" alt="Top 10 Special Pokemon by total base stats.">
+                                <figcaption>The Special Pokemon total chart becomes a true leaderboard of extreme forms once the full non-standard bucket is included.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q13</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Defense?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q12A</span><span>Which Standard Pokemon have the highest Attack?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Eternatus Eternamax</strong> also leads the Defense ranking in the draft with a massive Defense stat of <strong>250</strong>. It is followed by defensive standouts like <strong>Mega Aggron</strong> and <strong>Mega Steelix</strong>.</p>
+                            <p class="justified">Among Standard Pokemon, <strong>Rampardos</strong> has the highest Attack at <strong>165</strong>. The next tier includes <strong>Galarian Zen Mode</strong>, <strong>Palafin Hero Form</strong>, and <strong>Slaking</strong>, all at <strong>160</strong>.</p>
+                            <p class="justified">That is a good reminder that extreme physical power is not limited to legendary or mythical Pok&eacute;mon. Some Standard Pokemon still hit incredibly hard on paper.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_defense.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Defense stat.">
-                                <figcaption>The Defense ranking is filled with bulky wall-style Pokémon and extreme-form stat monsters rather than balanced generalists.</figcaption>
+                                <img src="top10_standard_pool_attack.png" alt="Top 10 Standard Pokemon by Attack stat.">
+                                <figcaption>The Standard Pokemon Attack ranking keeps the spotlight on raw physical power from the regular roster.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q14</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Special Attack?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q12B</span><span>Which Special Pokemon have the highest Attack?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Mewtwo Mega Mewtwo Y</strong> ranks first in the draft with a Special Attack stat of <strong>194</strong>. The rest of the list includes names like <strong>Mega Rayquaza</strong>, <strong>Primal Kyogre</strong>, and <strong>Ultra Necrozma</strong>.</p>
+                            <p class="justified">Among Special Pokemon, <strong>Mega Mewtwo X</strong> leads with <strong>190 Attack</strong>. After that come <strong>Mega Heracross (185)</strong>, <strong>Kartana (181)</strong>, <strong>Deoxys Attack Forme (180)</strong>, <strong>Mega Rayquaza (180)</strong>, and <strong>Primal Groudon (180)</strong>.</p>
+                            <p class="justified">This version of the chart is much richer because it includes Mega forms, Ultra Beasts, Mythicals, and legendary battle forms together.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_sp_attack.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Special Attack stat.">
-                                <figcaption>Special offense at the top end is concentrated among alternate forms with heavily boosted battle stats.</figcaption>
+                                <img src="top10_special_pool_attack.png" alt="Top 10 Special Pokemon by Attack stat.">
+                                <figcaption>The Special Pokemon Attack chart captures how many kinds of non-standard power spikes live at the top end of the dataset.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q15</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Special Defense?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q13A</span><span>Which Standard Pokemon have the highest Defense?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Eternatus Eternamax</strong> also tops the Special Defense list in the draft, reaching <strong>250</strong>. The ranking mixes exaggerated forms with natural specialists like <strong>Shuckle</strong>.</p>
+                            <p class="justified">Among Standard Pokemon, <strong>Shuckle</strong> ranks first with a huge <strong>230 Defense</strong>. It is followed by other famous walls such as <strong>Steelix (200)</strong>, <strong>Avalugg (184)</strong>, <strong>Hisuian Avalugg (184)</strong>, and <strong>Aggron (180)</strong>.</p>
+                            <p class="justified">The Standard Pokemon group makes the defensive specialists stand out much more clearly than the old mixed ranking did.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_sp_defense.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Special Defense stat.">
-                                <figcaption>This list shows that exceptional special bulk can come from two different directions: transformed forms and naturally defensive designs.</figcaption>
+                                <img src="top10_standard_pool_defense.png" alt="Top 10 Standard Pokemon by Defense stat.">
+                                <figcaption>The Standard Pokemon Defense chart surfaces familiar wall archetypes without the special-form ceiling flattening the view.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q16</span><span>Which non-Legendary and non-Mythical Pokémon are the fastest?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q13B</span><span>Which Special Pokemon have the highest Defense?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified"><strong>Ninjask</strong> is identified in the draft as the fastest non-Legendary and non-Mythical Pokémon in the dataset, with a Speed stat of <strong>160</strong>.</p>
+                            <p class="justified">Among Special Pokemon, <strong>Eternatus Eternamax</strong> dominates Defense with <strong>250</strong>. It is followed by <strong>Mega Aggron (230)</strong>, <strong>Mega Steelix (230)</strong>, and <strong>Stakataka (211)</strong>.</p>
+                            <p class="justified">Compared with Standard Pokemon, this group includes more extreme outliers designed around very high stat ceilings.</p>
                             <figure class="data-study-figure data-study-figure-compact">
-                                <img src="top10_non_legendary_speed.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Speed stat.">
-                                <figcaption>The Speed leaderboard blends naturally quick species with alternate forms that push the stat ceiling even higher.</figcaption>
+                                <img src="top10_special_pool_defense.png" alt="Top 10 Special Pokemon by Defense stat.">
+                                <figcaption>The Special Pokemon Defense ranking shows the exaggerated stat ceilings built into the non-standard side of the dataset.</figcaption>
                             </figure>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q17</span><span>Are Pokémon with higher Defense usually slower?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q14A</span><span>Which Standard Pokemon have the highest Special Attack?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">The draft says no. The relationship between Defense and Speed is effectively negligible, with Pearson at <strong>-0.0271</strong> and Spearman at <strong>0.0300</strong>.</p>
+                            <p class="justified">Among Standard Pokemon, <strong>Greninja Ash-Greninja</strong> ranks first with <strong>153 Special Attack</strong>. It is followed by <strong>Chandelure</strong>, <strong>Cursola</strong>, and <strong>Vikavolt</strong>, each at <strong>145</strong>.</p>
+                            <p class="justified">This ranking is more useful than the old version because it highlights elite special attackers that still belong to the regular battle roster.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_standard_pool_sp_attack.png" alt="Top 10 Standard Pokemon by Special Attack stat.">
+                                <figcaption>The Standard Pokemon Special Attack chart makes the regular-roster special attackers easier to compare on their own terms.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q14B</span><span>Which Special Pokemon have the highest Special Attack?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Among Special Pokemon, <strong>Mega Mewtwo Y</strong> ranks first with <strong>194 Special Attack</strong>. The next strongest entries are <strong>Deoxys Attack Forme (180)</strong>, <strong>Mega Rayquaza (180)</strong>, <strong>Primal Kyogre (180)</strong>, <strong>Mega Alakazam (175)</strong>, and <strong>Xurkitree (173)</strong>.</p>
+                            <p class="justified">This is a more convincing Special Pokemon chart because it now reflects several different kinds of non-standard power spikes.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_special_pool_sp_attack.png" alt="Top 10 Special Pokemon by Special Attack stat.">
+                                <figcaption>The Special Pokemon Special Attack chart reflects several different classes of non-standard offensive spikes.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q15A</span><span>Which Standard Pokemon have the highest Special Defense?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Among Standard Pokemon, <strong>Shuckle</strong> also leads Special Defense with <strong>230</strong>. Behind it are <strong>Florges (154)</strong>, <strong>Carbink (150)</strong>, <strong>Probopass (150)</strong>, and <strong>Toxapex (142)</strong>.</p>
+                            <p class="justified">This list mixes pure walls with bulky support-oriented species, which gives a better picture of natural special bulk in the main roster.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_standard_pool_sp_defense.png" alt="Top 10 Standard Pokemon by Special Defense stat.">
+                                <figcaption>The Standard Pokemon Special Defense chart brings natural walls and support-focused tanks into clearer focus.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q15B</span><span>Which Special Pokemon have the highest Special Defense?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Among Special Pokemon, <strong>Eternatus Eternamax</strong> ranks first again with <strong>250 Special Defense</strong>. After that come <strong>Regice (200)</strong>, <strong>Deoxys Defense Forme (160)</strong>, <strong>Primal Kyogre (160)</strong>, <strong>Ho-oh (154)</strong>, and <strong>Lugia (154)</strong>.</p>
+                            <p class="justified">The Special Pokemon group is no longer just about offense. It also contains some of the most exaggerated defensive stat profiles in the full dataset.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_special_pool_sp_defense.png" alt="Top 10 Special Pokemon by Special Defense stat.">
+                                <figcaption>The Special Pokemon Special Defense chart shows that this group also contains some of the most extreme defensive stat profiles.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q16A</span><span>Which Standard Pokemon are the fastest?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Among Standard Pokemon, <strong>Ninjask</strong> is the fastest with a Speed stat of <strong>160</strong>. It is followed by <strong>Electrode</strong> and <strong>Hisuian Electrode</strong> at <strong>150</strong>, then <strong>Accelgor (145)</strong>.</p>
+                            <p class="justified">This is a clean example of how speed monsters still exist outside the legendary and special-form tier.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_standard_pool_speed.png" alt="Top 10 Standard Pokemon by Speed stat.">
+                                <figcaption>The Standard Pokemon Speed leaderboard highlights fast regular-roster species without the Special Pokemon group taking over the chart.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q16B</span><span>Which Special Pokemon are the fastest?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Among Special Pokemon, <strong>Regieleki</strong> is the fastest by far with <strong>200 Speed</strong>. It is followed by <strong>Deoxys Speed Forme (180)</strong>, <strong>Pheromosa (151)</strong>, <strong>Calyrex Shadow Rider (150)</strong>, and several Deoxys and Mega entries close behind.</p>
+                            <p class="justified">This chart does a much better job of showing how many speed extremes live in the Special Pokemon group.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_special_pool_speed.png" alt="Top 10 Special Pokemon by Speed stat.">
+                                <figcaption>The Special Pokemon Speed chart makes the non-standard speed ceiling immediately obvious.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q17</span><span>Are Pok&eacute;mon with higher Defense usually slower?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">For the correlation questions, I kept the <strong>full 1,207-row dataset</strong>. The goal here is to test broad stat relationships across the whole project, not only the two leaderboard buckets.</p>
+                            <p class="justified">The data does <strong>not</strong> support the idea that Pok&eacute;mon with higher Defense are usually slower. The Pearson correlation between Defense and Speed is <strong>-0.0271</strong>, while the Spearman correlation is <strong>0.0300</strong>. Both values are extremely close to zero.</p>
+                            <p class="justified">This means there is no clear relationship between Defense and Speed in this dataset. Some defensive Pok&eacute;mon are slow, but high Defense alone does not strongly predict low Speed.</p>
                             <figure class="data-study-figure data-study-figure-compact">
                                 <img src="defense_vs_speed_correlation.png" alt="Correlation chart comparing Defense and Speed for Pokemon in the dataset.">
                                 <figcaption>The Defense versus Speed chart supports the idea that bulk alone does not reliably predict slowness.</figcaption>
@@ -236,9 +345,10 @@
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q18</span><span>Are Pokémon with higher Attack usually slower?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q18</span><span>Are Pok&eacute;mon with higher Attack usually slower?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">The draft again says no. Attack and Speed show a <strong>weak positive relationship</strong>, with Pearson at <strong>0.3337</strong> and Spearman at <strong>0.3283</strong>.</p>
+                            <p class="justified">The data also does <strong>not</strong> support the idea that high-Attack Pok&eacute;mon are usually slower. The Pearson correlation is <strong>0.3337</strong>, and the Spearman correlation is <strong>0.3283</strong>.</p>
+                            <p class="justified">This is a weak positive relationship, not a negative one. In this dataset, higher Attack tends to come with slightly higher Speed on average. The relationship is not strong, but it goes against the idea that physical attackers are usually slow.</p>
                             <figure class="data-study-figure data-study-figure-compact">
                                 <img src="attack_vs_speed_correlation.png" alt="Correlation chart comparing Attack and Speed for Pokemon in the dataset.">
                                 <figcaption>The Attack versus Speed view pushes back on the common assumption that physical attackers are usually slow by default.</figcaption>
@@ -246,9 +356,10 @@
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q19</span><span>Are Pokémon with higher Special Attack usually slower?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q19</span><span>Are Pok&eacute;mon with higher Special Attack usually slower?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">The same pattern appears with Special Attack. The draft reports Pearson at <strong>0.3786</strong> and Spearman at <strong>0.3631</strong>, which is also a weak positive relationship.</p>
+                            <p class="justified">The same pattern appears with Special Attack. The Pearson correlation is <strong>0.3786</strong>, and the Spearman correlation is <strong>0.3631</strong>. This is also a weak positive relationship.</p>
+                            <p class="justified">In other words, Pok&eacute;mon with stronger Special Attack tend to be slightly faster on average, not slower. Again, the relationship is weak, but the trend does not support the idea that stronger special attackers are usually slow.</p>
                             <figure class="data-study-figure data-study-figure-compact">
                                 <img src="sp_attack_vs_speed_correlation.png" alt="Correlation chart comparing Special Attack and Speed for Pokemon in the dataset.">
                                 <figcaption>Special offense trends slightly upward with Speed as well, which makes the overall stat picture more mixed than the usual stereotype suggests.</figcaption>
@@ -264,51 +375,62 @@
                 <h2>Section 3: Capture Rate, Experience Growth, and Official Class</h2>
             </div>
             <div class="data-study-copy">
-                <p class="justified">Not every Pokémon is meant to feel equally obtainable. This final section compares capture rate, experience growth, and official class to see whether the game data supports the idea that Legendary and Mythical Pokémon are designed to be both harder to catch and slower to raise.</p>
+                <p class="justified">Not every Pok&eacute;mon is designed to feel the same. Some are common encounters. Some are rare. Some are meant to be late-game challenges. Legendary and Mythical Pok&eacute;mon often feel harder to catch and slower to train, but I wanted to test whether the dataset supports that idea.</p>
+                <p class="justified">For this section, I compared three fields: <code>capture_rate</code>, <code>experience_growth</code>, and <code>official_class</code>.</p>
                 <div class="data-study-question-list">
                     <details class="data-study-question-card" open>
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q20</span><span>Do Legendary and Mythical Pokémon generally have lower capture rates?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q20</span><span>Do Legendary and Mythical Pok&eacute;mon generally have lower capture rates?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">Yes. The draft shows a clear gap in mean capture rate: <strong>99.67</strong> for normal Pokémon, <strong>16.65</strong> for Legendary Pokémon, and <strong>9.50</strong> for Mythical Pokémon.</p>
-                            <figure class="data-study-figure data-study-figure-compact">
-                                <img src="avg_capture_rate_by_class.png" alt="Average capture rate by official Pokemon class.">
-                                <figcaption>The average-capture-rate chart makes the class gap easy to scan at a glance.</figcaption>
-                            </figure>
-                            <figure class="data-study-figure data-study-figure-compact">
-                                <img src="capture_rate_boxplot_by_class.png" alt="Capture rate boxplot grouped by official Pokemon class.">
-                                <figcaption>The boxplot adds more shape to the distribution and reinforces how far Legendary and Mythical groups sit below normal Pokémon.</figcaption>
-                            </figure>
+                            <p class="justified">Yes. Legendary and Mythical Pok&eacute;mon generally have much lower capture rates.</p>
+                            <ul class="data-study-file-list">
+                                <li><strong>Normal Pok&eacute;mon:</strong> <code>99.67</code></li>
+                                <li><strong>Legendary Pok&eacute;mon:</strong> <code>16.65</code></li>
+                                <li><strong>Mythical Pok&eacute;mon:</strong> <code>9.50</code></li>
+                            </ul>
+                            <p class="justified">This shows a clear pattern. Official class is strongly connected to capture difficulty. Legendary and Mythical Pok&eacute;mon are much harder to catch on average than normal Pok&eacute;mon.</p>
+                            <div class="data-study-chart-grid">
+                                <figure class="data-study-figure data-study-figure-compact">
+                                    <img src="avg_capture_rate_by_class.png" alt="Average capture rate by official Pokemon class.">
+                                    <figcaption>The average-capture-rate chart makes the class gap easy to scan at a glance.</figcaption>
+                                </figure>
+                                <figure class="data-study-figure data-study-figure-compact">
+                                    <img src="capture_rate_boxplot_by_class.png" alt="Capture rate boxplot grouped by official Pokemon class.">
+                                    <figcaption>The boxplot adds distribution shape and reinforces how far Legendary and Mythical groups sit below normal Pok&eacute;mon.</figcaption>
+                                </figure>
+                            </div>
                         </div>
                     </details>
                     <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q21</span><span>Do Legendary and Mythical Pokémon generally require more experience to reach Level 100?</span></summary>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q21</span><span>Do Legendary and Mythical Pok&eacute;mon generally require more experience to reach Level 100?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">Yes. The draft gives mean experience growth values of <strong>1,046,900.35</strong> for normal Pokémon, <strong>1,250,000.00</strong> for Legendary Pokémon, and <strong>1,224,648.00</strong> for Mythical Pokémon.</p>
-                            <figure class="data-study-figure data-study-figure-compact">
-                                <img src="avg_exp_growth_by_class.png" alt="Average experience growth by official Pokemon class.">
-                                <figcaption>The average experience chart shows how close Mythical Pokémon sit to the slower Legendary curve.</figcaption>
-                            </figure>
-                            <figure class="data-study-figure data-study-figure-compact">
-                                <img src="exp_growth_boxplot_by_class.png" alt="Experience growth boxplot grouped by official Pokemon class.">
-                                <figcaption>The boxplot helps show that the difference is not just anecdotal but visible across the grouped distributions.</figcaption>
-                            </figure>
+                            <p class="justified">Yes. Legendary and Mythical Pok&eacute;mon generally require more experience to reach Level 100.</p>
+                            <ul class="data-study-file-list">
+                                <li><strong>Normal Pok&eacute;mon:</strong> <code>1,046,900.35</code></li>
+                                <li><strong>Legendary Pok&eacute;mon:</strong> <code>1,250,000.00</code></li>
+                                <li><strong>Mythical Pok&eacute;mon:</strong> <code>1,224,648.00</code></li>
+                            </ul>
+                            <p class="justified">Legendary Pok&eacute;mon usually follow the slowest growth curve, while Mythical Pok&eacute;mon are also much closer to that higher requirement than normal Pok&eacute;mon.</p>
+                            <div class="data-study-chart-grid">
+                                <figure class="data-study-figure data-study-figure-compact">
+                                    <img src="avg_exp_growth_by_class.png" alt="Average experience growth by official Pokemon class.">
+                                    <figcaption>The average experience chart shows how close Mythical Pok&eacute;mon sit to the slower Legendary curve.</figcaption>
+                                </figure>
+                                <figure class="data-study-figure data-study-figure-compact">
+                                    <img src="exp_growth_boxplot_by_class.png" alt="Experience growth boxplot grouped by official Pokemon class.">
+                                    <figcaption>The grouped distribution makes the higher growth requirements visible beyond a single average value.</figcaption>
+                                </figure>
+                            </div>
                         </div>
                     </details>
                     <details class="data-study-question-card">
                         <summary class="data-study-question-summary"><span class="data-study-question-label">Q22</span><span>Is capture rate strongly related to experience growth?</span></summary>
                         <div class="data-study-question-body">
-                            <p class="justified">Not strongly enough on its own. The draft reports Pearson at <strong>-0.2512</strong> and Spearman at <strong>-0.4004</strong>, which suggests a negative relationship but not one strong enough to explain the whole pattern by itself.</p>
+                            <p class="justified">Capture rate and experience growth are related, but not strongly enough to explain the full pattern by themselves. The Pearson correlation is <strong>-0.2512</strong>, and the Spearman correlation is <strong>-0.4004</strong>.</p>
+                            <p class="justified">This means the relationship is weak to moderate and negative. Pok&eacute;mon that need more experience growth tend to have lower capture rates, but the connection is not strong enough on its own. Something else explains the pattern better.</p>
                             <figure class="data-study-figure data-study-figure-compact">
                                 <img src="capture_vs_exp_by_class.png" alt="Chart comparing Pokemon capture rate and experience growth by official class.">
-                                <figcaption>The capture-versus-experience view suggests a relationship, but it also hints that class grouping explains the pattern more clearly than a single raw correlation value.</figcaption>
+                                <figcaption>The capture-versus-experience view hints at a relationship, but the class split explains the pattern more clearly than the raw correlation alone.</figcaption>
                             </figure>
-                        </div>
-                    </details>
-                    <details class="data-study-question-card">
-                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q23</span><span>Is official class a stronger signal than raw correlation?</span></summary>
-                        <div class="data-study-question-body">
-                            <p class="justified">Yes. The draft concludes that official class explains the rarity pattern more clearly than the raw numeric link between capture rate and experience growth.</p>
-                            <p class="justified">In practical terms, being <strong>Legendary</strong> or <strong>Mythical</strong> tells us more about expected catch difficulty and training curve than the correlation number does by itself.</p>
                         </div>
                     </details>
                 </div>
@@ -317,32 +439,34 @@
 
         <section class="container data-study-section">
             <div class="section-heading">
-                <h2>Key Takeaways</h2>
+                <h2>Final Thoughts</h2>
             </div>
-            <div class="data-study-copy data-study-key-takeaways" data-type-icons>
-                <ul>
-                    <li><strong>Water and Normal/Flying dominate the draft counts.</strong> The study frames them as the most common single and dual typings across Generations 1 to 9.</li>
-                    <li><strong>Steel is the standout defensive type.</strong> Both the single-type and dual-type findings keep pointing back to Steel-heavy defensive profiles.</li>
-                    <li><strong>Extreme forms dominate raw stat leaderboards.</strong> Mega, Primal, and other alternate forms control much of the top-end stat space.</li>
-                    <li><strong>High offense does not automatically mean low speed.</strong> The draft correlations for Attack and Special Attack both lean weakly positive rather than negative.</li>
-                    <li><strong>Legendary and Mythical rarity is visible in the numbers.</strong> Lower capture rates and higher experience requirements reinforce that these classes are intentionally designed to feel harder to obtain and raise.</li>
-                </ul>
+            <div class="data-study-copy" data-type-icons>
+                <p class="justified">This Pok&eacute;mon dataset started as a fun project, but it quickly became a strong data study.</p>
+                <p class="justified">The type-matchup section confirmed several long-time player instincts. Water is extremely common. Steel is one of the best defensive types. Ice is dangerous offensively but weak defensively. Dual typing can either create powerful coverage or expose major weaknesses.</p>
+                <p class="justified">The stat section became much clearer after splitting the rankings into two groups. <strong>Standard Pokemon</strong> show which regular-roster Pok&eacute;mon stand out on their own terms, while <strong>Special Pokemon</strong> isolate rare high-tier forms instead of letting them distort every chart. That split makes the results easier to interpret and much fairer to compare.</p>
+                <p class="justified">The capture and experience section showed a cleaner pattern. Legendary and Mythical Pok&eacute;mon are harder to catch and usually require more experience to reach Level 100. The category of the Pok&eacute;mon explains this better than raw correlation alone.</p>
+                <p class="justified">As a player, these results make the games feel even more intentional. As an analyst, it shows how much structure exists behind a game that many of us first loved as kids.</p>
+                <div class="data-study-highlight">
+                    <p>Pok&eacute;mon may look simple on the surface, but the numbers behind it tell a deeper story: every type, stat, class, and form is part of a larger design system.</p>
+                </div>
             </div>
         </section>
 
         <section class="container data-study-section">
             <div class="section-heading">
-                <h2>Sources</h2>
+                <h2>Afterword and Source Credits</h2>
             </div>
             <div class="data-study-copy">
+                <p class="justified">This project was made possible through public Pok&eacute;mon datasets and community-maintained references. I used these sources as the foundation for building, cleaning, validating, and expanding the analysis dataset.</p>
                 <ol class="data-study-source-list">
-                    <li><a href="https://www.kaggle.com/datasets/rounakbanik/pokemon" target="_blank" rel="noreferrer">Pokémon Dataset by Rounak Banik on Kaggle</a></li>
-                    <li><a href="https://www.kaggle.com/datasets/maca11/all-pokemon-dataset" target="_blank" rel="noreferrer">All Pokémon Dataset by maca11 on Kaggle</a></li>
-                    <li><a href="https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6" target="_blank" rel="noreferrer">Pokémon Type Chart Gist by armgilles</a></li>
-                    <li><a href="https://pokemondb.net/" target="_blank" rel="noreferrer">Pokémon Database</a></li>
-                    <li><a href="https://github.com/ChimCatz/data-analysis-portfolio/tree/main/pokemon_analysis" target="_blank" rel="noreferrer">Original Pokémon analysis project on GitHub</a></li>
+                    <li><a href="https://www.kaggle.com/datasets/rounakbanik/pokemon" target="_blank" rel="noreferrer">Pok&eacute;mon Dataset by Rounak Banik on Kaggle</a></li>
+                    <li><a href="https://www.kaggle.com/datasets/maca11/all-pokemon-dataset" target="_blank" rel="noreferrer">All Pok&eacute;mon Dataset by maca11 on Kaggle</a></li>
+                    <li><a href="https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6" target="_blank" rel="noreferrer">Pok&eacute;mon Type Chart Gist by armgilles</a></li>
+                    <li><a href="https://pokemondb.net/" target="_blank" rel="noreferrer">Pok&eacute;mon Database</a></li>
                 </ol>
-                <p class="data-study-note">This version is built as a portfolio-ready reading page, with the draft narrative preserved and the required images copied locally so the study can be deployed without depending on the old analysis workspace.</p>
+                <p class="justified">The full project files, cleaned dataset work, generated charts, and analysis scripts can be found in my GitHub portfolio repository.</p>
+                <p><a class="data-study-download-link" href="https://github.com/ChimCatz/data-analysis-portfolio/tree/main/pokemon_analysis" target="_blank" rel="noreferrer">View the Pok&eacute;mon Analysis Project on GitHub</a></p>
             </div>
         </section>
     </main>
