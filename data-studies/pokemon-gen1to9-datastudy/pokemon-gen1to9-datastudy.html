@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Studies | Pokemon Data Study</title>
+    <meta name="description" content="A Pokemon data study exploring type matchups, base stats, and rarity patterns across 1,025 Pokemon from Generations 1 to 9.">
+    <link rel="icon" type="image/svg+xml" href="../../assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+
+<body data-page="data-study-detail" class="data-study-detail-page">
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li><a href="../../czcatzzz.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
+            <li><a href="../../about-me.html" aria-label="About Me" data-target="about"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/about-me.svg" alt="" aria-hidden="true"></span><span class="nav-label">About Me</span></a></li>
+            <li><a href="../../czcatzzz.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
+            <li class="active"><a href="../../czcatzzz.html#data-studies" aria-label="Data Studies" data-target="data-studies"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/data-studies.svg" alt="" aria-hidden="true"></span><span class="nav-label">Data Studies</span></a></li>
+            <li><a href="../../czcatzzz.html#insights" aria-label="Insights" data-target="insights"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/insights.svg" alt="" aria-hidden="true"></span><span class="nav-label">Insights</span></a></li>
+            <li><a href="../../czcatzzz.html#brain-challenge" aria-label="Challenges" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="../../assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenges</span></a></li>
+            <li><button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="../../assets/icons/light-mode.svg" data-icon-dark="../../assets/icons/dark-mode.svg"><span class="nav-icon-wrap"><img class="nav-icon theme-toggle-icon" src="../../assets/icons/light-mode.svg" alt="" aria-hidden="true"></span><span class="nav-label">Light Mode</span></button></li>
+        </ul>
+    </nav>
+
+    <main class="simple-project-page data-study-page">
+        <section class="container data-study-section">
+            <div class="data-study-copy">
+                <a class="text-button project-page-label" href="../../czcatzzz.html#data-studies">Back to Data Studies</a>
+                <h1>Pokémon Data Study: What 1,025 Pokémon Reveal About Type Matchups, Stats, and Rarity</h1>
+                <figure class="data-study-header-figure">
+                    <img class="data-study-header-image" src="header-image.png" alt="Header visual for the Pokemon Data Study.">
+                </figure>
+                <p class="data-study-subtitle">A three-part Pokémon analysis covering type matchups, base stat patterns, and capture rarity across Generations 1 to 9 using Python, pandas, numpy, and matplotlib.</p>
+                <div class="data-study-meta-list" aria-label="Study metadata">
+                    <span>Dataset: Pokémon Gen 1 to 9</span>
+                    <span>Tools: Python, pandas, numpy, matplotlib</span>
+                    <span>Focus: Typing, stats, rarity</span>
+                    <span>Records: 1,025 Pokédex IDs</span>
+                    <span>Expanded Rows: 1,207 forms and variants</span>
+                </div>
+                <p class="data-study-note">This page follows the working markdown draft for the study and uses the locally copied charts from the original analysis project so it can be deployed independently inside this portfolio site.</p>
+                <div class="data-study-download">
+                    <p>You can inspect the cleaned dataset used behind the visuals and notes on this page.</p>
+                    <a class="data-study-download-link" href="complete_1025_pokemon_dataset.csv" download="complete_1025_pokemon_dataset.csv">Dataset: "complete_1025_pokemon_dataset.csv"</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Introduction</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Pokémon has been part of my life since childhood. I first discovered it through Pokémon Emerald, then kept playing through the Nintendo DS era and later on the Switch. That long history made this project a fun way to look at a familiar game world through a data analyst's lens instead of only as a player.</p>
+                <p class="justified">The study focuses on three main areas. First, I look at how type matchups behave across single and dual typings. Second, I explore which non-Legendary and non-Mythical Pokémon look strongest on paper through base stats. Third, I compare capture rate, experience growth, and official class to see how rarity is structured behind the scenes.</p>
+                <div class="data-study-highlight">
+                    <p><strong>Core questions:</strong> Which types are most common, which typings look strongest offensively or defensively, which Pokémon dominate raw stats, and how clearly do Legendary and Mythical classes separate from the rest?</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Section 1: Type Matchups</h2>
+            </div>
+            <div class="data-study-copy" data-type-icons>
+                <p class="justified">At first glance, Pokémon type matchups can feel like a simple rock-paper-scissors system. But the moment dual typings enter the picture, the defensive and offensive profile of a Pokémon becomes much more layered. This section uses the draft findings together with the matchup visual to frame the first set of questions.</p>
+                <figure class="data-study-figure">
+                    <img src="type-match-matrix.png" alt="18 by 18 Pokemon type matchup matrix showing defensive damage multipliers.">
+                    <figcaption>The matchup matrix anchors the type-analysis section by showing how each Pokémon type responds defensively across the full type chart.</figcaption>
+                </figure>
+                <div class="data-study-question-list">
+                    <details class="data-study-question-card" open>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q1</span><span>From Generation 1 to 9, which single typing is the most and least common?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">The draft identifies <strong>Water</strong> as the most common single type, with <strong>81 single-type Water Pokémon</strong>, and <strong>Flying</strong> as the least common, with only <strong>4 single-type Flying Pokémon</strong>.</p>
+                            <p class="justified">That pattern fits the world design of the games. Water Pokémon show up across oceans, fishing routes, rivers, caves, lakes, and coastal areas, while pure Flying is much rarer because Flying is often paired with another type rather than standing alone.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q2</span><span>From Generation 1 to 9, which double typing is the most and least common?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">The most common dual typing in the draft is <strong>Normal/Flying</strong>, with <strong>31 Pokémon</strong>. Several dual-type combinations appear only once, including <strong>Fairy/Ice, Electric/Psychic, Dragon/Fairy, Bug/Ghost, Steel/Water, Normal/Water, Ghost/Ice, Electric/Fire,</strong> and <strong>Fire/Steel</strong>.</p>
+                            <p class="justified">Normal/Flying being the leader makes sense because early-route birds have been one of the most repeated design patterns in the franchise since Gen 1.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q3</span><span>Which single typing has the best offensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Fighting</strong> and <strong>Ground</strong> are tied as the strongest offensive single types in the draft, with each one hitting <strong>5 types</strong> for super-effective damage.</p>
+                            <p class="justified">Fighting is strong against Normal, Ice, Rock, Dark, and Steel. Ground is strong against Fire, Electric, Poison, Rock, and Steel. They arrive at the same result, but they solve different kinds of matchups.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q4</span><span>Which single typing has the best defensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Steel</strong> leads the draft as the best defensive single type with a defensive score of <strong>10</strong>. It carries <strong>11 resistances</strong> and only <strong>3 weaknesses</strong>.</p>
+                            <p class="justified">That helps explain why Steel types often feel naturally safe in battle even before their individual stat spreads are taken into account.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q5</span><span>Which single typing has the worst offensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Normal</strong> is the weakest offensive single type in the draft because it has <strong>0 super-effective matchups</strong> and cannot affect Ghost-type Pokémon at all.</p>
+                            <p class="justified">That does not make Normal Pokémon weak overall, but it does mean the typing itself offers the least offensive coverage when viewed alone.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q6</span><span>Which single typing has the worst defensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Ice</strong> is the weakest defensive single type in the draft, with a defensive score of <strong>-3</strong>. It has just <strong>1 resistance</strong> and <strong>4 weaknesses</strong>: Fire, Fighting, Rock, and Steel.</p>
+                            <p class="justified">That is one of those findings that lines up closely with how Ice often feels in actual gameplay: dangerous offensively, but fragile once it has to take hits.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q7</span><span>Which double typing has the best offensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Several dual typings are tied for the best offensive coverage in the draft with <strong>7 super-effective matchups</strong>. Examples include <strong>Grass/Dark, Grass/Ice, Grass/Psychic, Rock/Fighting,</strong> and <strong>Rock/Psychic</strong>.</p>
+                            <p class="justified">The bigger point is that dual typing can widen offensive reach much more than a single type can do on its own.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q8</span><span>Which double typing has the worst offensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Several dual-type combinations have only <strong>1 super-effective matchup</strong> in the draft. Examples include <strong>Bug/Steel, Dark/Ghost, Dark/Poison, Electric/Water, Normal/Ghost,</strong> and <strong>Water/Ground</strong>.</p>
+                            <p class="justified">That makes this a good reminder that a typing can be weak offensively while still remaining useful for defensive or utility reasons.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q9</span><span>Which double typing has the best defensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Fairy/Steel</strong> and <strong>Steel/Ghost</strong> are tied in the draft as the strongest defensive dual typings, each with a defensive score of <strong>11</strong>.</p>
+                            <p class="justified">These combinations resist a large share of attack types while avoiding many harsh punishments, which is exactly why they feel hard to break in battle.</p>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q10</span><span>Which double typing has the worst defensive capability?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Grass/Dragon</strong> and <strong>Ice/Psychic</strong> are tied in the draft for the weakest defensive score at <strong>-4</strong>.</p>
+                            <p class="justified">Both combinations suffer from multiple bad matchups and do not gain enough defensive value back to compensate, especially against teams with broad type coverage.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Section 2: Base Stats</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">The second section looks at the familiar six core stats: HP, Attack, Defense, Special Attack, Special Defense, and Speed. To keep the comparisons more interesting, the draft frames these questions around non-Legendary and non-Mythical Pokémon rather than letting the usual box-art powerhouses dominate every category.</p>
+                <div class="data-study-question-list">
+                    <details class="data-study-question-card" open>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q11</span><span>Which non-Legendary and non-Mythical Pokémon have the highest total base stats?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Eternatus Eternamax</strong> ranks first in the draft with <strong>1,125 total base stats</strong>. The rest of the top end is dominated by special forms such as Mega Evolutions, Primal forms, Ultra Necrozma, and Zygarde Complete Forme.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_total_base_stats.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by total base stats.">
+                                <figcaption>The total-base-stat ranking shows how much alternate forms dominate the very top of the dataset once raw numbers are compared directly.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q12</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Attack?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Mewtwo Mega Mewtwo X</strong> leads the Attack ranking in the draft with an Attack stat of <strong>190</strong>. The list is packed with high-power alternate forms, with <strong>Kartana</strong> standing out as one of the most notable physical attackers in the group.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_attack.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Attack stat.">
+                                <figcaption>The Attack chart highlights how heavily the physical-offense leaderboard is shaped by Mega and other boosted forms.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q13</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Defense?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Eternatus Eternamax</strong> also leads the Defense ranking in the draft with a massive Defense stat of <strong>250</strong>. It is followed by defensive standouts like <strong>Mega Aggron</strong> and <strong>Mega Steelix</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_defense.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Defense stat.">
+                                <figcaption>The Defense ranking is filled with bulky wall-style Pokémon and extreme-form stat monsters rather than balanced generalists.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q14</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Special Attack?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Mewtwo Mega Mewtwo Y</strong> ranks first in the draft with a Special Attack stat of <strong>194</strong>. The rest of the list includes names like <strong>Mega Rayquaza</strong>, <strong>Primal Kyogre</strong>, and <strong>Ultra Necrozma</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_sp_attack.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Special Attack stat.">
+                                <figcaption>Special offense at the top end is concentrated among alternate forms with heavily boosted battle stats.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q15</span><span>Which non-Legendary and non-Mythical Pokémon have the highest Special Defense?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Eternatus Eternamax</strong> also tops the Special Defense list in the draft, reaching <strong>250</strong>. The ranking mixes exaggerated forms with natural specialists like <strong>Shuckle</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_sp_defense.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Special Defense stat.">
+                                <figcaption>This list shows that exceptional special bulk can come from two different directions: transformed forms and naturally defensive designs.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q16</span><span>Which non-Legendary and non-Mythical Pokémon are the fastest?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified"><strong>Ninjask</strong> is identified in the draft as the fastest non-Legendary and non-Mythical Pokémon in the dataset, with a Speed stat of <strong>160</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="top10_non_legendary_speed.png" alt="Top 10 non-Legendary and non-Mythical Pokemon by Speed stat.">
+                                <figcaption>The Speed leaderboard blends naturally quick species with alternate forms that push the stat ceiling even higher.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q17</span><span>Are Pokémon with higher Defense usually slower?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">The draft says no. The relationship between Defense and Speed is effectively negligible, with Pearson at <strong>-0.0271</strong> and Spearman at <strong>0.0300</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="defense_vs_speed_correlation.png" alt="Correlation chart comparing Defense and Speed for Pokemon in the dataset.">
+                                <figcaption>The Defense versus Speed chart supports the idea that bulk alone does not reliably predict slowness.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q18</span><span>Are Pokémon with higher Attack usually slower?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">The draft again says no. Attack and Speed show a <strong>weak positive relationship</strong>, with Pearson at <strong>0.3337</strong> and Spearman at <strong>0.3283</strong>.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="attack_vs_speed_correlation.png" alt="Correlation chart comparing Attack and Speed for Pokemon in the dataset.">
+                                <figcaption>The Attack versus Speed view pushes back on the common assumption that physical attackers are usually slow by default.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q19</span><span>Are Pokémon with higher Special Attack usually slower?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">The same pattern appears with Special Attack. The draft reports Pearson at <strong>0.3786</strong> and Spearman at <strong>0.3631</strong>, which is also a weak positive relationship.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="sp_attack_vs_speed_correlation.png" alt="Correlation chart comparing Special Attack and Speed for Pokemon in the dataset.">
+                                <figcaption>Special offense trends slightly upward with Speed as well, which makes the overall stat picture more mixed than the usual stereotype suggests.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Section 3: Capture Rate, Experience Growth, and Official Class</h2>
+            </div>
+            <div class="data-study-copy">
+                <p class="justified">Not every Pokémon is meant to feel equally obtainable. This final section compares capture rate, experience growth, and official class to see whether the game data supports the idea that Legendary and Mythical Pokémon are designed to be both harder to catch and slower to raise.</p>
+                <div class="data-study-question-list">
+                    <details class="data-study-question-card" open>
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q20</span><span>Do Legendary and Mythical Pokémon generally have lower capture rates?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Yes. The draft shows a clear gap in mean capture rate: <strong>99.67</strong> for normal Pokémon, <strong>16.65</strong> for Legendary Pokémon, and <strong>9.50</strong> for Mythical Pokémon.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="avg_capture_rate_by_class.png" alt="Average capture rate by official Pokemon class.">
+                                <figcaption>The average-capture-rate chart makes the class gap easy to scan at a glance.</figcaption>
+                            </figure>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="capture_rate_boxplot_by_class.png" alt="Capture rate boxplot grouped by official Pokemon class.">
+                                <figcaption>The boxplot adds more shape to the distribution and reinforces how far Legendary and Mythical groups sit below normal Pokémon.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q21</span><span>Do Legendary and Mythical Pokémon generally require more experience to reach Level 100?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Yes. The draft gives mean experience growth values of <strong>1,046,900.35</strong> for normal Pokémon, <strong>1,250,000.00</strong> for Legendary Pokémon, and <strong>1,224,648.00</strong> for Mythical Pokémon.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="avg_exp_growth_by_class.png" alt="Average experience growth by official Pokemon class.">
+                                <figcaption>The average experience chart shows how close Mythical Pokémon sit to the slower Legendary curve.</figcaption>
+                            </figure>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="exp_growth_boxplot_by_class.png" alt="Experience growth boxplot grouped by official Pokemon class.">
+                                <figcaption>The boxplot helps show that the difference is not just anecdotal but visible across the grouped distributions.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q22</span><span>Is capture rate strongly related to experience growth?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Not strongly enough on its own. The draft reports Pearson at <strong>-0.2512</strong> and Spearman at <strong>-0.4004</strong>, which suggests a negative relationship but not one strong enough to explain the whole pattern by itself.</p>
+                            <figure class="data-study-figure data-study-figure-compact">
+                                <img src="capture_vs_exp_by_class.png" alt="Chart comparing Pokemon capture rate and experience growth by official class.">
+                                <figcaption>The capture-versus-experience view suggests a relationship, but it also hints that class grouping explains the pattern more clearly than a single raw correlation value.</figcaption>
+                            </figure>
+                        </div>
+                    </details>
+                    <details class="data-study-question-card">
+                        <summary class="data-study-question-summary"><span class="data-study-question-label">Q23</span><span>Is official class a stronger signal than raw correlation?</span></summary>
+                        <div class="data-study-question-body">
+                            <p class="justified">Yes. The draft concludes that official class explains the rarity pattern more clearly than the raw numeric link between capture rate and experience growth.</p>
+                            <p class="justified">In practical terms, being <strong>Legendary</strong> or <strong>Mythical</strong> tells us more about expected catch difficulty and training curve than the correlation number does by itself.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Key Takeaways</h2>
+            </div>
+            <div class="data-study-copy data-study-key-takeaways" data-type-icons>
+                <ul>
+                    <li><strong>Water and Normal/Flying dominate the draft counts.</strong> The study frames them as the most common single and dual typings across Generations 1 to 9.</li>
+                    <li><strong>Steel is the standout defensive type.</strong> Both the single-type and dual-type findings keep pointing back to Steel-heavy defensive profiles.</li>
+                    <li><strong>Extreme forms dominate raw stat leaderboards.</strong> Mega, Primal, and other alternate forms control much of the top-end stat space.</li>
+                    <li><strong>High offense does not automatically mean low speed.</strong> The draft correlations for Attack and Special Attack both lean weakly positive rather than negative.</li>
+                    <li><strong>Legendary and Mythical rarity is visible in the numbers.</strong> Lower capture rates and higher experience requirements reinforce that these classes are intentionally designed to feel harder to obtain and raise.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="container data-study-section">
+            <div class="section-heading">
+                <h2>Sources</h2>
+            </div>
+            <div class="data-study-copy">
+                <ol class="data-study-source-list">
+                    <li><a href="https://www.kaggle.com/datasets/rounakbanik/pokemon" target="_blank" rel="noreferrer">Pokémon Dataset by Rounak Banik on Kaggle</a></li>
+                    <li><a href="https://www.kaggle.com/datasets/maca11/all-pokemon-dataset" target="_blank" rel="noreferrer">All Pokémon Dataset by maca11 on Kaggle</a></li>
+                    <li><a href="https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6" target="_blank" rel="noreferrer">Pokémon Type Chart Gist by armgilles</a></li>
+                    <li><a href="https://pokemondb.net/" target="_blank" rel="noreferrer">Pokémon Database</a></li>
+                    <li><a href="https://github.com/ChimCatz/data-analysis-portfolio/tree/main/pokemon_analysis" target="_blank" rel="noreferrer">Original Pokémon analysis project on GitHub</a></li>
+                </ol>
+                <p class="data-study-note">This version is built as a portfolio-ready reading page, with the draft narrative preserved and the required images copied locally so the study can be deployed without depending on the old analysis workspace.</p>
+            </div>
+        </section>
+    </main>
+
+    <dialog class="data-study-lightbox" data-study-lightbox aria-label="Expanded study image">
+        <button class="data-study-lightbox-close" type="button" data-study-lightbox-close aria-label="Close image viewer">Close</button>
+        <figure class="data-study-lightbox-figure">
+            <img class="data-study-lightbox-image" src="" alt="">
+            <figcaption class="data-study-lightbox-caption"></figcaption>
+        </figure>
+    </dialog>
+
+    <button class="floating-top-button" type="button" data-scroll-top aria-label="Scroll to top">
+        <img src="../../assets/icons/up-arrow.svg" alt="" aria-hidden="true">
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="../../assets/js/particles-background.js"></script>
+    <script src="../../assets/js/app.js"></script>
+    <script>
+        (function() {
+            var typeNames = [
+                "Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting",
+                "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice",
+                "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"
+            ];
+            var typePattern = new RegExp("\\b(" + typeNames.join("|") + ")\\b", "g");
+
+            function shouldSkipTextNode(parent) {
+                if (!parent) {
+                    return true;
+                }
+
+                return parent.closest(".data-study-inline-type, .data-study-figure figcaption, .data-study-lightbox, script, style, a, h1, h2, h3, h4, h5, h6");
+            }
+
+            function enhanceTypeIcons(root) {
+                var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+                    acceptNode: function(node) {
+                        if (!node.nodeValue || !typePattern.test(node.nodeValue)) {
+                            typePattern.lastIndex = 0;
+                            return NodeFilter.FILTER_REJECT;
+                        }
+
+                        typePattern.lastIndex = 0;
+
+                        if (shouldSkipTextNode(node.parentElement)) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                });
+
+                var textNodes = [];
+                while (walker.nextNode()) {
+                    textNodes.push(walker.currentNode);
+                }
+
+                textNodes.forEach(function(node) {
+                    var value = node.nodeValue;
+                    var fragment = document.createDocumentFragment();
+                    var lastIndex = 0;
+
+                    value.replace(typePattern, function(match, typeName, offset) {
+                        if (offset > lastIndex) {
+                            fragment.appendChild(document.createTextNode(value.slice(lastIndex, offset)));
+                        }
+
+                        var wrap = document.createElement("span");
+                        wrap.className = "data-study-inline-type";
+                        wrap.setAttribute("data-type-name", typeName.toLowerCase());
+                        wrap.appendChild(document.createTextNode(typeName));
+
+                        var icon = document.createElement("img");
+                        icon.className = "data-study-inline-type-icon";
+                        icon.src = "pokemon-type-icons/" + typeName.toLowerCase() + ".svg";
+                        icon.alt = "";
+                        icon.setAttribute("aria-hidden", "true");
+                        wrap.appendChild(icon);
+
+                        fragment.appendChild(wrap);
+                        lastIndex = offset + match.length;
+                        return match;
+                    });
+
+                    if (lastIndex < value.length) {
+                        fragment.appendChild(document.createTextNode(value.slice(lastIndex)));
+                    }
+
+                    node.parentNode.replaceChild(fragment, node);
+                    typePattern.lastIndex = 0;
+                });
+            }
+
+            document.querySelectorAll("[data-type-icons]").forEach(enhanceTypeIcons);
+
+            var lightbox = document.querySelector("[data-study-lightbox]");
+            var lightboxImage = document.querySelector(".data-study-lightbox-image");
+            var lightboxCaption = document.querySelector(".data-study-lightbox-caption");
+            var lightboxClose = document.querySelector("[data-study-lightbox-close]");
+            var zoomableImages = document.querySelectorAll(".data-study-header-image, .data-study-figure img");
+
+            zoomableImages.forEach(function(image) {
+                image.classList.add("data-study-zoomable");
+                image.setAttribute("tabindex", "0");
+                image.setAttribute("role", "button");
+                image.setAttribute("aria-label", (image.getAttribute("alt") || "Study image") + ". Open full size");
+
+                function openLightbox() {
+                    var figure = image.closest("figure");
+                    var caption = figure ? figure.querySelector("figcaption") : null;
+
+                    lightboxImage.src = image.getAttribute("src");
+                    lightboxImage.alt = image.getAttribute("alt") || "";
+                    lightboxCaption.textContent = caption ? caption.textContent.trim() : "";
+                    lightbox.showModal();
+                    document.documentElement.classList.add("has-data-study-lightbox");
+                }
+
+                image.addEventListener("click", openLightbox);
+                image.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        openLightbox();
+                    }
+                });
+            });
+
+            function closeLightbox() {
+                lightbox.close();
+                document.documentElement.classList.remove("has-data-study-lightbox");
+            }
+
+            lightboxClose.addEventListener("click", closeLightbox);
+            lightbox.addEventListener("click", function(event) {
+                if (event.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+            lightbox.addEventListener("close", function() {
+                document.documentElement.classList.remove("has-data-study-lightbox");
+            });
+        })();
+    </script>
+</body>
+
+</html>
