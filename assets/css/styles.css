@@ -5734,7 +5734,7 @@ body[data-page="data-study-detail"] .data-study-question-summary::after {
 }
 
 body[data-page="data-study-detail"] .data-study-question-card[open] .data-study-question-summary::after {
-    content: "−";
+    content: "-";
     color: #ffffff;
 }
 
@@ -5763,6 +5763,10 @@ body[data-page="data-study-detail"] .data-study-question-body {
     display: grid;
     gap: 1rem;
     padding: 0 1.1rem 1.1rem;
+}
+
+body.pokemon-data-study-page .data-study-question-body p {
+    line-height: 1.76;
 }
 
 body[data-page="data-study-detail"] .data-study-mini-heading {
@@ -5805,17 +5809,96 @@ body[data-page="data-study-detail"] .data-study-file-list code {
 
 body[data-page="data-study-detail"] .data-study-inline-type {
     display: inline-flex;
-    align-items: baseline;
-    gap: 0.16em;
+    align-items: center;
+    gap: 0.34em;
+    padding: 0.14rem 0.5rem 0.14rem 0.55rem;
+    border-radius: 999px;
+    color: #ffffff !important;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: normal;
+    text-shadow: none;
     white-space: nowrap;
 }
 
 body[data-page="data-study-detail"] .data-study-inline-type-icon {
-    width: 1em;
-    height: 1em;
+    width: 0.98em;
+    height: 0.98em;
     display: inline-block;
-    vertical-align: -0.12em;
     flex-shrink: 0;
+    filter: brightness(0) invert(1);
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.bug {
+    background: #92BC2C;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.dark {
+    background: #595761;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.dragon {
+    background: #0C69C8;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.electric {
+    background: #F2D94E;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fire {
+    background: #FBA54C;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fairy {
+    background: #EE90E6;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fighting {
+    background: #D3425F;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.flying {
+    background: #A1BBEC;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ghost {
+    background: #5F6DBC;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.grass {
+    background: #5FBD58;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ground {
+    background: #DA7C4D;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ice {
+    background: #75D0C1;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.normal {
+    background: #A0A29F;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.poison {
+    background: #B763CF;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.psychic {
+    background: #FA8581;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.rock {
+    background: #C9BB8A;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.steel {
+    background: #5695A3;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.water {
+    background: #539DDF;
 }
 
 body[data-page="data-study-detail"] .data-study-zoomable {
@@ -5912,7 +5995,7 @@ body.pokemon-data-study-page h2 {
 body.pokemon-data-study-page p,
 body.pokemon-data-study-page li {
     font-size: 0.96rem;
-    line-height: 1.68;
+    line-height: 1.72;
 }
 
 body.pokemon-data-study-page .data-study-subtitle,
@@ -5936,6 +6019,10 @@ body.pokemon-data-study-page .data-study-question-label {
 
 body.pokemon-data-study-page .data-study-meta-list span {
     font-size: 0.78rem;
+}
+
+body.pokemon-data-study-page .data-study-copyright-note {
+    margin-top: 2.25rem;
 }
 
 :root[data-theme="light"] body[data-page="data-study-detail"] .data-study-meta-list span {
@@ -7213,3 +7300,6 @@ body[data-page="data-study-detail"] .floating-top-button img {
 :root[data-theme="light"] body[data-page="data-study-detail"] .floating-top-button img {
     filter: none !important;
 }
+
+
+
