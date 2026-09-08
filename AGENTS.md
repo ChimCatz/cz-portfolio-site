@@ -42,45 +42,25 @@ This file preserves the key working context, design choices, and content decisio
 - Social links were removed from the hero section.
 - Keep hero cleaner and more focused on intro and CTA.
 
-### Professional Overview
-- The old `Core Result` block and mini-stat block were removed.
-- They were replaced with a `Social Credentials` panel in the right column.
-- Social credentials currently include:
-  - LinkedIn: `https://www.linkedin.com/in/chimzoecatalan/`
-  - GitHub: `https://github.com/ChimCatz`
-  - Facebook: `https://fb.com/chimzoecatalan/`
-  - Google email: `catalanchimzoe.business@gmail.com`
-- Use icon style based on the SVGs found in `assets/icons/social-media-icons.txt`.
-- Current implementation uses inline SVG copied from that file.
-
-### Skills Section
-- The homepage Skills section now uses logo cards only.
-- Remove percentages and descriptive paragraphs.
-- Use a centered logo + name card layout.
-- Skills must always be ordered by level first:
-  - highest levels first
-  - if two skills share the same level, sort them alphabetically
-- Current order to preserve:
-  - Google Sheets
-  - Microsoft Excel
-  - Data Analysis
-  - Prompt Engineering
-  - Vibe Coding
-  - Vtiger CRM
-  - Zoho Analytics
-  - Zoho CRM
-  - Codex
-  - Google Analytics
-  - Microsoft Clarity
-  - mySQL
-  - Python
-  - Big Query
-  - Tableau
-- Assets are sourced from `assets/icons/` and `assets/images/brand-logos/`.
-- Layout pattern:
-  - 4 cards per row on desktop
-  - 2 cards per row on mobile
-- Cards should keep transparent, tinted backgrounds with centered logos.
+### Professional Overview / Skills Section (OUTDATED — no longer on homepage)
+- **2026-09-08 audit note:** a full browser pass of the live site found no
+  `Professional Overview`, `Social Credentials` panel, or homepage `Skills`
+  logo-card grid anywhere in `czcatzzz.html`. This section of the doc
+  describes an earlier design iteration that predates the current
+  homepage structure (Hero -> intro -> Projects -> Data Studies ->
+  Insights -> Challenges -> Trivia).
+- Social links (LinkedIn/GitHub/Facebook/email) currently live in the
+  `Socials` section at the bottom of `about-me.html`, not the homepage.
+- No dedicated Skills logo-card grid currently exists on the site. Skills
+  are mentioned inline as prose on the About Me page instead.
+- The CSS for the old logo-card Skills grid and Social Credentials panel
+  (`.skill-logo-card`, `.skills-grid`, `.hero-social-link`, etc.) was
+  removed from `assets/css/styles.css` during the 2026-09-08 cleanup pass
+  since it matched nothing in the current markup.
+- If a homepage Skills section is wanted again, treat it as a new
+  feature to design, not a restoration — don't assume the removed CSS
+  is still a usable starting point without checking it against the
+  current homepage layout.
 
 ### Projects Section on Homepage
 - Homepage Projects now uses a dedicated carousel layout modeled after the Insights section.
@@ -198,14 +178,31 @@ This file preserves the key working context, design choices, and content decisio
 ## CSS Notes
 - Main stylesheet is `assets/css/styles.css`.
 - Relevant current custom blocks include:
-  - homepage/project static card grid styling
-  - skills logo grid styling
-  - social credentials styles
   - simple project page styles
   - project GitHub link styles
   - project results strip styles
   - Data Studies detail page styles
+  - `.related-home-clone*` styles for the shared bottom related-content carousel (project/insight detail pages)
 - When changing project page styling, favor subtle variation over identical repeated containers.
+- **Sidebar responsive behavior**: `#sidebar` is a vertically-centered floating
+  pill on desktop (base rule, no media query), converts to a horizontal
+  bottom-docked bar at `max-width:860px`, and has a narrower
+  `min-width:861px and max-width:980px` tightening pass for the small-desktop
+  range in between. Keep any future sidebar position rule scoped to one of
+  these ranges — an earlier version had an unscoped `max-width:980px` rule
+  that used `!important` and silently cancelled the 860px mobile-dock
+  conversion for every page except the homepage, causing the nav to overlap
+  body text on About Me/Project/Insight/Data Study pages at mobile widths
+  (fixed 2026-09-08).
+- **2026-09-08 cleanup**: removed ~1,674 lines of dead CSS (rules whose
+  selectors matched nothing in any `.html`/`.js` file) — mostly leftovers
+  from a removed "Lord's Recovery" page, an old pre-carousel static
+  project-card grid, an old homepage Skills logo-grid + Social Credentials
+  panel, an old `.homepage-related-clone` naming scheme superseded by
+  `.related-home-clone`, and unused single-word Pokémon type classes
+  (`.fire`, `.water`, etc. — type badges are actually rendered as SVG icons,
+  not CSS-colored classes). Verified with a full Playwright pass across all
+  pages/breakpoints before removal — no visual or functional changes.
 - Data Studies page rules should stay centralized in `assets/css/styles.css`, not duplicated inline per page.
 - Any new section or visual adjustment should be checked in mobile view as part of the default workflow, not only on desktop.
 - Theme system notes:
