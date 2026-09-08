@@ -5490,6 +5490,12 @@ body[data-page="data-study-detail"] .data-study-section {
     overflow: visible !important;
 }
 
+body[data-page="data-study-detail"] .container::before,
+body[data-page="data-study-detail"] .container::after {
+    content: none !important;
+    background: none !important;
+}
+
 body[data-page="data-study-detail"] .section-heading {
     margin-bottom: 1.25rem;
 }
@@ -6496,7 +6502,9 @@ body[data-page="about-detail"] .nav-label {
     background-image: none !important;
 }
 
-@media (max-width: 980px) {
+/* Scoped to 861-980px only so this desktop-style pill styling doesn't fight
+   the <=860px mobile dock conversion below (see @media max-width:860px). */
+@media (min-width: 861px) and (max-width: 980px) {
     #sidebar,
     body[data-page="home"] #sidebar,
     body[data-page="project-detail"] #sidebar,
@@ -6538,19 +6546,23 @@ body[data-page="about-detail"] .nav-label {
     }
 }
 
-body[data-page="about-detail"] #sidebar {
-    left: 1.15rem !important;
-    top: 50% !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0.6rem !important;
-    padding-left: 0.6rem !important;
-    padding-right: 0.6rem !important;
-    transform: translateY(-50%) !important;
+/* Scoped to >860px so this desktop pill position doesn't override the
+   mobile dock conversion (see @media max-width:860px). */
+@media (min-width: 861px) {
+    body[data-page="about-detail"] #sidebar {
+        left: 1.15rem !important;
+        top: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0.6rem !important;
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
+        transform: translateY(-50%) !important;
+    }
 }
 
 body[data-page="about-detail"] #sidebar ul,
