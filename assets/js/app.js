@@ -158,6 +158,19 @@ const isMobileCarouselViewport = () => window.matchMedia('(max-width: 899px)').m
 
 const PROJECT_ITEMS = [
     {
+        slug: 'turning-excel-into-a-crm',
+        href: 'turning-excel-into-a-crm.html',
+        title: 'Turning Excel Into a CRM',
+        image: '../assets/images/turning-excel-into-a-crm/leaderboard.png',
+        image_alt: 'Turning Excel Into a CRM leaderboard image.',
+        copy: 'Advanced Excel system that compiled, cleaned, and reported on a 30,000+ record lead database across six sources before any automation existed.',
+        bullets: [
+            '30,000+ leads tracked across 160+ fields',
+            'Array-formula cleanup for messy company names',
+            'Live SUMIFS dashboard by source and year',
+        ],
+    },
+    {
         slug: 'leadflow-etl',
         href: 'leadflow-etl.html',
         title: 'LeadFlow ETL',

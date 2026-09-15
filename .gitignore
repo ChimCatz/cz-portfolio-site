@@ -29,3 +29,8 @@ yarn-error.log*
 # local resources
 
 resources/
+
+# Advanced Excel project source material (large originals + private notes,
+# not part of the published site - only the generated lite .xlsx under
+# assets/downloads/turning-excel-into-a-crm/ is committed)
+projects/advanced-excel/

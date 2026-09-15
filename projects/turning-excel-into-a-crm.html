@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CZ Portfolio | Turning Excel Into a CRM</title>
+    <meta name="description" content="Case study: an advanced Excel system that compiled, cleaned, and reported on a large multi-source lead database using nested formulas and cross-sheet SUMIFS dashboards.">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/cz-logos/cz-logo-1-svg.svg">
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('cz-theme') || 'dark';
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+            } catch (error) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <script type="text/javascript">
+        (function(c, l, a, r, i, t, y) {
+            c[a] = c[a] || function() {
+                (c[a].q = c[a].q || []).push(arguments);
+            };
+            t = l.createElement(r);
+            t.async = 1;
+            t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0];
+            y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "wffc7pvytd");
+    </script>
+</head>
+
+<body data-page="project-detail" class="project-detail-page">
+    <canvas id="site-particles-canvas" aria-hidden="true"></canvas>
+    <nav id="sidebar" aria-label="Primary">
+        <ul>
+            <li><a href="../czcatzzz.html#home" aria-label="Home" data-target="home"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/home.svg" alt="" aria-hidden="true"></span><span class="nav-label">Home</span></a></li>
+            <li><a href="../about-me.html" aria-label="About Me" data-target="about"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/about-me.svg" alt="" aria-hidden="true"></span><span class="nav-label">About Me</span></a></li>
+            <li class="active"><a href="../czcatzzz.html#projects" aria-label="Projects" data-target="projects"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/projects.svg" alt="" aria-hidden="true"></span><span class="nav-label">Projects</span></a></li>
+            <li><a href="../czcatzzz.html#data-studies" aria-label="Data Studies" data-target="data-studies"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/data-studies.svg" alt="" aria-hidden="true"></span><span class="nav-label">Data Studies</span></a></li>
+            <li><a href="../czcatzzz.html#insights" aria-label="Insights" data-target="insights"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/insights.svg" alt="" aria-hidden="true"></span><span class="nav-label">Insights</span></a></li>
+            <li><a href="../czcatzzz.html#brain-challenge" aria-label="Challenges" data-target="brain-challenge"><span class="nav-icon-wrap"><img class="nav-icon" src="../assets/icons/challenges.svg" alt="" aria-hidden="true"></span><span class="nav-label">Challenges</span></a></li>
+            <li><button class="sidebar-theme-toggle" type="button" aria-label="Switch theme" data-theme-toggle data-icon-light="../assets/icons/light-mode.svg" data-icon-dark="../assets/icons/dark-mode.svg"><span class="nav-icon-wrap"><img class="nav-icon theme-toggle-icon" src="../assets/icons/light-mode.svg" alt="" aria-hidden="true"></span><span class="nav-label">Light Mode</span></button></li>
+        </ul>
+    </nav>
+
+    <main class="simple-project-page">
+        <section class="container project-simple-banner">
+            <a class="text-button project-page-label" href="../czcatzzz.html#projects">Back to Projects</a>
+            <div class="project-simple-copy">
+                <p class="eyebrow">Advanced Excel / CRM Workflow</p>
+                <h1>Turning Excel Into a CRM</h1>
+            </div>
+            <img src="../assets/images/turning-excel-into-a-crm/leaderboard.png" alt="Turning Excel Into a CRM leaderboard banner.">
+        </section>
+
+        <section class="container project-simple-content">
+            <div class="project-simple-copy">
+                <span class="section-kicker">Case Study</span>
+                <a class="project-flow-link" href="../assets/downloads/turning-excel-into-a-crm/turning-excel-into-a-crm-lite.xlsx" download>
+                    <img src="../assets/icons/excel.svg" alt="" aria-hidden="true">
+                    <span>Download Sample Workbook (Lite Version)</span>
+                </a>
+                <p class="justified">Before <a href="leadflow-etl.html">LeadFlow ETL</a> existed, someone still had to compile and maintain the CRM data it would eventually automate. That someone was me, and the tool was Excel. Every month, lead records came in from six different sources, Lusha, Pipileads, Vtiger, Zoho, Datamine, and purchased lists, each with its own format, its own quirks, and no shared structure. The compilation workbook grew to a database of 30,000+ records across 160+ tracked fields, and it had to stay accurate, deduplicated, and reportable without any external tooling. This is that system.</p>
+
+                <figure class="insight-inline-figure">
+                    <img src="../assets/images/turning-excel-into-a-crm/image-1.png" alt="Illustration of six lead sources, Lusha, Pipileads, Vtiger, Zoho, a database source, and purchased lists, feeding into a single Excel workbook.">
+                    <figcaption>Six sources, six formats, one workbook: Lusha, Pipileads, Vtiger, Zoho, a legacy database export, and purchased lists all had to land in the same structure every month.</figcaption>
+                </figure>
+
+                <div class="project-data-block">
+                    <h3>Database Snapshot</h3>
+                    <div class="project-data-table-wrap">
+                        <table class="project-data-table">
+                            <tbody>
+                                <tr><th scope="row">Total lead records</th><td class="numeric">30,860</td></tr>
+                                <tr><th scope="row">Active leads</th><td class="numeric">18,979 (61.5%)</td></tr>
+                                <tr><th scope="row">Inactive leads</th><td class="numeric">11,881 (38.5%)</td></tr>
+                                <tr><th scope="row">Fields tracked per record</th><td class="numeric">160+</td></tr>
+                                <tr><th scope="row">Data sources unified</th><td class="numeric">6</td></tr>
+                                <tr><th scope="row">Countries represented</th><td class="numeric">9+</td></tr>
+                                <tr><th scope="row">Reporting window</th><td class="numeric">2020-2025</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="project-data-note">Numbers below are illustrative, not a disclosure of any employer's real contact database. They're scaled to show the shape of the workflow, how a multi-source dataset like this typically breaks down, not exact production counts.</p>
+                </div>
+
+                <p class="justified">The core challenge was consistency. The same company would show up under slightly different names depending on the source, "Redwood Group Pte Ltd" from one export, "Redwood Group Pte. Ltd." from another. Manually normalizing that at scale was not realistic, so I built a cleanup formula that strips common legal suffixes automatically. It combines <code>TRIM</code>, <code>LEFT</code>, and an array-entered <code>FIND</code> against a maintained keyword list of common legal suffixes (Pte, Ltd, Sdn Bhd, Inc, Limited, Tbk, PLC, and more), checking a company name against every suffix in one pass and trimming it at the earliest match. Adding a new suffix pattern later just meant adding a row to the keyword list, not rewriting the formula.</p>
+
+                <div class="project-data-block">
+                    <h3>Company Name Cleanup &mdash; Before &amp; After</h3>
+                    <div class="project-data-table-wrap">
+                        <table class="project-data-table">
+                            <thead>
+                                <tr><th scope="col">Raw Company Name (source export)</th><th scope="col">Cleaned Output</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Pacific Group Sdn Bhd</td><td>Pacific Group</td></tr>
+                                <tr><td>Redwood Group Pte Ltd</td><td>Redwood Group</td></tr>
+                                <tr><td>Oakridge Networks Ltd</td><td>Oakridge Networks</td></tr>
+                                <tr><td>Cascade Logistics Ltd</td><td>Cascade Logistics</td></tr>
+                                <tr><td>Crescent Networks Pte Ltd</td><td>Crescent Networks</td></tr>
+                                <tr><td>Orion Capital Ltd</td><td>Orion Capital</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="project-data-note"><code>=TRIM(LEFT(C2,MIN(IFERROR(FIND(Keywords!$A$1:$A$40,C2),LEN(C2)+1))-1))</code> &mdash; array-entered so it checks every keyword in the list against the name in a single formula.</p>
+                </div>
+
+                <p class="justified">Reporting was the second problem. Leadership needed to see how many active and inactive leads existed per source, per year, without opening the raw sheet. I built a dashboard sheet that uses <code>SUMIFS</code> across the full database, cross-referencing a computed year field against each source and status combination. Every cell in that dashboard recalculates live as new records get added or a status flips from Active to Inactive, so the summary view never goes stale relative to the raw data.</p>
+
+                <div class="project-data-block">
+                    <h3>Leads by Source (Illustrative)</h3>
+                    <div class="project-data-table-wrap">
+                        <table class="project-data-table">
+                            <thead>
+                                <tr><th scope="col">Source</th><th scope="col" class="numeric">Records</th><th scope="col" class="numeric">Share</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row">Vtiger</th><td class="numeric">14,659</td><td class="numeric">47.5%</td></tr>
+                                <tr><th scope="row">Zoho</th><td class="numeric">10,184</td><td class="numeric">33.0%</td></tr>
+                                <tr><th scope="row">Lusha</th><td class="numeric">4,629</td><td class="numeric">15.0%</td></tr>
+                                <tr><th scope="row">Datamine</th><td class="numeric">648</td><td class="numeric">2.1%</td></tr>
+                                <tr><th scope="row">Pipileads</th><td class="numeric">586</td><td class="numeric">1.9%</td></tr>
+                                <tr><th scope="row">Purchased</th><td class="numeric">154</td><td class="numeric">0.5%</td></tr>
+                                <tr class="project-data-total"><th scope="row">Total</th><td class="numeric">30,860</td><td class="numeric">100%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="project-data-note">One real quirk this shape reflects: the raw source field stores "Vtiger" and "vtiger" as two different-cased values in places, a manual-entry inconsistency the <code>SUMIFS</code> dashboard and lookup formulas have to tolerate rather than assume away.</p>
+                </div>
+
+                <p class="justified">Day-to-day, the workbook was paired with a task-tracking sheet that logged daily record counts by source and status, covering routines like database allocation, updating inactive contacts from Datamine, and tracking leads through Vtiger and Zoho separately, so drift or stalled updates were visible immediately instead of surfacing weeks later during a reporting cycle. That operational habit, tracking the database like a living system instead of a static file, is what eventually made the case for automating the whole pipeline in the first place. The patterns I leaned on most in Excel, source-aware cleanup rules, a normalized identity field, and status-based aggregation, are the same ones <a href="leadflow-etl.html">LeadFlow ETL</a> later reimplemented in Python at a much larger scale.</p>
+
+                <p class="justified">The file linked above is a lite version of the real compilation workbook: the same sheet structure and the same formulas, sampled down to 450 representative records so it is easy to open and inspect. Personal and company data has been fully anonymized, and, as noted above, the figures on this page are illustrative rather than exact production counts.</p>
+
+                <div class="project-results-strip" aria-label="Key results">
+                    <div><strong>Records Managed</strong><span>30,000+ leads</span></div>
+                    <div><strong>Fields Tracked</strong><span>160+ columns per record</span></div>
+                    <div><strong>Sources Unified</strong><span>Lusha, Pipileads, Vtiger, Zoho, Datamine, Purchased</span></div>
+                    <div><strong>Core Formulas</strong><span>Array FIND/TRIM cleanup, cross-sheet SUMIFS reporting</span></div>
+                    <div><strong>Reporting</strong><span>Live Active/Inactive dashboard by source and year</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container project-related-section" data-related-kind="projects" data-current-slug="turning-excel-into-a-crm"></section>
+    </main>
+
+    <button class="floating-top-button" type="button" data-scroll-top aria-label="Scroll to top">
+        <img src="../assets/icons/up-arrow.svg" alt="" aria-hidden="true">
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvasparticles-js/dist/index.umd.min.js"></script>
+    <script src="../assets/js/particles-background.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

@@ -65,15 +65,19 @@ This file preserves the key working context, design choices, and content decisio
 ### Projects Section on Homepage
 - Homepage Projects now uses a dedicated carousel layout modeled after the Insights section.
 - Homepage project cards should:
-  - show `2` cards at a time on desktop
-  - collapse to `1` card per slide on mobile
-  - keep the exact homepage project order:
+  - show `4` cards at a time on desktop, laid out as a `2x2` grid per slide (`.projects-carousel-grid` is `grid-template-columns: repeat(2, 400px)`, so 4 cards per `.carousel-card` slide wraps into 2 rows x 2 columns)
+  - collapse to `1` card per slide on mobile (handled dynamically by `syncResponsiveCarouselLayouts('projects')` in `assets/js/app.js`, which re-flattens all cards from `track.dataset.desktopMarkup` into one-card-per-slide below the mobile breakpoint)
+  - **2026-09-15:** with 5 projects total, the desktop markup is split into two static `.carousel-card` slides (mirrors the Insights section's own 4+1 split pattern): slide 1 holds the first 4 projects in a 2x2 grid and is `is-active`; slide 2 holds just the 5th project alone. Prev/next arrows page between them (no dots wrapper on this section, same as Insights). When a 6th project is added, keep slide 2 as a 2-card grid (or add a slide 3) rather than letting a single un-chunked grid grow past 2x2 rows again.
+  - keep the exact homepage project order (updated 2026-09-15 — Turning Excel Into a CRM moved to first per user request):
+    - Turning Excel Into a CRM
     - LeadFlow ETL
     - CSV Advanced Search Engine
     - VOIP Call Conversion Tool
     - Data Pivot Table Tool
+  - this same order is mirrored in `PROJECT_ITEMS` in `assets/js/app.js`, which drives the "related projects" carousel on every project detail page — keep both in sync when reordering again
   - use each project's leaderboard/banner image at the top of the card
 - Preserve the existing project card wording unless the user explicitly asks for copy changes.
+- The bottom "related projects" carousel on each individual project detail page (`.project-related-section[data-related-kind="projects"]`, JS-rendered from `PROJECT_ITEMS` in `assets/js/app.js`) already chunks in groups of 4 for detail pages (`desktopChunkSize = isDetailPage ? 4 : ...`) and excludes the current page's own slug, so with 5 total projects each detail page's related section already shows exactly the other 4 in one clean 2x2 slide automatically — no fix was needed there, only on the homepage's static markup.
 
 ### Data Studies Section on Homepage
 - Homepage Data Studies uses a simple editorial text list, not cards and not a carousel.
@@ -149,6 +153,31 @@ This file preserves the key working context, design choices, and content decisio
   - image: `assets/images/call-conversion-tool/image-1.png`
 - GitHub link:
   - `https://github.com/ChimCatz/call_conversion_matching_tool`
+
+### Turning Excel Into a CRM
+- File: `projects/turning-excel-into-a-crm.html`
+- Final title to keep:
+  - `Turning Excel Into a CRM` (short, no subtitle — see note below)
+- Framing: positioned as the manual Excel-based system that predates and informed `LeadFlow ETL` (same six data sources: Lusha, Pipileads, Vtiger, Zoho, Datamine, Purchased). Both pages cross-link to each other.
+- No GitHub repo for this one (it's a spreadsheet, not code). Instead uses a download link to a lite sample workbook:
+  - `assets/downloads/turning-excel-into-a-crm/turning-excel-into-a-crm-lite.xlsx`
+  - Lite version keeps a real sheet structure and real formulas (array `TRIM/LEFT/FIND` company-name cleanup referencing a `Keywords` sheet, cross-sheet `SUMIFS` dashboard by year/source/status) sampled down to 450 rows and ~17 relevant columns across 4 sheets (`Database`, `Summary`, `Keywords`, `Task`). Result: ~59KB.
+  - **2026-09-15: `projects/advanced-excel/` (the real ~35-52MB source workbooks, the rar backup, the two source images, and private job-application notes) was deleted from disk entirely at the user's request**, now that the lite workbook and both images were already safely extracted into `assets/downloads/` and `assets/images/`. There is no longer a local copy of the real source data anywhere in this repo/working directory. If this project ever needs revisiting with real source data again, that would have to come from the user's own separate backup, not from this repo. The `projects/advanced-excel/` line in `.gitignore` can stay (harmless / documents past intent) or be removed — it matches nothing now.
+- Assets:
+  - leaderboard: `assets/images/turning-excel-into-a-crm/leaderboard.png`
+  - inline figure: `assets/images/turning-excel-into-a-crm/image-1.png` (illustration of six sources feeding into one Excel workbook, used mid-article via `.insight-inline-figure`, not in a bottom gallery)
+- Page title/H1 is intentionally short: just `Turning Excel Into a CRM` (no long subtitle in the `<h1>` or `<title>` tag; the eyebrow above the H1 carries "Advanced Excel / CRM Workflow" for context). Meta description avoids stating an exact record count too, uses "a large multi-source lead database."
+- Page includes illustrative aggregate figures rendered as HTML tables via `.project-data-block` / `.project-data-table` CSS (added to `assets/css/styles.css`, with light-mode overrides):
+  - Database Snapshot (total/active/inactive/fields/sources/countries/years)
+  - Company Name Cleanup before/after examples
+  - Leads by Source breakdown (notes a real `Vtiger`/`vtiger` casing inconsistency in the raw data, described qualitatively rather than with an exact count)
+  - (A "Top Markets by country" table existed briefly but was removed 2026-09-15 as unnecessary detail / too close to real geographic business info.)
+- **Important — these numbers are intentionally NOT real:** the user does not want the page to read as a disclosure of their employer's actual contact database size or composition. Current published total is `30,860` (framed publicly as "30,000+"), deliberately different from both the real workbook's actual count and from the first illustrative pass used in an earlier revision (`38,504` / "38,500+" — also fabricated, since replaced). Every breakdown table must keep summing exactly to whatever total is stated:
+  - Leads by Source: Vtiger 14,659 (47.5%), Zoho 10,184 (33.0%), Lusha 4,629 (15.0%), Datamine 648 (2.1%), Pipileads 586 (1.9%), Purchased 154 (0.5%) → sums to 30,860.
+  - Active/Inactive: 18,979 (61.5%) / 11,881 (38.5%) → sums to 30,860.
+  - Fields tracked stated as "160+" (not the real 166); countries as "9+".
+  - The Database Snapshot table's caption explicitly frames all figures as illustrative of the workflow's shape, not a disclosure of real contact data — keep that framing (or something equivalent) any time these numbers are touched again. Do not revert to real computed figures, and do not word captions in a way that confirms these numbers are a rounded/adjusted version of a specific real count (avoid phrasing like "adjusted from the real dataset") — keep them framed as representative/illustrative instead.
+  - The real source workbook these were originally derived from no longer exists in this repo (see the 2026-09-15 deletion note above) — there is nothing left to recompute against. Treat the published figures above as the only figures available going forward.
 
 ## Asset Conventions
 - Project assets live in their own folders under `assets/images/`.
