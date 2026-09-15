@@ -4371,6 +4371,66 @@ body[data-page="data-study-detail"] .data-study-inline-type.normal {
     background: #A0A29F;
 }
 
+body[data-page="data-study-detail"] .data-study-inline-type.dragon {
+    background: #0C69C8;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.electric {
+    background: #F2CB35;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fairy {
+    background: #EE90E6;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fighting {
+    background: #CB5F48;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.fire {
+    background: #FBA54C;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.flying {
+    background: #A1BBEC;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ghost {
+    background: #5269AD;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.grass {
+    background: #63BC5A;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ground {
+    background: #D97845;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.ice {
+    background: #74CEC0;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.poison {
+    background: #B567CE;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.psychic {
+    background: #FA7179;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.rock {
+    background: #C7B78B;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.steel {
+    background: #5A8EA1;
+}
+
+body[data-page="data-study-detail"] .data-study-inline-type.water {
+    background: #5090D6;
+}
+
 body[data-page="data-study-detail"] .data-study-zoomable {
     cursor: zoom-in;
     transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
