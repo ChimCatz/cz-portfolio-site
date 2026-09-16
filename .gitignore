@@ -34,3 +34,8 @@ resources/
 # not part of the published site - only the generated lite .xlsx under
 # assets/downloads/turning-excel-into-a-crm/ is committed)
 projects/advanced-excel/
+
+# Raw source deck for the lead conversion data study - contains the original
+# company name and internal tool names; only the anonymized extracted slide
+# images under data-studies/lead-conversion-factors-study/ are committed
+new-data-study/

@@ -30,16 +30,18 @@ Follow this order for most Data Studies:
 
 1. Back link
 2. `<h1>`
-3. Header image
-4. Header image caption if needed
-5. Short subtitle / summary paragraph
-6. Metadata row
-7. Dataset note or methodology note
-8. Dataset link
-9. Main content sections
-10. Charts / tables placed between paragraphs where they support the point
-11. Key takeaways
-12. Sources
+3. Posted date (`Posted: Month Day, Year`, right under the title)
+4. Header image
+5. Header image caption if needed
+6. Short subtitle / summary paragraph
+7. Metadata row
+8. Dataset note or methodology note
+9. Dataset link
+10. Main content sections
+11. Charts / tables placed between paragraphs where they support the point
+12. Key takeaways
+13. Sources
+14. Copyright and data-use note (always last on the page)
 
 ## Content Layout Guide
 
@@ -53,7 +55,17 @@ Example pattern:
 
 Keep it descriptive and specific.
 
-### 2. Header Image
+### 2. Posted Date
+
+Place a small date line directly under the `<h1>`, before the header image.
+
+Use the shared class and format:
+
+- `<p class="project-page-date">Posted: Month Day, Year</p>`
+
+Use the date the study was actually published, not the date of a later edit.
+
+### 3. Header Image
 
 Place the main header image directly under the title.
 
@@ -66,7 +78,7 @@ Use:
 
 Current shared styling already makes this image responsive.
 
-### 3. Header Image Caption
+### 4. Header Image Caption
 
 Optional.
 
@@ -78,7 +90,7 @@ Good use cases:
 - clarifying the timeframe
 - explaining if it is a dashboard snapshot
 
-### 4. Subtitle
+### 5. Subtitle
 
 Use 1 short paragraph under the header image.
 
@@ -88,7 +100,7 @@ Purpose:
 - explain what metrics were compared
 - explain the main scope
 
-### 5. Metadata Row
+### 6. Metadata Row
 
 Use short tags such as:
 
@@ -100,7 +112,7 @@ Use short tags such as:
 
 Keep these short and scan-friendly.
 
-### 6. Dataset Note
+### 7. Dataset Note
 
 Use a small note paragraph when the dataset needs explanation.
 
@@ -111,7 +123,7 @@ Good examples:
 - timeframe note
 - row-count clarification
 
-### 7. Dataset Link
+### 8. Dataset Link
 
 If you include the dataset in the study folder, use a clear reference style.
 
@@ -121,7 +133,7 @@ Recommended wording:
 
 Avoid sales-like wording such as “Download now”.
 
-### 8. Section Pattern
+### 9. Section Pattern
 
 For each main section:
 
@@ -132,7 +144,7 @@ For each main section:
 
 Keep the flow narrative, not dashboard-like.
 
-### 9. Charts and Images
+### 10. Charts and Images
 
 Use charts only where they directly support the paragraph above or below them.
 
@@ -145,7 +157,7 @@ Recommended pattern:
 
 Use compact figures for smaller charts when they should not dominate the section.
 
-### 10. Highlight Blocks
+### 11. Highlight Blocks
 
 Use highlight blocks only for important snapshots:
 
@@ -155,7 +167,7 @@ Use highlight blocks only for important snapshots:
 
 Do not overuse them.
 
-### 11. Key Takeaways
+### 12. Key Takeaways
 
 Use a short bullet list near the end.
 
@@ -165,7 +177,7 @@ Best for:
 - business implications
 - practical conclusions
 
-### 12. Sources
+### 13. Sources
 
 Always end with a sources section when external references were used.
 
@@ -174,6 +186,20 @@ Recommended content:
 - dataset source
 - article references
 - supporting context links
+
+### 14. Copyright and Data-Use Note
+
+Always place this last on the page &mdash; after Sources, after Key Takeaways, after everything else. Never in the header area.
+
+Use the shared class:
+
+- `<p class="justified data-study-copyright-note"><strong>Copyright and data-use note:</strong> ...</p>`
+
+Cover, as relevant to the study:
+
+- that the analysis and write-up are original work
+- how any third-party data, franchise IP, or public datasets are credited
+- that no real company records, tools, or confidential information are included, if applicable
 
 ## Writing Style
 
@@ -209,3 +235,5 @@ Check these:
 5. Charts are not oversized on mobile
 6. Sidebar does not cover content
 7. Homepage Data Studies link points to the correct file
+8. Posted date is set under the title
+9. Copyright and data-use note is present and placed last on the page
