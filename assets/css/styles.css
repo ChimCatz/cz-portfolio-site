@@ -64,8 +64,8 @@
     --mode-button-hover-bg: rgba(142, 184, 255, 0.12);
     --mode-button-hover-border: rgba(142, 184, 255, 0.32);
     --page-bg: #EBEBEB;
-    --particle-color: rgba(34, 34, 34, 0.18);
-    --particle-accent: #222222;
+    --particle-color: rgba(15, 45, 104, 0.32);
+    --particle-accent: #0F2D68;
     --font-sans: "Inter", "Proxima Nova", "Segoe UI", sans-serif;
     --content-max: 1180px;
     --radius: 28px;
@@ -77,8 +77,8 @@
 body.theme-dark,
 body.dark-mode {
     --page-bg: #0F0F0F;
-    --particle-color: rgba(255, 255, 255, 0.24);
-    --particle-accent: #FFFFFF;
+    --particle-color: rgba(142, 184, 255, 0.38);
+    --particle-accent: #8EB8FF;
 }
 
 :root[data-theme="light"],
@@ -86,8 +86,8 @@ body.dark-mode {
 body.theme-light,
 body.light-mode {
     --page-bg: #EBEBEB;
-    --particle-color: rgba(20, 20, 20, 0.28);
-    --particle-accent: #222222;
+    --particle-color: rgba(15, 45, 104, 0.32);
+    --particle-accent: #0F2D68;
 }
 
 :root[data-theme="light"] {
@@ -128,7 +128,8 @@ body.light-mode {
     --mode-button-border: rgba(0, 0, 0, 0.08);
     --mode-button-hover-bg: rgba(142, 184, 255, 0.14);
     --mode-button-hover-border: rgba(142, 184, 255, 0.22);
-    --particle-color: rgba(20, 20, 20, 0.28);
+    --particle-color: rgba(15, 45, 104, 0.32);
+    --particle-accent: #0F2D68;
 }
 
 * {

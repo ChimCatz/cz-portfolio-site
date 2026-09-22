@@ -75,6 +75,42 @@
         state.instance = null;
     };
 
+    // CanvasParticles hardcodes its connection-line stroke to `lineWidth = 1`
+    // with no option to change it. It re-applies that exact value on every
+    // animation frame right before stroking, so shadowing the context's
+    // `lineWidth` accessor to upscale only that specific value gives us
+    // heavier-looking lines without touching particle dot rendering (which
+    // uses `fill()`, not `lineWidth`, and is unaffected).
+    const patchLineWeight = (canvas, weight) => {
+        const context = typeof canvas.getContext === 'function' ? canvas.getContext('2d') : null;
+
+        if (!context || context.__czLineWeightPatched) {
+            return;
+        }
+
+        const prototype = Object.getPrototypeOf(context);
+        const descriptor = prototype && Object.getOwnPropertyDescriptor(prototype, 'lineWidth');
+
+        if (!descriptor || typeof descriptor.set !== 'function' || typeof descriptor.get !== 'function') {
+            return;
+        }
+
+        try {
+            Object.defineProperty(context, 'lineWidth', {
+                configurable: true,
+                get() {
+                    return descriptor.get.call(context);
+                },
+                set(value) {
+                    descriptor.set.call(context, value === 1 ? weight : value);
+                },
+            });
+            context.__czLineWeightPatched = true;
+        } catch (error) {
+            // Unsupported environment — fall back to the library's default 1px lines.
+        }
+    };
+
     const clearCanvas = () => {
         const canvas = ensureCanvas();
         const context = typeof canvas.getContext === 'function' ? canvas.getContext('2d') : null;
@@ -107,7 +143,7 @@
             max: isMobileViewport() ? 140 : 220,
             maxWork: 18,
             connectDistance: isMobileViewport() ? 90 : 130,
-            relSize: isMobileViewport() ? 0.95 : 1.1,
+            relSize: isMobileViewport() ? 1.05 : 1.25,
             relSpeed: isMobileViewport() ? 0.42 : 0.5,
             rotationSpeed: 0.18,
         },
@@ -142,6 +178,7 @@
         }
 
         try {
+            patchLineWeight(canvas, isMobileViewport() ? 1.35 : 1.65);
             const instance = new windowObject.CanvasParticles(`#${CANVAS_ID}`, buildOptions());
             instance.start();
             state.instance = instance;
