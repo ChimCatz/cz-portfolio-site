@@ -155,6 +155,8 @@ const initSectionSpy = () => {
 };
 
 const isMobileCarouselViewport = () => window.matchMedia('(max-width: 899px)').matches;
+// Mobile carousels stack this many cards per slide.
+const MOBILE_CARDS_PER_SLIDE = 2;
 
 const PROJECT_ITEMS = [
     {
@@ -336,9 +338,6 @@ const renderRelatedSection = (section) => {
     }
     const headingTitle = kind === 'projects' ? 'Projects' : 'Insights';
     const shellClass = kind === 'projects' ? 'projects-carousel-shell' : 'insights-carousel-shell';
-    const navClass = kind === 'projects' ? 'projects-carousel-nav' : 'insights-carousel-nav';
-    const navPrevClass = kind === 'projects' ? 'projects-carousel-nav-prev' : 'insights-carousel-nav-prev';
-    const navNextClass = kind === 'projects' ? 'projects-carousel-nav-next' : 'insights-carousel-nav-next';
     const trackClass = kind === 'projects' ? 'projects-carousel-track' : 'insights-carousel-track';
     const gridClass = kind === 'projects' ? 'projects-carousel-grid' : 'insights-card-grid';
     const desktopChunkSize = isDetailPage ? 4 : kind === 'projects' ? 2 : 3;
@@ -353,13 +352,17 @@ const renderRelatedSection = (section) => {
                 <div class="related-home-clone-heading-inner">
                     <h2>${headingTitle}</h2>
                 </div>
+                <div class="related-home-clone-controls">
+                    <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-prev" type="button" data-carousel-prev="${carouselName}" aria-label="Previous ${kind}">
+                        <img src="../assets/icons/left-arrow.svg" alt="" aria-hidden="true">
+                    </button>
+                    <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-next" type="button" data-carousel-next="${carouselName}" aria-label="Next ${kind}">
+                        <img src="../assets/icons/right-arrow.svg" alt="" aria-hidden="true">
+                    </button>
+                </div>
             </div>
 
             <div class="related-home-clone-shell ${shellClass}">
-                <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-prev ${navClass} ${navPrevClass}" type="button" data-carousel-prev="${carouselName}" aria-label="Previous ${kind}">
-                    <img src="../assets/icons/left-arrow.svg" alt="" aria-hidden="true">
-                </button>
-
                 <div class="carousel-shell related-home-clone-carousel" data-carousel="${carouselName}" data-carousel-kind="${kind}">
                     <div class="carousel-track ${trackClass}">
                         ${slides.map((slide, slideIndex) => `
@@ -371,10 +374,6 @@ const renderRelatedSection = (section) => {
                         `).join('')}
                     </div>
                 </div>
-
-                <button class="carousel-button icon-carousel-button related-home-clone-nav related-home-clone-nav-next ${navClass} ${navNextClass}" type="button" data-carousel-next="${carouselName}" aria-label="Next ${kind}">
-                    <img src="../assets/icons/right-arrow.svg" alt="" aria-hidden="true">
-                </button>
             </div>
         </div>
     `;
@@ -419,11 +418,11 @@ const syncResponsiveCarouselLayouts = (kind) => {
                 return true;
             });
 
-            track.innerHTML = cards
-                .map((card, cardIndex) => `
-                    <div class="carousel-card${cardIndex === 0 ? ' is-active' : ''}">
+            track.innerHTML = chunkItems(cards, MOBILE_CARDS_PER_SLIDE)
+                .map((slide, slideIndex) => `
+                    <div class="carousel-card${slideIndex === 0 ? ' is-active' : ''}">
                         <div class="${config.gridClass}">
-                            ${card.outerHTML}
+                            ${slide.map((card) => card.outerHTML).join('')}
                         </div>
                     </div>
                 `)
@@ -748,26 +747,11 @@ const initGameSwitch = () => {
         return;
     }
 
-    const isMobileViewport = () => window.matchMedia('(max-width: 980px)').matches;
+    // The game panel opens below all three stacked cards on narrow screens,
+    // so bring it into view instead of leaving the tap looking dead.
+    const isStackedViewport = () => window.matchMedia('(max-width: 980px)').matches;
 
-    const syncGameAvailability = () => {
-        const isMobile = isMobileViewport();
-
-        if (isMobile) {
-            display?.setAttribute('hidden', '');
-        }
-
-        cards.forEach((card) => {
-            card.setAttribute('aria-disabled', String(isMobile));
-            card.setAttribute('tabindex', isMobile ? '-1' : '0');
-        });
-    };
-
-    const activateGame = (game) => {
-        if (isMobileViewport()) {
-            return;
-        }
-
+    const activateGame = (game, { reveal = false } = {}) => {
         display?.removeAttribute('hidden');
 
         cards.forEach((card) => {
@@ -782,11 +766,15 @@ const initGameSwitch = () => {
             panel.classList.toggle('active', isActive);
             panel.toggleAttribute('hidden', !isActive);
         });
+
+        if (reveal && isStackedViewport()) {
+            display?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     };
 
     cards.forEach((card) => {
         card.addEventListener('click', () => {
-            activateGame(card.dataset.game);
+            activateGame(card.dataset.game, { reveal: true });
         });
 
         card.addEventListener('keydown', (event) => {
@@ -803,9 +791,6 @@ const initGameSwitch = () => {
             nextCard.focus();
         });
     });
-
-    window.addEventListener('resize', syncGameAvailability);
-    syncGameAvailability();
 };
 
 initRelatedContent();

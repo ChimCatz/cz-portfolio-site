@@ -2334,10 +2334,6 @@ body.image-lightbox-open {
         padding: 1rem 1rem 1.05rem 0.8rem;
     }
 
-    .game-mobile-note {
-        display: block;
-    }
-
     .insight-tool-grid {
         grid-template-columns: 1fr;
     }
@@ -2521,14 +2517,6 @@ body.image-lightbox-open {
     margin-top: 1.2rem;
 }
 
-.game-mobile-note {
-    display: none;
-    margin-top: 0.55rem;
-    color: #dce6ff;
-    font-size: 0.88rem;
-    font-style: italic;
-}
-
 .game-card {
     display: grid;
     grid-template-columns: 92px minmax(0, 1fr);
@@ -2561,10 +2549,6 @@ body.image-lightbox-open {
         linear-gradient(145deg, rgba(16, 35, 87, 0.76), rgba(8, 15, 42, 0.82)),
         url("../images/challenges.game-card-background.png") center/cover no-repeat;
     border-color: rgba(255, 255, 255, 0.5);
-}
-
-.game-card[aria-disabled="true"] {
-    cursor: not-allowed;
 }
 
 .game-card-media {
@@ -5207,8 +5191,7 @@ body[data-page="about-detail"] .nav-label {
 :root[data-theme="light"] body[data-page="home"] .insights-section h2,
 :root[data-theme="light"] body[data-page="home"] .insights-section p,
 :root[data-theme="light"] body[data-page="home"] .brain-section h2,
-:root[data-theme="light"] body[data-page="home"] .brain-section p,
-:root[data-theme="light"] body[data-page="home"] .brain-section .game-mobile-note {
+:root[data-theme="light"] body[data-page="home"] .brain-section p {
     color: #222222 !important;
 }
 
@@ -5667,6 +5650,8 @@ body[data-page="insight-detail"] .related-home-clone-host {
     width: min(calc(100% - 2rem), 700px) !important;
     margin: 0 auto !important;
     padding: 0 0 0.35rem !important;
+    /* Transparent host: a radius here only clips the h2's first letter. */
+    border-radius: 0 !important;
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
@@ -5688,13 +5673,24 @@ body[data-page="project-detail"] .related-home-clone-heading,
 body[data-page="insight-detail"] .related-home-clone-heading {
     max-width: 620px;
     margin: 0 auto 0.6rem;
-    display: grid;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 body[data-page="project-detail"] .related-home-clone-heading-inner,
 body[data-page="insight-detail"] .related-home-clone-heading-inner {
-    justify-self: start;
     text-align: left;
+}
+
+/* Prev/next sit beside the h2 so they never collide with the floating
+   scroll-to-top button or the mobile bottom nav. */
+body[data-page="project-detail"] .related-home-clone-controls,
+body[data-page="insight-detail"] .related-home-clone-controls {
+    display: flex;
+    gap: 0.45rem;
+    flex-shrink: 0;
 }
 
 body[data-page="project-detail"] .related-home-clone-heading h2,
@@ -5709,7 +5705,7 @@ body[data-page="insight-detail"] .related-home-clone-shell {
     width: 100%;
     max-width: 640px;
     margin: 0 auto;
-    padding: 1.1rem 0 2.4rem !important;
+    padding: 0.5rem 0 0.75rem !important;
     position: relative;
     background: transparent !important;
     border: 0 !important;
@@ -5860,9 +5856,6 @@ body[data-page="insight-detail"] .related-home-clone .insight-card-date {
 
 body[data-page="project-detail"] .related-home-clone .related-home-clone-nav,
 body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav {
-    top: auto !important;
-    bottom: 0.25rem !important;
-    left: auto !important;
     transform: none !important;
     width: 28px !important;
     height: 28px !important;
@@ -5876,16 +5869,6 @@ body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav {
 body[data-page="project-detail"] .related-home-clone .related-home-clone-nav img,
 body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav img {
     filter: brightness(0) invert(1) !important;
-}
-
-body[data-page="project-detail"] .related-home-clone .related-home-clone-nav-prev,
-body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav-prev {
-    right: 2.2rem !important;
-}
-
-body[data-page="project-detail"] .related-home-clone .related-home-clone-nav-next,
-body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav-next {
-    right: 0 !important;
 }
 
 body[data-page="project-detail"] .related-home-clone .related-home-clone-nav:hover,
@@ -5931,11 +5914,6 @@ body[data-page="insight-detail"] .floating-top-button img {
         min-height: clamp(430px, 126vw, 490px);
     }
 
-    body[data-page="project-detail"] .related-home-clone-shell,
-    body[data-page="insight-detail"] .related-home-clone-shell {
-        padding-top: 1.25rem !important;
-    }
-
     body[data-page="insight-detail"] .related-home-clone .insight-card-link {
         grid-template-rows: 112px auto;
     }
@@ -5952,11 +5930,6 @@ body[data-page="insight-detail"] .floating-top-button img {
     body[data-page="project-detail"] .related-home-clone .project-carousel-card,
     body[data-page="insight-detail"] .related-home-clone .project-carousel-card {
         grid-template-rows: 106px auto;
-    }
-
-    body[data-page="project-detail"] .related-home-clone .related-home-clone-nav-prev,
-    body[data-page="insight-detail"] .related-home-clone .related-home-clone-nav-prev {
-        right: 2rem !important;
     }
 }
 
@@ -6041,3 +6014,58 @@ body[data-page="data-study-detail"] .floating-top-button img {
 
 
 
+/* =========================
+   CAROUSEL AUTO HEIGHT
+   ========================= */
+
+/* All slides share one grid cell, so each track is exactly as tall as its
+   tallest slide. This replaces the old fixed per-breakpoint min-heights,
+   which left large empty gaps under short slides on mobile. */
+.carousel-track {
+    display: grid !important;
+    min-height: 0 !important;
+    height: auto !important;
+}
+
+.carousel-track > .carousel-card {
+    position: relative !important;
+    inset: auto !important;
+    grid-area: 1 / 1;
+}
+
+body[data-page="project-detail"] .project-related-section .related-home-clone-shell,
+body[data-page="insight-detail"] .project-related-section .related-home-clone-shell {
+    padding: 0.5rem 0 0.75rem !important;
+}
+
+/* =========================
+   CHALLENGES ON MOBILE
+   ========================= */
+
+@media (max-width: 980px) {
+    .game-panel.active {
+        grid-template-columns: 1fr;
+        padding: 0.75rem;
+        border-radius: 18px;
+    }
+
+    /* Keep the game itself close to the tap; the long fun-fact copy is
+       desktop-only extra reading. */
+    .game-panel-meta {
+        display: none;
+    }
+
+    .game-frame {
+        padding: 0;
+        background: transparent;
+    }
+
+    #game-sudoku .game-frame iframe {
+        min-height: 580px;
+    }
+
+    #game-minesweeper .game-frame iframe {
+        min-height: 0;
+        aspect-ratio: 2 / 3;
+    }
+}

@@ -66,7 +66,7 @@ This file preserves the key working context, design choices, and content decisio
 - Homepage Projects now uses a dedicated carousel layout modeled after the Insights section.
 - Homepage project cards should:
   - show `4` cards at a time on desktop, laid out as a `2x2` grid per slide (`.projects-carousel-grid` is `grid-template-columns: repeat(2, 400px)`, so 4 cards per `.carousel-card` slide wraps into 2 rows x 2 columns)
-  - collapse to `1` card per slide on mobile (handled dynamically by `syncResponsiveCarouselLayouts('projects')` in `assets/js/app.js`, which re-flattens all cards from `track.dataset.desktopMarkup` into one-card-per-slide below the mobile breakpoint)
+  - collapse to `2` stacked cards per slide on mobile (handled dynamically by `syncResponsiveCarouselLayouts()` in `assets/js/app.js`, which re-chunks all cards from `track.dataset.desktopMarkup` by `MOBILE_CARDS_PER_SLIDE` below the 899px breakpoint; applies to Insights and to the detail-page related carousels too)
   - **2026-09-15:** with 5 projects total, the desktop markup is split into two static `.carousel-card` slides (mirrors the Insights section's own 4+1 split pattern): slide 1 holds the first 4 projects in a 2x2 grid and is `is-active`; slide 2 holds just the 5th project alone. Prev/next arrows page between them (no dots wrapper on this section, same as Insights). When a 6th project is added, keep slide 2 as a 2-card grid (or add a slide 3) rather than letting a single un-chunked grid grow past 2x2 rows again.
   - keep the exact homepage project order (updated 2026-09-15 — Turning Excel Into a CRM moved to first per user request):
     - Turning Excel Into a CRM
@@ -240,10 +240,12 @@ This file preserves the key working context, design choices, and content decisio
   - `assets/js/app.js` also syncs `body[data-theme-mode]` plus `body.theme-light` / `body.theme-dark` for future targeting
   - prefer adding theme-specific overrides near the shared theme section instead of creating more scattered per-page color fixes
   - if an older homepage override forces colors with `!important`, add the light-mode correction with equal or higher specificity rather than changing layout structure
+- **Carousel height (2026-09-29):** slides are stacked in one grid cell (`CAROUSEL AUTO HEIGHT` block at the end of `assets/css/styles.css`), so every carousel track sizes to its tallest slide. The many older per-breakpoint `min-height` values on `*-carousel-track` rules are overridden by it. Don't reintroduce fixed track heights; they caused big empty gaps under short mobile slides.
 - Current homepage mobile behaviors to preserve:
   - Skills section: `2` skill logo cards per row
   - Insights section: prev/next buttons grouped side-by-side at the top-right of the insights content area
   - Challenges section: game cards stacked vertically
+  - Challenges section: Sudoku and Minesweeper embeds are playable on mobile (verified at 360x800, 2026-09-29). Tapping a card opens a single-column panel and scrolls it into view; the Skills/Fun Fact meta is hidden at <=980px. The old "Games doesn't work on mobile" note and the JS mobile-disable were removed.
 - Particle background notes:
   - shared particle logic lives in `assets/js/particles-background.js`
   - CanvasParticles is loaded by CDN on all main site pages and `games/tech-master/index.html`
@@ -281,6 +283,7 @@ This file preserves the key working context, design choices, and content decisio
   - projects: `<section class="container project-related-section" data-related-kind="projects" data-current-slug="<project-slug>"></section>`
   - insights: `<section class="container project-related-section insights-related-section" data-related-kind="insights" data-current-slug="<insight-slug>"></section>`
 - The current page is intentionally excluded from its own `More Projects` or `More Insights` carousel using `data-current-slug`.
+- On detail pages, the related carousel's prev/next buttons render inside `.related-home-clone-controls`, right-aligned beside the section h2 at every screen size (2026-09-29). They used to sit at the bottom-right of the carousel, where the floating scroll-to-top button and the mobile nav covered them.
 - When adding a new project or insight in the future:
   - add the metadata entry in `assets/js/app.js`
   - add the new detail page with the correct `data-current-slug`
@@ -346,6 +349,33 @@ This file preserves the key working context, design choices, and content decisio
 - Continue improving project subpage visual flow so sections feel connected and less repetitive.
 - If more project pages are added, follow the simplified pattern unless the user asks for a richer layout.
 - Treat mobile responsiveness as part of the acceptance check for future additions and design changes.
+
+### Proposed Next Features (suggested 2026-09-29, not started)
+Ranked in the recommended order. Nothing below is implemented yet; the user
+plans to pick it up in a later session.
+
+1. **Live in-browser demo on the CSV Advanced Search Engine page** (recommended first)
+   - Add a "Try it" section to `projects/csv-advanced-search-engine.html`.
+   - Load a synthetic/fake sample dataset (~50K rows). Never use real lead data
+     (same privacy stance as the Turning Excel Into a CRM figures).
+   - The visitor types a query and sees results come back fast, which proves the
+     page's headline metric instead of just stating it.
+   - Fully client-side with no backend: plain JS, or the real Python logic via
+     Pyodide. Fits the static-site architecture.
+   - The pattern can be reused later for the Data Pivot Table Tool
+     (drop in a CSV and get a pivot).
+   - Must be checked at the standard viewports, including mobile.
+2. **"Ask about my work" AI assistant**
+   - A small chat widget that answers questions using only the portfolio's own content.
+   - Keep the Claude API key server-side in a Supabase Edge Function. Follow the
+     existing rule: no secret keys in HTML or browser JS.
+   - Needs per-visitor rate limiting (could reuse the anonymous `cz-visitor-id`
+     pattern from Insight Likes) and guardrails so it doesn't invent claims
+     about the user.
+   - Tradeoffs: per-use API cost and more moving parts than it looks.
+3. **Finish the Tech Master quiz with a Supabase leaderboard**
+   - The design is already finalized (see the Tech Master section below).
+   - Good for engagement, but a weaker professional signal than #1 or #2.
 
 ## Tech Master Quiz Game
 - This feature belongs inside the same portfolio project, not as a separate repo or app.
