@@ -6,6 +6,9 @@
 > `czcatzzz.html`, `assets/css/styles.css`) is now under `legacy/`. The rest
 > of this file documents the OLD site; use it for content and history, not
 > for how the new site is built. See `README.md` for the current layout.
+>
+> **Setting up a new PC?** Follow `SETUP.md` (including its "Notes for
+> Claude" section).
 
 ## Redesign Notes (`rebrand/`)
 These were kept as local assistant notes on the work PC and copied here on
