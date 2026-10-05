@@ -7,6 +7,47 @@
 > of this file documents the OLD site; use it for content and history, not
 > for how the new site is built. See `README.md` for the current layout.
 
+## Redesign Notes (`rebrand/`)
+These were kept as local assistant notes on the work PC and copied here on
+2026-10-05 so they survive the move to a new machine.
+
+- **Stack:** Astro 5 in `rebrand/` (run npm commands there). Work PC had
+  Node 20 and no admin rights; the home setup uses Node 24 LTS and stays on
+  Astro 5 for now. Upgrading to Astro 7 (needs Node 22.12+) is a separate,
+  later step.
+- **Going live:** GitHub Pages serves the root of `main`. Do NOT merge
+  `redesign` into `main` until a GitHub Actions workflow builds `rebrand/`
+  and Pages is switched to "Source: GitHub Actions"; a plain merge would take
+  the live site down (no root `index.html` anymore).
+- **Approved brand (keep):** black/dark-purple palette, Space Grotesk for
+  headlines, Montserrat for body text, eyebrow labels, pill buttons, gradient
+  text. Tokens live in `rebrand/src/styles/global.css`, which is the source of
+  truth.
+- **Build approach:** the user rebuilds the site section by section from a
+  blank page. Don't re-add old homepage sections (projects carousel, data
+  studies list, insights, challenges, trivia, chibi widget, particles) unless
+  asked.
+- **Built so far:** Vanta globe background (self-hosted three r134 +
+  vanta.globe in `public/vendor/vanta/`, dimmed via `dimBackground` on reading
+  pages), fixed semi-transparent header (`cz.catzzz` wordmark; About Me,
+  Projects, Insights, Resume, Get in Touch; menu button at 860px and below),
+  homepage hero that always fits in the first screen, About Me (25/75 layout,
+  live age counter, KPIs), Resume (PDF download/open, page image rendered with
+  `npm run resume`). Projects, Insights and Get in Touch are placeholder links.
+- **Pending idea:** `rebrand/src/data/global_datasphere_1956_2030.csv` (world
+  data volume by year) was supplied "to keep in mind". Many rows are
+  low-confidence interpolations or assumptions, so any chart must be labeled
+  as estimates. It fits the About Me headline "Everything comes down to
+  data." Suggest it when a data-viz spot comes up; don't build it unasked.
+- **Viewport baselines (always test):** 1920x1080, 1366x768, 360x800. Check
+  every layout change at all three before calling it done, including
+  horizontal overflow on mobile.
+- **Hover UI lesson (from the old chibi widget):** any flyout or hover reveal
+  must size its hoverable parent to cover the revealed content, or the hover
+  state drops before the cursor reaches it.
+- **Privacy:** never publish real lead/CRM data or company internals; the
+  repo is public.
+
 ## Purpose
 This file preserves the key working context, design choices, and content decisions for this portfolio site so future updates can continue without re-explaining the same requirements.
 

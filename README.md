@@ -9,6 +9,7 @@ Portfolio of CZ Catalan, published at https://chimcatz.github.io/cz-portfolio-si
 | `rebrand/` | The new site (Astro). All new work happens here. |
 | `legacy/` | The previous plain-HTML site, kept for reference and for copying content. Snapshot tag: `v1-final`. |
 | `source-files/` | Original files the site is made from (full-size photo, Vanta package). Not published. |
+| `setup/` | Installer script and lists for rebuilding the dev setup on a new PC. See `SETUP.md`. |
 | `resources/` | Personal reference material. Ignored by git. |
 
 ## Working on the new site
