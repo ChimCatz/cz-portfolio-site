@@ -1,101 +1,37 @@
 # CZ Portfolio Site
 
-Static portfolio site built with plain HTML, CSS, and JavaScript.
+Portfolio of CZ Catalan, published at https://chimcatz.github.io/cz-portfolio-site/
 
-## Pages
+## Folders
 
-- `czcatzzz.html`: main portfolio page
-- `about-me.html`: profile and background page
-- `projects/*.html`: project case studies
-- `insights/*.html`: editorial insight pages
-- `data-studies/*/*.html`: longform data analysis pages
+| Folder | What it is |
+|---|---|
+| `rebrand/` | The new site (Astro). All new work happens here. |
+| `legacy/` | The previous plain-HTML site, kept for reference and for copying content. Snapshot tag: `v1-final`. |
+| `source-files/` | Original files the site is made from (full-size photo, Vanta package). Not published. |
+| `resources/` | Personal reference material. Ignored by git. |
 
-## Current Structure
+## Working on the new site
 
-- Floating sidebar with section navigation
-- Hero section with portfolio summary
-- Projects homepage carousel
-- Data Studies homepage text list
-- Insights homepage carousel
-- Brain Challenge section
-- Trivia block
+```
+cd rebrand
+npm install      # first time only
+npm run dev      # opens the site and live-reloads on every save
+```
 
-## Data Studies
+Other commands (run inside `rebrand/`):
 
-- Each study lives in its own folder under `data-studies/<slug>/`
-- Keep the HTML page, charts, header image, and dataset in that same folder
-- Current live example:
-  - `data-studies/netflix-genre-performance-study/netflix-genre-performance-study.html`
-- Layout guide:
-  - `data-studies/README.md`
+- `npm run build`: build the final site into `rebrand/dist/`
+- `npm run resume`: re-render the Resume page image after replacing
+  `rebrand/public/resume/Chim_Zoe_Catalan_Resume.pdf` (needs Python with PyMuPDF)
 
-## Assets
+## Inside `rebrand/`
 
-- `assets/css/styles.css`: shared site styling
-- `assets/js/app.js`: sidebar state, theme handling, game reveal logic, and remaining carousel behavior
-- `assets/js/particles-background.js`: shared CanvasParticles background controller
-- `assets/icons/`: navigation and social icons
-- `assets/images/`: shared image assets
-- `page-elements/`: reference UI elements used as styling direction for some sections
-
-## Local Preview
-
-Open `czcatzzz.html` directly in a browser.
-
-## Notes
-
-- This is a static site and does not require a build step.
-- Skills are content-driven directly in HTML.
-- Related `More Projects` and `More Insights` sections on detail pages are rendered from metadata in `assets/js/app.js`.
-- The current detail page is excluded automatically from its own related carousel.
-- Data Studies pages are static and currently linked directly from `czcatzzz.html`.
-- To add future project or insight pages more easily, update the matching metadata list in `assets/js/app.js` and use the existing placeholder section pattern on the detail page.
-- To add future Data Studies pages, follow `data-studies/README.md` and add the new homepage link in `czcatzzz.html`.
-- The Skills section uses logo cards sourced from `assets/icons/`.
-- Theme support is built in:
-  - dark mode is the default
-  - light mode is stored in `localStorage` with key `cz-theme`
-  - shared light-mode overrides live in `assets/css/styles.css`
-  - `assets/js/app.js` dispatches `cz-themechange` so shared effects like the particles background can refresh safely
-- CanvasParticles background support is built in:
-  - pages use a shared `<canvas id="site-particles-canvas" aria-hidden="true"></canvas>`
-  - CanvasParticles is loaded from CDN, with site logic in `assets/js/particles-background.js`
-  - particles are meant to behave as background atmosphere, not as an overlay over the main content area
-  - current subtle particle colors:
-    - dark mode: page background `#0F0F0F`, particles `rgba(255, 255, 255, 0.24)`
-    - light mode: page background `#EBEBEB`, particles `rgba(34, 34, 34, 0.18)`
-- Check mobile view whenever adding or changing sections.
-- Current mobile expectations:
-  - Skills show `2` logo cards per row
-  - Insights prev/next buttons sit together at the top-right of the section content
-  - Challenges game cards stack vertically
-
-## Attribution
-
-- Canvas Particles JS by Kyle Hoeckman:
-  - `https://github.com/Khoeckman/canvasparticles-js`
-
-## Supabase Integration
-
-- Supabase is set up for frontend features that may need shared data later, such as likes, scoreboards, saved stats, comments, or lightweight content actions.
-- Shared config lives in `assets/js/supabase.js`.
-- The site uses the Supabase CDN plus the publishable key only.
-- Global access is exposed through `window.supabaseClient` and `window.supabaseReady`.
-- Security rule: never place a `service_role` key in this frontend project.
-- To extend it later:
-  - create the new table or policy in Supabase
-  - add the page-specific read/write logic in the relevant script
-  - reuse `window.supabaseClient` instead of creating extra clients per page
-
-### Insight Likes
-
-- Table name: `insight_likes`
-- Columns used by the frontend: `slug`, `visitor_id`, `created_at`
-- Visitor identity is stored locally in `localStorage` under `cz-visitor-id`
-- Rule: one like per visitor per insight, enforced by unique `(slug, visitor_id)`
-- Files involved:
-  - `assets/js/supabase.js`
-  - `assets/js/insight-likes.js`
-  - `insights/*.html`
-  - `assets/css/styles.css`
-- Never use a Supabase `service_role` key in frontend HTML or browser JavaScript
+- `src/pages/`: one file per page (`index.astro` is the homepage)
+- `src/components/`: shared pieces (header, globe background)
+- `src/layouts/`: the page wrapper every page uses
+- `src/styles/global.css`: brand colors, fonts, and base formatting
+- `src/assets/`: images that get optimized at build time
+- `src/data/`: data files (e.g. `global_datasphere_1956_2030.csv`)
+- `public/`: files served as-is (favicon, resume PDF, Vanta/three.js scripts)
+- `scripts/`: helper scripts

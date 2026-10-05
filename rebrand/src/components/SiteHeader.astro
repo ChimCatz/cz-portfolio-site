@@ -1,0 +1,253 @@
+---
+// Fixed, semi-transparent top navbar. Collapses into a menu button on small screens.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.replace(/\/$/, '');
+
+// Placeholder routes: these pages don't exist yet.
+const links = [
+  { label: 'About Me', href: `${base}/about` },
+  { label: 'Projects', href: `${base}/projects` },
+  { label: 'Insights', href: `${base}/insights` },
+  { label: 'Resume', href: `${base}/resume` },
+];
+const contact = { label: 'Get in Touch', href: `${base}/contact` };
+
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="wordmark" href={`${base}/`} aria-label="cz.catzzz, back to home">
+      cz<span class="wordmark-dot">.</span>catzzz
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Open menu"
+      data-menu-toggle
+    >
+      <span class="menu-bar"></span>
+      <span class="menu-bar"></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Primary" data-nav>
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="nav-cta" href={contact.href} aria-current={isCurrent(contact.href) ? 'page' : undefined}>
+            {contact.label}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+
+  if (header && toggle && nav) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    // Close the mobile menu if the screen is resized up to desktop.
+    window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(7, 5, 12, 0.55);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: var(--header-h);
+  }
+
+  /* Name logo */
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--text);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .wordmark:hover {
+    opacity: 0.85;
+  }
+
+  .wordmark-dot {
+    color: var(--purple-400);
+  }
+
+  /* Desktop links */
+  .site-nav ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  .site-nav a:hover,
+  .site-nav a[aria-current='page'] {
+    color: var(--text);
+    background: rgba(124, 58, 237, 0.14);
+  }
+
+  .site-nav .nav-cta {
+    margin-left: 8px;
+    border: 1px solid var(--purple-500);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .site-nav .nav-cta:hover,
+  .site-nav .nav-cta[aria-current='page'] {
+    background: var(--purple-500);
+  }
+
+  /* Menu button (hidden on desktop) */
+  .menu-toggle {
+    display: none;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .menu-bar {
+    position: absolute;
+    left: 11px;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+    transition: transform 0.25s, top 0.25s;
+  }
+
+  .menu-bar:first-child {
+    top: 17px;
+  }
+
+  .menu-bar:last-child {
+    top: 25px;
+  }
+
+  .is-open .menu-bar:first-child {
+    top: 21px;
+    transform: rotate(45deg);
+  }
+
+  .is-open .menu-bar:last-child {
+    top: 21px;
+    transform: rotate(-45deg);
+  }
+
+  /* Small screens: links drop down below the bar */
+  @media (max-width: 860px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .site-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(7, 5, 12, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    }
+
+    .is-open .site-nav {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+
+    .site-nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      padding: 12px var(--gutter) 20px;
+    }
+
+    .site-nav a {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .site-nav .nav-cta {
+      margin: 10px 0 0;
+      text-align: center;
+      border-radius: 999px;
+    }
+  }
+</style>

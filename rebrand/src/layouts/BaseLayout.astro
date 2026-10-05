@@ -1,0 +1,36 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/montserrat';
+import '../styles/global.css';
+import GlobeBackground from '../components/GlobeBackground.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Dim the animated globe so long text stays readable (content pages). */
+  dimBackground?: boolean;
+}
+
+const { title, description, dimBackground = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07050c" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+  </head>
+  <body class:list={{ 'bg-dim': dimBackground }}>
+    <GlobeBackground />
+    <SiteHeader />
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

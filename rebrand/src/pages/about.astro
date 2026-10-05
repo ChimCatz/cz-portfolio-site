@@ -1,0 +1,502 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import profileImg from '../assets/about/cz-profile.jpg';
+
+// Live age counter. Same birth time as the old About page.
+const BIRTH = '1999-12-29T01:00:00+08:00';
+const YEAR_MS = 365.2425 * 24 * 60 * 60 * 1000;
+const ageAtBuild = ((Date.now() - new Date(BIRTH).getTime()) / YEAR_MS).toFixed(9);
+
+const facts = [
+  { label: 'Based In', value: 'Cagayan de Oro City, Philippines' },
+  { label: 'Currently', value: 'Data Analyst at Thinklogic Media Group' },
+  { label: 'Focus', value: 'CRM data, reporting, and dashboards' },
+];
+
+const socials = [
+  { label: 'LinkedIn', handle: 'in/chimzoecatalan', href: 'https://www.linkedin.com/in/chimzoecatalan/' },
+  { label: 'GitHub', handle: 'ChimCatz', href: 'https://github.com/ChimCatz' },
+  { label: 'Facebook', handle: 'chimzoecatalan', href: 'https://fb.com/chimzoecatalan/' },
+  { label: 'Email', handle: 'catalanchimzoe.business@gmail.com', href: 'mailto:catalanchimzoe.business@gmail.com' },
+];
+
+const kpis = [
+  { value: '1+', label: 'Years in Data Analysis' },
+  { value: '8+', label: 'Certifications and courses' },
+  { value: '3+', label: 'Languages I automate with', detail: 'Python, SQL, VBA' },
+  { value: '5+', label: 'Platforms I work in', detail: 'Zoho CRM, Zoho Analytics, Vtiger, GA4, GTM' },
+];
+
+const now = [
+  'Going deeper on Python and SQL',
+  'Exploring applied machine learning and generative AI',
+  'Working toward data engineering',
+  'Building this site as my personal lab',
+];
+---
+
+<BaseLayout
+  title="About Me | CZ Catalan"
+  dimBackground
+  description="CZ Catalan is an electronics engineer turned data analyst in Cagayan de Oro City, Philippines, working across CRM data, reporting, and dashboards with Python, SQL, and VBA."
+>
+  <div class="container about">
+    <!-- Left 25%: photo and quick facts -->
+    <aside class="about-profile" aria-label="Profile">
+      <div class="photo">
+        <Image
+          src={profileImg}
+          alt="Portrait of CZ Catalan"
+          widths={[320, 480, 640]}
+          sizes="(max-width: 860px) 200px, 280px"
+          loading="eager"
+        />
+      </div>
+
+      <dl class="facts">
+        {facts.map((f) => (
+          <div>
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </aside>
+
+    <!-- Left 25% (continued): socials and KPIs -->
+    <aside class="about-extras" aria-label="Links and highlights">
+      <section>
+        <h2 class="side-heading">Socials</h2>
+        <ul class="socials">
+          {socials.map((s) => (
+            <li>
+              <a href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+                <span class="social-label">{s.label}</span>
+                <span class="social-handle">
+                  {s.handle.includes('@') ? (
+                    <Fragment>{s.handle.split('@')[0]}@<wbr />{s.handle.split('@')[1]}</Fragment>
+                  ) : (
+                    s.handle
+                  )}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="side-heading">By the numbers</h2>
+        <ul class="kpis">
+          {kpis.map((k) => (
+            <li>
+              <span class="kpi-value">{k.value}</span>
+              <span class="kpi-label">{k.label}</span>
+              {k.detail && <span class="kpi-detail">{k.detail}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </aside>
+
+    <!-- Right 75%: the story -->
+    <article class="about-story">
+      <h1>Everything comes down to <span class="gradient-text">data.</span></h1>
+
+      <p class="lead">Hello, Welcome World! I'm Chim, but I go by <strong>CZ</strong>.</p>
+
+      <p>
+        I'm an electronics engineer who fell for data. I started out around circuits and signals, and
+        stayed because the best systems, programs, and even AI models are only as good as the data
+        behind them.
+      </p>
+
+      <p>
+        I like the unglamorous middle of the process, where messy records become something people can
+        trust and use. Along the way I learned that clean data is invisible when it works and painful
+        when it doesn't, and that a repetitive task is usually just a script waiting to be written. I
+        write those scripts in Python, SQL, and VBA, with AI as my pair programmer. I work under
+        pressure, adapt fast, and don't get attached to a fixed workflow. I keep reading, trying
+        things, and improving how I approach problems.
+      </p>
+
+      <p>
+        I'm <span class="live-age" data-live-age data-birth={BIRTH}>{ageAtBuild}</span> years old in
+        real time, based in Cagayan de Oro City, Philippines, and a graduate of Xavier University -
+        Ateneo de Cagayan in Electronics and Communications Engineering, which sits somewhere between
+        computers, electronics, and signals.
+      </p>
+
+      <section class="story-block">
+        <h2>now</h2>
+        <ul class="now-list">
+          {now.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+
+      <section class="story-block">
+        <h2>outside the screen</h2>
+        <p>
+          I'm a gamer who goes for 100% completion in open-world games like Assassin's Creed and Far
+          Cry. I also play Dota 2, League of Legends, and Valorant, and I've been a Pokémon fan for as
+          long as I can remember.
+        </p>
+      </section>
+
+      <section class="story-block">
+        <h2>about this site</h2>
+        <p>
+          Designed and coded by me, with help from AI, in VSCode and hosted on GitHub Pages. It's still
+          evolving, and I treat it like a lab for testing ideas.
+        </p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
+
+<script>
+  const node = document.querySelector<HTMLElement>('[data-live-age]');
+  if (node?.dataset.birth) {
+    const birth = new Date(node.dataset.birth).getTime();
+    const yearMs = 365.2425 * 24 * 60 * 60 * 1000;
+    const update = () => {
+      node.textContent = ((Date.now() - birth) / yearMs).toFixed(9);
+    };
+    update();
+    // Reduced motion: tick once a second instead of every frame.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(update, 1000);
+    } else {
+      const loop = () => {
+        update();
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+  }
+</script>
+
+<style>
+  /* 25% / 75% split. The left column holds two blocks (profile, extras)
+     so on phones the story can sit between them. */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'profile story'
+      'extras  story';
+    column-gap: clamp(32px, 5vw, 72px);
+    padding-top: calc(var(--header-h) + clamp(32px, 6vh, 64px));
+    padding-bottom: 96px;
+  }
+
+  .about-profile {
+    grid-area: profile;
+  }
+
+  .about-extras {
+    grid-area: extras;
+    align-self: start;
+  }
+
+  .about-story {
+    grid-area: story;
+  }
+
+  /* Readable panel over the globe for the left column */
+  .about-profile,
+  .about-extras {
+    background: rgba(13, 10, 22, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line);
+    padding: 16px;
+  }
+
+  .about-profile {
+    border-radius: var(--radius) var(--radius) 0 0;
+    border-bottom: 0;
+  }
+
+  .about-extras {
+    border-radius: 0 0 var(--radius) var(--radius);
+    border-top: 0;
+    padding-top: 8px;
+  }
+
+  /* Photo */
+  .photo {
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 18px 48px -20px var(--glow);
+  }
+
+  .photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  /* Facts */
+  .facts {
+    margin: 20px 0 0;
+  }
+
+  .facts div + div {
+    margin-top: 14px;
+  }
+
+  .facts dt,
+  .side-heading {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
+  .facts dd {
+    margin: 2px 0 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .about-extras section {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .about-extras section:first-child {
+    margin-top: 12px;
+  }
+
+  .side-heading {
+    margin-bottom: 10px;
+  }
+
+  /* Socials */
+  .socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .socials a {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    margin-inline: -10px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .socials a:hover {
+    background: rgba(124, 58, 237, 0.14);
+  }
+
+  .social-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .social-label::after {
+    content: ' ↗';
+    color: var(--purple-400);
+  }
+
+  .social-handle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    overflow-wrap: break-word;
+  }
+
+  /* KPIs */
+  .kpis {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+
+  .kpis li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .kpi-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .kpi-detail {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  /* Story */
+  .about-story {
+    max-width: 72ch;
+    padding: clamp(0px, 1vw, 8px) 0;
+  }
+
+  .about-story h1 {
+    margin-top: 0;
+    font-size: clamp(2.2rem, 5vw, 3.75rem);
+  }
+
+  .about-story > p,
+  .story-block p {
+    margin-top: 18px;
+    color: var(--text-soft);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .about-story > .lead {
+    margin-top: 28px;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    color: var(--text);
+  }
+
+  .lead strong {
+    color: var(--purple-300);
+  }
+
+  .live-age {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--purple-300);
+  }
+
+  .story-block {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Section labels: gradient rule + spaced caps, e.g. "—— NOW" */
+  .story-block h2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple-300);
+  }
+
+  .story-block h2::before {
+    content: '';
+    width: 36px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--brand-gradient);
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  .now-list {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+  }
+
+  .now-list li {
+    position: relative;
+    padding: 6px 0 6px 22px;
+    color: var(--text-soft);
+    font-size: 1.05rem;
+  }
+
+  .now-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.95em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--purple-500);
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  /* Phones and tablets: profile on top, story, then socials and KPIs */
+  @media (max-width: 860px) {
+    .about {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto;
+      grid-template-areas:
+        'profile'
+        'story'
+        'extras';
+      row-gap: 40px;
+    }
+
+    .about-profile,
+    .about-extras {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .about-profile {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    .facts {
+      margin: 0;
+    }
+
+    .about-extras section:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 420px) {
+    .about-profile {
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .facts div + div {
+      margin-top: 10px;
+    }
+
+    .facts dd {
+      font-size: 0.85rem;
+    }
+  }
+</style>

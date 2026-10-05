@@ -1,5 +1,12 @@
 # AGENTS.md
 
+> **Redesign in progress (branch `redesign`, started 2026-10-05).**
+> The new Astro site lives in `rebrand/`. The old plain-HTML site described
+> below was moved into `legacy/`, so every path in this file (e.g.
+> `czcatzzz.html`, `assets/css/styles.css`) is now under `legacy/`. The rest
+> of this file documents the OLD site; use it for content and history, not
+> for how the new site is built. See `README.md` for the current layout.
+
 ## Purpose
 This file preserves the key working context, design choices, and content decisions for this portfolio site so future updates can continue without re-explaining the same requirements.
 

@@ -1,0 +1,144 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const pdfHref = `${base}/resume/Chim_Zoe_Catalan_Resume.pdf`;
+
+// Page images are generated from the PDF with `npm run resume`.
+const pageModules = import.meta.glob<{ default: ImageMetadata }>('../assets/resume/page-*.png', { eager: true });
+const pages = Object.entries(pageModules)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([, mod]) => mod.default);
+---
+
+<BaseLayout
+  title="Resume | CZ Catalan"
+  description="Resume of Chim Zoe Catalan, Data Analyst and CRM & Automation Specialist based in Cagayan de Oro City, Philippines."
+  dimBackground
+>
+  <div class="container resume">
+    <header class="resume-bar">
+      <h1>Resume</h1>
+      <div class="resume-actions">
+        <a class="btn btn-primary" href={pdfHref} download="Chim_Zoe_Catalan_Resume.pdf">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" /></svg>
+          Download PDF
+        </a>
+        <a class="btn btn-ghost" href={pdfHref} target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m0-6-9 9M19 14v6H4V5h6" /></svg>
+          Open in New Tab
+        </a>
+      </div>
+    </header>
+
+    <p class="zoom-hint">Pinch to zoom, or open the PDF for the sharpest view.</p>
+
+    <div class="pages">
+      {pages.map((img, i) => (
+        <div class="paper">
+          <Image
+            src={img}
+            alt={`Resume of Chim Zoe Catalan${pages.length > 1 ? `, page ${i + 1}` : ''}`}
+            widths={[700, 1000, 1400, img.width]}
+            sizes="(max-width: 1060px) calc(100vw - 32px), 1000px"
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .resume {
+    max-width: calc(1000px + var(--gutter) * 2);
+    padding-top: calc(var(--header-h) + clamp(24px, 5vh, 48px));
+    padding-bottom: 96px;
+  }
+
+  .resume-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
+  .resume-bar h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .resume-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .zoom-hint {
+    display: none;
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .pages {
+    display: grid;
+    gap: 28px;
+    margin-top: clamp(20px, 3vh, 32px);
+  }
+
+  /* The resume sits on the dark page like a sheet of paper */
+  .paper {
+    overflow: hidden;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow:
+      0 0 0 1px var(--line-strong),
+      0 30px 80px -30px var(--glow),
+      0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .paper img {
+    width: 100%;
+  }
+
+  @media (max-width: 760px) {
+    .resume-actions {
+      width: 100%;
+    }
+
+    .resume-actions .btn {
+      flex: 1 1 0;
+      justify-content: center;
+      padding-inline: 0.8em;
+    }
+
+    .zoom-hint {
+      display: block;
+    }
+  }
+
+  /* Small phones: stack the buttons so labels stay on one line */
+  @media (max-width: 480px) {
+    .resume-actions {
+      flex-direction: column;
+    }
+
+    .resume-actions .btn {
+      flex: none;
+      white-space: nowrap;
+    }
+  }
+</style>

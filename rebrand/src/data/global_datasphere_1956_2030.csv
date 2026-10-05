@@ -1,0 +1,76 @@
+year,gigabytes,zettabytes,exabytes,log10_zb,basis,confidence,notes
+1956,100,1.000000e-10,1e-07,-10.000,assumption,low,"Assumed ~100 GB worldwide digital data; IBM RAMAC 305 (first HDD, 5 MB) shipped 1956. No real measurement exists."
+1957,151.53,1.515302e-10,1.5153e-07,-9.820,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1958,229.61,2.296139e-10,2.29614e-07,-9.639,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1959,347.93,3.479344e-10,3.47934e-07,-9.459,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1960,527.23,5.272255e-10,5.27226e-07,-9.278,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1961,798.91,7.989058e-10,7.98906e-07,-9.098,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1962,1210.58,1.210583e-09,1.21058e-06,-8.917,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1963,1834.4,1.834399e-09,1.8344e-06,-8.737,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1964,2779.67,2.779668e-09,2.77967e-06,-8.556,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1965,4212.04,4.212035e-09,4.21204e-06,-8.376,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1966,6382.5,6.382504e-09,6.3825e-06,-8.195,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1967,9671.42,9.671420e-09,9.67142e-06,-8.015,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1968,14655.12,1.465512e-08,1.46551e-05,-7.834,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1969,22206.93,2.220693e-08,2.22069e-05,-7.654,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1970,33650.19,3.365019e-08,3.36502e-05,-7.473,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1971,50990.2,5.099020e-08,5.09902e-05,-7.293,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1972,77265.53,7.726553e-08,7.72655e-05,-7.112,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1973,117080.6,1.170806e-07,0.000117081,-6.932,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1974,177412.4,1.774124e-07,0.000177412,-6.751,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1975,268833.3,2.688333e-07,0.000268833,-6.571,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1976,407363.6,4.073636e-07,0.000407364,-6.390,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1977,617278.8,6.172788e-07,0.000617279,-6.210,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1978,935363.6,9.353636e-07,0.000935364,-6.029,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1979,1.4174e+06,1.417358e-06,0.00141736,-5.849,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1980,2.1477e+06,2.147725e-06,0.00214773,-5.668,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1981,3.2545e+06,3.254451e-06,0.00325445,-5.488,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1982,4.9315e+06,4.931476e-06,0.00493148,-5.307,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1983,7.4727e+06,7.472674e-06,0.00747267,-5.127,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1984,1.1323e+07,1.132336e-05,0.0113234,-4.946,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1985,1.7158e+07,1.715830e-05,0.0171583,-4.766,interpolated_model,low,Log-linear interpolation between 1956 and 1986.
+1986,2.6000e+07,2.600000e-05,0.026,-4.585,derived,medium,Hilbert & Lopez: 2.6 EB total storage capacity x ~1% digital share.
+1987,4.0463e+07,4.046279e-05,0.0404628,-4.393,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1988,6.2971e+07,6.297068e-05,0.0629707,-4.201,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1989,9.7999e+07,9.799884e-05,0.0979988,-4.009,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1990,1.5251e+08,1.525118e-04,0.152512,-3.817,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1991,2.3735e+08,2.373482e-04,0.237348,-3.625,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1992,3.6938e+08,3.693758e-04,0.369376,-3.433,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1993,5.7485e+08,5.748453e-04,0.574845,-3.240,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1994,8.9461e+08,8.946095e-04,0.89461,-3.048,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1995,1.3922e+09,1.392246e-03,1.39225,-2.856,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1996,2.1667e+09,2.166699e-03,2.1667,-2.664,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1997,3.3720e+09,3.371950e-03,3.37195,-2.472,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1998,5.2476e+09,5.247635e-03,5.24763,-2.280,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+1999,8.1667e+09,8.166691e-03,8.16669,-2.088,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2000,1.2710e+10,1.270951e-02,12.7095,-1.896,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2001,1.9779e+10,1.977931e-02,19.7793,-1.704,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2002,3.0782e+10,3.078178e-02,30.7818,-1.512,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2003,4.7904e+10,4.790449e-02,47.9045,-1.320,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2004,7.4552e+10,7.455191e-02,74.5519,-1.128,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2005,1.1602e+11,1.160222e-01,116.022,-0.935,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2006,1.8056e+11,1.805609e-01,180.561,-0.743,interpolated_model,low,Log-linear interpolation between 1986 and 2007.
+2007,2.8100e+11,2.810000e-01,281,-0.551,sourced,medium,"IDC 2007 estimate: 281 EB of digital data (consistent with 94% digital share of ~295 EB, Hilbert & Lopez)."
+2008,5.4052e+11,5.405230e-01,540.523,-0.267,interpolated_model,low,Log-linear interpolation between 2007 and 2010.
+2009,1.0400e+12,1.04,1039.73,0.017,interpolated_model,low,Log-linear interpolation between 2007 and 2010.
+2010,2.0000e+12,2.00,2000,0.301,sourced,medium,"IDC via Statista. Definition shifts here (created+captured+copied+consumed), so the 2007-2010 jump is partly definitional."
+2011,5.0000e+12,5.00,5000,0.699,sourced_unverified,low,Read from Statista chart; confirm.
+2012,6.5000e+12,6.50,6500,0.813,sourced,medium,IDC via Statista.
+2013,9.0000e+12,9.00,9000,0.954,sourced_unverified,low,Read from Statista chart; confirm.
+2014,1.2500e+13,12.50,12500,1.097,sourced_unverified,low,Read from Statista chart; confirm.
+2015,1.5500e+13,15.50,15500,1.190,sourced,medium,IDC via Statista.
+2016,1.8000e+13,18.00,18000,1.255,sourced_unverified,low,Read from Statista chart; confirm.
+2017,2.6000e+13,26.00,26000,1.415,sourced_unverified,low,Read from Statista chart; confirm.
+2018,3.3000e+13,33.00,33000,1.519,sourced,high,IDC DataAge 2025.
+2019,4.1000e+13,41.00,41000,1.613,sourced_unverified,low,Read from Statista chart; confirm.
+2020,6.4200e+13,64.20,64200,1.808,sourced,high,IDC Global DataSphere Forecast 2021-2025.
+2021,7.9000e+13,79.00,79000,1.898,forecast_statista,medium,Statista: 2020 base x 23% CAGR.
+2022,9.7000e+13,97.00,97000,1.987,forecast_statista,medium,Statista: 2020 base x 23% CAGR.
+2023,1.2000e+14,120.00,120000,2.079,forecast_statista,medium,Statista: 2020 base x 23% CAGR.
+2024,1.4700e+14,147.00,147000,2.167,forecast_statista,medium,Statista: 2020 base x 23% CAGR.
+2025,1.8100e+14,181.00,181000,2.258,forecast_statista,medium,Statista: 2020 base x 23% CAGR.
+2026,2.3821e+14,238.21,238209,2.377,forecast_model,low,Modeled: 31.6% CAGR implied by Statista's 'triples between 2025 and 2029'; 2030 extrapolated at same rate.
+2027,3.1350e+14,313.50,313501,2.496,forecast_model,low,Modeled: 31.6% CAGR implied by Statista's 'triples between 2025 and 2029'; 2030 extrapolated at same rate.
+2028,4.1259e+14,412.59,412591,2.616,forecast_model,low,Modeled: 31.6% CAGR implied by Statista's 'triples between 2025 and 2029'; 2030 extrapolated at same rate.
+2029,5.4300e+14,543.00,543000,2.735,forecast_model,low,Modeled: 31.6% CAGR implied by Statista's 'triples between 2025 and 2029'; 2030 extrapolated at same rate.
+2030,7.1463e+14,714.63,714628,2.854,forecast_model,low,Modeled: 31.6% CAGR implied by Statista's 'triples between 2025 and 2029'; 2030 extrapolated at same rate.

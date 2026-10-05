@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="CZ Catalan | Data Analyst Portfolio"
+  description="CZ Catalan is a data analyst with an engineering background working across CRM data, reporting, and dashboards, using Python, SQL, and AI to automate the boring parts."
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <h1 id="hero-title">
+        <span>Clean.</span>
+        <span>Analyze.</span>
+        <span>Visualize.</span>
+        <span class="gradient-text">Automate.</span>
+      </h1>
+      <p class="hero-intro">
+        I'm <strong>CZ</strong>, a data analyst with an engineering background and a soft spot for
+        messy data. I work across CRM data, reporting, and dashboards. Python, SQL, and AI help me
+        automate the boring parts in minutes instead of hours.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* The whole hero fits in the first screen on every device:
+     it is exactly one viewport tall, and the type scales with
+     the viewport height as well as the width. */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh; /* ignores the mobile browser address bar */
+    /* Top padding clears the fixed header */
+    padding-top: calc(var(--header-h) + clamp(16px, 4vh, 48px));
+    padding-bottom: clamp(24px, 6vh, 64px);
+  }
+
+  /* Darkens the side where the text sits so it reads over the globe */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(7, 5, 12, 0.88) 0%,
+      rgba(7, 5, 12, 0.55) 45%,
+      rgba(7, 5, 12, 0) 75%
+    );
+  }
+
+  .hero h1 {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(2.5rem, min(8vw, 10.5vh), 5.75rem);
+    line-height: 1;
+  }
+
+  .hero-intro {
+    margin-top: clamp(20px, 4vh, 36px);
+    max-width: 50ch;
+    font-size: clamp(1rem, min(1.4vw, 2.4vh), 1.25rem);
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  .hero-intro strong {
+    color: var(--purple-300);
+    font-weight: 600;
+  }
+
+  /* Phones: the globe fills the top of the screen, so the text
+     sits at the bottom over a darker fade. */
+  @media (max-width: 760px) {
+    .hero {
+      align-items: flex-end;
+    }
+
+    .hero::before {
+      background: linear-gradient(
+        0deg,
+        rgba(7, 5, 12, 0.94) 0%,
+        rgba(7, 5, 12, 0.75) 50%,
+        rgba(7, 5, 12, 0) 85%
+      );
+    }
+
+    .hero-intro {
+      font-size: clamp(0.95rem, 2.1vh, 1.05rem);
+      line-height: 1.6;
+    }
+  }
+</style>
