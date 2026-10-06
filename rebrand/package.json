@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "resume": "python scripts/render-resume.py"
+    "resume": "python scripts/render-resume.py",
+    "project-art": "node scripts/project-art/render.cjs"
   },
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.3.0",

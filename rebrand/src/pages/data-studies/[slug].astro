@@ -1,0 +1,164 @@
+---
+import { statSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { render } from 'astro:content';
+import Lightbox from '../../components/Lightbox.astro';
+import ReadingLayout from '../../layouts/ReadingLayout.astro';
+import { entryHref, getNext, getSorted, readingTime, sectionHref, type ReadingEntry } from '../../lib/reading';
+
+// Dataset files live in each study folder; Vite copies them into the build.
+const datasetUrls = import.meta.glob<string>('../../content/data-studies/*/*.csv', {
+  query: '?url',
+  import: 'default',
+  eager: true,
+});
+
+export async function getStaticPaths() {
+  const studies = await getSorted('dataStudies');
+  return studies.map((study) => ({
+    params: { slug: study.data.slug },
+    props: { study, next: getNext(studies, study) },
+  }));
+}
+
+interface Props {
+  study: ReadingEntry<'dataStudies'>;
+  next?: ReadingEntry<'dataStudies'>;
+}
+
+const { study, next } = Astro.props;
+const { title, date, summary, banner, bannerAlt, facts, tools, dataset, repo, note, copyright } = study.data;
+const { Content } = await render(study);
+
+let download: { href: string; name: string; size: string } | undefined;
+if (dataset && study.filePath) {
+  const folder = dirname(study.filePath); // src/content/data-studies/<folder>
+  const name = dataset.replace(/^\.\//, '');
+  const href = datasetUrls[`../../${folder.replace(/^src\//, '')}/${name}`];
+  if (!href) throw new Error(`Dataset "${dataset}" not found for ${study.id}`);
+  const bytes = statSync(join(process.cwd(), folder, name)).size;
+  const size = bytes >= 1e6 ? `${(bytes / 1e6).toFixed(1)} MB` : `${Math.ceil(bytes / 1e3)} KB`;
+  download = { href, name, size };
+}
+---
+
+<ReadingLayout
+  title={title}
+  summary={summary}
+  date={date}
+  minutes={readingTime(study.body)}
+  banner={banner}
+  bannerAlt={bannerAlt}
+  section={{ label: 'Data Studies', href: sectionHref('dataStudies') }}
+  next={next && {
+    label: 'Next Study',
+    href: entryHref('dataStudies', next),
+    title: next.data.title,
+    summary: next.data.summary,
+  }}
+>
+  <div class="study-body prose" data-zoom>
+    {note && (
+      <div class="prose-note"><strong>About the data:</strong> {note}</div>
+    )}
+
+    <Content />
+
+    {copyright && (
+      <div class="prose-footnote"><strong>Copyright and data-use note:</strong> {copyright}</div>
+    )}
+  </div>
+
+  <!-- One panel: on phones it sits above the article. -->
+  <div class="side-block side-first" slot="side">
+    {facts.length > 0 && (
+      <section class="side-section">
+        <h2 class="side-heading">At a glance</h2>
+        <dl class="facts">
+          {facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {tools.length > 0 && (
+      <section class="side-section">
+        <h2 class="side-heading">Tools used</h2>
+        <ul class="tool-list">
+          {tools.map((tool) => <li>{tool}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {(download || repo) && (
+      <section class="side-section side-actions">
+        {download && (
+          <a class="btn btn-primary" href={download.href} download={download.name}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" /></svg>
+            <span>Download dataset <small>CSV, {download.size}</small></span>
+          </a>
+        )}
+        {repo && (
+          <a class="btn btn-ghost" href={repo} target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m0-6-9 9M19 14v6H4V5h6" /></svg>
+            <span>Project files on GitHub</span>
+          </a>
+        )}
+      </section>
+    )}
+  </div>
+</ReadingLayout>
+
+<Lightbox />
+
+<style>
+  /* Pokémon type badges (added at build time, see src/lib/rehype-pokemon-types.mjs) */
+  .study-body :global(.type-badge) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34em;
+    padding: 0.06em 0.55em 0.06em 0.6em;
+    border-radius: 999px;
+    background: var(--type-color);
+    box-shadow: 0 0 14px -4px var(--type-color);
+    font-weight: 600;
+    font-size: 0.92em;
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+    white-space: nowrap;
+    vertical-align: 0.04em;
+  }
+
+  .study-body :global(.type-badge img) {
+    width: 0.95em;
+    height: 0.95em;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+  }
+
+  .study-body :global(.type-bug) { --type-color: #92bc2c; }
+  .study-body :global(.type-dark) { --type-color: #595761; }
+  .study-body :global(.type-dragon) { --type-color: #0c69c8; }
+  .study-body :global(.type-electric) { --type-color: #f2cb35; }
+  .study-body :global(.type-fairy) { --type-color: #ee90e6; }
+  .study-body :global(.type-fighting) { --type-color: #cb5f48; }
+  .study-body :global(.type-fire) { --type-color: #fba54c; }
+  .study-body :global(.type-flying) { --type-color: #a1bbec; }
+  .study-body :global(.type-ghost) { --type-color: #5269ad; }
+  .study-body :global(.type-grass) { --type-color: #63bc5a; }
+  .study-body :global(.type-ground) { --type-color: #d97845; }
+  .study-body :global(.type-ice) { --type-color: #74cec0; }
+  .study-body :global(.type-normal) { --type-color: #a0a29f; }
+  .study-body :global(.type-poison) { --type-color: #b567ce; }
+  .study-body :global(.type-psychic) { --type-color: #fa7179; }
+  .study-body :global(.type-rock) { --type-color: #c7b78b; }
+  .study-body :global(.type-steel) { --type-color: #5a8ea1; }
+  .study-body :global(.type-water) { --type-color: #5090d6; }
+</style>

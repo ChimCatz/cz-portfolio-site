@@ -1,0 +1,111 @@
+---
+import { render } from 'astro:content';
+import ReadingLayout from '../../layouts/ReadingLayout.astro';
+import { entryHref, getNext, getSorted, readingTime, sectionHref, type ReadingEntry } from '../../lib/reading';
+
+export async function getStaticPaths() {
+  const insights = await getSorted('insights');
+  return insights.map((insight) => ({
+    params: { slug: insight.data.slug },
+    props: { insight, next: getNext(insights, insight) },
+  }));
+}
+
+interface Props {
+  insight: ReadingEntry<'insights'>;
+  next?: ReadingEntry<'insights'>;
+}
+
+const { insight, next } = Astro.props;
+const { title, date, summary, banner, bannerAlt, highlights, tools } = insight.data;
+const { Content } = await render(insight);
+---
+
+<ReadingLayout
+  title={title}
+  summary={summary}
+  date={date}
+  minutes={readingTime(insight.body)}
+  banner={banner}
+  bannerAlt={bannerAlt}
+  section={{ label: 'Insights', href: sectionHref('insights') }}
+  next={next && {
+    label: 'Next Insight',
+    href: entryHref('insights', next),
+    title: next.data.title,
+    summary: next.data.summary,
+  }}
+>
+  <div class="insight-body">
+    <Content />
+  </div>
+
+  <!-- On phones the highlights move above the article and the tools below it. -->
+  {highlights.length > 0 && (
+    <section class="side-block side-first" slot="side">
+      <h2 class="side-heading">Highlights</h2>
+      <ul class="highlights">
+        {highlights.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+  )}
+  {tools.length > 0 && (
+    <section class="side-block" slot="side">
+      <h2 class="side-heading">Tools used</h2>
+      <ul class="tool-list">
+        {tools.map((tool) => <li>{tool}</li>)}
+      </ul>
+    </section>
+  )}
+</ReadingLayout>
+
+<style>
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .highlights li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .highlights li + li {
+    margin-top: 10px;
+  }
+
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--purple-500);
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  /* Pull quote */
+  .insight-body :global(blockquote) {
+    margin: 32px 0;
+    padding: 4px 0 4px 22px;
+    border-left: 3px solid var(--purple-500);
+  }
+
+  .insight-body :global(blockquote p) {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--text);
+  }
+
+  .insight-body :global(blockquote + p) {
+    margin-top: 0;
+  }
+</style>

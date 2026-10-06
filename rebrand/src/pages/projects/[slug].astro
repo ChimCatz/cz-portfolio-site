@@ -1,0 +1,249 @@
+---
+import { render } from 'astro:content';
+import Lightbox from '../../components/Lightbox.astro';
+import ReadingLayout from '../../layouts/ReadingLayout.astro';
+import { entryHref, getNext, getSorted, readingTime, sectionHref, type ReadingEntry } from '../../lib/reading';
+
+export async function getStaticPaths() {
+  const projects = await getSorted('projects');
+  return projects.map((project) => ({
+    params: { slug: project.data.slug },
+    props: { project, next: getNext(projects, project) },
+  }));
+}
+
+interface Props {
+  project: ReadingEntry<'projects'>;
+  next?: ReadingEntry<'projects'>;
+}
+
+const { project, next } = Astro.props;
+const { title, kicker, summary, banner, bannerAlt, results, evolution, facts, tools, note } = project.data;
+const { Content } = await render(project);
+---
+
+<ReadingLayout
+  title={title}
+  summary={summary}
+  kicker={kicker}
+  minutes={readingTime(project.body)}
+  banner={banner}
+  bannerAlt={bannerAlt}
+  section={{ label: 'Projects', href: sectionHref('projects') }}
+  next={next && {
+    label: 'Next Project',
+    href: entryHref('projects', next),
+    title: next.data.title,
+    summary: next.data.summary,
+  }}
+>
+  <div class="project-body prose" data-zoom>
+    {results.length > 0 && (
+      <ul class="results" aria-label="Results">
+        {results.map((r) => (
+          <li>
+            <span class="result-value">{r.value}</span>
+            <span class="result-label">{r.label}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {evolution.length > 0 && (
+      <section class="evolution" aria-labelledby="evolution-heading">
+        <h2 id="evolution-heading" class="evolution-heading">How it evolved</h2>
+        <ol style={`--steps: ${evolution.length}`}>
+          {evolution.map((step, i) => (
+            <li class:list={{ current: i === evolution.length - 1 }}>
+              <span class="step-stage">{step.stage}</span>
+              <span class="step-title">{step.title}</span>
+              <span class="step-detail">{step.detail}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {note && <div class="prose-note">{note}</div>}
+
+    <Content />
+  </div>
+
+  <!-- One panel: on phones it sits above the article. -->
+  {(facts.length > 0 || tools.length > 0) && (
+    <div class="side-block side-first" slot="side">
+      {facts.length > 0 && (
+        <section class="side-section">
+          <h2 class="side-heading">At a glance</h2>
+          <dl class="facts">
+            {facts.map((fact) => (
+              <div>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
+      {tools.length > 0 && (
+        <section class="side-section">
+          <h2 class="side-heading">Built with</h2>
+          <ul class="tool-list">
+            {tools.map((tool) => <li>{tool}</li>)}
+          </ul>
+        </section>
+      )}
+    </div>
+  )}
+</ReadingLayout>
+
+<Lightbox />
+
+<style>
+  /* Headline numbers */
+  .project-body .results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    margin: 0 0 40px;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(13, 10, 22, 0.6);
+    overflow: hidden;
+  }
+
+  .project-body .results li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 18px 20px;
+    border-left: 1px solid var(--line);
+    margin-left: -1px;
+  }
+
+  .result-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.1;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .result-label {
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  /* Evolution timeline: a row of steps joined by a line (stacked on phones) */
+  .project-body .evolution {
+    margin: 0 0 44px;
+  }
+
+  .project-body .evolution-heading {
+    margin: 0 0 18px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
+  .project-body .evolution ol {
+    display: grid;
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+  }
+
+  /* The connecting line runs through the dots */
+  .project-body .evolution ol::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    /* End at the last dot: one column width (minus the dot's center) from the right */
+    right: calc((100% - (var(--steps) - 1) * 16px) / var(--steps) - 7px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--line-strong), var(--purple-500));
+  }
+
+  .project-body .evolution li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding-top: 26px;
+  }
+
+  .project-body .evolution li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--purple-400);
+  }
+
+  .project-body .evolution li.current::before {
+    background: var(--purple-500);
+    border-color: var(--purple-300);
+    box-shadow: 0 0 14px var(--glow);
+  }
+
+  .step-stage {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .step-detail {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 700px) {
+    .project-body .evolution ol {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .project-body .evolution ol::before {
+      top: 6px;
+      bottom: 6px;
+      left: 6px;
+      right: auto;
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, var(--line-strong), var(--purple-500));
+    }
+
+    .project-body .evolution li {
+      padding: 0 0 0 30px;
+    }
+  }
+</style>

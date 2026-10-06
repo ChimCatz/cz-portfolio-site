@@ -1,0 +1,106 @@
+---
+// Index page for a long-form collection: heading block, then a plain
+// text list (date, linked title, one-line summary), newest first.
+import BaseLayout from './BaseLayout.astro';
+import { entryHref, formatDate, getSorted, type ReadingCollection } from '../lib/reading';
+
+interface Props {
+  collection: ReadingCollection;
+  /** Browser tab title and meta description */
+  pageTitle: string;
+  description: string;
+  eyebrow: string;
+  intro: string;
+}
+
+const { collection, pageTitle, description, eyebrow, intro } = Astro.props;
+const entries = await getSorted(collection);
+---
+
+<BaseLayout title={pageTitle} description={description} dimBackground>
+  <div class="container entries">
+    <header>
+      <p class="eyebrow">{eyebrow}</p>
+      <h1><slot name="heading" /></h1>
+      <p class="entries-intro">{intro}</p>
+    </header>
+
+    <ol class="entry-list">
+      {entries.map((entry) => (
+        <li>
+          <time class="eyebrow" datetime={entry.data.date.toISOString().slice(0, 10)}>
+            {formatDate(entry.data.date)}
+          </time>
+          <h2>
+            <a href={entryHref(collection, entry)}>{entry.data.title}</a>
+          </h2>
+          <p>{entry.data.summary}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</BaseLayout>
+
+<style>
+  .entries {
+    max-width: calc(880px + var(--gutter) * 2);
+    padding-top: calc(var(--header-h) + clamp(32px, 6vh, 64px));
+    padding-bottom: 96px;
+  }
+
+  h1 {
+    margin-top: 14px;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+  }
+
+  .entries-intro {
+    margin-top: 18px;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--text-muted);
+  }
+
+  .entry-list {
+    list-style: none;
+    margin: clamp(36px, 6vh, 56px) 0 0;
+    padding: 0;
+  }
+
+  .entry-list li {
+    position: relative;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .entry-list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .entry-list h2 {
+    margin-top: 8px;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* The whole row is clickable through the title link */
+  .entry-list a {
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .entry-list a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .entry-list li:hover a {
+    color: var(--purple-300);
+  }
+
+  .entry-list p {
+    margin-top: 10px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+</style>

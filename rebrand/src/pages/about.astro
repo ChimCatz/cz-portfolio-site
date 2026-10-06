@@ -28,6 +28,19 @@ const kpis = [
   { value: '5+', label: 'Platforms I work in', detail: 'Zoho CRM, Zoho Analytics, Vtiger, GA4, GTM' },
 ];
 
+const toolGroups = [
+  { label: 'Languages', tools: ['Python', 'SQL', 'VBA', 'Apps Script'] },
+  {
+    label: 'Data & Reporting',
+    tools: ['Excel', 'Google Sheets', 'BigQuery', 'Zoho Analytics', 'Tableau', 'pandas', 'matplotlib'],
+  },
+  {
+    label: 'CRM & Tracking',
+    tools: ['Zoho CRM', 'Vtiger', 'GA4', 'Google Tag Manager', 'Microsoft Clarity', 'Lusha', 'Apollo'],
+  },
+  { label: 'AI & Workflow', tools: ['Claude Code', 'Codex', 'ChatGPT', 'Gemini', 'VS Code', 'Git', 'GitHub'] },
+];
+
 const now = [
   'Going deeper on Python and SQL',
   'Exploring applied machine learning and generative AI',
@@ -127,6 +140,20 @@ const now = [
         Ateneo de Cagayan in Electronics and Communications Engineering, which sits somewhere between
         computers, electronics, and signals.
       </p>
+
+      <section class="story-block">
+        <h2>tools I reach for</h2>
+        <div class="tool-groups">
+          {toolGroups.map((group) => (
+            <div class="tool-group">
+              <h3>{group.label}</h3>
+              <ul>
+                {group.tools.map((tool) => <li>{tool}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section class="story-block">
         <h2>now</h2>
@@ -419,6 +446,59 @@ const now = [
     box-shadow: 0 0 10px var(--glow);
   }
 
+  /* Tools I reach for: 2 x 2 groups of tags */
+  .tool-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 32px;
+    margin-top: 22px;
+  }
+
+  .tool-group h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .tool-group h3::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: var(--purple-400);
+  }
+
+  .tool-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+  }
+
+  .tool-group li {
+    padding: 5px 11px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(19, 15, 31, 0.8);
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text-soft);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .tool-group li:hover {
+    border-color: var(--line-strong);
+    color: var(--purple-300);
+  }
+
   .now-list {
     list-style: none;
     margin: 16px 0 0;
@@ -482,6 +562,13 @@ const now = [
 
     .kpis {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .tool-groups {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
     }
   }
 

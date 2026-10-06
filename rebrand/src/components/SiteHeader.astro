@@ -3,10 +3,11 @@
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const path = Astro.url.pathname.replace(/\/$/, '');
 
-// Placeholder routes: these pages don't exist yet.
+// Projects and Get in Touch are placeholder routes: those pages don't exist yet.
 const links = [
   { label: 'About Me', href: `${base}/about` },
   { label: 'Projects', href: `${base}/projects` },
+  { label: 'Data Studies', href: `${base}/data-studies` },
   { label: 'Insights', href: `${base}/insights` },
   { label: 'Resume', href: `${base}/resume` },
 ];

@@ -36,7 +36,58 @@ These were kept as local assistant notes on the work PC and copied here on
   Projects, Insights, Resume, Get in Touch; menu button at 860px and below),
   homepage hero that always fits in the first screen, About Me (25/75 layout,
   live age counter, KPIs), Resume (PDF download/open, page image rendered with
-  `npm run resume`). Projects, Insights and Get in Touch are placeholder links.
+  `npm run resume`), Insights and Data Studies (built 2026-10-06, see below).
+  Header order: About Me, Projects, Data Studies, Insights, Resume, Get in
+  Touch. Projects built 2026-10-06 (see below). Get in Touch is a placeholder.
+- **Reading pages (Insights + Data Studies):** both use
+  `src/layouts/ReadingLayout.astro` (date/read-time eyebrow, title, intro from
+  `summary`, uncropped banner, 75% article / 25% sticky sidebar, "Next ..."
+  link to the next newer entry, newest wraps to oldest) and
+  `src/layouts/ListLayout.astro` (text-only index, newest first). Sidebar
+  content is `.side-block`s; on phones `side-first` blocks go above the
+  article, others below. Helpers in `src/lib/reading.ts`. Schemas in
+  `src/content.config.ts`. To add an entry, add a folder; nothing else needs
+  updating.
+- **Markdown image patterns** (`src/lib/rehype-figure.mjs`):
+  `![alt](./a.png "Caption")` = captioned figure; two captioned images on one
+  line = side-by-side pair; several uncaptioned images on one line = gallery.
+- **Insights:** `src/content/insights/<slug>/`. Sidebar: `highlights` (above
+  the article on phones) and `tools`; an empty list hides its block. Text
+  ported unchanged from `legacy/insights/`; highlights and tools were drafted
+  by Claude for the user to review. Likes, related carousel and scroll-to-top
+  were intentionally left out.
+- **Data Studies:** `src/content/data-studies/<slug>/` with `index.md`,
+  `banner.png`, charts and the dataset CSV. Frontmatter: `facts` ("At a
+  glance"), `tools`, `dataset` (download button with file size), `repo`,
+  `note` (shown above the article), `copyright` (always rendered last). The
+  whole sidebar sits above the article on phones. Q&A cards are raw
+  `<details>` blocks in the Markdown. Charts, figures and gallery slides open
+  in `src/components/Lightbox.astro`. Ported from `legacy/data-studies/`;
+  the Pokémon slug is now `pokemon-data-study`.
+- **Pokémon type badges:** type names become colored pills with the type
+  icon at build time (`src/lib/rehype-pokemon-types.mjs`, icons in
+  `public/icons/pokemon-types/`). Opt-in per study with frontmatter
+  `typeBadges`: the `##` headings where badges apply. Section 3 is left out
+  on purpose: "Normal Pokémon" there is a rarity class, not a type.
+- **Projects (rebrand):** `src/content/projects/<slug>/` with `index.md`,
+  `banner.png` (page top), `thumb.png` (icon-only, for cards) and any
+  figures. Frontmatter adds `order`, `featured`, `kicker`, `results`
+  (strip above the article; first one also on the card) and `evolution`
+  (timeline). `/projects` shows the featured flagship, then cards, then a
+  hard-coded "Small automations" list in `src/pages/projects/index.astro`.
+  Banners, thumbs and the flagship's architecture diagram are rendered from
+  HTML by `npm run project-art` (`scripts/project-art/`; edit the BANNERS
+  list there). Needs Playwright; see the script header.
+- **Projects privacy rules (user decisions, 2026-10-06):** the work tools are
+  shown with GENERIC names only (Search & Filter Engine, CRM Conversion
+  Engine, CRM Reconciliation Tool, Call Analytics Tool, etc.), never the
+  internal names, the company name, CRM/vendor names on project pages, or
+  links to the old public GitHub repos. Framing is "built at my day job".
+  Use patterns and public resume/old-page metrics only; never schemas,
+  field lists, status policies, folder names or real screenshots. The
+  internal "Database Management Tool Hub Documentation.pdf" sits in the repo
+  root and is ignored only via `.git/info/exclude` (local to each clone):
+  re-add that line on a new PC and never commit the PDF.
 - **Pending idea:** `rebrand/src/data/global_datasphere_1956_2030.csv` (world
   data volume by year) was supplied "to keep in mind". Many rows are
   low-confidence interpolations or assumptions, so any chart must be labeled

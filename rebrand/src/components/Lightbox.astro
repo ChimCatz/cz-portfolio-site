@@ -1,0 +1,201 @@
+---
+// Click-to-enlarge for images inside an element marked [data-zoom]:
+// captioned figures open alone, gallery thumbnails can be stepped through.
+---
+
+<dialog class="lightbox" data-lightbox aria-label="Image viewer">
+  <button class="lb-btn lb-close" type="button" data-lb-close aria-label="Close image viewer">×</button>
+  <button class="lb-btn lb-prev" type="button" data-lb-prev aria-label="Previous image">‹</button>
+  <figure class="lb-figure">
+    <img class="lb-image" alt="" data-lb-image />
+    <figcaption class="lb-caption" data-lb-caption></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" type="button" data-lb-next aria-label="Next image">›</button>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  const image = document.querySelector<HTMLImageElement>('[data-lb-image]');
+  const caption = document.querySelector<HTMLElement>('[data-lb-caption]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-lb-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-lb-next]');
+
+  if (dialog && image && caption && prev && next) {
+    let group: HTMLImageElement[] = [];
+    let index = 0;
+
+    const show = (i: number) => {
+      index = (i + group.length) % group.length;
+      const img = group[index];
+      image.src = img.currentSrc || img.src;
+      image.alt = img.alt;
+      const text = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
+      const count = group.length > 1 ? `${index + 1} / ${group.length}` : '';
+      caption.textContent = [count, text].filter(Boolean).join('  ·  ');
+      caption.hidden = !caption.textContent;
+    };
+
+    const open = (img: HTMLImageElement) => {
+      const gallery = img.closest('.gallery');
+      group = gallery ? Array.from(gallery.querySelectorAll('img')) : [img];
+      prev.hidden = next.hidden = group.length < 2;
+      show(group.indexOf(img));
+      dialog.showModal();
+    };
+
+    document.querySelectorAll<HTMLImageElement>('[data-zoom] figure img, [data-zoom] .gallery img').forEach((img) => {
+      img.classList.add('zoomable');
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', `${img.alt || 'Image'}. Open full size`);
+      img.addEventListener('click', () => open(img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open(img);
+        }
+      });
+    });
+
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+    dialog.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog.close());
+    // Click on the dark backdrop (outside the image) closes it.
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (group.length < 2) return;
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+  }
+</script>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 56px 64px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .lightbox[open] {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(7, 5, 12, 0.92);
+    backdrop-filter: blur(6px);
+  }
+
+  .lb-figure {
+    grid-column: 2;
+    margin: 0;
+    min-height: 0;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .lb-image {
+    max-width: 100%;
+    max-height: calc(100dvh - 160px);
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    pointer-events: auto;
+  }
+
+  .lb-caption {
+    max-width: 72ch;
+    margin-top: 14px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    color: var(--text-muted);
+    pointer-events: auto;
+  }
+
+  .lb-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: rgba(19, 15, 31, 0.9);
+    color: var(--text);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .lb-btn:hover {
+    background: var(--purple-500);
+    border-color: var(--purple-500);
+  }
+
+  .lb-btn[hidden] {
+    visibility: hidden;
+    display: block;
+  }
+
+  .lb-prev {
+    grid-column: 1;
+  }
+
+  .lb-next {
+    grid-column: 3;
+  }
+
+  .lb-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  /* Phones: arrows sit under the image */
+  @media (max-width: 600px) {
+    .lightbox {
+      padding: 64px 12px 24px;
+    }
+
+    .lightbox[open] {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
+      align-content: center;
+    }
+
+    .lb-figure {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    .lb-prev,
+    .lb-next {
+      grid-row: 2;
+      justify-self: center;
+    }
+
+    .lb-prev {
+      grid-column: 1;
+    }
+
+    .lb-next {
+      grid-column: 2;
+    }
+  }
+
+  :global(.zoomable) {
+    cursor: zoom-in;
+  }
+</style>
