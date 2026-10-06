@@ -1,0 +1,135 @@
+---
+// Site-wide scroll motion:
+//  - Reveal: elements matching REVEAL fade and rise in the first time they
+//    scroll into view, staggered when several appear together.
+//  - Count-up: elements with [data-count] count from 0 to their value.
+// Everything is skipped for prefers-reduced-motion. Content is only hidden
+// by this script, never by CSS alone, so nothing stays invisible if it fails,
+// and elements already on screen at load are left alone (no flicker).
+---
+
+<script>
+  const REVEAL = [
+    '.entry-list li',
+    '.cards li',
+    '.automations li',
+    '.story-block',
+    '.reading-body figure',
+    '.reading-body .figure-row',
+    '.reading-body .table-wrap',
+    '.reading-body details',
+    '.reading-body blockquote',
+    '.results',
+    '.next-link',
+  ].join(',');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    // ---- Reveal on scroll ----
+    const all = Array.from(document.querySelectorAll<HTMLElement>(REVEAL));
+    const targets = all.filter(
+      (el) =>
+        el.getBoundingClientRect().top > window.innerHeight * 0.92 && // below the first screen
+        !all.some((other) => other !== el && other.contains(el)), // outermost match only
+    );
+
+    const revealer = new IntersectionObserver(
+      (entries) => {
+        const shown = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left);
+        shown.forEach((entry, i) => {
+          const el = entry.target as HTMLElement;
+          const delay = Math.min(i, 5) * 70;
+          revealer.unobserve(el);
+          el.style.transitionDelay = `${delay}ms`;
+          el.classList.add('is-visible');
+          // Hand the element its own transitions back (e.g. hover effects) once revealed.
+          window.setTimeout(() => {
+            el.classList.remove('reveal', 'is-visible');
+            el.style.transitionDelay = '';
+          }, 650 + delay);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+    );
+
+    targets.forEach((el) => {
+      el.classList.add('reveal');
+      revealer.observe(el);
+    });
+
+    // ---- Count-up numbers ----
+    // "300K+" -> 300 with suffix "K+", "<10 s" -> 10 with prefix "<".
+    // Values with a second number ("15–20 min") or no number ("Ordered") stay as they are.
+    const PATTERN = /^(\D*?)(\d[\d,]*(?:\.\d+)?)(\D*)$/;
+    const counters = Array.from(document.querySelectorAll<HTMLElement>('[data-count]'))
+      .map((el) => {
+        const text = el.textContent?.trim() ?? '';
+        const match = text.match(PATTERN);
+        if (!match) return null;
+        const [, prefix, digits, suffix] = match;
+        const target = Number(digits.replace(/,/g, ''));
+        if (!target) return null;
+        const decimals = digits.split('.')[1]?.length ?? 0;
+        const format = (n: number) =>
+          prefix +
+          n.toLocaleString('en-US', {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+            useGrouping: digits.includes(','),
+          }) +
+          suffix;
+        el.textContent = format(0);
+        return { el, target, format, text };
+      })
+      .filter((c): c is NonNullable<typeof c> => c !== null);
+
+    const run = ({ el, target, format, text }: (typeof counters)[number]) => {
+      const start = performance.now();
+      const duration = 1200;
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = t < 1 ? format(target * eased) : text;
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const counter = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          counter.unobserve(entry.target);
+          const c = counters.find((item) => item.el === entry.target);
+          if (c) run(c);
+        });
+      },
+      { threshold: 0.6 },
+    );
+    counters.forEach((c) => counter.observe(c.el));
+  }
+</script>
+
+<style is:global>
+  /* Hidden state has no transition (instant); only the way in is animated */
+  .reveal {
+    opacity: 0;
+    translate: 0 14px;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    translate: none;
+    transition:
+      opacity 0.55s ease,
+      translate 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* Counting numbers keep a steady width while they change */
+  [data-count] {
+    font-variant-numeric: tabular-nums;
+  }
+</style>

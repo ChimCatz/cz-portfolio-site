@@ -88,6 +88,17 @@ These were kept as local assistant notes on the work PC and copied here on
   internal "Database Management Tool Hub Documentation.pdf" sits in the repo
   root and is ignored only via `.git/info/exclude` (local to each clone):
   re-add that line on a new PC and never commit the PDF.
+- **Animations (2026-10-06):** `src/components/Motion.astro` (in
+  BaseLayout) fades in elements matching its REVEAL list on first scroll
+  into view and counts up `[data-count]` numbers. Project pages draw the
+  evolution timeline (`evo-anim`/`is-drawn` in `projects/[slug].astro`);
+  ReadingLayout has the reading progress bar; the homepage hero has a
+  CSS-only word intro + shine on "Automate.". Rules: JS hides content
+  (never CSS alone), elements on the first screen aren't hidden, only
+  opacity/transform animate, transitions live on the visible state only
+  (putting them on the hidden state caused delayed fade-outs), and
+  everything is off for prefers-reduced-motion. Page transitions (Astro
+  View Transitions with the globe persisted) were offered but not built.
 - **Pending idea:** `rebrand/src/data/global_datasphere_1956_2030.csv` (world
   data volume by year) was supplied "to keep in mind". Many rows are
   low-confidence interpolations or assumptions, so any chart must be labeled

@@ -104,7 +104,7 @@ const now = [
         <ul class="kpis">
           {kpis.map((k) => (
             <li>
-              <span class="kpi-value">{k.value}</span>
+              <span class="kpi-value" data-count>{k.value}</span>
               <span class="kpi-label">{k.label}</span>
               {k.detail && <span class="kpi-detail">{k.detail}</span>}
             </li>
