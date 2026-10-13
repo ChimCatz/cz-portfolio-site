@@ -1,0 +1,73 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/montserrat';
+import '../styles/global.css';
+import GlobeBackground from '../components/GlobeBackground.astro';
+import Motion from '../components/Motion.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Dim the animated globe so long text stays readable (content pages). */
+  dimBackground?: boolean;
+  /** Picture shown when the page is shared (LinkedIn, chat apps). Defaults to the site card. */
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /** 'article' for insights, data studies and case studies */
+  type?: 'website' | 'article';
+  /** Keep the page out of search results (the 404 page) */
+  noindex?: boolean;
+}
+
+const { title, description, dimBackground = false, image, imageAlt, type = 'website', noindex = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Link previews need full addresses, and JPG or PNG: several apps skip WebP.
+// Pages are folders (about/index.html), so their address ends in a slash.
+const path = Astro.url.pathname;
+const canonical = new URL(/\/$|\.html$/.test(path) ? path : `${path}/`, Astro.site).href;
+const shared = image && (await getImage({ src: image, width: Math.min(1200, image.width), format: 'jpg', quality: 82 }));
+const card = shared
+  ? { src: shared.src, width: shared.attributes.width, height: shared.attributes.height, alt: imageAlt }
+  : { src: `${base}/og-card.png`, width: 1200, height: 630, alt: 'CZ Catalan, data analyst: Clean. Analyze. Visualize. Automate.' };
+const cardUrl = new URL(card.src, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07050c" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="sitemap" href={`${base}/sitemap.xml`} />
+
+    <!-- Link previews -->
+    <meta property="og:site_name" content="CZ Catalan" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={cardUrl} />
+    {card.width && <meta property="og:image:width" content={String(card.width)} />}
+    {card.height && <meta property="og:image:height" content={String(card.height)} />}
+    {card.alt && <meta property="og:image:alt" content={card.alt} />}
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class:list={{ 'bg-dim': dimBackground }}>
+    <GlobeBackground />
+    <SiteHeader />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter />
+    <Motion />
+  </body>
+</html>

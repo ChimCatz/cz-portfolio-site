@@ -1,0 +1,455 @@
+---
+// Terms & Policies. Linked from the footer only.
+// Change UPDATED whenever the wording changes; the text says the date marks the current version.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { EMAIL } from '../lib/site';
+
+const UPDATED = 'October 13, 2026';
+
+const sections = [
+  { id: 'about', title: 'About this site' },
+  { id: 'trademarks', title: 'Logos and trademarks' },
+  { id: 'sample-data', title: 'Projects, dashboards, and sample data' },
+  { id: 'copyright', title: 'Copyright and using my content' },
+  { id: 'accuracy', title: 'Accuracy and no warranty' },
+  { id: 'liability', title: 'Limitation of liability' },
+  { id: 'links', title: 'Links to other sites' },
+  { id: 'privacy', title: 'Privacy' },
+  { id: 'security', title: 'Security and reporting a problem' },
+  { id: 'changes', title: 'Changes, governing law, and contact' },
+];
+---
+
+<BaseLayout
+  title="Terms & Policies | CZ Catalan"
+  description="Terms of use, logo and trademark notice, copyright, and privacy policy for the portfolio site of CZ Catalan."
+  dimBackground
+>
+  <article class="container terms">
+    <header>
+      <p class="eyebrow">Last updated {UPDATED}</p>
+      <h1>Terms &amp; <span class="gradient-text">Policies</span></h1>
+      <p class="terms-intro">
+        This is the personal portfolio of Chim Zoe Catalan ("CZ", "I", "me"). By using this website you
+        agree to the terms on this page. If you don't agree with them, please don't use the site.
+      </p>
+    </header>
+
+    <nav class="toc" aria-label="On this page">
+      <ol>
+        {sections.map((s) => (
+          <li><a href={`#${s.id}`}>{s.title}</a></li>
+        ))}
+      </ol>
+    </nav>
+
+    <section id="about">
+      <h2>1. About this site</h2>
+      <p>
+        This is a personal, non-commercial website. It shows my work, my writing, and my background.
+        Nothing is sold here, there are no accounts, and there are no advertisements or affiliate links.
+      </p>
+      <p>
+        The content is general information about my own work. It is not professional, legal, or
+        financial advice, and it is not an offer of services.
+      </p>
+      <p>
+        The opinions on this site are my own. They are not those of my employer, past employers, or
+        any company named on the site.
+      </p>
+    </section>
+
+    <section id="trademarks">
+      <h2>2. Logos and trademarks</h2>
+
+      <div class="callout">
+        <p>
+          <strong>I am not sponsored by, endorsed by, affiliated with, or partnered with any company,
+          product, or tool whose name or logo appears on this website.</strong> The logos are shown
+          for one purpose only: to identify the tools I use in my own work.
+        </p>
+      </div>
+
+      <p>
+        This site shows the names and logos of third-party products and services, mainly under "tools
+        I reach for" on the About Me page, and in the icons that link to my own social profiles. About
+        that use:
+      </p>
+      <ul>
+        <li>
+          <strong>The logos belong to their owners.</strong> Every product name, logo, and brand on
+          this site is the property of its owner. I claim no ownership of, or rights in, any of them.
+        </li>
+        <li>
+          <strong>They are used only to identify.</strong> A logo here means "this is a tool I have
+          worked with" and nothing more. It is not an advertisement, a recommendation, a partnership,
+          or a claim that the owner has reviewed or approved this site or my work.
+        </li>
+        <li>
+          <strong>Nobody paid for or requested it.</strong> No company asked for, paid for, or
+          provided anything in exchange for its logo appearing here, and I earn nothing from showing
+          them.
+        </li>
+        <li>
+          <strong>They are shown as they are.</strong> Each logo is resized to fit one tile size.
+          Where a file included the product name, I show the symbol on its own. The logos are not
+          redrawn or recolored.
+        </li>
+        <li>
+          <strong>Two tiles stand in for a language.</strong> The tile labelled "SQL" uses the MySQL
+          logo and the tile labelled "VBA" uses the Visual Basic logo, as the closest familiar marks
+          for those languages.
+        </li>
+      </ul>
+
+      <p>The marks shown include, among others:</p>
+      <ul>
+        <li>
+          Google Analytics, Google Tag Manager, Google Sheets, BigQuery, and Gemini, which are
+          trademarks of Google LLC.
+        </li>
+        <li>
+          Excel, Visual Basic, Visual Studio Code, and Microsoft Clarity, which are trademarks of the
+          Microsoft group of companies.
+        </li>
+        <li>
+          Zoho CRM, Zoho Analytics, Zoho Marketing Automation, and Deluge, which are trademarks of
+          Zoho Corporation.
+        </li>
+        <li>Claude and Claude Code, which are trademarks of Anthropic.</li>
+        <li>ChatGPT and Codex, which are trademarks of OpenAI.</li>
+        <li>GitHub and the Invertocat logo, which are trademarks of GitHub, Inc.</li>
+        <li>Python and the Python logo, which are trademarks of the Python Software Foundation.</li>
+        <li>MySQL, which is a trademark of Oracle and/or its affiliates.</li>
+        <li>Tableau, which is a trademark of Tableau Software, a Salesforce company.</li>
+        <li>
+          Git, which is a trademark of Software Freedom Conservancy. The Git logo is by Jason Long and
+          is used under the
+          <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0 Unported</a>
+          license.
+        </li>
+        <li>
+          pandas, Matplotlib, Vtiger, Lusha, Apollo, Clay, Pipileads, Mailmeteor, ZeroBounce,
+          LinkedIn, Facebook, and Gmail, whose names and logos belong to their respective owners.
+        </li>
+      </ul>
+      <p>
+        Several of the icons come from the open-source
+        <a href="https://devicon.dev/" target="_blank" rel="noopener">Devicon</a> set (MIT license). That
+        license covers the icon files, not the trademarks they depict.
+      </p>
+      <p>
+        The data studies also name third-party brands, such as Netflix and Pokémon, because those are
+        the subjects of the datasets I analyzed. Those names, and the Pokémon type icons, belong to
+        their owners. The studies are independent analysis and are not connected to those companies.
+      </p>
+      <p>
+        <strong>Rights holders:</strong> if you own or represent one of these marks and want it
+        removed or shown differently, email me at <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and I will
+        change or remove it promptly.
+      </p>
+    </section>
+
+    <section id="sample-data">
+      <h2>3. Projects, dashboards, and sample data</h2>
+      <p>
+        The projects describe tools and dashboards I designed and built. Tool names are generic, and
+        the write-ups cover approaches and results.
+      </p>
+      <ul>
+        <li>
+          The dashboards on this site show <strong>sample data</strong>. Company, client, vendor,
+          website, campaign, and people names in them are sample names, and phone numbers are masked.
+          Any resemblance to a real person or organization is a coincidence.
+        </li>
+        <li>
+          Figures marked as illustrative are illustrative. They show the shape of the work, not a
+          real database.
+        </li>
+        <li>
+          The sample workbook and the search demo on the project pages use made-up data. The
+          companies, people, and counts in them are invented, and any resemblance to a real person
+          or organization is a coincidence.
+        </li>
+        <li>
+          Results quoted in a case study, such as time saved, describe that specific piece of work.
+          They are not a promise of the same result anywhere else.
+        </li>
+        <li>
+          The certificates on the About Me page show courses and certifications I completed. They
+          belong to me and to the organizations that issued them, and they do not make me a
+          representative or partner of those organizations. Please don't copy, alter, or reuse them.
+        </li>
+      </ul>
+    </section>
+
+    <section id="copyright">
+      <h2>4. Copyright and using my content</h2>
+      <p>
+        Unless stated otherwise, the text, case studies, charts, images, design, and code on this
+        site are © Chim Zoe Catalan. All rights reserved.
+      </p>
+      <p>You are welcome to:</p>
+      <ul>
+        <li>read and share links to any page;</li>
+        <li>quote short passages, with credit to me and a link to the source page;</li>
+        <li>look through the site and its code for personal, non-commercial learning.</li>
+      </ul>
+      <p>Please don't, without my written permission:</p>
+      <ul>
+        <li>copy, republish, or redistribute the content or the design;</li>
+        <li>present my projects, write-ups, or certificates as your own;</li>
+        <li>use the content for commercial purposes.</li>
+      </ul>
+      <p>
+        Datasets offered for download on a data study or insight page come with their own note about
+        where the data came from, who owns it, and how it may be used. That note applies to that
+        dataset.
+      </p>
+      <p>
+        The site is built with open-source software, each under its own license: Astro, three.js,
+        and Vanta.js (MIT), and the Space Grotesk and Montserrat typefaces (SIL Open Font License).
+      </p>
+    </section>
+
+    <section id="accuracy">
+      <h2>5. Accuracy and no warranty</h2>
+      <p>
+        I try to keep this site accurate and up to date, but it is provided "as is" and "as
+        available", without warranties of any kind, express or implied. I don't guarantee that the
+        content is complete, current, or free of errors, or that the site will always be available.
+        If you rely on anything here, you do so at your own risk.
+      </p>
+    </section>
+
+    <section id="liability">
+      <h2>6. Limitation of liability</h2>
+      <p>
+        To the fullest extent the law allows, I am not liable for any loss or damage that comes from
+        using this site, from relying on its content, from the site being unavailable, or from any
+        site it links to. Nothing on this page limits a liability that the law does not allow to be
+        limited.
+      </p>
+    </section>
+
+    <section id="links">
+      <h2>7. Links to other sites</h2>
+      <p>
+        This site links to other websites, including LinkedIn, GitHub, and Facebook. I don't control
+        those sites and I am not responsible for their content or for how they handle your data.
+        Their own terms and privacy policies apply once you leave this site.
+      </p>
+    </section>
+
+    <section id="privacy">
+      <h2>8. Privacy</h2>
+      <p>
+        This site is built to collect as little as possible. It has no accounts, no forms, no
+        advertising, and no analytics or tracking scripts. Its pages do not set cookies.
+      </p>
+      <ul>
+        <li>
+          <strong>Hosting.</strong> The site is hosted on GitHub Pages. Like any web host, GitHub
+          logs technical details of each visit, including your IP address, for security purposes. I
+          have no access to those logs. See the
+          <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.
+        </li>
+        <li>
+          <strong>Embedded dashboards.</strong> The dashboards are files stored on this site, but they
+          load a font from Zoho's content delivery network. When you open one, your browser makes a
+          request to Zoho's servers, which receive your IP address and basic browser details, as with
+          any web request. What you do inside a dashboard is not sent anywhere.
+        </li>
+        <li>
+          <strong>Search demo.</strong> The demo on the Search &amp; Filter Engine page runs entirely
+          in your browser. What you type into it is not sent or stored anywhere.
+        </li>
+        <li>
+          <strong>Email.</strong> If you email me, I receive your email address and whatever you
+          write. I use it only to reply to you. I don't sell it, share it, or add it to a mailing
+          list, and I will delete it if you ask.
+        </li>
+        <li>
+          <strong>Children.</strong> This site is not directed at children and does not knowingly
+          collect information from anyone.
+        </li>
+      </ul>
+      <p>
+        <strong>Your rights.</strong> Under the Philippine Data Privacy Act of 2012 (Republic Act No.
+        10173), and under laws such as the GDPR where they apply to you, you may ask what personal
+        data I hold about you and ask me to correct or delete it. Email me at
+        <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. You may also raise a concern with the
+        <a href="https://privacy.gov.ph/" target="_blank" rel="noopener">National Privacy Commission</a>
+        of the Philippines.
+      </p>
+    </section>
+
+    <section id="security">
+      <h2>9. Security and reporting a problem</h2>
+      <p>
+        This is a static website. It has no login, no database, and no server-side code, so there
+        is nothing behind the pages to sign in to or break into. Everything on the site, and in the
+        public repository it is built from, is meant to be public.
+      </p>
+      <ul>
+        <li>
+          The repository is checked automatically for passwords, keys, and private files before
+          anything is published.
+        </li>
+        <li>
+          Please don't try to disrupt the site, probe it with automated tools in a way that harms
+          it, or collect its content in bulk for reuse. Section 4 covers how the content may be
+          used.
+        </li>
+        <li>
+          If you find something that should not be public, such as personal information or a
+          security problem, or if you believe content here infringes your rights, email me at
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. I will look into it and remove or fix it promptly.
+        </li>
+      </ul>
+    </section>
+
+    <section id="changes">
+      <h2>10. Changes, governing law, and contact</h2>
+      <p>
+        I may update this page from time to time. The date at the top shows the current version, and
+        continuing to use the site after a change means you accept the updated terms.
+      </p>
+      <p>These terms are governed by the laws of the Republic of the Philippines.</p>
+      <p>
+        Questions about anything on this page: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .terms {
+    max-width: calc(820px + var(--gutter) * 2);
+    padding-top: calc(var(--header-h) + clamp(32px, 6vh, 64px));
+    padding-bottom: 96px;
+  }
+
+  h1 {
+    margin-top: 14px;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+  }
+
+  .terms-intro {
+    margin-top: 18px;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* Contents: two columns of numbered links */
+  .toc {
+    margin-top: clamp(28px, 4vh, 40px);
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(19, 15, 31, 0.6);
+  }
+
+  .toc ol {
+    columns: 2;
+    column-gap: 32px;
+    margin: 0;
+    padding-left: 1.4em;
+  }
+
+  .toc li {
+    padding: 3px 0;
+    break-inside: avoid;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .toc li::marker {
+    color: var(--purple-400);
+  }
+
+  .toc a {
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .toc a:hover {
+    color: var(--purple-300);
+  }
+
+  section {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    line-height: 1.25;
+  }
+
+  section p,
+  section li {
+    color: var(--text-soft);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  section p {
+    margin-top: 16px;
+  }
+
+  section ul {
+    margin: 12px 0 0;
+    padding-left: 1.3em;
+  }
+
+  section li + li {
+    margin-top: 8px;
+  }
+
+  section li::marker {
+    color: var(--purple-400);
+  }
+
+  section strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  section a {
+    color: var(--purple-400);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    overflow-wrap: anywhere;
+  }
+
+  section a:hover {
+    color: var(--purple-300);
+  }
+
+  /* The statement that matters most on this page */
+  .callout {
+    margin-top: 20px;
+    padding: 18px 20px;
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--purple-500);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  .callout p {
+    margin-top: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 600px) {
+    .toc ol {
+      columns: 1;
+    }
+  }
+</style>

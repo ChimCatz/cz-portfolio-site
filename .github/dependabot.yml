@@ -1,0 +1,19 @@
+# Opens a pull request once a month when a dependency has an update, and
+# sooner for a security fix. Updates of one kind arrive as a single pull request.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /rebrand
+    schedule:
+      interval: monthly
+    groups:
+      site:
+        patterns: ['*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']

@@ -1,0 +1,42 @@
+Copyright (c) 2026 Chim Zoe Catalan
+
+All rights reserved.
+
+This repository contains the source code, written content, case studies,
+charts, images, and design of a personal portfolio website.
+
+You may:
+
+  - view and read the code and content;
+  - clone the repository to study how the site is built, for personal,
+    non-commercial learning;
+  - quote short passages with credit and a link to the source.
+
+Without the written permission of the copyright holder you may not:
+
+  - copy, republish, or redistribute the content, the images, or the design;
+  - present the projects, write-ups, or certificates as your own;
+  - use any part of the repository for commercial purposes;
+  - create a derivative site or portfolio from it.
+
+THE SOFTWARE AND CONTENT ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY
+CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS REPOSITORY.
+
+Things in this repository that belong to others
+
+  - Open-source software keeps its own license: Astro, three.js, and
+    Vanta.js (MIT); the Space Grotesk and Montserrat typefaces (SIL Open
+    Font License); Devicon icons (MIT, see source-files/logos/devicon/LICENSE).
+  - Product names and logos are trademarks of their owners. They are shown
+    only to identify tools used. No sponsorship, endorsement, or affiliation
+    is implied.
+  - Datasets offered for download belong to the organizations or authors
+    named with them and are shared under the terms stated on their page.
+  - The underlying facts and public data referenced in the data studies
+    remain the property of their respective owners.
+
+The site's Terms & Policies page has the full terms of use:
+https://chimcatz.github.io/cz-portfolio-site/terms/
+
+Contact: catalanchimzoe.business@gmail.com

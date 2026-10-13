@@ -1,0 +1,37 @@
+# Runs on every push and pull request: checks the repo for secrets and stray
+# files, then makes sure the site still builds. Publishing is a separate
+# workflow (deploy.yml) that runs the same check first.
+name: Checks
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: rebrand/package-lock.json
+
+      - name: Check for secrets and stray files
+        run: node .github/scripts/repo-check.mjs
+
+      - name: Build the site
+        working-directory: rebrand
+        run: |
+          npm ci
+          npm run build

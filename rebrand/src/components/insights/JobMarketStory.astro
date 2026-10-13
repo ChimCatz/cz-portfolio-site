@@ -1,0 +1,1548 @@
+---
+// Charts, KPI tiles and the job-title search for the insight
+// "Too Many Applicants, Too Few Jobs, and How to Win" (frontmatter `story: job-market`).
+//
+// The article's markup lives in the insight's index.md. This component only
+// brings what the markup needs: the styles (everything is scoped to
+// `.story-job-market`, the class the insight page puts on the article) and the
+// script that draws the charts and runs the search.
+//
+// The numbers are not typed in here by hand. PSA and ONS figures sit in the
+// script as the source tables give them; BLS figures are worked out in the
+// browser from src/data/job-market-occupations.json (831 occupations, built
+// from the BLS files offered for download on the page).
+//
+// Sizes follow the article column, not the screen (container queries), so the
+// layout holds whether the sidebar is beside the article or stacked.
+---
+
+<style is:global>
+  .insight-body.story-job-market {
+    /* Chart palette: brand purple for the series in focus, a quiet violet for the rest */
+    --jm-accent: #a78bfa;
+    --jm-accent-wash: rgba(124, 58, 237, 0.14);
+    --jm-s2: #fbbf24;
+    --jm-s3: #2dd4bf;
+    --jm-neg: #fb7185;
+    --jm-quiet: #4b4170;
+    --jm-muted: #8f88a8;
+    --jm-grid: rgba(167, 139, 250, 0.14);
+    --jm-axis: rgba(167, 139, 250, 0.36);
+    --jm-surface: var(--bg-raised);
+    --jm-card: rgba(19, 15, 31, 0.72);
+
+    container: jm / inline-size;
+
+    > section + section {
+      margin-top: 72px;
+    }
+
+    /* ---------- Text ---------- */
+    h2 {
+      margin: 8px 0 16px;
+      font-size: clamp(1.6rem, 3.2vw, 2.15rem);
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+
+    .sub-h {
+      margin-top: 48px;
+    }
+
+    .byline {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .byline b {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Story beats: the "you are standing in a line" passages */
+    .scene {
+      font-family: var(--font-display);
+      font-size: 1.22rem;
+      font-weight: 500;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .scene.first {
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* "Chapter 1" */
+    .num {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple-400);
+    }
+
+    /* The reader's question, as a pill under the chapter title */
+    .ask {
+      display: inline-block;
+      margin: 0 0 6px;
+      padding: 6px 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .ask b {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .note {
+      margin: 28px 0 0;
+      padding: 16px 20px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--purple-500);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: rgba(124, 58, 237, 0.08);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-soft);
+    }
+
+    .note strong,
+    .twin-cap strong {
+      color: var(--text);
+    }
+
+    /* Source line under a chart or a row of tiles */
+    .src {
+      margin: 12px 0 0;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    /* ---------- The two opening numbers ---------- */
+    .twin {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 36px 0 10px;
+      border-block: 1px solid var(--line);
+    }
+
+    .twin > div {
+      padding: 24px 0;
+    }
+
+    .twin > div + div {
+      padding-left: 28px;
+      border-left: 1px solid var(--line);
+    }
+
+    .twin .big {
+      width: max-content;
+      max-width: 100%;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 12cqi, 5.4rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .twin .where {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .twin .where b {
+      display: block;
+      font-family: var(--font-display);
+      color: var(--text);
+    }
+
+    .twin-cap {
+      margin-top: 16px;
+      font-size: 1.12rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    /* ---------- KPI tiles ---------- */
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 28px 0;
+    }
+
+    /* A group of four sits in one row; a group of three keeps wider tiles */
+    .tiles:has(> .tile:nth-child(4)) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    /* Each tile lines its label, number, context and tag up with its neighbors' (subgrid) */
+    .tile {
+      display: grid;
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+      align-content: start;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--jm-card);
+    }
+
+    .tile .lab {
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    .tile .lab b {
+      color: var(--text);
+    }
+
+    .tile .val {
+      width: max-content;
+      max-width: 100%;
+      margin: 8px 0 4px;
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tile .ctx {
+      margin-bottom: 10px;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .tile .tag {
+      justify-self: start;
+      align-self: end;
+      padding: 1px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--purple-300);
+    }
+
+    /* ---------- Chart cards ---------- */
+    .fig {
+      margin: 32px 0;
+      padding: 22px 22px 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--jm-surface);
+    }
+
+    .fig h4 {
+      font-size: 1.08rem;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .fig .sub {
+      margin: 6px 0 18px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .fig h5 {
+      margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-size: 0.86rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+
+    .duo {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      margin: 0 0 14px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 6px;
+      border-radius: 3px;
+      vertical-align: -1px;
+    }
+
+    /* "View data table" under each chart */
+    details.tbl {
+      margin-top: 14px;
+      font-size: 0.8rem;
+    }
+
+    details.tbl summary {
+      width: max-content;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--purple-400);
+    }
+
+    details.tbl summary:hover {
+      color: var(--purple-300);
+    }
+
+    .tbl-scroll {
+      overflow-x: auto;
+    }
+
+    details.tbl table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+    }
+
+    details.tbl th,
+    details.tbl td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--jm-grid);
+      text-align: right;
+      line-height: 1.45;
+      color: var(--text-soft);
+    }
+
+    details.tbl th:first-child,
+    details.tbl td:first-child {
+      text-align: left;
+    }
+
+    details.tbl th {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--purple-300);
+    }
+
+    /* Horizontal bars */
+    .hb-row {
+      display: grid;
+      grid-template-columns: minmax(96px, var(--labw, 30%)) 1fr;
+      align-items: center;
+      gap: 12px;
+      padding: 5px 0;
+      border-radius: 6px;
+    }
+
+    .hb-row:hover,
+    .hb-row:focus-visible {
+      background: var(--jm-accent-wash);
+    }
+
+    .hb-row.sep {
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--jm-grid);
+      border-radius: 0;
+    }
+
+    .hb-label {
+      font-size: 0.84rem;
+      line-height: 1.3;
+      color: var(--text-muted);
+    }
+
+    .hb-row.hi .hb-label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .hb-track {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 18px;
+    }
+
+    .hb-bar {
+      flex: none;
+      height: 16px;
+      min-width: 2px;
+      border-radius: 0 4px 4px 0;
+      background: var(--jm-quiet);
+    }
+
+    .hb-bar.acc {
+      background: var(--jm-accent);
+    }
+
+    .hb-val {
+      margin-left: 8px;
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: var(--text);
+    }
+
+    .hb-val small {
+      margin-left: 4px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* Stacked segments */
+    .sb .hb-seg {
+      flex: none;
+      height: 16px;
+      margin-right: 2px;
+    }
+
+    .sb .hb-seg:last-of-type {
+      border-radius: 0 4px 4px 0;
+    }
+
+    .sb .hb-seg.a {
+      background: var(--jm-accent);
+    }
+
+    .sb .hb-seg.b {
+      background: var(--jm-s2);
+    }
+
+    .sb .hb-seg.c {
+      background: var(--jm-s3);
+    }
+
+    /* Diverging bars around a shared zero line */
+    .db .hb-track {
+      display: block;
+      height: 18px;
+    }
+
+    .db .hb-bar {
+      position: absolute;
+      top: 1px;
+    }
+
+    .db .hb-bar.neg {
+      border-radius: 4px 0 0 4px;
+    }
+
+    .db .hb-val {
+      position: absolute;
+      top: 0;
+      margin: 0;
+      line-height: 18px;
+    }
+
+    .db .hb-zero {
+      position: absolute;
+      top: -5px;
+      bottom: -5px;
+      width: 1px;
+      background: var(--jm-axis);
+    }
+
+    .hb-bar.negc {
+      background: var(--jm-neg);
+    }
+
+    /* Paired bars (last year against this year) */
+    .pair .hb-track {
+      display: grid;
+      gap: 2px;
+    }
+
+    .pair .hb-line {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Line chart */
+    .lc svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .lc text {
+      font-family: var(--font-body);
+      font-size: 12px;
+      fill: var(--text-muted);
+    }
+
+    .lc .endlab {
+      font-weight: 600;
+      fill: var(--text);
+    }
+
+    .lc .endlab2 {
+      fill: var(--text-soft);
+    }
+
+    /* ---------- The seven reasons ---------- */
+    .factor {
+      margin-top: 56px;
+    }
+
+    .evid {
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* The BLS's own reasoning, quoted from the data */
+    blockquote.bls {
+      margin: 14px 0;
+      padding: 14px 18px;
+      border: 0;
+      border-left: 3px solid var(--jm-axis);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: var(--jm-card);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-soft);
+    }
+
+    blockquote.bls cite {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    /* Ranked skill lists */
+    .ranks {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .ranks h5 {
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--jm-accent);
+    }
+
+    .ranks ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .ranks li {
+      margin-bottom: 4px;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--text-soft);
+    }
+
+    .ranks li::marker,
+    .strat li::marker,
+    .method li::marker,
+    .p-list li::marker {
+      color: var(--purple-400);
+    }
+
+    /* ---------- Job-title search ---------- */
+    .finder {
+      margin: 32px 0 0;
+      padding: 24px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--jm-surface);
+      box-shadow: 0 24px 60px -34px var(--glow);
+    }
+
+    .finder label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .combo {
+      position: relative;
+    }
+
+    .combo input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .combo input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .combo input:focus {
+      outline: none;
+      border-color: var(--purple-400);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+    }
+
+    .combo ul {
+      position: absolute;
+      z-index: 10;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 340px;
+      margin: 0;
+      padding: 6px;
+      overflow-y: auto;
+      list-style: none;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .combo li {
+      padding: 9px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      line-height: 1.35;
+      color: var(--text);
+    }
+
+    .combo li small {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .combo li[aria-selected='true'],
+    .combo li:hover {
+      background: rgba(124, 58, 237, 0.24);
+    }
+
+    .combo li.none {
+      cursor: default;
+      color: var(--text-muted);
+    }
+
+    .combo li.none:hover {
+      background: none;
+    }
+
+    .quick {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .quick button {
+      padding: 4px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.1);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--purple-300);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .quick button:hover {
+      border-color: var(--purple-400);
+      color: var(--text);
+    }
+
+    /* The result for one occupation */
+    #jm-profile {
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    #jm-profile h3 {
+      margin-bottom: 4px;
+      font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+    }
+
+    .p-map {
+      margin: 0 0 18px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .p-map b,
+    .p-why b,
+    .sk-top b {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .p-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+      gap: 16px 22px;
+      margin: 18px 0 8px;
+      padding: 16px 0;
+      border-block: 1px solid var(--jm-grid);
+    }
+
+    .p-stats .lab {
+      font-size: 0.76rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    .p-stats .val {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+    }
+
+    .p-stats .val.sm {
+      padding-top: 3px;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+
+    .p-stats .ctx {
+      font-size: 0.76rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    .p-why {
+      margin: 18px 0 0;
+      padding: 12px 16px;
+      border-left: 3px solid var(--jm-axis);
+      border-radius: 0 8px 8px 0;
+      background: var(--jm-card);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .p-why .flag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 0 8px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      vertical-align: 1px;
+      color: var(--purple-300);
+    }
+
+    .p-cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+      margin-top: 26px;
+    }
+
+    .p-h {
+      margin: 0 0 4px;
+      font-family: var(--font-display);
+      font-size: 0.76rem;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--purple-300);
+    }
+
+    .p-h.gap {
+      margin-top: 26px;
+    }
+
+    .p-hs {
+      margin: 0 0 12px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .sk {
+      margin-bottom: 11px;
+    }
+
+    .sk-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2px 10px;
+      font-size: 0.86rem;
+      line-height: 1.4;
+      color: var(--text-soft);
+    }
+
+    .sk-top span:last-child {
+      font-size: 0.76rem;
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+
+    .sk-track {
+      height: 8px;
+      margin-top: 4px;
+      overflow: hidden;
+      border-radius: 4px;
+      background: var(--jm-grid);
+    }
+
+    .sk-track i {
+      display: block;
+      height: 100%;
+      border-radius: 0 4px 4px 0;
+      background: var(--jm-accent);
+    }
+
+    .sk-el {
+      margin-top: 3px;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+    }
+
+    .ad {
+      display: grid;
+      grid-template-columns: minmax(110px, 44%) 1fr 38px;
+      align-items: center;
+      gap: 10px;
+      padding: 3px 0;
+      font-size: 0.84rem;
+    }
+
+    .ad span:first-child {
+      font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+      color: var(--text-soft);
+    }
+
+    .ad .sk-track {
+      margin: 0;
+    }
+
+    .ad span:last-child {
+      font-size: 0.76rem;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      color: var(--text-muted);
+    }
+
+    .p-list {
+      margin: 0;
+      padding-left: 20px;
+      columns: 2;
+      column-gap: 24px;
+    }
+
+    .p-list li {
+      margin: 0 0 3px;
+      break-inside: avoid;
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .p-empty {
+      padding: 14px 16px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    /* ---------- The eight strategies ---------- */
+    .strats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 32px 0;
+      counter-reset: s;
+    }
+
+    .strat {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 20px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--jm-card);
+      counter-increment: s;
+    }
+
+    .strat::before {
+      content: counter(s, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--purple-400);
+    }
+
+    .strat h3 {
+      margin: 6px 0 8px;
+      font-size: 1.18rem;
+    }
+
+    .strat p {
+      margin: 0 0 12px;
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .strat ul {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+
+    .strat li {
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .strat li b,
+    .strat .why b,
+    .method b {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* The evidence line sits on the bottom edge so a row of cards lines up */
+    .strat .why {
+      margin: auto 0 0;
+      padding-top: 10px;
+      border-top: 1px solid var(--jm-grid);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    /* ---------- Sources and credits ---------- */
+    .method p,
+    .method li {
+      font-size: 0.94rem;
+      line-height: 1.65;
+    }
+
+    .method h3 {
+      margin: 32px 0 10px;
+      font-size: 1.08rem;
+    }
+
+    .method ul,
+    .method ol {
+      margin: 0 0 12px;
+      padding-left: 22px;
+    }
+
+    .method li {
+      margin-bottom: 9px;
+    }
+
+    .method a {
+      overflow-wrap: anywhere;
+    }
+
+    .notice {
+      margin-top: 30px;
+      padding: 18px 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: rgba(124, 58, 237, 0.06);
+    }
+
+    .notice p {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+    }
+
+    .notice p:last-child {
+      margin: 0;
+    }
+
+    /* ---------- Narrower article column (tablets, then phones) ---------- */
+    @container jm (max-width: 700px) {
+      .tiles:has(> .tile:nth-child(4)),
+      .ranks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .p-cols {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @container jm (max-width: 640px) {
+      .duo,
+      .strats {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @container jm (max-width: 520px) {
+      .tiles {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .tile .val {
+        font-size: 1.5rem;
+      }
+
+      .fig,
+      .finder {
+        padding: 18px 16px 16px;
+      }
+
+      /* Bars: the label moves above its bar */
+      .hb-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 3px;
+        padding: 7px 0;
+      }
+
+      .yr {
+        display: none;
+      }
+
+      .twin {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .twin > div + div {
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+    }
+
+    @container jm (max-width: 400px) {
+      .ranks {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .p-list {
+        columns: 1;
+      }
+    }
+  }
+
+  /* Chart tooltip: added to <body> by the script, so it sits outside the article */
+  .jm-tip {
+    position: fixed;
+    z-index: 200;
+    max-width: 280px;
+    padding: 8px 11px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: #1d1630;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text);
+    pointer-events: none;
+  }
+
+  .jm-tip b {
+    font-weight: 600;
+    color: var(--purple-300);
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  // Ported as written from the original standalone page, so the figures it works
+  // out are the same. Only the element ids and color names were changed.
+  import DATA from '../../data/job-market-occupations.json';
+
+  function draw() {
+    var OCC = DATA.occ, SK = DATA.skills, EL = DATA.elements, EDU = DATA.edu, EXP = DATA.exp, OJT = DATA.ojt;
+    var byCode = {};
+    OCC.forEach(function (o) { byCode[o.c] = o; });
+
+    /* ---------- small helpers ---------- */
+    function $(id) { return document.getElementById(id); }
+    function h(tag, attrs, text) {
+      var e = document.createElement(tag), k;
+      for (k in attrs || {}) e.setAttribute(k, attrs[k]);
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+    function signed(v, d) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d == null ? 1 : d); }
+    function thousands(k) { // value given in thousands
+      if (Math.abs(k) >= 1000) return (k / 1000).toFixed(1) + " million";
+      return Math.round(k * 1000).toLocaleString("en-US");
+    }
+    function pct(v, d) { return v.toFixed(d == null ? 1 : d) + "%"; }
+
+    /* ---------- tooltip ---------- */
+    var tip = h("div", { id: "jm-tip", "class": "jm-tip", role: "tooltip" });
+    tip.hidden = true;
+    document.body.append(tip); // on <body>, so nothing in the article can clip or offset it
+    function showTip(html, x, y) {
+      tip.innerHTML = html; tip.hidden = false;
+      var r = tip.getBoundingClientRect(), l = x + 14, t = y + 14;
+      if (l + r.width > innerWidth - 8) l = x - r.width - 14;
+      if (t + r.height > innerHeight - 8) t = y - r.height - 14;
+      tip.style.left = Math.max(8, l) + "px"; tip.style.top = Math.max(8, t) + "px";
+    }
+    function hideTip() { tip.hidden = true; }
+    function bindTip(el, html) {
+      el.addEventListener("mousemove", function (e) { showTip(html, e.clientX, e.clientY); });
+      el.addEventListener("mouseleave", hideTip);
+      el.addEventListener("focus", function () { var r = el.getBoundingClientRect(); showTip(html, r.left + 40, r.bottom - 8); });
+      el.addEventListener("blur", hideTip);
+    }
+
+    /* ---------- table twin ---------- */
+    function table(id, head, rows) {
+      var d = h("details", { "class": "tbl" });
+      d.append(h("summary", null, "View data table"));
+      var wrap = h("div", { "class": "tbl-scroll" }), t = h("table"), tr = h("tr");
+      head.forEach(function (x) { tr.append(h("th", { scope: "col" }, x)); });
+      t.append(tr);
+      rows.forEach(function (r) { var row = h("tr"); r.forEach(function (x) { row.append(h("td", null, x)); }); t.append(row); });
+      wrap.append(t); d.append(wrap); $(id).append(d);
+    }
+
+    /* ---------- horizontal bars (zero-based) ---------- */
+    function hbar(id, rows, scale) {
+      var el = $(id), max = Math.max.apply(null, rows.map(function (r) { return r.value; }));
+      rows.forEach(function (r) {
+        var row = h("div", { "class": "hb-row" + (r.hi ? " hi" : "") + (r.sep ? " sep" : ""), tabindex: "0" });
+        row.append(h("div", { "class": "hb-label" }, r.label));
+        var track = h("div", { "class": "hb-track" });
+        var bar = h("div", { "class": "hb-bar" + (r.hi || r.acc ? " acc" : "") });
+        bar.style.width = (r.value / max * (scale || 84)) + "%";
+        track.append(bar, h("span", { "class": "hb-val" }, r.text));
+        row.append(track); el.append(row);
+        if (r.tip) bindTip(row, r.tip);
+      });
+    }
+
+    /* ---------- stacked bars: parts share one baseline, 2px surface gap ---------- */
+    function sbar(id, rows) {
+      var el = $(id), max = Math.max.apply(null, rows.map(function (r) { return r.parts.reduce(function (a, b) { return a + b; }, 0); }));
+      rows.forEach(function (r) {
+        var row = h("div", { "class": "hb-row" + (r.hi ? " hi" : ""), tabindex: "0" });
+        row.append(h("div", { "class": "hb-label" }, r.label));
+        var track = h("div", { "class": "hb-track" });
+        r.parts.forEach(function (v, i) {
+          if (v <= 0) return;
+          var seg = h("div", { "class": "hb-seg " + "abc"[i] }); seg.style.width = (v / max * 80) + "%"; track.append(seg);
+        });
+        track.append(h("span", { "class": "hb-val" }, r.text));
+        row.append(track); el.append(row);
+        if (r.tip) bindTip(row, r.tip);
+      });
+    }
+
+    /* ---------- diverging bars (shared zero line) ---------- */
+    function dbar(id, rows, colorBySign) {
+      var el = $(id), vals = rows.map(function (r) { return r.value; });
+      var min = Math.min.apply(null, vals.concat(0)), max = Math.max.apply(null, vals.concat(0));
+      var pL = min < 0 ? 20 : 0, pR = 84;
+      function x(v) { return pL + (v - min) / (max - min) * (pR - pL); }
+      var z = x(0);
+      rows.forEach(function (r) {
+        var row = h("div", { "class": "hb-row" + (r.hi ? " hi" : ""), tabindex: "0" });
+        row.append(h("div", { "class": "hb-label" }, r.label));
+        var track = h("div", { "class": "hb-track" });
+        var zero = h("span", { "class": "hb-zero" }); zero.style.left = z + "%";
+        var neg = r.value < 0;
+        var cls = "hb-bar" + (neg ? " neg" : "") + (colorBySign ? (neg ? " negc" : " acc") : (r.hi ? " acc" : ""));
+        var bar = h("div", { "class": cls });
+        bar.style.left = Math.min(z, x(r.value)) + "%"; bar.style.width = Math.abs(x(r.value) - z) + "%";
+        var val = h("span", { "class": "hb-val" }, r.text);
+        if (neg) val.style.right = "calc(" + (100 - x(r.value)) + "% + 6px)"; else val.style.left = "calc(" + x(r.value) + "% + 6px)";
+        track.append(zero, bar, val); row.append(track); el.append(row);
+        if (r.tip) bindTip(row, r.tip);
+      });
+    }
+
+    /* ================= PSA: Philippines, Labor Force Survey July 2025 (thousands) ================= */
+    var PSA = {
+      lf: 48644.27, emp: 46051.09, un: 2593.18,
+      // [age band, labor force, unemployed]  (Table 2)
+      age: [["15 to 24", 5942.30, 1075.34], ["25 to 34", 14058.23, 878.86], ["35 to 44", 11343.66, 314.36], ["45 to 54", 9050.36, 191.34], ["55 to 64", 5779.83, 109.43], ["65 and over", 2469.89, 23.85]],
+      // [highest grade completed, employed, unemployed]  (Tables 4 and 18)
+      edu: [["No grade completed", 501.60, 10.88], ["Elementary", 9321.47, 237.38], ["Junior high school", 18400.83, 755.17], ["Senior high school", 1762.00, 394.11],
+        ["Post-secondary", 1435.05, 73.66], ["College, did not graduate", 4386.79, 271.99], ["College graduate", 10243.35, 850.01]],
+      // [job search method, persons]  (Table 19)
+      search: [["Approached relatives or friends", 598.64], ["Approached the employer directly", 355.86], ["Registered with a private employment agency", 196.51],
+        ["Registered with a public employment agency", 147.90], ["Placed or answered advertisements", 136.02], ["Other methods", 29.64]]
+    };
+    var phAge = PSA.age.map(function (r) {
+      var v = r[2] / r[1] * 100;
+      return { label: r[0], value: v, text: pct(v), hi: r[0] === "15 to 24",
+        tip: "<b>Philippines, aged " + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " of " + thousands(r[1]) + " in the labor force",
+        cells: ["Philippines", r[0], pct(v), Math.round(r[2]).toLocaleString("en-US")] };
+    });
+    var phAll = PSA.un / PSA.lf * 100;
+    hbar("c-phage", phAge.concat([{ label: "All aged 15 and over", value: phAll, text: pct(phAll), sep: true, tip: "<b>Philippines, all aged 15 and over</b><br>" + pct(phAll) + " unemployed<br>" + thousands(PSA.un) + " people" }]), 78);
+
+    /* ================= ONS: UK labour market, May-Jul 2026 ================= */
+    var ageRate = [["16 to 17", 34.0, 162], ["18 to 24", 14.4, 589], ["25 to 34", 4.3, 350], ["35 to 49", 3.0, 361], ["50 to 64", 2.8, 277], ["65 and over", 2.2, 40]];
+    hbar("c-age", ageRate.map(function (r) {
+      return { label: r[0], value: r[1], text: r[1].toFixed(1) + "%", hi: r[0] === "18 to 24",
+        tip: "<b>UK, aged " + r[0] + "</b><br>" + r[1].toFixed(1) + "% unemployed<br>" + r[2].toLocaleString("en-US") + ",000 people" };
+    }).concat([{ label: "All aged 16 and over", value: 4.9, text: "4.9%", sep: true, tip: "<b>UK, all aged 16 and over</b><br>4.9% unemployed<br>1,778,000 people" }]), 78);
+    table("t-phage", ["Country", "Age group", "Unemployment rate", "Unemployed (thousands)"],
+      phAge.map(function (r) { return r.cells; }).concat([["Philippines", "All aged 15 and over", pct(phAll), "2,593"]])
+        .concat(ageRate.map(function (r) { return ["United Kingdom", r[0], r[1].toFixed(1) + "%", r[2].toLocaleString("en-US")]; })).concat([["United Kingdom", "All aged 16 and over", "4.9%", "1,778"]]));
+
+    var ageChg = [["16 to 17", -4, 166, 162], ["18 to 24", 113, 477, 589], ["25 to 34", 27, 323, 350], ["35 to 49", -2, 363, 361], ["50 to 64", -39, 315, 277], ["65 and over", -12, 52, 40]];
+    dbar("c-chg", ageChg.map(function (r) {
+      return { label: r[0], value: r[1], text: signed(r[1], 0) + "k", hi: r[0] === "18 to 24",
+        tip: "<b>Aged " + r[0] + "</b><br>" + r[2] + ",000 in May to Jul 2025<br>" + r[3] + ",000 in May to Jul 2026<br>Change: " + signed(r[1], 0) + ",000" };
+    }));
+    table("t-chg", ["Age group", "May to Jul 2025 (thousands)", "May to Jul 2026 (thousands)", "Change (thousands)"],
+      ageChg.map(function (r) { return [r[0], String(r[2]), String(r[3]), signed(r[1], 0)]; }).concat([["All aged 16 and over", "1,696", "1,778", "+83"]]));
+
+    var Q = ["May–Jul 2025", "Aug–Oct 2025", "Nov–Jan 2026", "Feb–Apr 2026", "May–Jul 2026"];
+    var young = [11.9, 13.4, 14.5, 14.5, 14.4], all = [4.7, 5.1, 5.2, 4.9, 4.9];
+    function lineChart() {
+      var el = $("c-line"), W = Math.max(300, el.clientWidth), small = W < 520;
+      var H = small ? 250 : 300, m = { l: 34, r: small ? 64 : 120, t: 14, b: 34 };
+      var pw = W - m.l - m.r, ph = H - m.t - m.b, ymax = 16;
+      function X(i) { return m.l + pw * i / (Q.length - 1); }
+      function Y(v) { return m.t + ph * (1 - v / ymax); }
+      var s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Line chart: unemployment rate for ages 18 to 24 rose from 11.9% to 14.4% over five quarters while the all-ages rate moved from 4.7% to 4.9%.">';
+      [0, 4, 8, 12, 16].forEach(function (t) {
+        s += '<line x1="' + m.l + '" x2="' + (m.l + pw) + '" y1="' + Y(t) + '" y2="' + Y(t) + '" stroke="var(--jm-' + (t ? "grid" : "axis") + ')"/>';
+        s += '<text x="' + (m.l - 8) + '" y="' + (Y(t) + 4) + '" text-anchor="end">' + t + "%</text>";
+      });
+      Q.forEach(function (q, i) {
+        if (small && i > 0 && i < Q.length - 1) return; // narrow chart: first and last quarter only, or the labels collide
+        s += '<text x="' + X(i) + '" y="' + (H - 10) + '" text-anchor="' + (i === 0 ? "start" : i === Q.length - 1 ? "end" : "middle") + '">' + (small ? q.replace(" 20", " ’") : q) + "</text>";
+      });
+      s += '<line id="jm-lc-x" y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="var(--jm-axis)" visibility="hidden"/>';
+      [[all, "var(--jm-muted)"], [young, "var(--jm-accent)"]].forEach(function (sr) {
+        s += '<polyline fill="none" stroke="' + sr[1] + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="' + sr[0].map(function (v, i) { return X(i) + "," + Y(v); }).join(" ") + '"/>';
+        sr[0].forEach(function (v, i) { s += '<circle cx="' + X(i) + '" cy="' + Y(v) + '" r="4" fill="' + sr[1] + '" stroke="var(--jm-surface)" stroke-width="2"/>'; });
+      });
+      var n = Q.length - 1;
+      s += '<text class="endlab" x="' + (X(n) + 12) + '" y="' + (Y(young[n]) + 4) + '">' + (small ? "14.4%" : "18 to 24: 14.4%") + "</text>";
+      s += '<text class="endlab2" x="' + (X(n) + 12) + '" y="' + (Y(all[n]) + 4) + '">' + (small ? "4.9%" : "All ages: 4.9%") + "</text>";
+      Q.forEach(function (q, i) {
+        var bw = pw / (Q.length - 1);
+        s += '<rect class="lc-hit" data-i="' + i + '" tabindex="0" x="' + (X(i) - bw / 2) + '" y="' + m.t + '" width="' + bw + '" height="' + ph + '" fill="transparent" aria-label="' + q + ": aged 18 to 24 " + young[i] + "%, all ages " + all[i] + '%"/>';
+      });
+      el.innerHTML = s + "</svg>";
+      var cross = el.querySelector("#jm-lc-x");
+      el.querySelectorAll(".lc-hit").forEach(function (r) {
+        var i = +r.getAttribute("data-i");
+        var html = "<b>" + Q[i] + "</b><br>Aged 18 to 24: " + young[i].toFixed(1) + "%<br>All aged 16+: " + all[i].toFixed(1) + "%<br>Gap: " + (young[i] - all[i]).toFixed(1) + " points";
+        function on(x, y) { cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("visibility", "visible"); showTip(html, x, y); }
+        function off() { cross.setAttribute("visibility", "hidden"); hideTip(); }
+        r.addEventListener("mousemove", function (e) { on(e.clientX, e.clientY); });
+        r.addEventListener("mouseleave", off);
+        r.addEventListener("focus", function () { var b = r.getBoundingClientRect(); on(b.left + b.width / 2, b.top + 20); });
+        r.addEventListener("blur", off);
+      });
+    }
+    lineChart();
+    if (window.ResizeObserver) { var lw = 0; new ResizeObserver(function (e) { var w = Math.round(e[0].contentRect.width); if (w !== lw) { lw = w; lineChart(); } }).observe($("c-line")); }
+    table("t-line", ["Quarter", "Aged 18 to 24", "All aged 16 and over", "Gap (points)"],
+      Q.map(function (q, i) { return [q, young[i].toFixed(1) + "%", all[i].toFixed(1) + "%", (young[i] - all[i]).toFixed(1)]; }));
+
+    /* ---- PSA: unemployment rate by highest grade completed ---- */
+    (function () {
+      var rows = PSA.edu.map(function (r) {
+        var v = r[2] / (r[1] + r[2]) * 100;
+        return { label: r[0], value: v, text: pct(v), hi: r[0] === "College graduate",
+          tip: "<b>" + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " unemployed, " + thousands(r[1]) + " employed<br>" + pct(r[2] / PSA.un * 100) + " of all unemployed, " + pct((r[1] + r[2]) / PSA.lf * 100) + " of the labor force",
+          cells: [r[0], Math.round(r[1]).toLocaleString("en-US"), Math.round(r[2]).toLocaleString("en-US"), pct(v), pct((r[1] + r[2]) / PSA.lf * 100), pct(r[2] / PSA.un * 100)] };
+      });
+      hbar("c-phedu", rows.concat([{ label: "All levels", value: phAll, text: pct(phAll), sep: true, tip: "<b>All levels</b><br>" + pct(phAll) + " unemployed" }]));
+      table("t-phedu", ["Highest grade completed", "Employed (thousands)", "Unemployed (thousands)", "Unemployment rate", "Share of labor force", "Share of unemployed"], rows.map(function (r) { return r.cells; }));
+    })();
+
+    /* ---- ONS: duration ---- */
+    var dur = [["Up to 6 months", 281, 337, 19.8], ["6 to 12 months", 85, 120, 41.3], ["Over 12 months", 111, 133, 19.9]];
+    (function () {
+      var el = $("c-dur"), max = 337;
+      dur.forEach(function (r) {
+        var row = h("div", { "class": "hb-row" + (r[0] === "6 to 12 months" ? " hi" : ""), tabindex: "0" });
+        row.append(h("div", { "class": "hb-label" }, r[0]));
+        var track = h("div", { "class": "hb-track" });
+        [[r[1], "", r[1] + "k"], [r[2], " acc", r[2] + "k"]].forEach(function (b, j) {
+          var line = h("div", { "class": "hb-line" }), bar = h("div", { "class": "hb-bar" + b[1] });
+          bar.style.width = (b[0] / max * 64) + "%";
+          var val = h("span", { "class": "hb-val" }, b[2]);
+          if (j) { var sm = h("small", null, signed(r[3], 0) + "%"); sm.append(h("span", { "class": "yr" }, " on the year")); val.append(sm); }
+          line.append(bar, val); track.append(line);
+        });
+        row.append(track); el.append(row);
+        bindTip(row, "<b>" + r[0] + "</b><br>May to Jul 2025: " + r[1] + ",000<br>May to Jul 2026: " + r[2] + ",000<br>Change: " + signed(r[3]) + "%");
+      });
+    })();
+    table("t-dur", ["Time unemployed", "May to Jul 2025 (thousands)", "May to Jul 2026 (thousands)", "Change"],
+      dur.map(function (r) { return [r[0], String(r[1]), String(r[2]), signed(r[3]) + "%"]; }).concat([["All unemployed aged 18 to 24", "477", "589", "+23.6%"]]));
+
+    /* ---- PSA: job search methods ---- */
+    (function () {
+      var tot = PSA.search.reduce(function (a, r) { return a + r[1]; }, 0);
+      var rows = PSA.search.map(function (r, i) {
+        var v = r[1] / tot * 100;
+        return { label: r[0], value: v, text: pct(v, 0), hi: i === 0,
+          tip: "<b>" + r[0] + "</b><br>" + thousands(r[1]) + " people<br>" + pct(v) + " of job-seekers", cells: [r[0], Math.round(r[1]).toLocaleString("en-US"), pct(v)] };
+      });
+      hbar("c-search", rows);
+      table("t-search", ["Job search method", "Persons (thousands)", "Share"], rows.map(function (r) { return r.cells; }));
+    })();
+
+    /* ================= BLS: computed from the embedded occupation data ================= */
+    (function () {
+      var agg = EDU.map(function () { return { e: 0, o: 0, n: 0, ex: 0, tr: 0, gr: 0 }; });
+      OCC.forEach(function (o) {
+        if (o.d < 0) return;
+        var a = agg[o.d]; a.e += o.e; a.o += o.o; a.n++; a.ex += o.e * o.er / 100; a.tr += o.e * o.tr / 100; a.gr += o.n / 10;
+      });
+      var rows = EDU.map(function (name, i) {
+        var a = agg[i], v = a.o / a.e * 100, ex = a.ex / a.e * 100, tr = a.tr / a.e * 100, gr = a.gr / a.e * 100;
+        return { label: name, parts: [ex, tr, Math.max(0, gr)], text: v.toFixed(1), hi: i === 5,
+          tip: "<b>" + esc(name) + "</b><br>" + v.toFixed(1) + " openings a year per 100 jobs<br>" + ex.toFixed(1) + " from people leaving the workforce<br>" + tr.toFixed(1) + " from people changing occupation<br>" + signed(gr) + " from job growth<br>" + a.n + " occupations, " + thousands(a.e) + " jobs",
+          cells: [name, String(a.n), thousands(a.e), thousands(a.o), v.toFixed(1), ex.toFixed(1), tr.toFixed(1), signed(gr)] };
+      });
+      sbar("c-open", rows);
+      table("t-open", ["Typical entry education", "Occupations", "Jobs, 2025", "Openings per year", "Openings per 100 jobs", "Leaving the workforce", "Changing occupation", "Job growth"], rows.map(function (r) { return r.cells; }));
+    })();
+
+    var groups = [["Healthcare support", 8421.5, 13.3], ["Healthcare practitioners and technical", 10232.8, 8.0], ["Life, physical, and social science", 1628.7, 7.5],
+      ["Community and social service", 3270.1, 7.4], ["Computer and mathematical", 5493.6, 7.3], ["Architecture and engineering", 2690.0, 6.8],
+      ["Management", 13683.4, 6.2], ["Business and financial operations", 11368.5, 5.5], ["Installation, maintenance, and repair", 6494.4, 5.4],
+      ["Construction and extraction", 7492.9, 5.1], ["Food preparation and serving", 13826.5, 4.4], ["Personal care and service", 4487.3, 4.4],
+      ["Transportation and material moving", 14139.0, 4.3], ["Legal", 1445.7, 2.9], ["Building and grounds cleaning and maintenance", 5699.6, 2.6],
+      ["Arts, design, entertainment, sports, and media", 2986.0, 1.5], ["Educational instruction and library", 9907.4, 1.4], ["Protective service", 3871.0, 1.1],
+      ["Production", 8780.5, -0.4], ["Sales and related", 14533.2, -1.4], ["Farming, fishing, and forestry", 1036.0, -1.5], ["Office and administrative support", 18792.7, -4.0]];
+    dbar("c-grp", groups.map(function (g) {
+      return { label: g[0], value: g[2], text: signed(g[2]) + "%",
+        tip: "<b>" + esc(g[0]) + "</b><br>" + thousands(g[1]) + " jobs in 2025<br>Projected change: " + signed(g[2]) + "%" };
+    }), true);
+    table("t-grp", ["Occupational group", "Jobs, 2025", "Projected change, 2025 to 2035"], groups.map(function (g) { return [g[0], thousands(g[1]), signed(g[2]) + "%"]; }));
+
+    /* BLS's own reasoning, quoted from the data */
+    function reason(o) { return o.why.replace(/^[^-]+ - /, ""); }
+    (function () {
+      var box = $("bls-quotes");
+      ["43-4051", "43-9021", "15-1251", "13-1151"].forEach(function (code) {
+        var o = byCode[code]; if (!o || !o.why) return;
+        var q = h("blockquote", { "class": "bls" }, "“" + reason(o).replace(/^share/, "Share") + "”");
+        q.append(h("cite", null, o.t + ", projected " + signed(o.g) + "% by 2035. BLS, Table 1.12. “Share” means the occupation’s share of jobs within its industries."));
+        box.append(q);
+      });
+    })();
+
+    (function () {
+      var ba = OCC.filter(function (o) { return o.d === 5; }), cnt = SK.map(function () { return 0; });
+      ba.forEach(function (o) { o.top.forEach(function (i) { cnt[i]++; }); });
+      var rows = SK.map(function (s, i) { return { label: s, value: cnt[i] / ba.length * 100, n: cnt[i] }; })
+        .filter(function (r) { return r.n > 0; }).sort(function (a, b) { return b.value - a.value; });
+      rows.forEach(function (r) { r.text = Math.round(r.value) + "%"; r.acc = true; r.tip = "<b>" + esc(r.label) + "</b><br>Top-three skill in " + r.n + " of " + ba.length + " occupations"; });
+      hbar("c-skill", rows);
+      table("t-skill", ["Skill", "Occupations where it ranks top three", "Share"], rows.map(function (r) { return [r.label, String(r.n), r.value.toFixed(1) + "%"]; }));
+    })();
+
+    /* ================= Skills finder ================= */
+    var COURSERA = {
+      data: ["Data roles", ["Multimodal prompts", "Critical thinking", "AI personalization", "Prompt engineering", "Excel formulas", "Responsible AI", "Natural language processing", "Automation", "Information privacy", "Large language modeling"]],
+      it: ["IT roles", ["JSON", "Generative model architectures", "Machine learning methods", "Natural language processing", "Artificial neural networks", "Prompt engineering", "SQL", "System configuration", "Cybersecurity", "Debugging"]],
+      sw: ["Software and product roles", ["Unsupervised learning", "Supervised learning", "Artificial neural networks", "Generative model architectures", "Web applications", "Natural language processing", "Generative AI", "Prompt engineering", "SQL", "Integrated development environments"]],
+      gen: ["Generative AI skills for any role", ["Content creation", "AI personalization", "Generative AI agents", "Image analysis", "Information privacy", "Critical thinking", "Debugging", "Multimodal prompts", "AI product strategy", "LLM application"]]
+    };
+    function norm(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+    function stem(w) { return w.length > 4 ? w.replace(/ies$/, "y").replace(/(ers|ors|ists|ants)$/, function (m) { return m.slice(0, -1); }).replace(/s$/, "") : w; }
+    function tokens(s) { return norm(s).split(" ").filter(function (w) { return w && !/^(and|or|of|the|all|other|except)$/.test(w); }).map(stem); }
+    function alike(t, w) { // query token vs title token: prefix, or a long shared stem (accounting ~ accountant)
+      if (w.indexOf(t) === 0) return true;
+      var n = 0, m = Math.min(t.length, w.length);
+      while (n < m && t[n] === w[n]) n++;
+      return n >= Math.max(5, m - 3);
+    }
+    var ENTRIES = [];
+    DATA.alias.forEach(function (a) { ENTRIES.push({ label: a.a, occ: byCode[a.c], j: a.j, ct: a.ct, alias: true }); });
+    OCC.forEach(function (o) { ENTRIES.push({ label: o.t, occ: o, alias: false }); });
+    ENTRIES.forEach(function (e) { e.n = norm(e.label); e.tk = tokens(e.label); });
+
+    function search(q) {
+      var qn = norm(q), qt = tokens(q);
+      if (!qn) return [];
+      var out = [];
+      ENTRIES.forEach(function (e) {
+        var s = 0, partial = false;
+        if (e.n === qn) s = 100;
+        else if (e.n.indexOf(qn) === 0) s = 80;
+        else if ((" " + e.n).indexOf(" " + qn) >= 0) s = 70;
+        else if (qt.length) {
+          var hit = 0, wt = 0; // the first word of a title usually names the field, so it counts for more
+          qt.forEach(function (t, i) {
+            if (t.length > 2 && e.tk.some(function (w) { return alike(t, w); })) { hit++; wt += i === 0 ? 0.6 : 0.4 / (qt.length - 1); }
+          });
+          if (hit === qt.length) s = 50 + 10 * hit / e.tk.length;
+          else if (hit && qt.length > 1) { s = 20 * wt; partial = true; }
+        }
+        if (s) out.push({ e: e, p: partial, s: s + (e.alias && !partial ? 4 : 0) + Math.min(3, e.occ.o / 100) });
+      });
+      if (out.filter(function (x) { return !x.p; }).length >= 3) out = out.filter(function (x) { return !x.p; });
+      out.sort(function (a, b) { return b.s - a.s; });
+      return out.slice(0, 8).map(function (x) { return x.e; });
+    }
+
+    var input = $("jm-q"), list = $("jm-q-list"), profile = $("jm-profile"), results = [], active = -1;
+    function closeList() { list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); active = -1; }
+    function renderList() {
+      list.innerHTML = "";
+      if (!input.value.trim()) { closeList(); return; }
+      if (!results.length) {
+        list.append(h("li", { "class": "none", role: "option", "aria-disabled": "true" }, "No match. The BLS groups work into 831 official occupations, so try a broader title such as “analyst”, “designer” or “engineer”."));
+      }
+      results.forEach(function (e, i) {
+        var li = h("li", { role: "option", id: "jm-opt-" + i, "aria-selected": i === active ? "true" : "false" }, e.label);
+        li.append(h("small", null, e.alias ? "Closest official occupation: " + e.occ.t : "BLS occupation · " + (EDU[e.occ.d] || "entry education not stated")));
+        li.addEventListener("mousedown", function (ev) { ev.preventDefault(); choose(e); });
+        list.append(li);
+      });
+      list.hidden = false; input.setAttribute("aria-expanded", "true");
+      if (active >= 0) { input.setAttribute("aria-activedescendant", "jm-opt-" + active); var a = $("jm-opt-" + active); if (a && a.scrollIntoView) a.scrollIntoView({ block: "nearest" }); }
+    }
+    input.addEventListener("input", function () { results = search(input.value); active = -1; renderList(); });
+    input.addEventListener("focus", function () { if (input.value.trim()) { results = search(input.value); renderList(); } });
+    input.addEventListener("blur", function () { setTimeout(closeList, 120); });
+    input.addEventListener("keydown", function (ev) {
+      if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+        if (!results.length) return;
+        ev.preventDefault();
+        active = (active + (ev.key === "ArrowDown" ? 1 : -1) + results.length) % results.length; renderList();
+      } else if (ev.key === "Enter") {
+        if (list.hidden) { results = search(input.value); }
+        if (results.length) { ev.preventDefault(); choose(results[Math.max(0, active)]); }
+      } else if (ev.key === "Escape") { closeList(); }
+    });
+    function choose(e) { input.value = e.label; closeList(); renderProfile(e); }
+
+    function stat(lab, val, ctx, small) { return '<div><div class="lab">' + lab + '</div><div class="val' + (small ? " sm" : "") + '">' + val + '</div><div class="ctx">' + ctx + "</div></div>"; }
+    function renderProfile(e) {
+      var o = e.occ, ads = e.j || o.j, track = e.ct || o.ct, ct = COURSERA[track];
+      var s = "<h3>" + esc(e.label) + "</h3>";
+      s += '<p class="p-map">' + (e.alias ? "Shown using the closest official BLS occupation: <b>" + esc(o.t) + "</b> (" + o.c + ")." : "Official BLS occupation, code " + o.c + ".") + " US figures.</p>";
+      s += '<div class="p-stats">'
+        + stat("Jobs, 2025", thousands(o.e), "&nbsp;")
+        + stat("Projected change to 2035", signed(o.g) + "%", (o.n >= 0 ? "+" : "−") + thousands(Math.abs(o.n)) + " jobs. All occupations: +3.5%")
+        + stat("Openings per year", thousands(o.o), (o.o / o.e * 100).toFixed(1) + " per 100 jobs. All occupations: 10.3")
+        + stat("Median pay, 2025", o.w ? "$" + o.w.toLocaleString("en-US") : "Not published", "Per year")
+        + stat("Typical entry education", esc(EDU[o.d] || "Not stated"), "&nbsp;", true)
+        + stat("Prior work experience", o.xp === 0 ? "None expected" : esc(EXP[o.xp] || "Not stated"), o.xp === 0 ? "Open to new entrants" : "In a related occupation", true)
+        + stat("On-the-job training", o.oj === 0 ? "None typical" : esc((OJT[o.oj] || "Not stated").replace(" on-the-job training", "")), "To become competent", true)
+        + "</div>";
+
+      if (o.why) {
+        s += '<p class="p-why"><b>Why the BLS expects this:</b>' + (o.ai ? '<span class="flag">Names AI</span>' : "") + "<br>" + esc(reason(o).replace(/^share/, "Its share of jobs")) + "</p>";
+      }
+      if (o.er != null) {
+        s += '<p class="p-hs" style="margin:12px 0 0">Each year about ' + (o.er + o.tr).toFixed(1) + " in every 100 people in this occupation leave it: " + o.er.toFixed(1) + " leave the workforce and " + o.tr.toFixed(1) + " move to other work. Across all occupations the figure is 9.7.</p>";
+      }
+
+      var order = SK.map(function (_, i) { return i; }).sort(function (a, b) { return o.s[b] - o.s[a]; }).slice(0, 6);
+      s += '<div class="p-cols"><div><p class="p-h">Skills the work demands</p><p class="p-hs">BLS importance score from 1 to 5, the top six of 17 categories, with the specific abilities behind each.</p>';
+      order.forEach(function (i) {
+        var els = (o.x[i] || []).map(function (j) { return EL[j]; });
+        s += '<div class="sk"><div class="sk-top"><span>' + (o.top.indexOf(i) >= 0 ? "<b>" + esc(SK[i]) + "</b>" : esc(SK[i])) + "</span><span>" + o.s[i].toFixed(1) + " / 5 &middot; above " + Math.min(o.p[i], 99) + "% of occupations</span></div>"
+          + '<div class="sk-track"><i style="width:' + ((o.s[i] - 1) / 4 * 100).toFixed(1) + '%"></i></div>'
+          + (els.length ? '<div class="sk-el">' + esc(els.join(" · ")) + "</div>" : "") + "</div>";
+      });
+      s += '<p class="p-hs" style="margin-top:12px">Bold marks the three skills the BLS lists as highest for this occupation.' + (o.im ? " Skill scores for this occupation are imputed by the BLS from similar occupations." : "") + "</p></div>";
+
+      s += '<div><p class="p-h">Listed in the same job ads</p>';
+      if (ads) {
+        s += '<p class="p-hs">Share of ' + ads[0].toLocaleString("en-US") + " matching job descriptions that also list each skill. Older ads, mostly from South Asian job boards: use this as a checklist of things to recognize, not a list of requirements.</p>";
+        var mx = ads[1][0][1];
+        ads[1].forEach(function (r) { s += '<div class="ad"><span>' + esc(r[0]) + '</span><div class="sk-track"><i style="width:' + (r[1] / mx * 100).toFixed(0) + '%"></i></div><span>' + r[1] + "%</span></div>"; });
+      } else {
+        s += '<div class="p-empty">The job-ad dataset is too thin for this role to give a list I would trust. The skill scores on the left are the official picture.</div>';
+      }
+      if (ct) {
+        s += '<p class="p-h gap">Fastest-growing in 2026</p><p class="p-hs">' + esc(ct[0]) + ": the ten skills climbing fastest in Coursera enrollments." + (track === "gen" ? " Not specific to this occupation." : "") + '</p><ol class="p-list">';
+        ct[1].forEach(function (k) { s += "<li>" + esc(k) + "</li>"; });
+        s += "</ol>";
+      }
+      s += "</div></div>";
+      profile.innerHTML = s;
+    }
+
+    var quick = $("jm-quick");
+    ["Data analyst", "Software engineer", "Accountant", "Graphic designer", "Digital marketer", "Recruiter", "Customer service"].forEach(function (name) {
+      var b = h("button", { type: "button" }, name);
+      b.addEventListener("click", function () { var r = search(name); if (r.length) choose(r[0]); });
+      quick.append(b);
+    });
+    var first = search("Data analyst"); if (first.length) renderProfile(first[0]);
+  }
+
+  // The script is only loaded on this insight, but check the charts are there anyway
+  if (document.getElementById('c-phage')) draw();
+</script>

@@ -1,0 +1,583 @@
+---
+// Estimated size of the world's data by year, drawn at build time from
+// src/data/global_datasphere_1956_2030.csv (About Me).
+//
+// Most of that file is estimates, fill-ins and forecasts, so the chart says so:
+// dots are published estimates, the dotted stretch is filled in between them,
+// and everything after the last published figure is marked as a forecast.
+// The file starts in 1956, but its rows before 1986 are an assumed starting
+// value and a curve drawn from it, so the chart starts at the first
+// research-based figure instead.
+//
+// The lines are an SVG stretched to the plot; every label is HTML placed by
+// percentage, so text stays the same size on a phone.
+import csv from '../data/global_datasphere_1956_2030.csv?raw';
+
+const FROM = 1986;
+// Up the side: 1 PB to 1,000 ZB in gigabytes, as powers of ten (a little headroom on top)
+const Y_MIN = 6;
+const Y_MAX = 15.9;
+const TICKS = [
+  { exp: 6, label: '1 PB' },
+  { exp: 9, label: '1 EB' },
+  { exp: 12, label: '1 ZB' },
+  { exp: 15, label: '1,000 ZB' },
+];
+const PAD_LEFT = 3;
+const PAD_RIGHT = 5;
+
+type Kind = 'published' | 'filled' | 'forecast';
+const BASIS: Record<string, { kind: Kind; label: string }> = {
+  derived: { kind: 'published', label: 'Published estimate' },
+  sourced: { kind: 'published', label: 'Published estimate' },
+  sourced_unverified: { kind: 'published', label: 'Published estimate, read from a chart' },
+  interpolated_model: { kind: 'filled', label: 'Filled in between estimates' },
+  forecast_statista: { kind: 'forecast', label: 'Forecast' },
+  forecast_model: { kind: 'forecast', label: 'Forecast, extended from the trend' },
+};
+
+/** 26000000 GB -> "26 PB" */
+const UNITS = ['GB', 'TB', 'PB', 'EB', 'ZB'];
+function amount(gb: number): string {
+  const unit = Math.min(UNITS.length - 1, Math.floor(Math.log10(gb) / 3));
+  const n = gb / 10 ** (unit * 3);
+  const text = n >= 100 ? Math.round(n).toLocaleString('en-US') : String(Number(n.toFixed(1)));
+  return `${text} ${UNITS[unit]}`;
+}
+
+const rows = csv
+  .trim()
+  .split(/\r?\n/)
+  .slice(1)
+  .map((line) => line.split(','))
+  .filter(([year]) => Number(year) >= FROM)
+  .map(([year, gb, , , , basis]) => {
+    if (!BASIS[basis]) throw new Error(`Unknown basis "${basis}" in the data volume file`);
+    return { year: Number(year), gb: Number(gb), basis, ...BASIS[basis] };
+  });
+
+const TO = rows[rows.length - 1].year;
+const xOf = (year: number) => PAD_LEFT + ((year - FROM) / (TO - FROM)) * (100 - PAD_LEFT - PAD_RIGHT);
+const yOf = (exp: number) => 100 - ((exp - Y_MIN) / (Y_MAX - Y_MIN)) * 100;
+const points = rows.map((row) => ({ ...row, x: xOf(row.year), y: yOf(Math.log10(row.gb)), text: amount(row.gb) }));
+
+// Join the points into stretches of one kind. A step into a forecast year is
+// forecast; a step that touches a filled-in year is filled in.
+const stretches: { kind: Kind; d: string }[] = [];
+for (let i = 1; i < points.length; i++) {
+  const [a, b] = [points[i - 1], points[i]];
+  const kind: Kind = b.kind === 'forecast' ? 'forecast' : a.kind === 'filled' || b.kind === 'filled' ? 'filled' : 'published';
+  const last = stretches[stretches.length - 1];
+  const to = ` L${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
+  if (last?.kind === kind) last.d += to;
+  else stretches.push({ kind, d: `M${a.x.toFixed(2)} ${a.y.toFixed(2)}${to}` });
+}
+
+const line = points.map((p) => `${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' L');
+const area = `M${line} L${points[points.length - 1].x.toFixed(2)} 100 L${points[0].x.toFixed(2)} 100 Z`;
+
+const firstForecast = points.find((p) => p.kind === 'forecast')!;
+const forecastX = (xOf(firstForecast.year - 1) + firstForecast.x) / 2;
+
+// Dots: only the figures somebody published with a method behind them
+const dots = points.filter((p) => p.basis === 'derived' || p.basis === 'sourced');
+// A few values written on the chart; the rest are in the tooltip and the table
+// (the 2020 one is dropped on narrow screens, where it would run into the last one)
+const LABELS: Record<number, string> = { 1986: 'right', 2007: 'left', 2020: 'above', [TO]: 'end' };
+const labels = points.filter((p) => LABELS[p.year]).map((p) => ({ ...p, side: LABELS[p.year] }));
+const decades = points.filter((p) => p.year % 10 === 0);
+
+const hover = points.map((p) => ({ year: p.year, text: p.text, label: p.label, x: +p.x.toFixed(2), y: +p.y.toFixed(2) }));
+const last = points[points.length - 1];
+const lastPublished = dots[dots.length - 1];
+---
+
+<figure class="growth">
+  <figcaption class="growth-head">
+    <strong>Estimated size of the world's data, {FROM} to {TO}</strong>
+    <span>Each line up the side is 1,000 times the one below it.</span>
+  </figcaption>
+
+  <ul class="growth-legend">
+    <li><i class="key key-dot"></i>Published estimate</li>
+    <li><i class="key key-filled"></i>Filled in between estimates</li>
+    <li><i class="key key-forecast"></i>Forecast</li>
+  </ul>
+
+  <div
+    class="growth-plot"
+    data-growth={JSON.stringify(hover)}
+    tabindex="0"
+    role="img"
+    aria-label={`Line chart on a log scale: from ${points[0].text} in ${FROM} to ${lastPublished.text} in ${lastPublished.year}, with a forecast of ${last.text} for ${TO}. Use the left and right arrow keys to read each year.`}
+  >
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="growth-wash" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a78bfa" stop-opacity="0.2"></stop>
+          <stop offset="1" stop-color="#a78bfa" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+      <rect class="forecast-band" x={forecastX} y="0" width={100 - forecastX} height="100"></rect>
+      {TICKS.map((tick) => <line class="grid" x1="0" x2="100" y1={yOf(tick.exp)} y2={yOf(tick.exp)}></line>)}
+      <path class="wash" d={area}></path>
+      {stretches.map((s) => <path class:list={['stretch', s.kind]} d={s.d}></path>)}
+    </svg>
+
+    {TICKS.map((tick) => <span class="tick" style={`top:${yOf(tick.exp)}%`}>{tick.label}</span>)}
+    <span class="forecast-label" style={`left:${forecastX}%`}>Forecast</span>
+
+    {dots.map((p) => <i class="dot" style={`left:${p.x}%;top:${p.y}%`}></i>)}
+    <i class="dot dot-open" style={`left:${last.x}%;top:${last.y}%`}></i>
+    {labels.map((p) => (
+      <span class:list={['value', `value-${p.side}`]} style={`left:${p.x}%;top:${p.y}%`}>
+        <b>{p.text}</b> {p.year}
+      </span>
+    ))}
+
+    <!-- Hover and keyboard readout (placed by the script below) -->
+    <i class="cross" hidden></i>
+    <i class="dot dot-live" hidden></i>
+    <div class="tip" hidden>
+      <b data-tip-value></b>
+      <span data-tip-year></span>
+      <small data-tip-kind></small>
+    </div>
+  </div>
+
+  <div class="growth-years" aria-hidden="true">
+    {decades.map((p) => <span style={`left:${p.x}%`}>{p.year}</span>)}
+  </div>
+
+  <p class="growth-note">
+    These are estimates, not measurements. The dots are published figures: Hilbert and López for
+    {FROM}, and IDC from 2007 on, some of them as reported by Statista. The years between them are
+    filled in, and everything after {lastPublished.year} is a forecast. What gets counted also changed
+    around 2010, when the figures began to include all data created, captured, copied, and consumed,
+    so the early and late numbers are not strictly comparable.
+  </p>
+
+  <details class="growth-table">
+    <summary>See the numbers</summary>
+    <div class="growth-table-scroll">
+      <table>
+        <thead>
+          <tr><th scope="col">Year</th><th scope="col">Estimate</th><th scope="col">Kind of figure</th></tr>
+        </thead>
+        <tbody>
+          {points.map((p) => (
+            <tr><td>{p.year}</td><td>{p.text}</td><td>{p.label}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</figure>
+
+<script>
+  type Point = { year: number; text: string; label: string; x: number; y: number };
+
+  document.querySelectorAll<HTMLElement>('[data-growth]').forEach((plot) => {
+    const points: Point[] = JSON.parse(plot.dataset.growth ?? '[]');
+    const cross = plot.querySelector<HTMLElement>('.cross');
+    const live = plot.querySelector<HTMLElement>('.dot-live');
+    const tip = plot.querySelector<HTMLElement>('.tip');
+    if (!points.length || !cross || !live || !tip) return;
+    const value = tip.querySelector('[data-tip-value]')!;
+    const year = tip.querySelector('[data-tip-year]')!;
+    const kind = tip.querySelector('[data-tip-kind]')!;
+    let current = -1;
+
+    const show = (i: number) => {
+      current = Math.max(0, Math.min(points.length - 1, i));
+      const p = points[current];
+      value.textContent = p.text;
+      year.textContent = String(p.year);
+      kind.textContent = p.label;
+      cross.style.left = live.style.left = `${p.x}%`;
+      live.style.top = `${p.y}%`;
+      cross.hidden = live.hidden = tip.hidden = false;
+      // The readout sits beside the point, on whichever side has room, and never leaves the plot
+      const box = plot.getBoundingClientRect();
+      const px = (p.x / 100) * box.width;
+      const py = (p.y / 100) * box.height;
+      const left = px + 14 + tip.offsetWidth > box.width ? px - 14 - tip.offsetWidth : px + 14;
+      const top = Math.max(0, Math.min(box.height - tip.offsetHeight, py - tip.offsetHeight - 10));
+      tip.style.left = `${Math.max(0, left)}px`;
+      tip.style.top = `${top}px`;
+    };
+
+    const hide = () => {
+      current = -1;
+      cross.hidden = live.hidden = tip.hidden = true;
+    };
+
+    plot.addEventListener('pointermove', (event) => {
+      const box = plot.getBoundingClientRect();
+      const x = ((event.clientX - box.left) / box.width) * 100;
+      let nearest = 0;
+      points.forEach((p, i) => {
+        if (Math.abs(p.x - x) < Math.abs(points[nearest].x - x)) nearest = i;
+      });
+      if (nearest !== current) show(nearest);
+    });
+    plot.addEventListener('pointerleave', hide);
+    plot.addEventListener('blur', hide);
+    plot.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const step = event.key === 'ArrowRight' ? 1 : -1;
+      show(current < 0 ? (step > 0 ? 0 : points.length - 1) : current + step);
+    });
+  });
+</script>
+
+<style>
+  .growth {
+    container-type: inline-size;
+    margin: 22px 0 0;
+    padding: 20px 18px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(19, 15, 31, 0.6);
+  }
+
+  .growth-head strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .growth-head span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  /* Legend: each key is a small copy of the mark it names */
+  .growth-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .growth-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .key {
+    flex: none;
+    width: 22px;
+    height: 0;
+    border-top: 2px solid var(--purple-400);
+  }
+
+  .key-dot {
+    width: 10px;
+    height: 10px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--purple-300);
+  }
+
+  .key-filled {
+    border-top-style: dotted;
+  }
+
+  .key-forecast {
+    border-top-style: dashed;
+    border-color: var(--text-muted);
+  }
+
+  /* Plot */
+  .growth-plot {
+    position: relative;
+    aspect-ratio: 2 / 1;
+    margin-top: 18px;
+    border-radius: 6px;
+    cursor: crosshair;
+    touch-action: pan-y;
+  }
+
+  .growth-plot svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* The SVG is stretched, so strokes keep their own width instead of stretching with it */
+  .growth-plot :is(line, path) {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .grid {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .forecast-band {
+    fill: rgba(167, 139, 250, 0.05);
+  }
+
+  .wash {
+    fill: url(#growth-wash);
+  }
+
+  .stretch {
+    fill: none;
+    stroke: var(--purple-400);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .stretch.filled {
+    stroke-dasharray: 1 6;
+  }
+
+  .stretch.forecast {
+    stroke: var(--text-muted);
+    stroke-dasharray: 7 6;
+    stroke-linecap: butt;
+  }
+
+  .tick,
+  .forecast-label {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+
+  /* Sits on top of its line, at the left edge */
+  .tick {
+    left: 0;
+    translate: 0 calc(-100% - 4px);
+  }
+
+  .forecast-label {
+    bottom: 8px;
+    padding-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* Dots carry a ring in the panel color so the line doesn't run into them */
+  .dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--purple-300);
+    box-shadow: 0 0 0 2px #110d1c;
+    translate: -50% -50%;
+    pointer-events: none;
+  }
+
+  .dot-open {
+    background: #110d1c;
+    box-shadow: inset 0 0 0 2px var(--text-muted);
+  }
+
+  .dot-live {
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.45);
+  }
+
+  .value {
+    position: absolute;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .value b {
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .value-right {
+    translate: 12px -50%;
+  }
+
+  .value-left {
+    translate: calc(-100% - 12px) -50%;
+  }
+
+  .value-above {
+    translate: -50% calc(-100% - 10px);
+  }
+
+  /* The last point: up and to the left, clear of the line that climbs to it */
+  .value-end {
+    translate: calc(-100% + 4px) calc(-100% - 8px);
+  }
+
+  .cross {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line-strong);
+    pointer-events: none;
+  }
+
+  .tip {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    gap: 2px;
+    max-width: 200px;
+    padding: 8px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: rgba(13, 10, 22, 0.96);
+    box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+  }
+
+  .tip b {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .tip span {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: var(--text-soft);
+  }
+
+  .tip small {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: var(--text-muted);
+  }
+
+  .growth-plot [hidden] {
+    display: none;
+  }
+
+  .growth-plot:focus-visible {
+    outline-offset: 6px;
+  }
+
+  /* Years along the bottom */
+  .growth-years {
+    position: relative;
+    height: 1.4em;
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+
+  .growth-years span {
+    position: absolute;
+    translate: -50% 0;
+  }
+
+  .growth .growth-note {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-faint);
+  }
+
+  /* Table view of the same figures */
+  .growth-table {
+    margin-top: 12px;
+  }
+
+  .growth-table summary {
+    width: fit-content;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--purple-300);
+  }
+
+  .growth-table summary:hover {
+    color: var(--text);
+  }
+
+  .growth-table-scroll {
+    max-height: 260px;
+    margin-top: 10px;
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+
+  .growth-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .growth-table th,
+  .growth-table td {
+    padding: 6px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-soft);
+  }
+
+  .growth-table th {
+    position: sticky;
+    top: 0;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple-300);
+    background: #151022;
+  }
+
+  .growth-table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* Narrow: a taller plot, so the climb still reads */
+  @container (max-width: 520px) {
+    .growth-plot {
+      aspect-ratio: 4 / 3.4;
+    }
+
+    .value-above {
+      display: none;
+    }
+  }
+</style>

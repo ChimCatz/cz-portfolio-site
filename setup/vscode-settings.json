@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "Palenight Theme",
+    "sqltools.useNodeRuntime": true,
+    "claudeCode.preferredLocation": "panel",
+    "python.analysis.typeCheckingMode": "basic",
+    "explorer.compactFolders": false,
+    "git.enableSmartCommit": true,
+    "editor.wordWrap": "on",
+    "claudeCode.focusView": false,
+    "claudeCode.hideOnboarding": true,
+    "redhat.telemetry.enabled": true
+}

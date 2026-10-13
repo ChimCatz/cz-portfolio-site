@@ -1,0 +1,710 @@
+---
+// "Try it" on the Search & Filter Engine project page (frontmatter `demo: search`).
+//
+// A small rebuild of the tool's ideas that runs in the visitor's browser on
+// 50,000 made-up rows: type company names and job titles, set the filters,
+// and the matches and the time taken appear as you type. The data and the
+// search itself are in src/lib/search-demo.js; this file is the interface.
+//
+// Nothing is sent anywhere, and nothing here is real: company names are coined
+// from syllables and the rows have no people in them.
+//
+// The rows of the results table are made by the script, so the styles are
+// global and all sit under #try-it. The id also outranks the article's own
+// text styles, which would otherwise restyle the paragraphs and the table.
+import { COUNTRIES, INDUSTRIES, LEVELS, SIZES } from '../../lib/search-demo.js';
+
+const groups = [
+  { key: 'country', label: 'Country', values: COUNTRIES },
+  { key: 'industry', label: 'Industry', values: INDUSTRIES },
+  { key: 'size', label: 'Company size', values: SIZES },
+  { key: 'level', label: 'Job level', values: LEVELS },
+];
+
+const examples = [
+  { id: 'marketing', label: 'Marketing leaders at 200 companies' },
+  { id: 'security', label: 'Security teams, minus analysts' },
+  { id: 'it', label: 'IT decision makers with a phone number, outside banking' },
+];
+---
+
+<section class="search-demo" id="try-it" aria-labelledby="try-it-heading" data-search-demo>
+  <p class="sd-eyebrow">Try it</p>
+  <h2 id="try-it-heading" class="sd-heading">Search 50,000 sample leads</h2>
+  <p class="sd-intro">
+    This is a small rebuild of the same idea, running in your browser. The 50,000 rows are made up on
+    the spot: the companies are invented and there are no people in them. Type company names and job
+    titles, one per line, or start from an example.
+  </p>
+
+  <div class="sd-examples">
+    <span>Examples</span>
+    {examples.map((example) => (
+      <button type="button" data-example={example.id}>{example.label}</button>
+    ))}
+  </div>
+
+  <div class="sd-lists">
+    <label class="sd-list">
+      <span class="sd-label">Companies <small>any spelling, one per line</small></span>
+      <textarea data-companies rows="5" spellcheck="false" autocomplete="off" placeholder="Run an example to fill this in"></textarea>
+    </label>
+    <label class="sd-list">
+      <span class="sd-label">Job titles <small>one per line</small></span>
+      <textarea
+        data-titles
+        rows="5"
+        spellcheck="false"
+        autocomplete="off"
+        placeholder={'Head of Cybersecurity\nMarketing Director\n-Assistant'}></textarea>
+    </label>
+  </div>
+  <p class="sd-hint">Start a line with a minus sign to exclude it. An exclusion always wins.</p>
+
+  <div class="sd-filters">
+    {groups.map((group) => (
+      <div class="sd-group" role="group" aria-label={group.label}>
+        <span class="sd-label">{group.label}</span>
+        <div class="sd-chips">
+          {group.values.map((value, i) => (
+            <button type="button" class="sd-chip" data-filter={group.key} data-index={i} data-state="0" data-name={value}>
+              <span>{value}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    ))}
+    <div class="sd-group" role="group" aria-label="Contact details">
+      <span class="sd-label">Contact details</span>
+      <div class="sd-chips">
+        <button type="button" class="sd-chip" data-flag="email" data-state="0" data-name="Has an email"><span>Has an email</span></button>
+        <button type="button" class="sd-chip" data-flag="phone" data-state="0" data-name="Has a phone number"><span>Has a phone number</span></button>
+      </div>
+    </div>
+  </div>
+  <p class="sd-hint">Click a filter once to include it, twice to exclude it, and a third time to clear it.</p>
+
+  <div class="sd-status">
+    <p class="sd-count" data-status aria-live="polite">Making 50,000 sample rows…</p>
+    <div class="sd-actions">
+      <button type="button" class="btn btn-primary" data-download disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"></path></svg>
+        Download matches (CSV)
+      </button>
+      <button type="button" class="btn btn-ghost" data-reset disabled>Reset</button>
+    </div>
+  </div>
+
+  <ul class="sd-read" data-read hidden></ul>
+
+  <div class="sd-table" tabindex="0" role="region" aria-label="First 100 matching rows">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Company</th>
+          <th scope="col">Job title</th>
+          <th scope="col">Country</th>
+          <th scope="col">Industry</th>
+          <th scope="col">Size</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+        </tr>
+      </thead>
+      <tbody data-rows></tbody>
+    </table>
+    <p class="sd-empty" data-empty hidden>No rows match. Loosen a filter or remove an exclusion.</p>
+  </div>
+
+  <p class="sd-foot" data-foot>
+    The table shows the first 100 matches; the download has all of them. Nothing you type leaves your
+    browser.
+  </p>
+  <noscript><p class="sd-foot">The demo needs JavaScript to run.</p></noscript>
+</section>
+
+<script>
+  import { buildDataset, rowValues, sampleCompanies, search, toCsv, INDUSTRIES } from '../../lib/search-demo.js';
+
+  const root = document.querySelector<HTMLElement>('[data-search-demo]');
+  if (root) {
+    const $ = <T extends HTMLElement>(selector: string) => root.querySelector<T>(selector)!;
+    const companies = $<HTMLTextAreaElement>('[data-companies]');
+    const titles = $<HTMLTextAreaElement>('[data-titles]');
+    const status = $('[data-status]');
+    const read = $('[data-read]');
+    const rows = $('[data-rows]');
+    const empty = $('[data-empty]');
+    const foot = $('[data-foot]');
+    const download = $<HTMLButtonElement>('[data-download]');
+    const reset = $<HTMLButtonElement>('[data-reset]');
+    const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('.sd-chip'));
+    const STATE_WORDS = ['', 'included', 'excluded'];
+    const PREVIEW = 100;
+    const number = (n: number) => n.toLocaleString('en-US');
+
+    let dataset: ReturnType<typeof buildDataset> | undefined;
+    let matches: Int32Array = new Int32Array(0);
+
+    const setChip = (chip: HTMLButtonElement, state: number) => {
+      chip.dataset.state = String(state);
+      // The state is also in the name, so it is not carried by color alone
+      const name = chip.dataset.name ?? '';
+      chip.setAttribute('aria-label', state ? `${name}: ${STATE_WORDS[state]}` : name);
+    };
+
+    const states = (filter: string) =>
+      chips.filter((chip) => chip.dataset.filter === filter).map((chip) => Number(chip.dataset.state));
+    const flag = (name: string) => Number(chips.find((chip) => chip.dataset.flag === name)?.dataset.state ?? 0);
+
+    const cell = (text: string, className?: string) => {
+      const td = document.createElement('td');
+      td.textContent = text;
+      if (className) td.className = className;
+      return td;
+    };
+
+    function run() {
+      if (!dataset) return;
+      const started = performance.now();
+      const result = search(dataset, {
+        companies: companies.value,
+        titles: titles.value,
+        country: states('country'),
+        industry: states('industry'),
+        size: states('size'),
+        level: states('level'),
+        email: flag('email'),
+        phone: flag('phone'),
+      });
+      const took = performance.now() - started;
+      matches = result.matches;
+
+      status.replaceChildren();
+      const strong = document.createElement('b');
+      strong.textContent = number(matches.length);
+      status.append(strong, ` of ${number(dataset.rowCount)} rows match`);
+      const time = document.createElement('span');
+      time.textContent = `searched in ${took < 10 ? took.toFixed(1) : Math.round(took)} ms`;
+      status.append(time);
+
+      // How each line was read, so the matching is not a black box
+      read.replaceChildren();
+      const note = (label: string, text: string, excluded = false) => {
+        const li = document.createElement('li');
+        if (excluded) li.className = 'is-out';
+        const b = document.createElement('b');
+        b.textContent = label;
+        li.append(b, ` ${text}`);
+        read.append(li);
+      };
+      if (result.companies.lines) {
+        note(
+          `${number(result.companies.found)} of ${number(result.companies.lines)}`,
+          'company names were recognized, whatever the spelling',
+        );
+      }
+      result.titles.slice(0, 8).forEach((line) => {
+        const parts = [line.level, line.fn].filter(Boolean) as string[];
+        const kept = line.rest.map((word) => `"${word}"`).join(' and ');
+        let text: string;
+        if (parts.length && kept) text = `${parts.join(' + ')}, with ${kept} in the title`;
+        else if (parts.length === 2) text = parts.join(' + ');
+        else if (line.level) text = `${line.level}, any function`;
+        else if (line.fn) text = `${line.fn}, any level`;
+        else if (kept) text = `titles containing ${kept}`;
+        else return;
+        note(line.text, `${line.exclude ? 'excluded' : 'read'} as ${text}`, line.exclude);
+      });
+      read.hidden = !read.children.length;
+
+      rows.replaceChildren(
+        ...Array.from(matches.subarray(0, PREVIEW), (row) => {
+          const v = rowValues(dataset!, row);
+          const tr = document.createElement('tr');
+          tr.append(
+            cell(v.company),
+            cell(v.title),
+            cell(v.country),
+            cell(v.industry),
+            cell(v.size),
+            cell(v.email ? 'Yes' : 'No', v.email ? undefined : 'is-no'),
+            cell(v.phone ? 'Yes' : 'No', v.phone ? undefined : 'is-no'),
+          );
+          return tr;
+        }),
+      );
+      empty.hidden = matches.length > 0;
+      download.disabled = matches.length === 0;
+    }
+
+    // Typing waits a moment before searching; clicks search straight away
+    let timer = 0;
+    const soon = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(run, 120);
+    };
+    companies.addEventListener('input', soon);
+    titles.addEventListener('input', soon);
+
+    chips.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        setChip(chip, (Number(chip.dataset.state) + 1) % 3);
+        run();
+      }),
+    );
+
+    const clear = () => {
+      companies.value = '';
+      titles.value = '';
+      chips.forEach((chip) => setChip(chip, 0));
+    };
+
+    reset.addEventListener('click', () => {
+      clear();
+      run();
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('[data-example]').forEach((button) =>
+      button.addEventListener('click', () => {
+        start(); // in case the click comes before the rows were made
+        if (!dataset) return;
+        clear();
+        if (button.dataset.example === 'marketing') {
+          companies.value = sampleCompanies(dataset, 200).join('\n');
+          titles.value = 'Marketing Director\nHead of Marketing\nCMO';
+        } else if (button.dataset.example === 'security') {
+          titles.value = 'Cybersecurity\n-Analyst\n-Assistant';
+        } else {
+          titles.value = 'CTO\nVP of IT\nIT Director';
+          const pick = (selector: string) => root.querySelector<HTMLButtonElement>(selector)!;
+          setChip(pick('[data-flag="phone"]'), 1);
+          setChip(pick(`[data-filter="industry"][data-index="${INDUSTRIES.indexOf('Banking & Finance')}"]`), 2);
+        }
+        run();
+      }),
+    );
+
+    download.addEventListener('click', () => {
+      if (!dataset || !matches.length) return;
+      // The mark at the start tells Excel the file is UTF-8
+      const blob = new Blob(['﻿', toCsv(dataset, matches)], { type: 'text/csv;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'sample-leads-search.csv';
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    });
+
+    // Make the rows once the page is idle, so loading the page is not held up
+    const start = () => {
+      if (dataset) return;
+      const began = performance.now();
+      dataset = buildDataset();
+      const took = Math.round(performance.now() - began);
+      foot.textContent = `${number(dataset.rowCount)} rows across ${number(dataset.brands.length)} made-up companies, generated and indexed in ${took} ms. The table shows the first ${PREVIEW} matches; the download has all of them. Nothing you type leaves your browser.`;
+      reset.disabled = false;
+      run();
+    };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 1500 });
+    else window.setTimeout(start, 200);
+  }
+</script>
+
+<style is:global>
+  #try-it {
+    container-type: inline-size;
+    margin: 0;
+    padding: clamp(16px, 3vw, 28px);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: rgba(13, 10, 22, 0.72);
+    box-shadow: 0 24px 60px -36px var(--glow);
+
+    .sd-eyebrow,
+    .sd-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--purple-400);
+    }
+
+    .sd-heading {
+      margin: 8px 0 0;
+      font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+      line-height: 1.2;
+    }
+
+    .sd-intro {
+      margin-top: 12px;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-soft);
+    }
+
+    .sd-hint,
+    .sd-foot {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--text-faint);
+    }
+
+    /* Controls share one look */
+    button,
+    textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    /* Examples */
+    .sd-examples {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .sd-examples span {
+      margin-right: 4px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .sd-examples button {
+      padding: 6px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.12);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.4;
+      text-align: left;
+      color: var(--purple-300);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .sd-examples button:hover {
+      border-color: var(--purple-400);
+      background: rgba(124, 58, 237, 0.24);
+      color: var(--text);
+    }
+
+    /* The two list boxes */
+    .sd-lists {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .sd-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sd-label small {
+      margin-left: 6px;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-faint);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 7.4em;
+      padding: 10px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: rgba(7, 5, 12, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text);
+      resize: vertical;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+    }
+
+    textarea::placeholder {
+      color: var(--text-faint);
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--purple-400);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+    }
+
+    /* Filters: label on the left, chips beside it */
+    .sd-filters {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .sd-group {
+      display: grid;
+      grid-template-columns: 124px minmax(0, 1fr);
+      align-items: baseline;
+      column-gap: 12px;
+    }
+
+    .sd-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .sd-chip {
+      padding: 3px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .sd-chip:hover {
+      border-color: var(--line-strong);
+      color: var(--text);
+    }
+
+    /* Included and excluded differ by a mark and a strike-through as well as by color */
+    .sd-chip[data-state='1'] {
+      border-color: var(--purple-400);
+      background: rgba(124, 58, 237, 0.28);
+      color: var(--text);
+    }
+
+    .sd-chip[data-state='1']::before {
+      content: '✓ ';
+      color: var(--purple-300);
+    }
+
+    .sd-chip[data-state='2'] {
+      border-color: rgba(251, 113, 133, 0.55);
+      background: rgba(251, 113, 133, 0.1);
+      color: #fda4af;
+    }
+
+    .sd-chip[data-state='2'] span {
+      text-decoration: line-through;
+    }
+
+    .sd-chip[data-state='2']::before {
+      content: '✕ ';
+    }
+
+    /* Result line and buttons */
+    .sd-status {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px 20px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .sd-count {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--text-soft);
+    }
+
+    .sd-count b {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .sd-count span {
+      margin-left: 10px;
+      padding-left: 10px;
+      border-left: 1px solid var(--line-strong);
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+    }
+
+    .sd-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sd-actions .btn {
+      padding: 0.6em 1.1em;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .sd-actions .btn-primary {
+      border: 1px solid transparent;
+    }
+
+    .sd-actions .btn-ghost {
+      background: transparent;
+    }
+
+    .sd-actions .btn:disabled {
+      opacity: 0.45;
+      cursor: default;
+      transform: none;
+    }
+
+    .sd-actions svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* How the lines were read */
+    .sd-read {
+      display: grid;
+      gap: 4px;
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      list-style: none;
+      border-radius: var(--radius-sm);
+      background: rgba(124, 58, 237, 0.07);
+    }
+
+    .sd-read[hidden],
+    .sd-empty[hidden] {
+      display: none;
+    }
+
+    .sd-read li {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .sd-read b {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .sd-read .is-out b {
+      text-decoration: line-through;
+      color: #fda4af;
+    }
+
+    /* Preview table: scrolls inside its frame, both ways */
+    .sd-table {
+      max-height: 380px;
+      margin-top: 14px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+    }
+
+    table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    th,
+    td {
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      font-weight: 400;
+      color: var(--text-soft);
+    }
+
+    /* Company and title may wrap; the short columns stay on one line */
+    th,
+    td:nth-child(n + 3) {
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--purple-300);
+      background: #151022;
+    }
+
+    :is(th, td):first-child {
+      padding-left: 12px;
+    }
+
+    td:first-child {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    td.is-no {
+      color: var(--text-faint);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .sd-empty {
+      margin: 0;
+      padding: 28px 16px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Narrow article column: one list box per row, filter labels above their chips */
+    @container (max-width: 560px) {
+      .sd-lists {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .sd-group {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 6px;
+      }
+
+      .sd-count span {
+        display: block;
+        margin: 2px 0 0;
+        padding: 0;
+        border: 0;
+      }
+    }
+  }
+</style>

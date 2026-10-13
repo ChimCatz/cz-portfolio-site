@@ -1,0 +1,390 @@
+---
+// A live dashboard from public/dashboards/ inside a browser-style frame.
+//
+// Zoho Analytics exports are a fixed 1440px wide: they are scaled down to fit
+// the frame (never below MIN_SCALE; below that the frame scrolls sideways).
+// `fluid` pages reflow, so they fill the frame and grow to their own height.
+// Tall dashboards start collapsed behind a "Show full dashboard" button.
+// Several pages become tabs; only the open tab is loaded.
+interface DashboardPage {
+  label: string;
+  /** Path under public/dashboards/ */
+  src: string;
+  /** Page height in px at 1440 wide (fixed-width pages) */
+  height?: number;
+  fluid?: boolean;
+}
+
+interface Props {
+  pages: DashboardPage[];
+}
+
+const { pages } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (page: DashboardPage) => `${base}/dashboards/${page.src}`;
+const first = pages[0];
+const anyFixed = pages.some((page) => !page.fluid);
+---
+
+<section class="dash" data-dash aria-label="Live dashboard">
+  <div class="dash-bar">
+    <span class="dash-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+
+    {pages.length > 1 ? (
+      <div class="dash-tabs" role="tablist" aria-label="Dashboard pages">
+        {pages.map((page, i) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-dash-tab
+            data-src={href(page)}
+            data-height={page.height}
+            data-fluid={page.fluid ? '' : undefined}
+          >
+            {page.label}
+          </button>
+        ))}
+      </div>
+    ) : (
+      <span class="dash-title">{first.label}</span>
+    )}
+
+    <a class="dash-open" href={href(first)} target="_blank" rel="noopener" data-dash-open>
+      Open full screen <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <div class="dash-window">
+    <div class="dash-viewport" data-dash-viewport>
+      <div class="dash-stage" data-dash-stage>
+        <iframe
+          src={href(first)}
+          title={first.label}
+          data-dash-frame
+          data-height={first.height}
+          data-fluid={first.fluid ? '' : undefined}></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-actions">
+    <button type="button" class="btn btn-ghost" aria-expanded="false" data-dash-expand hidden>Show full dashboard</button>
+    <!-- On phones the bar has no room for this link, so it sits here instead. -->
+    <a class="btn btn-ghost dash-open-below" href={href(first)} target="_blank" rel="noopener" data-dash-open>
+      Open full screen <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <p class="dash-caption">
+    Live dashboard with sample data and anonymized names.
+    {anyFixed && <span class="dash-caption-wide">It was designed for a desktop screen, so on a phone it is easier to read in full screen.</span>}
+  </p>
+</section>
+
+<script>
+  const FIXED_WIDTH = 1440; // Zoho Analytics export width
+  const MIN_SCALE = 0.5; // below this the text is unreadable, so the frame scrolls sideways instead
+  const FLUID_FALLBACK = 820; // height of a fluid page until it can be measured
+
+  document.querySelectorAll<HTMLElement>('[data-dash]').forEach((dash) => {
+    const viewport = dash.querySelector<HTMLElement>('[data-dash-viewport]')!;
+    const stage = dash.querySelector<HTMLElement>('[data-dash-stage]')!;
+    const frame = dash.querySelector<HTMLIFrameElement>('[data-dash-frame]')!;
+    const expand = dash.querySelector<HTMLButtonElement>('[data-dash-expand]')!;
+    const openLinks = dash.querySelectorAll<HTMLAnchorElement>('[data-dash-open]');
+    const tabs = Array.from(dash.querySelectorAll<HTMLButtonElement>('[data-dash-tab]'));
+
+    let fluidHeight = FLUID_FALLBACK;
+    let watcher: ResizeObserver | undefined;
+    dash.classList.add('is-enhanced');
+
+    const isFluid = () => frame.dataset.fluid !== undefined;
+    // Collapsed height: most of the screen on desktop, a little over half on phones.
+    const cap = () => Math.round(window.innerHeight * (window.innerWidth <= 700 ? 0.62 : 0.86));
+
+    const layout = () => {
+      const width = viewport.clientWidth;
+      let height: number;
+
+      if (isFluid()) {
+        frame.style.width = '100%';
+        frame.style.height = `${fluidHeight}px`;
+        frame.style.transform = '';
+        stage.style.width = '';
+        height = fluidHeight;
+      } else {
+        const pageHeight = Number(frame.dataset.height) || 900;
+        const scale = Math.max(width / FIXED_WIDTH, MIN_SCALE);
+        frame.style.width = `${FIXED_WIDTH}px`;
+        frame.style.height = `${pageHeight}px`;
+        frame.style.transform = `scale(${scale})`;
+        stage.style.width = `${Math.ceil(FIXED_WIDTH * scale)}px`;
+        height = Math.ceil(pageHeight * scale);
+      }
+      stage.style.height = `${height}px`;
+
+      // Only offer the button when it would reveal a meaningful amount.
+      const tall = height > cap() + 160;
+      expand.hidden = !tall;
+      const collapsed = tall && expand.getAttribute('aria-expanded') !== 'true';
+      dash.classList.toggle('is-collapsed', collapsed);
+      viewport.style.maxHeight = collapsed ? `${cap()}px` : '';
+    };
+
+    // The dashboards are same-origin, so once a page has loaded the frame can be
+    // fitted to it: no scrollbar of its own, and fluid pages report their height
+    // as it changes (filters, tabs, pagination). If the page can't be read, it
+    // keeps its scrollbar and the fallback height.
+    const fit = () => {
+      watcher?.disconnect();
+      try {
+        const doc = frame.contentDocument;
+        if (!doc?.body || doc.location.href === 'about:blank') return;
+        doc.documentElement.style.overflow = 'hidden';
+        if (!isFluid()) return;
+        const read = () => {
+          const next = Math.ceil(doc.body.offsetHeight);
+          if (next > 0 && Math.abs(next - fluidHeight) > 1) {
+            fluidHeight = next;
+            layout();
+          }
+        };
+        watcher = new ResizeObserver(read);
+        watcher.observe(doc.body);
+        read();
+      } catch {
+        // Leave the page as it is.
+      }
+    };
+
+    frame.addEventListener('load', fit);
+    layout();
+    // The first load may have finished before this script ran.
+    if (frame.contentDocument?.readyState === 'complete') fit();
+
+    new ResizeObserver(layout).observe(viewport);
+    window.addEventListener('resize', layout);
+
+    expand.addEventListener('click', () => {
+      const expanded = expand.getAttribute('aria-expanded') === 'true';
+      expand.setAttribute('aria-expanded', String(!expanded));
+      expand.textContent = expanded ? 'Show full dashboard' : 'Show less';
+      layout();
+      if (expanded) dash.scrollIntoView({ block: 'start' });
+    });
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        if (tab.getAttribute('aria-selected') === 'true') return;
+        tabs.forEach((other) => other.setAttribute('aria-selected', String(other === tab)));
+        frame.dataset.height = tab.dataset.height ?? '';
+        if (tab.dataset.fluid !== undefined) frame.dataset.fluid = '';
+        else delete frame.dataset.fluid;
+        frame.title = tab.textContent?.trim() ?? '';
+        frame.src = tab.dataset.src!;
+        openLinks.forEach((link) => (link.href = tab.dataset.src!));
+        viewport.scrollLeft = 0;
+        layout();
+      });
+    });
+  });
+</script>
+
+<style>
+  .dash {
+    margin-top: clamp(28px, 4vh, 40px);
+  }
+
+  /* Browser-style frame */
+  .dash-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 46px;
+    padding: 6px 14px;
+    border: 1px solid var(--line-strong);
+    border-bottom: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: rgba(19, 15, 31, 0.92);
+  }
+
+  .dash-dots {
+    display: flex;
+    flex: none;
+    gap: 6px;
+  }
+
+  .dash-dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+
+  .dash-title {
+    min-width: 0;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--text-muted);
+  }
+
+  .dash-tabs {
+    display: flex;
+    min-width: 0;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .dash-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dash-tabs button {
+    flex: none;
+    padding: 6px 14px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: none;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  .dash-tabs button:hover {
+    color: var(--text);
+  }
+
+  .dash-tabs button[aria-selected='true'] {
+    border-color: var(--line-strong);
+    background: rgba(124, 58, 237, 0.18);
+    color: var(--text);
+  }
+
+  .dash-open {
+    flex: none;
+    margin-left: auto;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--purple-300);
+    transition: color 0.2s;
+  }
+
+  .dash-open:hover {
+    color: var(--text);
+  }
+
+  /* The dashboard itself. Dashboards bring their own (often light) background. */
+  .dash-window {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 0 0 var(--radius) var(--radius);
+    background: #f2f2f2;
+    box-shadow: 0 24px 60px -28px var(--glow);
+  }
+
+  .dash-viewport {
+    overflow: hidden;
+  }
+
+  .dash-stage {
+    overflow: hidden;
+  }
+
+  .dash iframe {
+    display: block;
+    width: 100%;
+    height: 80vh;
+    border: 0;
+    transform-origin: top left;
+  }
+
+  /* Without the script the page simply scrolls inside the frame at 80vh.
+     With it, the frame is sized to the dashboard and may scroll sideways on phones. */
+  .dash.is-enhanced .dash-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+  }
+
+  /* Collapsed: fade the cut edge into the page */
+  .dash.is-collapsed .dash-window::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 120px;
+    background: linear-gradient(180deg, rgba(7, 5, 12, 0), rgba(7, 5, 12, 0.92));
+    pointer-events: none;
+  }
+
+  .dash-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .dash-actions .btn {
+    background: rgba(13, 10, 22, 0.72);
+    cursor: pointer;
+  }
+
+  .dash-actions [hidden],
+  .dash-open-below {
+    display: none;
+  }
+
+  .dash-caption {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .dash-caption-wide {
+    display: none;
+  }
+
+  @media (max-width: 860px) {
+    .dash-caption-wide {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .dash-bar {
+      gap: 10px;
+      padding-inline: 12px;
+    }
+
+    .dash-dots,
+    .dash-bar .dash-open {
+      display: none;
+    }
+
+    .dash-open-below {
+      display: inline-flex;
+    }
+
+    /* Side by side when both fit, otherwise one per row */
+    .dash-actions .btn {
+      flex: 1 1 auto;
+      justify-content: center;
+      white-space: nowrap;
+    }
+  }
+</style>

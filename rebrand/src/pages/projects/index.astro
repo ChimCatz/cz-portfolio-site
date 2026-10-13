@@ -1,0 +1,600 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { entryHref, getSorted, type ReadingEntry } from '../../lib/reading';
+
+type Project = ReadingEntry<'projects'>;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const projects = await getSorted('projects');
+
+// Featured projects get a large row each; the rest go into a grid by category.
+const featured = projects.filter((p) => p.data.featured);
+const rest = projects.filter((p) => !p.data.featured);
+const dashboards = rest.filter((p) => p.data.category === 'dashboard');
+const tools = rest.filter((p) => p.data.category === 'automation');
+
+// "Search & Filter Engine: From Hours ..." -> title "Search & Filter Engine", tagline "From Hours ..."
+const shortTitle = (p: Project) => p.data.title.split(':')[0];
+const tagline = (p: Project) => p.data.tagline ?? p.data.title.split(':')[1]?.trim();
+/** Dashboard projects link straight to the live page as well as the case study. */
+const liveHref = (p: Project) => (p.data.dashboards[0] ? `${base}/dashboards/${p.data.dashboards[0].src}` : undefined);
+/** Dashboard projects show a screenshot of the live page; the rest show an illustration. */
+const isShot = (p: Project) => p.data.dashboards.length > 0;
+/** Frame classes for a project's image. Every frame on the page is the same shape. */
+const shotClass = (p: Project) => ['shot', { 'shot-screen': isShot(p), 'shot-full': p.data.thumbFit === 'full' }];
+/** A `full` image doesn't fill the frame, so the frame takes the image's background color. */
+const shotStyle = (p: Project) => (p.data.thumbBg ? `background-color: ${p.data.thumbBg}` : undefined);
+
+// Smaller tools in the suite: one line each, no page of their own.
+const automations = [
+  {
+    name: 'Email Validation Importer',
+    text: 'Turns email validation results into one CRM update file. When an address appears twice, the most severe status wins.',
+  },
+  {
+    name: 'Campaign Report Formatter',
+    text: "Turns a raw CRM export into each campaign's report table. Formats are saved and edited in the tool, not in code.",
+  },
+  {
+    name: 'Contact Request Builder',
+    text: "Takes a free-text request, pulls out the email addresses, and builds one clean import, flagging contacts with risky history.",
+  },
+  {
+    name: 'Email Campaign Consolidator',
+    text: 'Combines email campaign reports into CRM-ready imports and a password-protected summary workbook.',
+  },
+];
+---
+
+<BaseLayout
+  title="Projects | CZ Catalan"
+  description="Automation tools and dashboards by CZ Catalan: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, and a VoIP call tracking tool built on Google Apps Script."
+  dimBackground
+>
+  <div class="container projects">
+    <header class="projects-head">
+      <p class="eyebrow">Projects</p>
+      <h1>Things I built to take the <span class="gradient-text">busywork</span> out of data.</h1>
+      <p class="projects-intro">
+        Automation tools and dashboards I designed and built. Most started as one tedious task and grew
+        into something used every day. Tool names are generic, and the dashboards show sample data with
+        sample names.
+      </p>
+    </header>
+
+    <ol class="features">
+      {featured.map((project, i) => {
+        const href = entryHref('projects', project);
+        const live = liveHref(project);
+        return (
+          <li class:list={['feature', { flip: i % 2 === 1 }]}>
+            <a class:list={shotClass(project)} style={shotStyle(project)} href={href} tabindex="-1" aria-hidden="true">
+              <Image
+                src={project.data.thumb}
+                alt=""
+                widths={[480, 720, 960, 1440]}
+                sizes="(max-width: 860px) calc(100vw - 32px), 520px"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+            </a>
+
+            <div class="feature-text">
+              <p class="feature-meta">
+                <span class="feature-num">{String(i + 1).padStart(2, '0')}</span>
+                <span>{project.data.kicker}</span>
+              </p>
+              <h2><a href={href}>{shortTitle(project)}</a></h2>
+              {tagline(project) && <p class="feature-tagline">{tagline(project)}</p>}
+              <p class="feature-summary">{project.data.summary}</p>
+
+              {project.data.tools.length > 0 && (
+                <ul class="chips" aria-label="Built with">
+                  {project.data.tools.map((tool) => <li>{tool}</li>)}
+                </ul>
+              )}
+
+              {project.data.results.length > 0 && (
+                <ul class="feature-stats">
+                  {project.data.results.slice(0, 2).map((r) => (
+                    <li>
+                      <b data-count>{r.value}</b>
+                      <span>{r.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <p class="links">
+                <a href={href}>Case study <span aria-hidden="true">↗</span></a>
+                {live && (
+                  <a class="link-quiet" href={live} target="_blank" rel="noopener">
+                    Live dashboard <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+
+    <section class="block" aria-labelledby="dashboards-heading">
+      <h2 id="dashboards-heading" class="block-heading">Dashboards and reporting</h2>
+      <p class="block-intro">
+        Built and maintained in Zoho Analytics. Every case study opens with the live dashboard.
+      </p>
+      <ul class="cards">
+        {dashboards.map((project) => (
+          <li>
+            <a class="card" href={entryHref('projects', project)}>
+              <div class:list={shotClass(project)} style={shotStyle(project)}>
+                <Image
+                  src={project.data.thumb}
+                  alt=""
+                  widths={[360, 540, 720, 1080]}
+                  sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 860px) 50vw, 330px"
+                />
+              </div>
+              <p class="card-kicker">{project.data.kicker}</p>
+              <h3>{shortTitle(project)}</h3>
+              <p class="card-summary">{project.data.summary}</p>
+              {project.data.flow.length > 0 && (
+                <p class="card-flow">
+                  {project.data.flow.map((step, n) => (
+                    <Fragment>
+                      {n > 0 && <i aria-hidden="true">→</i>}
+                      <span>{step}</span>
+                    </Fragment>
+                  ))}
+                </p>
+              )}
+              <span class="card-link">Case study <span aria-hidden="true">↗</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="block-heading">Automation tools</h2>
+      <p class="block-intro">The tools inside the Python suite, and the Excel workbook that came before them.</p>
+      <ul class="cards">
+        {tools.map((project) => {
+          const headline = project.data.results[0];
+          return (
+            <li>
+              <a class="card" href={entryHref('projects', project)}>
+                <div class:list={shotClass(project)} style={shotStyle(project)}>
+                  <Image
+                    src={project.data.thumb}
+                    alt=""
+                    widths={[360, 540, 720, 1080]}
+                    sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 860px) 50vw, 330px"
+                  />
+                </div>
+                <p class="card-kicker">{project.data.kicker}</p>
+                <h3>{shortTitle(project)}</h3>
+                <p class="card-summary">{project.data.summary}</p>
+                {headline && (
+                  <p class="card-headline"><b>{headline.value}</b> {headline.label}</p>
+                )}
+                <span class="card-link">Case study <span aria-hidden="true">↗</span></span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="automations-heading">
+      <h2 id="automations-heading" class="block-heading">Small automations</h2>
+      <p class="block-intro">
+        Smaller tools in the same suite. Each one removes a single repetitive step, which adds up across a week.
+      </p>
+      <ul class="automations">
+        {automations.map((item) => (
+          <li>
+            <h3>{item.name}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <p class="closing">
+      Want the details behind any of these?
+      <a href={`${base}/contact`}>Get in touch <span aria-hidden="true">→</span></a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects {
+    padding-top: calc(var(--header-h) + clamp(32px, 6vh, 64px));
+    padding-bottom: 96px;
+  }
+
+  .projects-head {
+    max-width: 820px;
+  }
+
+  .projects-head h1 {
+    margin-top: 14px;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    text-wrap: balance;
+  }
+
+  .projects-intro {
+    margin-top: 18px;
+    max-width: 62ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  /* The image frame (.shot) is in global.css: the homepage uses the same one. */
+
+  /* ---------- Featured rows: image and text side by side, alternating ---------- */
+  .features {
+    display: grid;
+    gap: clamp(56px, 10vh, 104px);
+    margin: clamp(48px, 8vh, 80px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(32px, 5vw, 64px);
+  }
+
+  .feature.flip .shot {
+    order: 2;
+  }
+
+  .feature:hover .shot,
+  .card:hover .shot {
+    border-color: var(--purple-400);
+    box-shadow: 0 24px 60px -30px var(--glow);
+    transform: translateY(-3px);
+  }
+
+  .feature-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
+  .feature-num {
+    color: var(--text-faint);
+  }
+
+  .feature-num::after {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    margin-left: 12px;
+    vertical-align: middle;
+    background: var(--line-strong);
+  }
+
+  .feature h2 {
+    margin-top: 12px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  .feature h2 a {
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .feature h2 a:hover {
+    color: var(--purple-300);
+  }
+
+  .feature-tagline {
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .feature-summary {
+    margin-top: 16px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-soft);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips li {
+    padding: 3px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(19, 15, 31, 0.8);
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .feature-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature-stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .feature-stats b,
+  .card-headline b {
+    font-family: var(--font-display);
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .feature-stats b {
+    font-size: 1.6rem;
+    line-height: 1.15;
+  }
+
+  .feature-stats span {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  /* Text links under a row */
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: 22px;
+  }
+
+  .links a,
+  .card-link,
+  .closing a {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--purple-300);
+    transition: color 0.2s;
+  }
+
+  .links a:hover,
+  .closing a:hover {
+    color: var(--text);
+  }
+
+  .links .link-quiet {
+    color: var(--text-muted);
+  }
+
+  /* ---------- Sections: gradient rule + spaced caps, as on About Me ---------- */
+  .block {
+    margin-top: clamp(64px, 11vh, 112px);
+    padding-top: clamp(32px, 5vh, 48px);
+    border-top: 1px solid var(--line);
+  }
+
+  .block-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple-300);
+  }
+
+  .block-heading::before {
+    content: '';
+    flex: none;
+    width: 36px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--brand-gradient);
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  .block-intro {
+    margin-top: 12px;
+    max-width: 640px;
+    color: var(--text-muted);
+  }
+
+  /* ---------- Cards: a framed image with plain text under it ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px 28px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cards li {
+    display: flex;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-kicker {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
+  .card h3 {
+    margin-top: 6px;
+    font-size: 1.2rem;
+    line-height: 1.25;
+    transition: color 0.2s;
+  }
+
+  .card:hover h3 {
+    color: var(--purple-300);
+  }
+
+  .card-summary {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .card-headline {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .card-headline b {
+    font-size: 1.1rem;
+  }
+
+  .card-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 6px;
+    margin-top: 12px;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .card-flow i {
+    font-style: normal;
+    color: var(--purple-400);
+  }
+
+  /* The link sits at the bottom so a row of cards lines up */
+  .card-link {
+    margin-top: auto;
+    padding-top: 14px;
+  }
+
+  .card:hover .card-link {
+    color: var(--text);
+  }
+
+  /* ---------- Small automations: a plain two-column list ---------- */
+  .automations {
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .automations li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+    align-items: baseline;
+    column-gap: 32px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .automations li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .automations h3 {
+    font-size: 1.02rem;
+    line-height: 1.35;
+  }
+
+  .automations p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .closing {
+    margin-top: clamp(56px, 9vh, 88px);
+    font-size: 1.05rem;
+    color: var(--text-muted);
+  }
+
+  .closing a {
+    margin-left: 6px;
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  /* Tablets: rows stack with the image on top, cards go two across */
+  @media (max-width: 860px) {
+    .feature {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 24px;
+    }
+
+    .feature.flip .shot {
+      order: 0;
+    }
+
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .automations li {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 4px;
+    }
+  }
+</style>

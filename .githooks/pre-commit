@@ -1,0 +1,4 @@
+#!/bin/sh
+# Stops a commit that would add a secret, a stray document, or a blocked term.
+# Turn it on once per clone:  git config core.hooksPath .githooks
+exec node .github/scripts/repo-check.mjs --staged

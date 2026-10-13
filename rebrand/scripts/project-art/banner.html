@@ -1,0 +1,184 @@
+<!doctype html>
+<!-- Project banner template (1600 x 640), or an icon-only card thumbnail with
+     variant "thumb" (1200 x 480). Filled from the URL hash by render.cjs. -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face {
+    font-family: 'Space Grotesk';
+    src: url('../../node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2') format('woff2');
+    font-weight: 300 700;
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    src: url('../../node_modules/@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2') format('woff2');
+    font-weight: 100 900;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    width: 1600px;
+    height: 640px;
+    overflow: hidden;
+    background: #07050c;
+  }
+
+  body {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    color: #f3f0fa;
+  }
+
+  /* Glow + faint grid */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(55% 75% at 92% 8%, rgba(124, 58, 237, 0.42), transparent 70%),
+      radial-gradient(45% 65% at 6% 100%, rgba(76, 29, 149, 0.38), transparent 70%),
+      repeating-linear-gradient(0deg, rgba(167, 139, 250, 0.055) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, rgba(167, 139, 250, 0.055) 0 1px, transparent 1px 48px);
+  }
+
+  .wrap {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 236px 1fr;
+    align-items: center;
+    gap: 72px;
+    padding: 0 96px;
+  }
+
+  .icon {
+    width: 236px;
+    height: 236px;
+    display: grid;
+    place-items: center;
+    border-radius: 52px;
+    background: linear-gradient(145deg, rgba(124, 58, 237, 0.42), rgba(46, 26, 92, 0.7));
+    border: 2px solid rgba(196, 181, 253, 0.38);
+    box-shadow: 0 0 90px rgba(124, 58, 237, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .icon svg {
+    width: 128px;
+    height: 128px;
+    fill: none;
+    stroke: #ede9fe;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .kicker {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #a78bfa;
+  }
+
+  .title {
+    margin: 14px 0 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 66px;
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+
+  .stats {
+    display: flex;
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  .stat {
+    padding: 16px 26px 18px;
+    border: 1px solid rgba(167, 139, 250, 0.28);
+    border-radius: 18px;
+    background: rgba(19, 15, 31, 0.78);
+  }
+
+  .stat b {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(120deg, #c4b5fd 0%, #a78bfa 45%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stat span {
+    display: block;
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #aaa3bd;
+  }
+
+  .mark {
+    position: absolute;
+    right: 48px;
+    bottom: 34px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #6f6884;
+  }
+
+  .mark i {
+    font-style: normal;
+    color: #a78bfa;
+  }
+
+  /* Card thumbnail: just the icon, centered (safe to crop) */
+  .thumb, .thumb body { width: 1200px; height: 480px; }
+  .thumb .wrap { display: grid; grid-template-columns: 1fr; place-items: center; padding: 0; }
+  .thumb .wrap > div:last-child, .thumb .mark { display: none; }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="wrap">
+    <div class="icon"><svg viewBox="0 0 24 24" id="icon"></svg></div>
+    <div>
+      <div class="kicker" id="kicker"></div>
+      <h1 class="title" id="title"></h1>
+      <div class="stats" id="stats"></div>
+    </div>
+  </div>
+  <div class="mark">cz<i>.</i>catzzz</div>
+
+  <script>
+    // Simple line icons on a 24 x 24 grid
+    const ICONS = {
+      suite: '<rect x="2.5" y="2.5" width="5" height="5" rx="1.2"/><rect x="9.5" y="2.5" width="5" height="5" rx="1.2"/><rect x="16.5" y="2.5" width="5" height="5" rx="1.2"/><rect x="2.5" y="9.5" width="5" height="5" rx="1.2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1.2"/><rect x="16.5" y="9.5" width="5" height="5" rx="1.2"/><rect x="2.5" y="16.5" width="5" height="5" rx="1.2"/><rect x="9.5" y="16.5" width="5" height="5" rx="1.2"/><rect x="16.5" y="16.5" width="5" height="5" rx="1.2"/>',
+      search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 21 21"/><path d="M7.5 9h6M7.5 12h4"/>',
+      convert: '<path d="M3 8h15m0 0-4-4m4 4-4 4"/><path d="M21 16H6m0 0 4-4m-4 4 4 4"/>',
+      merge: '<circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 7.5v9"/><path d="M6 7.5c0 4.5 4 4.5 9.5 4.5"/>',
+      calls: '<path d="M3 21h18"/><path d="M6 17v-4M10 17V9M14 17v-6M18 17V7"/><path d="M15 3.5a5 5 0 0 1 5.5 5.5"/><path d="M15 6.5a2 2 0 0 1 2.5 2.5"/>',
+      table: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v16M15 9v11"/>',
+      sheet: '<path d="M6 2.5h9l5 5V21.5H6z"/><path d="M15 2.5v5h5"/><path d="M9 12h8M9 16h8M12.5 10v8"/>',
+    };
+
+    const data = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+    if (data.variant === 'thumb') document.documentElement.classList.add('thumb');
+    document.getElementById('icon').innerHTML = ICONS[data.icon];
+    document.getElementById('kicker').textContent = data.kicker;
+    document.getElementById('title').textContent = data.title;
+    document.getElementById('stats').innerHTML = data.stats
+      .map(([value, label]) => `<div class="stat"><b>${value}</b><span>${label}</span></div>`)
+      .join('');
+  </script>
+</body>
+</html>

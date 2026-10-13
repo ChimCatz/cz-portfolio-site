@@ -1,0 +1,112 @@
+---
+// Shown by GitHub Pages for any address on the site that doesn't exist.
+// Links from the old site (pages ending in .html) are sent on to where that
+// content lives now; everything else gets the page below.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_LINK, HOME_HREF, NAV_LINKS } from '../lib/site';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<BaseLayout
+  title="Page not found | CZ Catalan"
+  description="That page doesn't exist. The site was rebuilt, so some older links have moved."
+  dimBackground
+  noindex
+>
+  <!-- Runs before the text below is drawn, so an old link moves on straight away -->
+  <script is:inline define:vars={{ base }}>
+    (function () {
+      var path = location.pathname.slice(base.length).replace(/^\/+/, '');
+      // Old data study folder -> new page name, where the name changed
+      var studies = { 'pokemon-gen1to9-datastudy': 'pokemon-data-study' };
+      var to;
+      var m;
+      if ((m = path.match(/^insights\/([^/]+)\.html$/))) to = '/insights/' + m[1];
+      else if ((m = path.match(/^data-studies\/([^/]+)\//))) to = '/data-studies/' + (studies[m[1]] || m[1]);
+      else if (/^projects\/[^/]+\.html$/.test(path)) to = '/projects';
+      if (to) location.replace(base + to);
+    })();
+  </script>
+
+  <div class="container lost">
+    <p class="eyebrow">Error 404</p>
+    <h1>This page went <span class="gradient-text">missing.</span></h1>
+    <p class="lost-intro">
+      The address doesn't match anything on the site. I rebuilt the site recently, so an older link
+      may have moved. Everything is still here:
+    </p>
+
+    <ul class="lost-links">
+      <li><a href={HOME_HREF}>Home <span aria-hidden="true">→</span></a></li>
+      {[...NAV_LINKS, CONTACT_LINK].map((link) => (
+        <li><a href={link.href}>{link.label} <span aria-hidden="true">→</span></a></li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .lost {
+    max-width: calc(760px + var(--gutter) * 2);
+    padding-top: calc(var(--header-h) + clamp(40px, 10vh, 112px));
+    padding-bottom: 96px;
+  }
+
+  h1 {
+    margin-top: 14px;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    text-wrap: balance;
+  }
+
+  .lost-intro {
+    margin-top: 18px;
+    max-width: 56ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--text-muted);
+  }
+
+  .lost-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    margin: clamp(28px, 5vh, 44px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lost-links li {
+    border-top: 1px solid var(--line);
+  }
+
+  .lost-links a {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 2px;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .lost-links a span {
+    color: var(--purple-400);
+    transition: transform 0.2s;
+  }
+
+  .lost-links a:hover {
+    color: var(--purple-300);
+  }
+
+  .lost-links a:hover span {
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 520px) {
+    .lost-links {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

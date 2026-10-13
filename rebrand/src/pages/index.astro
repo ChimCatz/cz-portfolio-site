@@ -1,0 +1,571 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { entryHref, formatDate, getSorted, sectionHref, type ReadingEntry } from '../lib/reading';
+import { CONTACT_LINK } from '../lib/site';
+
+type Project = ReadingEntry<'projects'>;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Below the hero: the featured projects, then the newest insight and data study.
+// Both lists fill themselves from the collections, so nothing here needs
+// updating when an entry is added or a project is (un)featured.
+const projects = await getSorted('projects');
+const featured = projects.filter((p) => p.data.featured);
+const latest = [
+  { kind: 'Insight', collection: 'insights' as const, entry: (await getSorted('insights'))[0] },
+  { kind: 'Data study', collection: 'dataStudies' as const, entry: (await getSorted('dataStudies'))[0] },
+].filter((item) => item.entry);
+
+// Same title split and image frame as the Projects page
+const shortTitle = (p: Project) => p.data.title.split(':')[0];
+const tagline = (p: Project) => p.data.tagline ?? p.data.title.split(':')[1]?.trim();
+const shotClass = (p: Project) => [
+  'shot',
+  { 'shot-screen': p.data.dashboards.length > 0, 'shot-full': p.data.thumbFit === 'full' },
+];
+const shotStyle = (p: Project) => (p.data.thumbBg ? `background-color: ${p.data.thumbBg}` : undefined);
+---
+
+<BaseLayout
+  title="CZ Catalan | Data Analyst Portfolio"
+  description="CZ Catalan is a data analyst with an engineering background working across CRM data, reporting, and dashboards, using Python, SQL, and AI to automate the boring parts."
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <h1 id="hero-title">
+        <span>Clean.</span>
+        <span>Analyze.</span>
+        <span>Visualize.</span>
+        <span class="gradient-text">Automate.</span>
+      </h1>
+      <p class="hero-intro">
+        I'm <strong>CZ</strong>, a data analyst with an engineering background and a soft spot for
+        messy data. I work across CRM data, reporting, and dashboards. Python, SQL, and AI help me
+        automate the boring parts in minutes instead of hours.
+      </p>
+      <p class="hero-actions">
+        <a class="btn btn-primary" href={sectionHref('projects')}>See my projects</a>
+        <a class="btn btn-ghost" href={`${base}/about`}>About me</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="home-more">
+    <section class="container home-section" aria-labelledby="work-heading">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">Selected work</p>
+          <h2 id="work-heading">Tools and dashboards I've built.</h2>
+        </div>
+        <a class="more" href={sectionHref('projects')}>
+          All {projects.length} projects <span aria-hidden="true">→</span>
+        </a>
+      </header>
+
+      <ul class="work">
+        {featured.map((project) => {
+          const headline = project.data.results[0];
+          return (
+            <li>
+              <a class="work-card" href={entryHref('projects', project)}>
+                <div class:list={shotClass(project)} style={shotStyle(project)}>
+                  <Image
+                    src={project.data.thumb}
+                    alt=""
+                    widths={[360, 540, 720, 1080]}
+                    sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 860px) 42vw, 340px"
+                  />
+                </div>
+                <div class="work-text">
+                  <p class="work-kicker">{project.data.kicker}</p>
+                  <h3>{shortTitle(project)}</h3>
+                  {tagline(project) && <p class="work-tagline">{tagline(project)}</p>}
+                  {headline && (
+                    <p class="work-headline"><b>{headline.value}</b> {headline.label}</p>
+                  )}
+                  <span class="work-link">Case study <span aria-hidden="true">↗</span></span>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section class="container home-section" aria-labelledby="latest-heading">
+      <header class="section-head">
+        <div>
+          <p class="eyebrow">Latest</p>
+          <h2 id="latest-heading">What I've been writing and studying.</h2>
+        </div>
+        <p class="more-group">
+          <a class="more" href={sectionHref('insights')}>Insights <span aria-hidden="true">→</span></a>
+          <a class="more" href={sectionHref('dataStudies')}>Data Studies <span aria-hidden="true">→</span></a>
+        </p>
+      </header>
+
+      <ul class="latest">
+        {latest.map(({ kind, collection, entry }) => (
+          <li>
+            <a class="latest-card" href={entryHref(collection, entry)}>
+              <div class="latest-thumb">
+                <Image
+                  src={entry.data.banner}
+                  alt=""
+                  widths={[360, 540, 720, 1080]}
+                  sizes="(max-width: 700px) calc(100vw - 32px), 520px"
+                  style={`object-position: ${entry.data.thumbFocus} center`}
+                />
+              </div>
+              <p class="latest-meta">
+                <span>{kind}</span>
+                <time datetime={entry.data.date.toISOString().slice(0, 10)}>{formatDate(entry.data.date)}</time>
+              </p>
+              <h3>{entry.data.title}</h3>
+              <p class="latest-summary">{entry.data.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="container home-cta" aria-labelledby="cta-heading">
+      <h2 id="cta-heading">Want the details behind any of this?</h2>
+      <p class="cta-actions">
+        <a class="btn btn-primary" href={CONTACT_LINK.href}>{CONTACT_LINK.label}</a>
+        <a class="btn btn-ghost" href={`${base}/resume`}>View my resume</a>
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* The whole hero fits in the first screen on every device:
+     it is exactly one viewport tall, and the type scales with
+     the viewport height as well as the width. */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh; /* ignores the mobile browser address bar */
+    /* Top padding clears the fixed header */
+    padding-top: calc(var(--header-h) + clamp(16px, 4vh, 48px));
+    padding-bottom: clamp(24px, 6vh, 64px);
+  }
+
+  /* Darkens the side where the text sits so it reads over the globe */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      rgba(7, 5, 12, 0.88) 0%,
+      rgba(7, 5, 12, 0.55) 45%,
+      rgba(7, 5, 12, 0) 75%
+    );
+  }
+
+  .hero h1 {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(2.5rem, min(8vw, 10.5vh), 5.75rem);
+    line-height: 1;
+  }
+
+  .hero-intro {
+    margin-top: clamp(20px, 4vh, 36px);
+    max-width: 50ch;
+    font-size: clamp(1rem, min(1.4vw, 2.4vh), 1.25rem);
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  .hero-intro strong {
+    color: var(--purple-300);
+    font-weight: 600;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-top: clamp(18px, 3.6vh, 32px);
+  }
+
+  /* Intro: the four words rise in one by one, then a light sweeps across
+     "Automate." once; the paragraph and buttons follow. Off for reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero h1 span {
+      animation: hero-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .hero h1 span:nth-child(1) { animation-delay: 0.15s; }
+    .hero h1 span:nth-child(2) { animation-delay: 0.3s; }
+    .hero h1 span:nth-child(3) { animation-delay: 0.45s; }
+
+    /* The shine is a second, white gradient layer clipped to the text,
+       parked off the left edge and swept across to the right. */
+    .hero h1 .gradient-text {
+      background-image:
+        linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.9) 50%, transparent 60%),
+        var(--brand-gradient);
+      background-size: 250% 100%, 100% 100%;
+      background-position: 103% 0, 0 0;
+      background-repeat: no-repeat;
+      animation:
+        hero-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.6s both,
+        hero-shine 1.4s ease-in-out 1.35s both;
+    }
+
+    .hero-intro {
+      animation: hero-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.85s both;
+    }
+
+    .hero-actions {
+      animation: hero-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 1.05s both;
+    }
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      translate: 0 0.35em;
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      translate: none;
+      filter: none;
+    }
+  }
+
+  @keyframes hero-shine {
+    from {
+      background-position: 103% 0, 0 0;
+    }
+    to {
+      background-position: -3% 0, 0 0;
+    }
+  }
+
+  /* Phones: the globe fills the top of the screen, so the text
+     sits at the bottom over a darker fade. */
+  @media (max-width: 760px) {
+    .hero {
+      align-items: flex-end;
+    }
+
+    .hero::before {
+      background: linear-gradient(
+        0deg,
+        rgba(7, 5, 12, 0.94) 0%,
+        rgba(7, 5, 12, 0.75) 50%,
+        rgba(7, 5, 12, 0) 85%
+      );
+    }
+
+    .hero-intro {
+      font-size: clamp(0.95rem, 2.1vh, 1.05rem);
+      line-height: 1.6;
+    }
+
+    .hero-actions .btn {
+      padding: 0.7em 1.2em;
+      font-size: 0.9rem;
+    }
+  }
+
+  /* ---------- Below the hero ---------- */
+
+  /* The globe is at full strength on this page, so everything under the hero
+     sits on a dark veil that fades in, like the dimmed reading pages. */
+  .home-more {
+    position: relative;
+    isolation: isolate;
+    padding-bottom: 96px;
+  }
+
+  .home-more::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: rgba(7, 5, 12, 0.9);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    mask-image: linear-gradient(180deg, transparent 0, #000 140px);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 140px);
+  }
+
+  .home-section {
+    padding-top: clamp(72px, 12vh, 128px);
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 32px;
+  }
+
+  .section-head h2,
+  .home-cta h2 {
+    margin-top: 12px;
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    text-wrap: balance;
+  }
+
+  .more-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+  }
+
+  .more,
+  .work-link {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--purple-300);
+    transition: color 0.2s;
+  }
+
+  .more:hover {
+    color: var(--text);
+  }
+
+  /* Featured projects: the same framed image and plain text as the Projects page cards */
+  .work {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px 28px;
+    margin: clamp(28px, 5vh, 44px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work li,
+  .latest li {
+    display: flex;
+  }
+
+  .work-card,
+  .latest-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .work-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .work-card:hover .shot,
+  .latest-card:hover .latest-thumb {
+    border-color: var(--purple-400);
+    box-shadow: 0 24px 60px -30px var(--glow);
+    transform: translateY(-3px);
+  }
+
+  .work-kicker,
+  .latest-meta {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
+  .work-card h3,
+  .latest-card h3 {
+    margin-top: 6px;
+    line-height: 1.25;
+    transition: color 0.2s;
+  }
+
+  .work-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .work-card:hover h3,
+  .latest-card:hover h3 {
+    color: var(--purple-300);
+  }
+
+  .work-tagline {
+    margin-top: 8px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .work-headline {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .work-headline b {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* The link sits at the bottom so the three cards line up */
+  .work-link {
+    margin-top: auto;
+    padding-top: 14px;
+    font-size: 0.92rem;
+  }
+
+  .work-card:hover .work-link {
+    color: var(--text);
+  }
+
+  /* Newest insight and data study, side by side */
+  .latest {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 28px;
+    margin: clamp(28px, 5vh, 44px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .latest-thumb {
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  }
+
+  .latest-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .latest-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 10px;
+  }
+
+  .latest-meta time {
+    color: var(--text-faint);
+  }
+
+  .latest-meta time::before {
+    content: '·';
+    margin-right: 10px;
+  }
+
+  .latest-card h3 {
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .latest-summary {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* Closing line */
+  .home-cta {
+    margin-top: clamp(72px, 12vh, 128px);
+  }
+
+  .home-cta h2 {
+    margin-top: 0;
+    padding-top: clamp(32px, 5vh, 48px);
+    border-top: 1px solid var(--line);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    margin-top: 24px;
+  }
+
+  /* Tablets: each project becomes a row, image beside text */
+  @media (max-width: 860px) {
+    .work {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+
+    .work-card {
+      flex-direction: row;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .work-card .shot {
+      flex: none;
+      width: 42%;
+    }
+
+    .work-kicker {
+      margin-top: 0;
+    }
+  }
+
+  /* Same width as the hero's phone layout: the hero is already dark at its
+     bottom edge there, so the veil starts at full strength instead of fading in */
+  @media (max-width: 760px) {
+    .home-more::before {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .latest {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Phones: image on top again */
+  @media (max-width: 560px) {
+    .work-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .work-card .shot {
+      width: 100%;
+    }
+
+    .work-kicker {
+      margin-top: 16px;
+    }
+  }
+</style>
