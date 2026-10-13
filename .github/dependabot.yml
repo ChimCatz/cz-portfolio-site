@@ -9,6 +9,11 @@ updates:
     groups:
       site:
         patterns: ['*']
+    # A new major version (e.g. the next Astro) can need code changes, so
+    # those are done by hand, not proposed automatically.
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
     directory: /
