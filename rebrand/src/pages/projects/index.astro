@@ -1,30 +1,33 @@
 ---
 import { Image } from 'astro:assets';
+import ProjectBadges from '../../components/projects/ProjectBadges.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { entryHref, getSorted, type ReadingEntry } from '../../lib/reading';
-
-type Project = ReadingEntry<'projects'>;
+import { entryHref, getSorted } from '../../lib/reading';
+import { shortTitle, shotClass, shotStyle, tagline, type Project } from '../../lib/projects';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const projects = await getSorted('projects');
 
-// Featured projects get a large row each; the rest go into a grid by category.
-const featured = projects.filter((p) => p.data.featured);
-const rest = projects.filter((p) => !p.data.featured);
-const dashboards = rest.filter((p) => p.data.category === 'dashboard');
-const tools = rest.filter((p) => p.data.category === 'automation');
+// One list, every project in the same kind of row. The filter buttons narrow
+// it by these tags; a filter only appears when at least one project has its tag.
+const FILTERS = [
+  { tag: 'automation', label: 'Automation tools' },
+  { tag: 'dashboard', label: 'Dashboards' },
+  { tag: 'open-source', label: 'Open source' },
+  { tag: 'ongoing', label: 'Ongoing' },
+];
+const tags = (p: Project) => [
+  p.data.category,
+  ...(p.data.repo ? ['open-source'] : []),
+  ...(p.data.status === 'ongoing' ? ['ongoing'] : []),
+];
+const filters = FILTERS.map((filter) => ({
+  ...filter,
+  count: projects.filter((p) => tags(p).includes(filter.tag)).length,
+})).filter((filter) => filter.count > 0);
 
-// "Search & Filter Engine: From Hours ..." -> title "Search & Filter Engine", tagline "From Hours ..."
-const shortTitle = (p: Project) => p.data.title.split(':')[0];
-const tagline = (p: Project) => p.data.tagline ?? p.data.title.split(':')[1]?.trim();
 /** Dashboard projects link straight to the live page as well as the case study. */
 const liveHref = (p: Project) => (p.data.dashboards[0] ? `${base}/dashboards/${p.data.dashboards[0].src}` : undefined);
-/** Dashboard projects show a screenshot of the live page; the rest show an illustration. */
-const isShot = (p: Project) => p.data.dashboards.length > 0;
-/** Frame classes for a project's image. Every frame on the page is the same shape. */
-const shotClass = (p: Project) => ['shot', { 'shot-screen': isShot(p), 'shot-full': p.data.thumbFit === 'full' }];
-/** A `full` image doesn't fill the frame, so the frame takes the image's background color. */
-const shotStyle = (p: Project) => (p.data.thumbBg ? `background-color: ${p.data.thumbBg}` : undefined);
 
 // Smaller tools in the suite: one line each, no page of their own.
 const automations = [
@@ -49,7 +52,7 @@ const automations = [
 
 <BaseLayout
   title="Projects | CZ Catalan"
-  description="Automation tools and dashboards by CZ Catalan: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, and a VoIP call tracking tool built on Google Apps Script."
+  description="Automation tools and dashboards by CZ Catalan: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, a VoIP call tracking tool built on Google Apps Script, and open-source projects still in progress."
   dimBackground
 >
   <div class="container projects">
@@ -58,51 +61,82 @@ const automations = [
       <h1>Things I built to take the <span class="gradient-text">busywork</span> out of data.</h1>
       <p class="projects-intro">
         Automation tools and dashboards I designed and built. Most started as one tedious task and grew
-        into something used every day. Tool names are generic, and the dashboards show sample data with
-        sample names.
+        into something used every day, and two are open source and still in progress. The CRM tools go
+        by generic names, and the dashboards show sample data with sample names.
       </p>
     </header>
 
-    <ol class="features">
-      {featured.map((project, i) => {
+    <!-- Shown by the script below: without it the buttons would do nothing -->
+    <div class="filters" role="group" aria-label="Filter projects" data-filters hidden>
+      <button type="button" data-filter="all" aria-pressed="true">All <span>{projects.length}</span></button>
+      {filters.map((filter) => (
+        <button type="button" data-filter={filter.tag} aria-pressed="false">
+          {filter.label} <span>{filter.count}</span>
+        </button>
+      ))}
+    </div>
+
+    <ol class="project-list">
+      {projects.map((project, i) => {
         const href = entryHref('projects', project);
         const live = liveHref(project);
+        const { thumb, results, flow, tools, repo, demo } = project.data;
         return (
-          <li class:list={['feature', { flip: i % 2 === 1 }]}>
-            <a class:list={shotClass(project)} style={shotStyle(project)} href={href} tabindex="-1" aria-hidden="true">
-              <Image
-                src={project.data.thumb}
-                alt=""
-                widths={[480, 720, 960, 1440]}
-                sizes="(max-width: 860px) calc(100vw - 32px), 520px"
-                loading={i === 0 ? 'eager' : 'lazy'}
-              />
-            </a>
-
-            <div class="feature-text">
-              <p class="feature-meta">
-                <span class="feature-num">{String(i + 1).padStart(2, '0')}</span>
+          <li class:list={['project', { 'has-shot': thumb }]} data-tags={tags(project).join(' ')}>
+            <div class="project-head">
+              <p class="project-meta">
+                <span class="project-num" aria-hidden="true"></span>
                 <span>{project.data.kicker}</span>
               </p>
               <h2><a href={href}>{shortTitle(project)}</a></h2>
-              {tagline(project) && <p class="feature-tagline">{tagline(project)}</p>}
-              <p class="feature-summary">{project.data.summary}</p>
+              {tagline(project) && <p class="project-tagline">{tagline(project)}</p>}
+              <ProjectBadges project={project} />
+            </div>
 
-              {project.data.tools.length > 0 && (
-                <ul class="chips" aria-label="Built with">
-                  {project.data.tools.map((tool) => <li>{tool}</li>)}
-                </ul>
+            <!-- A picture where the project has one, its headline numbers where it doesn't -->
+            <div class="project-panel">
+              {thumb && (
+                <a class:list={shotClass(project)} style={shotStyle(project)} href={href} tabindex="-1" aria-hidden="true">
+                  <Image
+                    src={thumb}
+                    alt=""
+                    widths={[360, 480, 720, 960]}
+                    sizes="(max-width: 860px) calc(100vw - 32px), 460px"
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                  />
+                </a>
               )}
-
-              {project.data.results.length > 0 && (
-                <ul class="feature-stats">
-                  {project.data.results.slice(0, 2).map((r) => (
+              {results.length > 0 && (
+                <ul class="stats" aria-label="Results">
+                  {(thumb ? results.slice(0, 2) : results).map((r) => (
                     <li>
                       <b data-count>{r.value}</b>
                       <span>{r.label}</span>
                     </li>
                   ))}
                 </ul>
+              )}
+            </div>
+
+            <div class="project-body">
+              <p class="project-summary">{project.data.summary}</p>
+
+              {flow.length > 0 ? (
+                <p class="project-stack">
+                  <span class="stack-label">Data flow</span>
+                  {flow.map((step, n) => (
+                    <span>{step}{n < flow.length - 1 && <i aria-hidden="true">→</i>}</span>
+                  ))}
+                </p>
+              ) : (
+                tools.length > 0 && (
+                  <p class="project-stack">
+                    <span class="stack-label">Built with</span>
+                    {tools.map((tool, n) => (
+                      <span>{tool}{n < tools.length - 1 && <i aria-hidden="true">·</i>}</span>
+                    ))}
+                  </p>
+                )
               )}
 
               <p class="links">
@@ -112,6 +146,14 @@ const automations = [
                     Live dashboard <span aria-hidden="true">↗</span>
                   </a>
                 )}
+                {demo && (
+                  <a class="link-quiet" href={`${href}#try-it`}>Try the demo <span aria-hidden="true">↗</span></a>
+                )}
+                {repo && (
+                  <a class="link-quiet" href={repo} target="_blank" rel="noopener">
+                    Source on GitHub <span aria-hidden="true">↗</span>
+                  </a>
+                )}
               </p>
             </div>
           </li>
@@ -119,78 +161,10 @@ const automations = [
       })}
     </ol>
 
-    <section class="block" aria-labelledby="dashboards-heading">
-      <h2 id="dashboards-heading" class="block-heading">Dashboards and reporting</h2>
-      <p class="block-intro">
-        Built and maintained in Zoho Analytics. Every case study opens with the live dashboard.
-      </p>
-      <ul class="cards">
-        {dashboards.map((project) => (
-          <li>
-            <a class="card" href={entryHref('projects', project)}>
-              <div class:list={shotClass(project)} style={shotStyle(project)}>
-                <Image
-                  src={project.data.thumb}
-                  alt=""
-                  widths={[360, 540, 720, 1080]}
-                  sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 860px) 50vw, 330px"
-                />
-              </div>
-              <p class="card-kicker">{project.data.kicker}</p>
-              <h3>{shortTitle(project)}</h3>
-              <p class="card-summary">{project.data.summary}</p>
-              {project.data.flow.length > 0 && (
-                <p class="card-flow">
-                  {project.data.flow.map((step, n) => (
-                    <Fragment>
-                      {n > 0 && <i aria-hidden="true">→</i>}
-                      <span>{step}</span>
-                    </Fragment>
-                  ))}
-                </p>
-              )}
-              <span class="card-link">Case study <span aria-hidden="true">↗</span></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-
-    <section class="block" aria-labelledby="tools-heading">
-      <h2 id="tools-heading" class="block-heading">Automation tools</h2>
-      <p class="block-intro">The tools inside the Python suite, and the Excel workbook that came before them.</p>
-      <ul class="cards">
-        {tools.map((project) => {
-          const headline = project.data.results[0];
-          return (
-            <li>
-              <a class="card" href={entryHref('projects', project)}>
-                <div class:list={shotClass(project)} style={shotStyle(project)}>
-                  <Image
-                    src={project.data.thumb}
-                    alt=""
-                    widths={[360, 540, 720, 1080]}
-                    sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 860px) 50vw, 330px"
-                  />
-                </div>
-                <p class="card-kicker">{project.data.kicker}</p>
-                <h3>{shortTitle(project)}</h3>
-                <p class="card-summary">{project.data.summary}</p>
-                {headline && (
-                  <p class="card-headline"><b>{headline.value}</b> {headline.label}</p>
-                )}
-                <span class="card-link">Case study <span aria-hidden="true">↗</span></span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-
     <section class="block" aria-labelledby="automations-heading">
       <h2 id="automations-heading" class="block-heading">Small automations</h2>
       <p class="block-intro">
-        Smaller tools in the same suite. Each one removes a single repetitive step, which adds up across a week.
+        Smaller tools in the Python suite. Each one removes a single repetitive step, which adds up across a week.
       </p>
       <ul class="automations">
         {automations.map((item) => (
@@ -208,6 +182,26 @@ const automations = [
     </p>
   </div>
 </BaseLayout>
+
+<script>
+  // Filter buttons: show the rows that carry the chosen tag. The whole list is
+  // in the HTML, so the page reads the same without this script.
+  const bar = document.querySelector<HTMLElement>('[data-filters]');
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('.project[data-tags]'));
+  if (bar) {
+    bar.hidden = false;
+    const buttons = Array.from(bar.querySelectorAll<HTMLButtonElement>('button[data-filter]'));
+    bar.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+      if (!button) return;
+      const filter = button.dataset.filter!;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      rows.forEach((row) => {
+        row.hidden = filter !== 'all' && !row.dataset.tags!.split(' ').includes(filter);
+      });
+    });
+  }
+</script>
 
 <style>
   .projects {
@@ -235,34 +229,96 @@ const automations = [
 
   /* The image frame (.shot) is in global.css: the homepage uses the same one. */
 
-  /* ---------- Featured rows: image and text side by side, alternating ---------- */
-  .features {
-    display: grid;
-    gap: clamp(56px, 10vh, 104px);
-    margin: clamp(48px, 8vh, 80px) 0 0;
+  /* ---------- Filter buttons ---------- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: clamp(32px, 5vh, 48px);
+  }
+
+  .filters[hidden] {
+    display: none;
+  }
+
+  .filters button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: rgba(13, 10, 22, 0.6);
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+
+  .filters button span {
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: var(--text-faint);
+    transition: color 0.2s;
+  }
+
+  .filters button:hover {
+    border-color: var(--purple-400);
+    color: var(--text);
+  }
+
+  .filters button[aria-pressed='true'] {
+    border-color: var(--purple-500);
+    background: var(--purple-500);
+    color: #fff;
+  }
+
+  .filters button[aria-pressed='true'] span {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* ---------- The list: every project is one row, text beside a panel ---------- */
+  .project-list {
+    margin: clamp(20px, 3vh, 28px) 0 0;
     padding: 0;
     list-style: none;
+    counter-reset: project;
   }
 
-  .feature {
+  /* Hidden rows don't count, so the numbers stay 01, 02, 03 under any filter */
+  .project {
+    counter-increment: project;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: center;
-    column-gap: clamp(32px, 5vw, 64px);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'head panel'
+      'body panel';
+    column-gap: clamp(32px, 5vw, 56px);
+    padding: clamp(36px, 6vh, 52px) 0;
+    border-top: 1px solid var(--line);
   }
 
-  .feature.flip .shot {
-    order: 2;
+  .project[hidden] {
+    display: none;
   }
 
-  .feature:hover .shot,
-  .card:hover .shot {
-    border-color: var(--purple-400);
-    box-shadow: 0 24px 60px -30px var(--glow);
-    transform: translateY(-3px);
+  .project-head {
+    grid-area: head;
   }
 
-  .feature-meta {
+  .project-panel {
+    grid-area: panel;
+  }
+
+  .project-body {
+    grid-area: body;
+  }
+
+  .project-meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -275,11 +331,15 @@ const automations = [
     color: var(--purple-400);
   }
 
-  .feature-num {
+  .project-num {
     color: var(--text-faint);
   }
 
-  .feature-num::after {
+  .project-num::before {
+    content: counter(project, decimal-leading-zero);
+  }
+
+  .project-num::after {
     content: '';
     display: inline-block;
     width: 28px;
@@ -289,23 +349,23 @@ const automations = [
     background: var(--line-strong);
   }
 
-  .feature h2 {
+  .project h2 {
     margin-top: 12px;
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    line-height: 1.12;
+    font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+    line-height: 1.15;
     text-wrap: balance;
   }
 
-  .feature h2 a {
+  .project h2 a {
     text-decoration: none;
     transition: color 0.2s;
   }
 
-  .feature h2 a:hover {
+  .project h2 a:hover {
     color: var(--purple-300);
   }
 
-  .feature-tagline {
+  .project-tagline {
     margin-top: 8px;
     font-family: var(--font-display);
     font-size: 1rem;
@@ -314,79 +374,55 @@ const automations = [
     color: var(--text-muted);
   }
 
-  .feature-summary {
+  .project-head :global(.badges) {
     margin-top: 16px;
+  }
+
+  .project-summary {
+    margin-top: 18px;
     font-size: 0.98rem;
     line-height: 1.7;
     color: var(--text-soft);
   }
 
-  .chips {
+  /* Tools or data flow: one quiet line, so it doesn't compete with the badges */
+  .project-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin: 18px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .chips li {
-    padding: 3px 10px;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: rgba(19, 15, 31, 0.8);
+    align-items: baseline;
+    gap: 2px 8px;
+    margin-top: 14px;
     font-family: var(--font-display);
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--text-muted);
   }
 
-  .feature-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 24px;
-    margin: 22px 0 0;
-    padding: 0;
-    list-style: none;
+  .stack-label {
+    margin-right: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
   }
 
-  .feature-stats li {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  /* The separator travels with the item before it, so a wrapped line never starts with one */
+  .project-stack i {
+    margin-left: 8px;
+    font-style: normal;
+    color: var(--purple-400);
   }
 
-  .feature-stats b,
-  .card-headline b {
-    font-family: var(--font-display);
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .feature-stats b {
-    font-size: 1.6rem;
-    line-height: 1.15;
-  }
-
-  .feature-stats span {
-    font-size: 0.82rem;
-    line-height: 1.45;
-    color: var(--text-muted);
-  }
-
-  /* Text links under a row */
   .links {
     display: flex;
     flex-wrap: wrap;
     gap: 8px 24px;
-    margin-top: 22px;
+    margin-top: 18px;
   }
 
   .links a,
-  .card-link,
   .closing a {
     font-family: var(--font-display);
     font-size: 0.92rem;
@@ -405,9 +441,101 @@ const automations = [
     color: var(--text-muted);
   }
 
+  /* ---------- The panel: a framed image over two numbers, or three numbers on their own ---------- */
+  .project:hover .shot,
+  .project:hover .stats {
+    border-color: var(--purple-400);
+  }
+
+  .project:hover .shot {
+    box-shadow: 0 24px 60px -30px var(--glow);
+    transform: translateY(-3px);
+  }
+
+  .stats {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stats b {
+    font-family: var(--font-display);
+    line-height: 1.15;
+    white-space: nowrap;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stats span {
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  /* Without an image: the numbers are the panel */
+  .project:not(.has-shot) .stats {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: rgba(13, 10, 22, 0.6);
+    transition: border-color 0.25s;
+  }
+
+  .project:not(.has-shot) .stats::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--brand-gradient);
+  }
+
+  .project:not(.has-shot) .stats li {
+    display: grid;
+    grid-template-columns: 8.6rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 16px;
+    padding: 20px 22px 20px 25px;
+  }
+
+  .project:not(.has-shot) .stats li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .project:not(.has-shot) .stats b {
+    font-size: 1.7rem;
+  }
+
+  .project:not(.has-shot) .stats span {
+    font-size: 0.88rem;
+  }
+
+  /* Under an image: two numbers side by side */
+  .has-shot .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin-top: 18px;
+  }
+
+  .has-shot .stats li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .has-shot .stats b {
+    font-size: 1.35rem;
+  }
+
+  .has-shot .stats span {
+    font-size: 0.82rem;
+  }
+
   /* ---------- Sections: gradient rule + spaced caps, as on About Me ---------- */
   .block {
-    margin-top: clamp(64px, 11vh, 112px);
+    margin-top: 0;
     padding-top: clamp(32px, 5vh, 48px);
     border-top: 1px solid var(--line);
   }
@@ -437,95 +565,6 @@ const automations = [
     margin-top: 12px;
     max-width: 640px;
     color: var(--text-muted);
-  }
-
-  /* ---------- Cards: a framed image with plain text under it ---------- */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 40px 28px;
-    margin: 28px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .cards li {
-    display: flex;
-  }
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .card-kicker {
-    margin-top: 16px;
-    font-family: var(--font-display);
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--purple-400);
-  }
-
-  .card h3 {
-    margin-top: 6px;
-    font-size: 1.2rem;
-    line-height: 1.25;
-    transition: color 0.2s;
-  }
-
-  .card:hover h3 {
-    color: var(--purple-300);
-  }
-
-  .card-summary {
-    margin-top: 8px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--text-muted);
-  }
-
-  .card-headline {
-    margin-top: 12px;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: var(--text-soft);
-  }
-
-  .card-headline b {
-    font-size: 1.1rem;
-  }
-
-  .card-flow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2px 6px;
-    margin-top: 12px;
-    font-family: var(--font-display);
-    font-size: 0.8rem;
-    font-weight: 500;
-    line-height: 1.5;
-    color: var(--text-soft);
-  }
-
-  .card-flow i {
-    font-style: normal;
-    color: var(--purple-400);
-  }
-
-  /* The link sits at the bottom so a row of cards lines up */
-  .card-link {
-    margin-top: auto;
-    padding-top: 14px;
-  }
-
-  .card:hover .card-link {
-    color: var(--text);
   }
 
   /* ---------- Small automations: a plain two-column list ---------- */
@@ -571,30 +610,42 @@ const automations = [
     white-space: nowrap;
   }
 
-  /* Tablets: rows stack with the image on top, cards go two across */
+  /* Tablets and phones: one column, the panel between the title and the summary */
   @media (max-width: 860px) {
-    .feature {
+    .project {
       grid-template-columns: minmax(0, 1fr);
-      row-gap: 24px;
+      grid-template-rows: auto;
+      grid-template-areas:
+        'head'
+        'panel'
+        'body';
     }
 
-    .feature.flip .shot {
-      order: 0;
+    .project-panel {
+      margin-top: 22px;
     }
 
-    .cards {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project-summary {
+      margin-top: 20px;
     }
   }
 
   @media (max-width: 600px) {
-    .cards {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
     .automations li {
       grid-template-columns: minmax(0, 1fr);
       row-gap: 4px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .project:not(.has-shot) .stats li {
+      grid-template-columns: 6.6rem minmax(0, 1fr);
+      column-gap: 12px;
+      padding: 16px 16px 16px 19px;
+    }
+
+    .project:not(.has-shot) .stats b {
+      font-size: 1.35rem;
     }
   }
 </style>

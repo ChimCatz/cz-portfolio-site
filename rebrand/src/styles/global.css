@@ -215,7 +215,7 @@ img {
   object-position: center;
 }
 
-/* Dashboard screenshots keep their top edge, where the title and filters are */
+/* Screenshots keep their top edge, where the title and filters are */
 .shot-screen img {
   object-position: top center;
 }

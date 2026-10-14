@@ -21,7 +21,7 @@ Clean. Analyze. Visualize. Automate.
 
 | Page | What you'll find |
 |---|---|
-| [Projects](https://chimcatz.github.io/cz-portfolio-site/projects/) | Case studies of automation tools and dashboards: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, and a call tracking dashboard built on Google Apps Script. |
+| [Projects](https://chimcatz.github.io/cz-portfolio-site/projects/) | Case studies of automation tools and dashboards: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, a call tracking dashboard built on Google Apps Script, and two open-source projects still in progress. |
 | [Data Studies](https://chimcatz.github.io/cz-portfolio-site/data-studies/) | Public datasets taken apart, with the charts, the method, and the data to download. |
 | [Insights](https://chimcatz.github.io/cz-portfolio-site/insights/) | Writing on data, tools, and building with AI, including an interactive piece on the job market. |
 | [About Me](https://chimcatz.github.io/cz-portfolio-site/about/) | Background, tool stack, and certifications. |
@@ -31,8 +31,8 @@ Clean. Analyze. Visualize. Automate.
 
 | | |
 |---|---|
-| [![Projects page: a featured case study with an illustration, tool chips and two headline numbers](.github/assets/projects.jpg)](https://chimcatz.github.io/cz-portfolio-site/projects/) | [![Search demo: lists of companies and job titles, filter chips, and a results table](.github/assets/search-demo.jpg)](https://chimcatz.github.io/cz-portfolio-site/projects/search-and-filter-engine/) |
-| **Projects.** Featured case studies, then dashboards and tools in a grid. | **A demo you can run.** Search 50,000 made-up rows in your browser, in about a millisecond. |
+| [![Projects page: a list of projects, each with status and version badges, a summary, and a picture or its headline numbers](.github/assets/projects.jpg)](https://chimcatz.github.io/cz-portfolio-site/projects/) | [![Search demo: lists of companies and job titles, filter chips, and a results table](.github/assets/search-demo.jpg)](https://chimcatz.github.io/cz-portfolio-site/projects/search-and-filter-engine/) |
+| **Projects.** One filterable list, with status, version, and build-date badges on every project. | **A demo you can run.** Search 50,000 made-up rows in your browser, in about a millisecond. |
 
 A few things worth opening:
 

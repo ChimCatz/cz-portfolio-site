@@ -84,22 +84,54 @@ const projects = defineCollection({
       slug: z.string(),
       /** Position on the Projects page and in "Next Project" (lowest first) */
       order: z.number(),
-      /** Shown as a large row at the top of the Projects page */
+      /** Shown on the homepage under "Selected work" */
       featured: z.boolean().default(false),
-      /** Which grid the project sits in on the Projects page */
-      category: z.enum(['automation', 'dashboard']).default('automation'),
+      /** Which filter the project answers to on the Projects page ('other' only shows under All) */
+      category: z.enum(['automation', 'dashboard', 'other']).default('automation'),
+      /**
+       * Badges (src/lib/projects.ts builds the row): status, then version and
+       * build date where they are known, then `badges`, then the license.
+       */
+      status: z.enum(['ongoing', 'shipped', 'superseded']).default('shipped'),
+      /** Current version, without the "v", e.g. "1.2.0" */
+      version: z.string().optional(),
+      /** Month of the build that version belongs to, e.g. "Sep 2026" */
+      built: z.string().optional(),
+      /** License the source is published under, e.g. "MIT" */
+      license: z.string().optional(),
+      /** Other details worth a badge when there is no version or date, e.g. { label: 'refresh', value: 'hourly' } */
+      badges: z
+        .array(
+          z.object({
+            label: z.string(),
+            value: z.string(),
+            tone: z.enum(['purple', 'blue', 'green', 'amber', 'teal', 'slate']).default('slate'),
+          }),
+        )
+        .default([]),
+      /** Public source code on GitHub */
+      repo: z.string().url().optional(),
       /** Short label in the eyebrow and on cards, e.g. "Python desktop tool" */
       kicker: z.string(),
       /** One line under the title on the Projects page. Defaults to the part of the title after the colon. */
       tagline: z.string().optional(),
       summary: z.string(),
-      /** Page-top image. Dashboard projects leave it out: the live dashboard takes its place. */
+      /**
+       * Page-top image. Optional: dashboard projects show the live dashboard in
+       * its place, and the suite's tools have no picture at all.
+       */
       banner: image().optional(),
       bannerAlt: z.string().optional(),
-      /** Image for the Projects page: an illustration for tools, a screenshot for dashboards (npm run project-art) */
-      thumb: image(),
-      /** Every frame on the Projects page is 16:9. `full` fits the whole thumb inside it instead of cropping (wide illustrations). */
+      /**
+       * Image for the Projects page and the homepage (dashboard screenshots come
+       * from npm run project-art). Without one, the Projects page shows the
+       * project's `results` in the image's place.
+       */
+      thumb: image().optional(),
+      /** Every image frame is 16:9. `full` fits the whole thumb inside it instead of cropping (wide illustrations). */
       thumbFit: z.enum(['crop', 'full']).default('crop'),
+      /** Edge the frame keeps when it crops the thumb. Dashboard screenshots always keep the top. */
+      thumbFocus: z.enum(['center', 'top']).default('center'),
       /** Frame color around a `full` thumb: the image's own background color, e.g. "#f8f5f0" */
       thumbBg: z.string().regex(/^#[0-9a-f]{6}$/i).optional(),
       /** Where the data comes from and ends up, e.g. ["Zoho CRM", "Zoho Analytics"] */
@@ -119,7 +151,7 @@ const projects = defineCollection({
           }),
         )
         .default([]),
-      /** Headline numbers: shown as a strip above the article; the first one also on the card */
+      /** Headline numbers: a strip above the article, and on the Projects page (all three when there is no thumb) */
       results: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       /** How the project evolved, shown as a timeline above the article */
       evolution: z.array(z.object({ stage: z.string(), title: z.string(), detail: z.string() })).default([]),

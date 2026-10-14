@@ -1,12 +1,16 @@
 ---
 title: "Search & Filter Engine: From Hours of Excel Filtering to Seconds"
 slug: search-and-filter-engine
-order: 6
+order: 3
+status: shipped
+version: "14"
+built: "Sep 2026"
+badges:
+  - label: "demo"
+    value: "runs in the browser"
+    tone: teal
 kicker: "Python desktop tool"
 summary: "A desktop search engine for 100K+ row lead exports that understands company names and job titles, so filtering a 200-company target list takes seconds instead of hours."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: a magnifying glass over a tablet of company names and job titles, with a funnel filtering them into a target list."
 results:
   - value: "<10 s"
     label: "per search, down from 1–3 hours by hand"

@@ -23,10 +23,12 @@ decisions and rules behind it.
   "the company" or similar on any page: keep the wording simple and neutral.
   Naming tools is fine: they are the user's tool stack. The site does not
   name an employer anywhere; work experience is in the resume PDF only.
-- **Generic names:** tools are shown under generic names (Search & Filter
-  Engine, CRM Conversion Engine, CRM Reconciliation Tool, Call Analytics
-  Tool, and so on). Describe patterns and results only: never schemas, field
-  lists, status policies or folder names.
+- **Generic names:** the CRM tools are shown under generic names (Search &
+  Filter Engine, CRM Conversion Engine, CRM Reconciliation Tool, Call
+  Analytics Tool, and so on). Describe patterns and results only: never
+  schemas, field lists, status policies or folder names. The user's own
+  open-source projects (PowerFill, TI Champions Bot) keep their real names
+  and link to their public repos.
 - **Dashboards show sample data.** Company, client, vendor, website,
   campaign, list and people names in them are sample names: never add,
   guess or map real ones. Zoho products and Google Analytics 4 are named on
@@ -108,7 +110,8 @@ decisions and rules behind it.
 - **Homepage** (`src/pages/index.astro`): a hero that always fits the first
   screen (headline, intro, two buttons). Below it, on a dark veil that fades
   in over the globe (`.home-more`; on phones it starts at full strength):
-  "Selected work" (the `featured` projects), "Latest" (the newest insight
+  "Selected work" (the `featured` projects that have a `thumb`), "Latest"
+  (the newest insight
   and the newest data study) and a closing Get in Touch / resume line.
   Everything fills itself from the collections.
 - **About Me** (`src/pages/about.astro`): 25/75 layout, quick facts (Based
@@ -217,28 +220,60 @@ on phones. Q&A cards are raw `<details>` blocks in the Markdown.
 
 ### Projects
 
-`src/content/projects/<slug>/` with `index.md`, an image, and any figures.
-Frontmatter adds `order`, `featured`, `category`, `kicker`, `tagline`,
-`results` (strip above the article; first one also on cards), `evolution`
-(timeline), `flow`, `dashboards`, `download` and `demo`.
+`src/content/projects/<slug>/` with `index.md` and any images and figures.
+Frontmatter adds `order`, `featured` (homepage only), `category`, `kicker`,
+`tagline`, the badge fields (`status`, `version`, `built`, `license`,
+`badges`), `repo`, `results`, `evolution` (timeline), `flow`,
+`dashboards`, `download` and `demo`. Helpers shared with the homepage are
+in `src/lib/projects.ts`.
 
-- **Projects page layout:** `featured: true` projects are large alternating
-  image/text rows. The rest are small cards in two grids chosen by
-  `category`: "Dashboards and reporting" (`dashboard`) and "Automation
-  tools" (`automation`, the default). "Small automations" is a hard-coded
-  list in `src/pages/projects/index.astro`. Card titles are the part of
-  `title` before the colon; the tagline is the part after it, or `tagline`.
-  `order` sets the position everywhere.
+- **Projects page layout (user, 2026-10-14):** one list, every project at the
+  same level in the same kind of row: number, kicker, title, tagline, badges,
+  summary, tools or data flow, and links on the left, and a panel on the
+  right (between the title and the summary on phones). The panel is the
+  project's `thumb` over its first two `results`, or, when there is no
+  `thumb`, all three `results` as a framed block. So a project never needs
+  a picture. Don't bring back a separate "featured" tier or an "ongoing"
+  section: status is a badge. Filter buttons (All, Automation tools,
+  Dashboards, Open source, Ongoing) come from `category`, `repo` and
+  `status`; the script only hides rows, and CSS counters keep the row
+  numbers running 01, 02, 03 under any filter. "Small automations" is a
+  hard-coded list in `src/pages/projects/index.astro`. Row titles are the
+  part of `title` before the colon; the tagline is the part after it, or
+  `tagline`. `order` sets the position everywhere.
+- **Badges** (`src/components/projects/ProjectBadges.astro`, built by
+  `projectBadges` in `src/lib/projects.ts`): two-part tags in the style of
+  GitHub README badges, on the Projects page and under the intro of every
+  project page. Always in this order: `status` (ongoing, shipped or
+  superseded), `version`, `built`, the project's own `badges`, `license`.
+  Only real facts: a project with no known version or build date gets other
+  details instead (type, stack, refresh rate, "data: sample"). The suite
+  tools' versions and their "Sep 2026" build date come from the suite's
+  version 21 release; where that is recorded is in `private/NOTES.md`. The
+  value colors are set in the component and are dark enough for white text.
+- **No AI illustrations (user, 2026-10-14):** the six tool projects (search,
+  conversion, reconciliation, call analytics, pivot, Excel) have no picture
+  on the Projects page or on their own pages: the user had the generated
+  illustrations removed. Don't add illustrations back; if a tool needs a
+  picture, ask for a real screenshot. Their link previews use the default
+  card. The flagship suite keeps its illustration and TI Champions Bot uses
+  its repo banner, both by the user's choice.
 - **One image frame:** every project image sits in the same 16:9 frame
   (`.shot` in `global.css`, shared with the homepage). Illustrations fill
-  it, dashboard screenshots are cropped from the top (`shot-screen`).
-  `thumbFit: full` fits the whole image inside the frame; `thumbBg` is the
-  frame color around it.
-- **Illustrations:** tool projects use an illustration (`banner.webp` in the
-  project folder) as both the page banner and the Projects page image.
+  it; dashboard screenshots, and any thumb with `thumbFocus: top`, are
+  cropped from the top (`shot-screen`). `thumbFit: full` fits the whole
+  image inside the frame; `thumbBg` is the frame color around it.
   `BANNERS` in `scripts/project-art/render.cjs` is empty, so
   `npm run project-art` renders only the dashboard screenshots, the
   architecture diagram and the link-preview card.
+- **Open-source projects:** PowerFill and TI Champions Bot are the user's
+  public GitHub repos, both ongoing. Their pages are written from each
+  repo's README and changelog: when a new version ships, update `version`,
+  `built`, the timeline and the "This page describes version ..." note
+  together. `repo` adds "Source on GitHub" to the row and a sidebar button.
+  Their images are copied from the repos' `docs/` folders. TI Champions Bot
+  is built on another author's open-source script: keep that credit in its
+  summary, note and facts, and keep the Valve trademark footnote.
 - **Dashboard projects:** the live pages are static files in
   `rebrand/public/dashboards/` (Zoho Analytics HTML exports, plus a
   hand-written interactive VoIP page with `cdr-data.js`). A project lists

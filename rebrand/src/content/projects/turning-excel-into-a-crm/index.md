@@ -1,13 +1,20 @@
 ---
 title: "Turning Excel Into a CRM"
 slug: turning-excel-into-a-crm
-order: 11
+order: 13
+status: superseded
+badges:
+  - label: "stack"
+    value: "Excel formulas"
+    tone: blue
+  - label: "figures"
+    value: "illustrative"
+  - label: "download"
+    value: "sample workbook"
+    tone: teal
 kicker: "Advanced Excel"
 tagline: "Six Sources, One Workbook, and Formulas Doing the Cleanup"
 summary: "Before any of the Python tools existed, the lead database lived in one Excel workbook: six sources, 160+ fields, formula-driven cleanup, and a live dashboard. This is that system."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: ribbons of spreadsheet rows and formulas feed through gears into a workbook labeled 160+ fields, with a CRM interface of charts on its front and a clean table coming out."
 results:
   - value: "30,000+"
     label: "lead records in one workbook"

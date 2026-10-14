@@ -3,6 +3,12 @@ title: "From a VBA Workbook to a Python Tool Suite"
 slug: from-vba-to-a-python-tool-suite
 order: 0
 featured: true
+status: shipped
+version: "21"
+built: "Sep 2026"
+badges:
+  - label: "suite"
+    value: "8 tools"
 kicker: "Flagship case study"
 tagline: "Eight Tools and One Launcher, Built One Bottleneck at a Time"
 summary: "How a handful of small automations grew, one bottleneck at a time, into a desktop suite of eight tools that search, convert, reconcile, and report on CRM data."

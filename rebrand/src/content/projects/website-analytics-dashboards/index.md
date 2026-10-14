@@ -1,8 +1,18 @@
 ---
 title: "Website Analytics Dashboards: One Template, Three Sites"
 slug: website-analytics-dashboards
-order: 3
+order: 7
 category: dashboard
+status: shipped
+badges:
+  - label: "source"
+    value: "Google Analytics 4"
+    tone: blue
+  - label: "platform"
+    value: "Zoho Analytics"
+    tone: purple
+  - label: "data"
+    value: "sample"
 kicker: "GA4 and Zoho Analytics"
 summary: "One report layout applied to three websites, each fed by its own Google Analytics 4 property, so traffic, search, and content numbers read the same way for every site."
 thumb: ./thumb.png

@@ -2,11 +2,11 @@
 title: "CRM Reconciliation Tool: Syncing Updates Back Without Breaking the Master Data"
 slug: crm-reconciliation-tool
 order: 8
+status: shipped
+version: "11"
+built: "Sep 2026"
 kicker: "Python desktop tool"
 summary: "A tool that compares records updated during calling against the full master database and turns them into separate, ordered import files, so only safe, intended changes reach the main CRM."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: updated records pass through a data validation machine connected to a master database, and come out the other side as a neat stack of checked files for the CRM."
 results:
   - value: "1 run"
     label: "builds the whole import package"

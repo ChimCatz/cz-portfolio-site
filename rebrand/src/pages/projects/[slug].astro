@@ -3,6 +3,7 @@ import { statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { render } from 'astro:content';
 import DashboardEmbed from '../../components/DashboardEmbed.astro';
+import ProjectBadges from '../../components/projects/ProjectBadges.astro';
 import SearchDemo from '../../components/projects/SearchDemo.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import ReadingLayout from '../../layouts/ReadingLayout.astro';
@@ -32,7 +33,7 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
-const { title, kicker, summary, banner, bannerAlt, results, evolution, facts, tools, note, flow, dashboards } =
+const { title, kicker, summary, banner, bannerAlt, results, evolution, facts, tools, note, flow, dashboards, repo } =
   project.data;
 const { Content } = await render(project);
 const Demo = project.data.demo && demos[project.data.demo];
@@ -65,6 +66,8 @@ if (project.data.download && project.filePath) {
     summary: next.data.summary,
   }}
 >
+  <ProjectBadges slot="meta" project={project} />
+
   {dashboards.length > 0 && <DashboardEmbed slot="hero" pages={dashboards} />}
 
   <div class="project-body prose" data-zoom>
@@ -102,7 +105,7 @@ if (project.data.download && project.filePath) {
   </div>
 
   <!-- One panel: on phones it sits above the article. -->
-  {(facts.length > 0 || tools.length > 0 || flow.length > 0 || download) && (
+  {(facts.length > 0 || tools.length > 0 || flow.length > 0 || download || repo) && (
     <div class="side-block side-first" slot="side">
       {flow.length > 0 && (
         <section class="side-section">
@@ -133,12 +136,20 @@ if (project.data.download && project.filePath) {
           </ul>
         </section>
       )}
-      {download && (
+      {(download || repo) && (
         <section class="side-section side-actions">
-          <a class="btn btn-primary" href={download.href} download={download.name}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" /></svg>
-            <span>{download.label} <small>{download.detail}</small></span>
-          </a>
+          {download && (
+            <a class="btn btn-primary" href={download.href} download={download.name}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14" /></svg>
+              <span>{download.label} <small>{download.detail}</small></span>
+            </a>
+          )}
+          {repo && (
+            <a class="btn btn-primary" href={repo} target="_blank" rel="noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6m0-6-9 9M19 14v6H4V5h6" /></svg>
+              <span>Source on GitHub <small>{repo.replace('https://github.com/', '')}</small></span>
+            </a>
+          )}
         </section>
       )}
     </div>

@@ -1,12 +1,16 @@
 ---
 title: "Pivot Report Tool: From Repetitive Pivot Work to One-Click Reports"
 slug: pivot-report-tool
-order: 10
+order: 12
+status: shipped
+badges:
+  - label: "type"
+    value: "desktop app"
+  - label: "stack"
+    value: "Python + pandas"
+    tone: blue
 kicker: "Python desktop tool"
 summary: "A lightweight desktop tool that turns a CSV export into a filtered, pivot-style report in one pass, with saved sessions for recurring reports."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: a CSV file feeds a machine with gears, sliders, and a save button, which produces a filtered report table."
 results:
   - value: "<20 s"
     label: "per report, down from 20–30 minutes"

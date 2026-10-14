@@ -1,10 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { entryHref, formatDate, getSorted, sectionHref, type ReadingEntry } from '../lib/reading';
+import { entryHref, formatDate, getSorted, sectionHref } from '../lib/reading';
+import { shortTitle, shotClass, shotStyle, tagline } from '../lib/projects';
 import { CONTACT_LINK } from '../lib/site';
-
-type Project = ReadingEntry<'projects'>;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -12,20 +11,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // Both lists fill themselves from the collections, so nothing here needs
 // updating when an entry is added or a project is (un)featured.
 const projects = await getSorted('projects');
-const featured = projects.filter((p) => p.data.featured);
+// Every card here leads with a picture, so a featured project needs a `thumb`.
+const featured = projects.filter((p) => p.data.featured && p.data.thumb);
 const latest = [
   { kind: 'Insight', collection: 'insights' as const, entry: (await getSorted('insights'))[0] },
   { kind: 'Data study', collection: 'dataStudies' as const, entry: (await getSorted('dataStudies'))[0] },
 ].filter((item) => item.entry);
-
-// Same title split and image frame as the Projects page
-const shortTitle = (p: Project) => p.data.title.split(':')[0];
-const tagline = (p: Project) => p.data.tagline ?? p.data.title.split(':')[1]?.trim();
-const shotClass = (p: Project) => [
-  'shot',
-  { 'shot-screen': p.data.dashboards.length > 0, 'shot-full': p.data.thumbFit === 'full' },
-];
-const shotStyle = (p: Project) => (p.data.thumbBg ? `background-color: ${p.data.thumbBg}` : undefined);
 ---
 
 <BaseLayout
@@ -72,7 +63,7 @@ const shotStyle = (p: Project) => (p.data.thumbBg ? `background-color: ${p.data.
               <a class="work-card" href={entryHref('projects', project)}>
                 <div class:list={shotClass(project)} style={shotStyle(project)}>
                   <Image
-                    src={project.data.thumb}
+                    src={project.data.thumb!}
                     alt=""
                     widths={[360, 540, 720, 1080]}
                     sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 860px) 42vw, 340px"

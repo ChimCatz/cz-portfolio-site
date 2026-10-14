@@ -1,9 +1,19 @@
 ---
 title: "VoIP Call Tracking Dashboard: Two Phone Systems, One Hourly Feed"
 slug: voip-call-tracking-dashboard
-order: 1
+order: 2
 featured: true
 category: dashboard
+status: shipped
+badges:
+  - label: "refresh"
+    value: "hourly"
+    tone: blue
+  - label: "platform"
+    value: "Google Sheets"
+    tone: purple
+  - label: "data"
+    value: "sample"
 kicker: "Apps Script and Google Sheets"
 summary: "Calls lived in two VoIP systems with two report formats. I connected both to one Google Sheets workbook through their APIs, so call activity sits in one place and refreshes itself every hour."
 thumb: ./thumb.png

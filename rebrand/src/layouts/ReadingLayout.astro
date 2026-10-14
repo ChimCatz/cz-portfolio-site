@@ -4,7 +4,8 @@
 // and a "Next ..." link at the bottom.
 //
 // A page can fill the "hero" slot to put something else in the banner's
-// place (dashboard projects put the live dashboard there).
+// place (dashboard projects put the live dashboard there), and the "meta"
+// slot to add a line under the intro (projects put their badges there).
 //
 // Sidebar content goes in the "side" slot as one or more `.side-block`s.
 // On phones each block becomes its own panel: blocks with `side-first`
@@ -58,6 +59,7 @@ const hero = Astro.slots.has('hero') ? (await Astro.slots.render('hero')).trim()
       </p>
       <h1>{title}</h1>
       <p class="reading-intro">{summary}</p>
+      <slot name="meta" />
     </header>
 
     {hero ? (
@@ -181,6 +183,10 @@ const hero = Astro.slots.has('hero') ? (await Astro.slots.render('hero')).trim()
     font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     line-height: 1.7;
     color: var(--text-muted);
+  }
+
+  .reading-head :global(.badges) {
+    margin-top: 20px;
   }
 
   /* Banner (never cropped: some banners have text near the edges) */

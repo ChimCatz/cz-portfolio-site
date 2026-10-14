@@ -1,8 +1,18 @@
 ---
 title: "Monthly CRM and Calls Report: Activity and Outcomes, Month Over Month"
 slug: monthly-crm-and-calls-report
-order: 5
+order: 11
 category: dashboard
+status: shipped
+badges:
+  - label: "refresh"
+    value: "monthly"
+    tone: blue
+  - label: "platform"
+    value: "Zoho Analytics"
+    tone: purple
+  - label: "data"
+    value: "sample"
 kicker: "Zoho Analytics report"
 summary: "A monthly report that puts CRM activity and call performance from two VoIP systems on one page, with every headline number shown against the month before."
 thumb: ./thumb.png

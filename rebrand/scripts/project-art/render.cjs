@@ -20,9 +20,9 @@ const projects = path.join(here, '../../src/content/projects');
 const dashboards = path.join(here, '../../public/dashboards');
 
 // [folder, icon, kicker, banner title, [[value, label] x3]]
-// Empty since 2026-10-13: every tool project now uses a supplied illustration
-// (banner.webp in its folder) as both its banner and its card image. To render
-// an icon banner and thumb for a new project, add a row, e.g.
+// Empty: the suite's tool projects have no picture (the Projects page shows
+// their headline numbers instead), and the others use a supplied image. To
+// render an icon banner and thumb for a new project, add a row, e.g.
 //   ['my-tool', 'search', 'Python desktop tool', 'My Tool',
 //     [['<10 s', 'per search'], ['100K+', 'rows, no lag'], ['90–95%', 'match accuracy']]],
 const BANNERS = [];

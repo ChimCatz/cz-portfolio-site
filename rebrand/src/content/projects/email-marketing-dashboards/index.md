@@ -1,8 +1,18 @@
 ---
 title: "Email Marketing Dashboards: Campaigns and Mailing Lists at a Glance"
 slug: email-marketing-dashboards
-order: 4
+order: 9
 category: dashboard
+status: shipped
+badges:
+  - label: "source"
+    value: "Zoho Marketing Automation"
+    tone: blue
+  - label: "platform"
+    value: "Zoho Analytics"
+    tone: purple
+  - label: "data"
+    value: "sample"
 kicker: "Zoho Marketing Automation"
 summary: "Two Zoho Analytics dashboards built on Zoho Marketing Automation data: one follows email campaigns from sends to clicks, the other shows which mailing lists produce leads."
 thumb: ./thumb.png

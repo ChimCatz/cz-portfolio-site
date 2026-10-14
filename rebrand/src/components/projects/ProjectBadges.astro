@@ -1,0 +1,83 @@
+---
+// A project's badge row: two-part tags (label, then a colored value) for
+// status, version, build date and whatever else the project lists.
+// The row itself is put together in src/lib/projects.ts.
+import { projectBadges, type Project } from '../../lib/projects';
+
+interface Props {
+  project: Project;
+}
+
+const badges = projectBadges(Astro.props.project);
+---
+
+<ul class="badges" aria-label="Project details">
+  {badges.map((badge) => (
+    <li class:list={['badge', `badge-${badge.tone}`]}>
+      <span class="badge-label">{badge.label}</span>
+      <span class="badge-value">{badge.value}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    overflow: hidden;
+    border-radius: 5px;
+    font-family: var(--font-display);
+    font-size: 0.74rem;
+    font-weight: 600;
+    line-height: 22px;
+    white-space: nowrap;
+  }
+
+  .badge-label,
+  .badge-value {
+    padding: 0 8px;
+  }
+
+  .badge-label {
+    background: #2a2440;
+    color: var(--text-soft);
+  }
+
+  /* Value colors: each is dark enough for white text (4.5:1 or better) */
+  .badge-value {
+    background: var(--badge);
+    color: #fff;
+  }
+
+  .badge-purple {
+    --badge: #6d28d9;
+  }
+
+  .badge-blue {
+    --badge: #1d64c4;
+  }
+
+  .badge-green {
+    --badge: #15803d;
+  }
+
+  .badge-amber {
+    --badge: #b45309;
+  }
+
+  .badge-teal {
+    --badge: #0f766e;
+  }
+
+  .badge-slate {
+    --badge: #57507a;
+  }
+</style>

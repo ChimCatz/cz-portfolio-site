@@ -1,12 +1,12 @@
 ---
 title: "Call Analytics Tool: Matching Call Logs to CRM Records in Seconds"
 slug: call-analytics-tool
-order: 9
+order: 10
+status: shipped
+version: "9"
+built: "Sep 2026"
 kicker: "Python desktop tool"
 summary: "A desktop tool that cleans raw call logs and CRM exports, matches calls to contacts, and produces conversion metrics, monthly call imports, and a weekly operations report, in seconds instead of an hour."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: call logs and CRM exports flow into a machine labeled Validation Chamber, where calls are matched to contacts, and come out as metrics, monthly imports, and an ops report."
 results:
   - value: "<15 s"
     label: "per dataset, down from about 60 minutes"

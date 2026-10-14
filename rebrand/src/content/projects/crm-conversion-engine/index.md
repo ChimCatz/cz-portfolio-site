@@ -1,12 +1,12 @@
 ---
 title: "CRM Conversion Engine: Turning Any Lead File Into a Clean Import"
 slug: crm-conversion-engine
-order: 7
+order: 5
+status: shipped
+version: "27"
+built: "Sep 2026"
 kicker: "Python ETL tool"
 summary: "A Python ETL tool that converts exports from CRMs and lead-data providers into each system's import format, with identity matching built in, so a clean import file takes seconds instead of 4 to 8 hours."
-banner: ./banner.webp
-thumb: ./banner.webp
-bannerAlt: "Illustration: CRM exports, leads, and data files with scattered schemas are pulled into a turbine marked with the Python logo, pass through transformation and identity matching, and leave as uniform files."
 results:
   - value: "~18 s"
     label: "to convert 40K+ records, down from 4–8 hours"

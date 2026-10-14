@@ -1,9 +1,19 @@
 ---
 title: "Database Management Dashboard: A Weekly Health Check for the CRM"
 slug: database-management-dashboard
-order: 2
+order: 4
 featured: true
 category: dashboard
+status: shipped
+badges:
+  - label: "refresh"
+    value: "weekly"
+    tone: blue
+  - label: "platform"
+    value: "Zoho Analytics"
+    tone: purple
+  - label: "data"
+    value: "sample"
 kicker: "Zoho Analytics dashboard"
 summary: "A Zoho Analytics dashboard that shows on one screen how complete and how usable a contact database is: what's missing, who can't be reached, and where the records came from."
 thumb: ./thumb.png
