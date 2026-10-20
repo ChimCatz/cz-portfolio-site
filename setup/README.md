@@ -93,6 +93,9 @@ npm run dev
 See the main [`README.md`](../README.md) for the folder layout and commands,
 and [`AGENTS.md`](../AGENTS.md) for project decisions.
 
+**Unfinished:** the Get in Touch contact form. Steps and plan are in
+[`contact-form.md`](contact-form.md).
+
 ## Notes for Claude
 
 When asked to set up a new PC from this file:
