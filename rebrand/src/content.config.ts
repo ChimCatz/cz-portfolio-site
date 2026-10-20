@@ -86,8 +86,11 @@ const projects = defineCollection({
       order: z.number(),
       /** Shown on the homepage under "Selected work" */
       featured: z.boolean().default(false),
-      /** Which filter the project answers to on the Projects page ('other' only shows under All) */
-      category: z.enum(['automation', 'dashboard', 'other']).default('automation'),
+      /**
+       * Which filter the project answers to on the Projects page ('other' only shows under All).
+       * 'fun' projects are side projects: they leave the main list for the "Just for fun" section.
+       */
+      category: z.enum(['automation', 'dashboard', 'other', 'fun']).default('automation'),
       /**
        * Badges (src/lib/projects.ts builds the row): status, then version and
        * build date where they are known, then `badges`, then the license.
@@ -151,6 +154,12 @@ const projects = defineCollection({
           }),
         )
         .default([]),
+      /**
+       * A live app hosted on its own site, shown at the top of the page in place of
+       * the banner. It loads only when the visitor presses Start (the `thumb` is the
+       * poster until then), so the page itself makes no requests to that site.
+       */
+      live: z.object({ url: z.string().url(), label: z.string() }).optional(),
       /** Headline numbers: a strip above the article, and on the Projects page (all three when there is no thumb) */
       results: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       /** How the project evolved, shown as a timeline above the article */

@@ -234,13 +234,30 @@ in `src/lib/projects.ts`.
   project's `thumb` over its first two `results`, or, when there is no
   `thumb`, all three `results` as a framed block. So a project never needs
   a picture. Don't bring back a separate "featured" tier or an "ongoing"
-  section: status is a badge. Filter buttons (All, Automation tools,
+  section: status is a badge. The one exception is "Just for fun" (below). Filter buttons (All, Automation tools,
   Dashboards, Open source, Ongoing) come from `category`, `repo` and
   `status`; the script only hides rows, and CSS counters keep the row
   numbers running 01, 02, 03 under any filter. "Small automations" is a
   hard-coded list in `src/pages/projects/index.astro`. Row titles are the
   part of `title` before the colon; the tagline is the part after it, or
   `tagline`. `order` sets the position everywhere.
+- **Just for fun (user, 2026-10-20):** side projects the user planned and
+  prompted while AI wrote the code (first one: Globe Trivia, its own public
+  repo `globe-jss-with-data` with its own GitHub Pages site). They have
+  `category: fun`, leave the main list and its filters, and appear as
+  smaller cards in a "Just for fun" section after Small automations, by the
+  user's choice. Say plainly on every one that AI wrote the code and that it
+  is not a coding showcase (summary, `note`, a `code: written by AI` badge).
+  Their facts come from the linked public sources; don't add figures that
+  are not in the project's own repo.
+- **Live apps hosted elsewhere:** frontmatter `live` (`url`, `label`) shows
+  `src/components/projects/LiveEmbed.astro` in place of the banner: the
+  `thumb` as a poster with a Start button, and the app in an iframe only
+  after a click, so the page sends nothing to the other site before then
+  (without JS, Start opens it in a new tab). The Terms privacy section names
+  what the app loads (Globe Trivia: Google Fonts, flagcdn.com); add a line
+  there for any new one. Its `thumb` is a screenshot of the live address
+  (SHOTS in `scripts/project-art/render.cjs` takes full URLs too).
 - **Badges** (`src/components/projects/ProjectBadges.astro`, built by
   `projectBadges` in `src/lib/projects.ts`): two-part tags in the style of
   GitHub README badges, on the Projects page and under the intro of every

@@ -27,13 +27,15 @@ const dashboards = path.join(here, '../../public/dashboards');
 //     [['<10 s', 'per search'], ['100K+', 'rows, no lag'], ['90–95%', 'match accuracy']]],
 const BANNERS = [];
 
-// [folder, dashboard page under public/dashboards/, viewport width, viewport height]
+// [folder, dashboard page under public/dashboards/ (or the full address of a live
+// app hosted elsewhere), viewport width, viewport height]
 const SHOTS = [
   ['voip-call-tracking-dashboard', 'VoIP_Call_Tracking_Tool/VoIP_Call_Tracking_Dashboard.html', 1100, 688],
   ['database-management-dashboard', 'Database_Management_Dashboard/Database_Management_Dashboard.html', 1440, 900],
   ['website-analytics-dashboards', 'Website_Analytics_Overview/Tech_Site_A.html', 1440, 900],
   ['email-marketing-dashboards', 'Zoho_Marketing_Automation_Overview/Email_Campaigns_Overview.html', 1440, 900],
   ['monthly-crm-and-calls-report', 'Monthly_CRM_and_Calls_Analytics_Report/Monthly_CRM_and_Calls_Analytics_Report.html', 1440, 900],
+  ['globe-trivia', 'https://chimcatz.github.io/globe-jss-with-data/', 1440, 810],
 ];
 
 (async () => {
@@ -65,10 +67,12 @@ const SHOTS = [
   const shotPage = await browser.newPage();
   for (const [folder, file, width, height] of SHOTS) {
     await shotPage.setViewportSize({ width, height });
-    await shotPage.goto(pathToFileURL(path.join(dashboards, file)).href);
+    const live = /^https?:/.test(file);
+    await shotPage.goto(live ? file : pathToFileURL(path.join(dashboards, file)).href, { waitUntil: 'networkidle' });
     await shotPage.addStyleTag({ content: '#hubNav { display: none !important; }' });
     await shotPage.evaluate(() => document.fonts.ready);
-    await shotPage.waitForTimeout(500);
+    // Live apps animate in (the globe fades up and settles), so give them longer.
+    await shotPage.waitForTimeout(live ? 2500 : 500);
     await shotPage.screenshot({ path: path.join(projects, folder, 'thumb.png') });
     console.log('screenshot', folder);
   }

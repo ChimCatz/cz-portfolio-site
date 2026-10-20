@@ -3,6 +3,7 @@ import { statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { render } from 'astro:content';
 import DashboardEmbed from '../../components/DashboardEmbed.astro';
+import LiveEmbed from '../../components/projects/LiveEmbed.astro';
 import ProjectBadges from '../../components/projects/ProjectBadges.astro';
 import SearchDemo from '../../components/projects/SearchDemo.astro';
 import Lightbox from '../../components/Lightbox.astro';
@@ -33,7 +34,7 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
-const { title, kicker, summary, banner, bannerAlt, results, evolution, facts, tools, note, flow, dashboards, repo } =
+const { title, kicker, summary, banner, bannerAlt, results, evolution, facts, tools, note, flow, dashboards, repo, live, thumb } =
   project.data;
 const { Content } = await render(project);
 const Demo = project.data.demo && demos[project.data.demo];
@@ -57,7 +58,7 @@ if (project.data.download && project.filePath) {
   minutes={readingTime(project.body)}
   banner={banner}
   bannerAlt={bannerAlt}
-  shareImage={banner ? undefined : project.data.thumb}
+  shareImage={banner ? undefined : thumb}
   section={{ label: 'Projects', href: sectionHref('projects') }}
   next={next && {
     label: 'Next Project',
@@ -69,6 +70,7 @@ if (project.data.download && project.filePath) {
   <ProjectBadges slot="meta" project={project} />
 
   {dashboards.length > 0 && <DashboardEmbed slot="hero" pages={dashboards} />}
+  {live && <LiveEmbed slot="hero" url={live.url} label={live.label} poster={thumb} />}
 
   <div class="project-body prose" data-zoom>
     {results.length > 0 && (
