@@ -1,6 +1,28 @@
 ---
 // Full-page animated globe background (Vanta.js GLOBE effect, MIT).
 // three.js r134 and the effect are self-hosted in public/vendor/vanta/.
+//
+// Performance (see "Performance and motion" in AGENTS.md):
+//  - Starts after the page has painted and fades in, so setting up WebGL never
+//    delays the first screen or the homepage intro.
+//  - Where the globe is the focus (the homepage hero) it renders at the
+//    screen's full resolution, exactly as designed. Behind the dark veil
+//    (dimmed pages, and the homepage once the hero is fully off screen) it
+//    renders at low resolution, which the blur hides.
+//  - Dimmed pages blur the canvas itself (filter) instead of a backdrop-filter
+//    on the veil: same look, one blur pass instead of re-reading the screen.
+//  - Behind the veil it is drawn at 30 frames per second (motion unchanged).
+//  - If frames come in slow, the resolution steps down on its own: a device
+//    that cannot keep up gets a slightly softer globe instead of a jerky one.
+//  - WebGL lines are one drawing pixel wide, so a lower resolution draws them
+//    wider and brighter. The canvas opacity is lowered by the same factor
+//    (resolution / device pixel ratio), so the globe keeps its brightness.
+//  - The canvas is fixed to the screen, so Vanta's per-frame and per-mousemove
+//    layout reads are replaced with values that need no layout.
+//  - Anything can pause it: document.dispatchEvent(new CustomEvent('globe:pause',
+//    { detail: 'my-reason' })) and 'globe:resume' with the same detail. It runs
+//    again once every reason has resumed. The lightbox and the live app embed use this.
+//  - Off for reduced motion and for Data Saver: the plain dark background stays.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -9,26 +31,150 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <script is:inline defer src={`${base}/vendor/vanta/three.r134.min.js`}></script>
 <script is:inline defer src={`${base}/vendor/vanta/vanta.globe.min.js`}></script>
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Respect reduced-motion: keep the plain dark background instead.
+  (function () {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.VANTA || !window.VANTA.GLOBE) return;
+    if (navigator.connection && navigator.connection.saveData) return;
 
-    window.VANTA.GLOBE({
-      el: '#globe-bg',
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200,
-      minWidth: 200,
-      scale: 1,
-      scaleMobile: 1,
-      size: 1,
-      color: 0x8b5cf6, // lines: violet
-      color2: 0xc4b5fd, // dots: soft lilac
-      backgroundColor: 0x07050c, // matches --bg
-    });
-  });
+    // Pixel ratios for the two modes. The first entry is the normal quality
+    // (Infinity = the screen's own); later ones are used only if the device
+    // keeps missing frames.
+    var SHARP = [Infinity, 2, 1.5, 1, 0.75];
+    var SOFT = [0.5, 0.35];
+    // ms: below about 24 frames per second. Not lower, so a browser that caps
+    // animation at 30 per second to save battery doesn't count as slow.
+    var SLOW_FRAME = 40;
+    var dpr = window.devicePixelRatio || 1; // changes with browser zoom: see apply()
+
+    function start() {
+      if (!window.VANTA || !window.VANTA.GLOBE) return;
+      var el = document.getElementById('globe-bg');
+      var focus = document.querySelector('[data-globe-focus]');
+      var dimmed = document.body.classList.contains('bg-dim');
+      var veiled = dimmed || !!(focus && focus.getBoundingClientRect().bottom <= -200);
+      var steps = { sharp: 0, soft: 0 };
+      var ratio = function () {
+        return veiled ? Math.min(dpr, SOFT[steps.soft]) : Math.min(dpr, SHARP[steps.sharp]);
+      };
+
+      var effect = window.VANTA.GLOBE({
+        el: el,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        // Vanta renders at devicePixelRatio / scale
+        scale: dpr / ratio(),
+        scaleMobile: dpr / ratio(),
+        size: 1,
+        color: 0x8b5cf6, // lines: violet
+        color2: 0xc4b5fd, // dots: soft lilac
+        backgroundColor: 0x07050c, // matches --bg
+      });
+      if (!effect || !effect.renderer) return;
+
+      // The canvas always covers the screen, so Vanta's on-screen test (a layout
+      // read every frame) becomes the place to skip frames instead. Behind the
+      // veil the globe is a faint blurred haze: it is drawn every other frame,
+      // while its motion still advances every frame, so it keeps its speed.
+      var tick = 0;
+      effect.isOnScreen = function () {
+        if (veiled && tick++ % 2) {
+          effect.onUpdate();
+          return false;
+        }
+        return true;
+      };
+      effect.getCanvasRect = function () {
+        return { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+      };
+
+      var apply = function () {
+        dpr = window.devicePixelRatio || 1;
+        var r = ratio();
+        effect.scale = effect.options.scale = effect.options.scaleMobile = dpr / r;
+        effect.resize();
+        effect.renderer.domElement.style.opacity = String(Math.min(1, r / dpr));
+      };
+      apply();
+      // Browser zoom changes the pixel ratio; Vanta handles the size itself.
+      window.addEventListener('resize', function () {
+        if ((window.devicePixelRatio || 1) !== dpr) apply();
+      });
+
+      // Frame watch: after a slow stretch, step the current mode's resolution down.
+      var loop = effect.animationLoop;
+      var last = 0;
+      var slow = 0;
+      var count = 0;
+      var paused = {};
+      var running = true;
+      effect.animationLoop = function () {
+        var now = performance.now();
+        var gap = now - last;
+        last = now;
+        // Ignore gaps from a hidden tab or a pause.
+        if (gap < 250) {
+          count++;
+          if (gap > SLOW_FRAME) slow++;
+          if (count >= 90) {
+            var key = veiled ? 'soft' : 'sharp';
+            var list = veiled ? SOFT : SHARP;
+            if (slow > count / 2) {
+              // Skip steps that would not change anything on this screen.
+              var was = ratio();
+              while (steps[key] < list.length - 1 && ratio() === was) steps[key]++;
+              if (ratio() !== was) apply();
+            }
+            count = slow = 0;
+          }
+        }
+        return loop.apply(effect, arguments);
+      };
+
+      // Sharp while the focus element (the homepage hero) is on screen, soft behind the veil.
+      if (focus && !dimmed && 'IntersectionObserver' in window) {
+        // The margin covers the veil's 140px fade-in band under the hero.
+        new IntersectionObserver(
+          function (entries) {
+            var next = !entries[0].isIntersecting;
+            if (next !== veiled) {
+              veiled = next;
+              apply();
+            }
+          },
+          { rootMargin: '200px 0px 0px 0px' },
+        ).observe(focus);
+      }
+
+      // Pause and resume by reason (see the note at the top of the file).
+      document.addEventListener('globe:pause', function (e) {
+        paused[(e.detail || 'any')] = true;
+        if (running) {
+          running = false;
+          window.cancelAnimationFrame(effect.req);
+        }
+      });
+      document.addEventListener('globe:resume', function (e) {
+        delete paused[(e.detail || 'any')];
+        if (!running && Object.keys(paused).length === 0) {
+          running = true;
+          last = performance.now();
+          effect.animationLoop();
+        }
+      });
+
+      el.classList.add('is-ready');
+    }
+
+    // After first paint and when the browser is idle, so the first screen comes first.
+    function later() {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(start, { timeout: 600 });
+      else window.setTimeout(start, 120);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', later);
+    else later();
+  })();
 </script>
 
 <style>
@@ -37,5 +183,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     inset: 0;
     z-index: -2; /* below the purple glow (body::before, z-index -1) */
     pointer-events: none;
+    opacity: 0;
+  }
+
+  #globe-bg.is-ready {
+    opacity: 1;
+    transition: opacity 0.9s ease;
+  }
+
+  /* Dimmed pages: the globe shows only as a soft haze behind the veil */
+  :global(body.bg-dim) #globe-bg {
+    filter: blur(6px);
   }
 </style>

@@ -212,16 +212,31 @@ const lastPublished = dots[dots.length - 1];
       cross.hidden = live.hidden = tip.hidden = true;
     };
 
-    plot.addEventListener('pointermove', (event) => {
+    // Pointer moves can fire several times a frame: handle only the latest, once per frame.
+    let pointerX = 0;
+    let queued = false;
+    const track = () => {
+      queued = false;
+      if (Number.isNaN(pointerX)) return; // the pointer left before this frame
       const box = plot.getBoundingClientRect();
-      const x = ((event.clientX - box.left) / box.width) * 100;
+      const x = ((pointerX - box.left) / box.width) * 100;
       let nearest = 0;
       points.forEach((p, i) => {
         if (Math.abs(p.x - x) < Math.abs(points[nearest].x - x)) nearest = i;
       });
       if (nearest !== current) show(nearest);
+    };
+    plot.addEventListener('pointermove', (event) => {
+      pointerX = event.clientX;
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(track);
+      }
     });
-    plot.addEventListener('pointerleave', hide);
+    plot.addEventListener('pointerleave', () => {
+      pointerX = NaN;
+      hide();
+    });
     plot.addEventListener('blur', hide);
     plot.addEventListener('keydown', (event) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;

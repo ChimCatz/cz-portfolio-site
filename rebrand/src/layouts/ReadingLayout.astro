@@ -218,8 +218,6 @@ const hero = Astro.slots.has('hero') ? (await Astro.slots.render('hero')).trim()
     position: sticky;
     top: calc(var(--header-h) + 24px);
     background: rgba(13, 10, 22, 0.72);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 18px;

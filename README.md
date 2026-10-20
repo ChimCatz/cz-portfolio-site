@@ -21,7 +21,7 @@ Clean. Analyze. Visualize. Automate.
 
 | Page | What you'll find |
 |---|---|
-| [Projects](https://chimcatz.github.io/cz-portfolio-site/projects/) | Case studies of automation tools and dashboards: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, a call tracking dashboard built on Google Apps Script, and two open-source projects still in progress. |
+| [Projects](https://chimcatz.github.io/cz-portfolio-site/projects/) | Case studies of automation tools and dashboards: a Python desktop suite for CRM data work, live Zoho Analytics dashboards, a call tracking dashboard built on Google Apps Script, two open-source projects still in progress, and side projects made for fun. |
 | [Data Studies](https://chimcatz.github.io/cz-portfolio-site/data-studies/) | Public datasets taken apart, with the charts, the method, and the data to download. |
 | [Insights](https://chimcatz.github.io/cz-portfolio-site/insights/) | Writing on data, tools, and building with AI, including an interactive piece on the job market. |
 | [About Me](https://chimcatz.github.io/cz-portfolio-site/about/) | Background, tool stack, and certifications. |
@@ -62,6 +62,14 @@ A few things worth opening:
   download an original.
 - **Accessible by default:** keyboard support, reduced-motion support, and
   every layout checked at desktop, laptop, and phone sizes.
+- **Smooth on modest hardware:** only transform and opacity animate, loops
+  stop when they're off screen, heavy embeds load on a click, and the
+  background globe renders at a lower resolution and frame rate wherever it
+  sits blurred behind the page, without changing how it looks.
+- **Checked by a script:** `npm run check` opens every page at three screen
+  sizes and fails on script errors, sideways scrolling, or an oversized
+  footer. It can also compare layouts before and after a change, and
+  measure frame rates.
 - **Published by GitHub Actions** to GitHub Pages on every push to `main`.
 
 ## Project structure
@@ -105,6 +113,7 @@ npm run dev
 | `npm run resume` | Re-renders the Resume page image from the PDF (needs Python with PyMuPDF). |
 | `npm run logos` | Rebuilds the tool logos on About Me from `source-files/logos/`. |
 | `npm run project-art` | Re-renders dashboard screenshots and the link-preview card (needs Playwright). |
+| `npm run check` | Checks every built page at three screen sizes; `-- --compare` and `-- --perf` for layout and frame-rate comparisons (needs Playwright). |
 
 ## Adding content
 

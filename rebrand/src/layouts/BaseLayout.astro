@@ -4,6 +4,10 @@ import { getImage } from 'astro:assets';
 import '@fontsource-variable/space-grotesk';
 import '@fontsource-variable/montserrat';
 import '../styles/global.css';
+// The Latin files of both fonts, preloaded so text appears in its final font
+// sooner (fewer reflows as the fonts swap in). Same files the CSS above uses.
+import displayFont from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+import bodyFont from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url';
 import GlobeBackground from '../components/GlobeBackground.astro';
 import Motion from '../components/Motion.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -44,6 +48,8 @@ const cardUrl = new URL(card.src, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#07050c" />
     <title>{title}</title>
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
     {description && <meta name="description" content={description} />}
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />

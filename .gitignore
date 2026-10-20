@@ -3,6 +3,7 @@
 node_modules/
 dist/
 .astro/
+.layout-baseline.json
 
 # Secrets and local environment: never commit these
 

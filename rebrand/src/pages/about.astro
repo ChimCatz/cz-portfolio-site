@@ -400,11 +400,26 @@ const now = [
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setInterval(update, 1000);
     } else {
-      const loop = () => {
-        update();
-        requestAnimationFrame(loop);
+      // About 30 times a second while it is on screen (the last digit changes
+      // about every 32 ms, so more often would redraw the same text); stopped
+      // while scrolled away.
+      let visible = true;
+      let frame = 0;
+      let last = 0;
+      const loop = (now: number) => {
+        if (now - last >= 30) {
+          last = now;
+          update();
+        }
+        frame = visible ? requestAnimationFrame(loop) : 0;
       };
-      requestAnimationFrame(loop);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible && !frame) frame = requestAnimationFrame(loop);
+        }).observe(node);
+      }
+      frame = requestAnimationFrame(loop);
     }
   }
 </script>
@@ -441,8 +456,6 @@ const now = [
   .about-profile,
   .about-extras {
     background: rgba(13, 10, 22, 0.72);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--line);
     padding: 16px;
   }

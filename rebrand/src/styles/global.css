@@ -84,14 +84,15 @@ body::before {
     radial-gradient(45% 40% at 0% 15%, rgba(76, 29, 149, 0.18), transparent 70%);
 }
 
-/* Reading pages: same glow, but the globe sits behind a dark veil */
+/* Reading pages: same glow, but the globe sits behind a dark veil. The globe
+   is blurred by its own filter on these pages (GlobeBackground.astro), not by
+   a backdrop-filter here: a backdrop-filter re-reads everything behind it, and
+   over the moving globe that happened on every frame. */
 body.bg-dim::before {
   background:
     radial-gradient(60% 45% at 85% 0%, rgba(124, 58, 237, 0.18), transparent 70%),
     radial-gradient(45% 40% at 0% 15%, rgba(76, 29, 149, 0.14), transparent 70%),
     rgba(7, 5, 12, 0.9);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 main {

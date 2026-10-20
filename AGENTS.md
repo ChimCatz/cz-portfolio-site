@@ -43,7 +43,11 @@ decisions and rules behind it.
   publishes the site.
 - **Viewport baselines (always test):** 1920x1080, 1366x768, 360x800. Check
   every layout change at all three before calling it done, including
-  horizontal overflow on mobile.
+  horizontal overflow on mobile. `npm run check` does this for every page
+  (see Performance and motion).
+- **Performance (user, 2026-10-20):** the site may become a bit more
+  interactive, but never at the cost of speed or frame rate. Follow the
+  rules in Performance and motion, and measure before and after.
 - **Footer height:** never taller than 10% of the screen height, at any
   screen size (see Footer below).
 - **Writing:** direct, practical storytelling: the real problem, the
@@ -83,7 +87,9 @@ decisions and rules behind it.
 - **Testing with a browser:** Playwright is not a dependency. Install it
   once (`npx playwright install chromium`) or point `PLAYWRIGHT_PATH` at an
   existing copy. In Git Bash, pass URL paths without a leading slash, or the
-  shell rewrites them into Windows paths.
+  shell rewrites them into Windows paths. `npm run check`
+  (`scripts/check-site.cjs`) uses the same Playwright; it serves `dist/`
+  itself, so no preview server is needed.
 - **Old addresses:** `rebrand/public/czcatzzz.html` and `about-me.html`
   redirect the previous site's two main addresses. `src/pages/404.astro`
   sends other old `.html` links on: insights and data studies to their new
@@ -97,6 +103,9 @@ decisions and rules behind it.
   the source of truth.
 - **Background:** Vanta globe (self-hosted three r134 + vanta.globe in
   `public/vendor/vanta/`), dimmed via `dimBackground` on reading pages.
+  `src/components/GlobeBackground.astro` tunes it for speed without changing
+  its look (Performance and motion, below). Don't edit the vendor files:
+  change behaviour on the Vanta instance in that component.
 - **Header:** fixed and semi-transparent, `cz.catzzz` wordmark, then About
   Me, Projects, Data Studies, Insights, Resume, Get in Touch; a menu button
   at 860px and below. Page links, email, social links and brand icon paths
@@ -123,7 +132,9 @@ decisions and rules behind it.
   static). Same 25/75 split as About Me: profile card (photo, name,
   location, live local time in Asia/Manila), a large email tile with a Copy
   button, and tiles for LinkedIn, Facebook and GitHub. No phone number, and
-  nothing about being open to job offers, on purpose.
+  nothing about being open to job offers, on purpose. A contact form is
+  planned but not built yet: the agreed plan and the user's setup steps are
+  in `setup/contact-form.md`.
 - **Terms & Policies** (`src/pages/terms.astro`): linked from the footer
   only. Keep it true to the site: it says there are no cookies, analytics,
   forms or accounts, that GitHub Pages logs visitor IPs, that the dashboards
@@ -346,15 +357,130 @@ in `src/lib/projects.ts`.
   (the certificate itself, in the image's pixels). No verify links or
   certificate IDs: ask the user for the URLs before adding any.
 
-## Motion
+## Performance and motion
 
-`src/components/Motion.astro` (in BaseLayout) fades in elements matching its
-REVEAL list on first scroll into view and counts up `[data-count]` numbers.
-Project pages draw the evolution timeline; ReadingLayout has the reading
-progress bar; the homepage hero has a CSS-only word intro. Rules: JS hides
-content (never CSS alone), elements on the first screen aren't hidden, only
-opacity/transform animate, transitions live on the visible state only, and
-everything is off for prefers-reduced-motion.
+What moves today: `src/components/Motion.astro` (in BaseLayout) fades in
+elements matching its REVEAL list on first scroll into view and counts up
+`[data-count]` numbers. Project pages draw the evolution timeline (its "now"
+dot pulses with a ring); ReadingLayout has the reading progress bar; the
+homepage hero has a CSS-only word intro; About Me has the live age counter;
+and the globe turns behind everything. Transitions live on the visible
+state only, and everything is off for prefers-reduced-motion.
+
+### The globe (`GlobeBackground.astro`)
+
+- Starts when the browser is idle after the first paint, then fades in, so
+  WebGL setup never delays the first screen or the hero intro.
+- **Focus vs. veiled.** Where the globe is the focus (an element marked
+  `data-globe-focus`: the homepage hero) it renders at the screen's own
+  resolution, exactly as designed. Behind the dark veil (dimmed pages, and
+  the homepage once the hero is fully off screen) it renders at half
+  resolution and is drawn every other frame (its motion still advances
+  every frame, so the speed doesn't change). The canvas opacity is lowered
+  by the same factor as the resolution, so the brightness is unchanged
+  (measured within 1%).
+- **Dimmed pages blur the canvas itself** (`filter: blur(6px)`), not the
+  veil (`body.bg-dim::before` has no backdrop-filter). Same look, but one
+  blur pass instead of re-reading the whole screen on every frame. The
+  homepage veil (`.home-more::before`) keeps its backdrop-filter, because
+  the hero above it must stay sharp.
+- **Adaptive:** if most frames over a 1.5-second stretch take longer than
+  40 ms (under about 24 per second), the resolution steps down a level. A
+  30-per-second battery-saver cap doesn't count as slow.
+- Vanta's own per-frame and per-mousemove layout reads are replaced (the
+  canvas is fixed to the screen, so its box is always the window).
+- **Pause API:** `document.dispatchEvent(new CustomEvent('globe:pause',
+  { detail: 'reason' }))` and `'globe:resume'` with the same reason. It runs
+  again once every reason has resumed, and nothing happens if the globe
+  isn't running. The lightbox pauses it while open; the live app embed
+  pauses it while the app is on screen. Use it for anything that covers the
+  page or brings its own animation.
+- Off for prefers-reduced-motion and for Data Saver: the plain dark
+  background stays.
+
+### Rules for anything new
+
+These keep new features from slowing down or breaking what exists. They are
+defaults: break one only with a measured reason, and note it here.
+
+1. **Only `transform` and `opacity` animate** (including `translate`,
+   `scale`, `rotate`). No animating `box-shadow`, `filter`, `width`,
+   `height`, `top`/`left`, `background-position` or colours on large areas.
+   Small hover colour fades are fine. Existing exceptions: the hero intro's
+   one-time blur-in and its one-time shine.
+2. **No new `backdrop-filter` over the moving globe** on large areas. The
+   header, the footer, the homepage veil and the lightbox backdrop are the
+   only ones. A panel on a dimmed page uses a solid
+   `rgba(13, 10, 22, 0.72)` background without blur: the veil behind it is
+   already dark and soft, so a blur shows nothing and costs a redraw every
+   frame.
+3. **Every loop stops when nobody can see it.** A `requestAnimationFrame`
+   or timer loop stops when its element leaves the screen
+   (IntersectionObserver) and has a reduced-motion version. One-off
+   animations end on their own.
+4. **Input handlers do little.** Scroll and touch listeners are `passive`;
+   `scroll`, `resize`, `pointermove` and `mousemove` work is coalesced to at
+   most once per frame with `requestAnimationFrame`; read layout
+   (`getBoundingClientRect`, `offsetHeight`) before writing styles, never
+   in between.
+5. **Heavy things load on demand.** Iframes, another canvas or WebGL scene,
+   video, and large scripts or data load on a click or when they come near
+   the screen, not with the page (see `LiveEmbed.astro`). If they animate,
+   they pause the globe while they are on screen.
+6. **Content first.** Never hide content with CSS alone (only a script
+   hides, so a failed script shows everything); don't hide what is on the
+   first screen; reserve space for anything that loads late (images have
+   width and height, embeds a fixed height or aspect ratio) so nothing jumps.
+7. **Scripts stay small and local.** No new runtime dependency or framework
+   for interactivity: plain scripts inside the component that needs them,
+   shipped only on pages that use them. Elements a script creates get
+   global styles under a wrapper (see Lessons).
+8. **Images** go through Astro's `<Image>` with `widths` and `sizes`, lazy
+   below the first screen. Fonts: only the two brand families; their Latin
+   files are preloaded in BaseLayout.
+9. **Navigation:** pages are prefetched when a link is hovered or focused
+   (`prefetch` in `astro.config.mjs`). Keep internal links as plain
+   `<a href>`.
+
+### How much interactivity (user, 2026-10-20)
+
+"A bit more interactive, but not too much." Welcome: hover and focus
+feedback, small reveals, interactive charts and tooltips, opt-in demos and
+embeds behind a button, small touches like the live age counter. Not
+welcome: scroll-jacking, parallax tied to scrolling, custom cursors,
+autoplaying video or sound, things that keep moving on their own (the globe
+and one-time intros are the only always-on motion), and anything that only
+works with a mouse. Every interaction works by keyboard, and the page reads
+fine without it.
+
+### Checking a change (`npm run check`, in `rebrand/`)
+
+Run after `npm run build`. It serves `dist/` itself and opens every page in
+the sitemap at 1920x1080, 1366x768 and 360x800.
+
+| Command | What it does |
+|---|---|
+| `npm run check` | Fails on a script error, sideways scrolling, or a footer taller than 10% of the screen. |
+| `npm run check -- --save` | Also saves a layout baseline: the boxes of the main elements on every page, measured with reduced motion so runs match exactly. Git-ignored (`rebrand/.layout-baseline.json`). |
+| `npm run check -- --compare` | Also compares with the saved baseline and lists what moved. |
+| `npm run check -- --perf` | Scrolls five pages with motion on: frames per second, slow frames, main-thread load, long tasks. |
+| `... --perf --phone` / `--slow` / `--weak-gpu` | Phone screen at 3x density / CPU slowed 4x / software drawing, a stand-in for a weak phone graphics chip. |
+| `--only=home,about` | Limits a run to the homepage and pages whose path contains these. |
+
+Routine: for a change that should not move anything (refactor, performance
+work), `--save` before and `--compare` after: no layout lines means nothing
+moved. For a change that adds or changes motion, run `--perf` and
+`--perf --phone --weak-gpu` before and after: the numbers must not drop.
+`CHECK_DIST=<folder>` runs it on another build (e.g. a copy of the old
+`dist/` in `temp/`) for side-by-side numbers. On Windows, `--perf` uses the
+real graphics card; desktop numbers there sit at 60, so the `--weak-gpu`
+runs are where differences show. Software-drawn numbers vary by a few
+frames between runs: repeat before trusting a small difference.
+
+Measured on 2026-10-20 (weak-GPU runs, frames per second, before -> after
+the performance pass): phone size, dimmed pages 31-36 -> 51-60 and the
+homepage 51 -> 53; desktop size, dimmed pages 14-18 -> 20-26 (the homepage,
+whose hero is unchanged by design, 8-14 both).
 
 ## Lessons
 
@@ -364,3 +490,11 @@ everything is off for prefers-reduced-motion.
 - **Scoped styles and scripts:** elements a script creates do not get
   Astro's scoped-style attribute. Style them with `is:global` under a
   wrapper, as the search demo and the job market insight do.
+- **backdrop-filter over animation:** a backdrop-filter re-reads and blurs
+  everything behind it whenever that changes. Over the moving globe that was
+  every frame, on every dimmed page, and it cost more than the globe itself.
+  Blur the moving thing once (a `filter` on it) instead.
+- **Measure, then judge by eye:** a faster render can change the look (a
+  lower resolution draws WebGL lines wider and brighter). Compare
+  screenshots and average brightness before and after, not just frame
+  rates.

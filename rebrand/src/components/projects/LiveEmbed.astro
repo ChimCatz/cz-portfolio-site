@@ -65,6 +65,15 @@ const host = new URL(url).host;
       start.replaceWith(frame);
       live.classList.add('is-running');
       frame.focus();
+
+      // Two animated globes at once is one too many: while the app is on screen,
+      // the background globe (barely visible behind the veil here) holds still.
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+          const type = entry.isIntersecting ? 'globe:pause' : 'globe:resume';
+          document.dispatchEvent(new CustomEvent(type, { detail: 'live-embed' }));
+        }).observe(frame);
+      }
     });
   });
 </script>

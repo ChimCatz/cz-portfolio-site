@@ -46,7 +46,13 @@
       prev.hidden = next.hidden = group.length < 2;
       show(group.indexOf(img));
       dialog.showModal();
+      // The blurred backdrop covers the page: hold the background globe still under it.
+      document.dispatchEvent(new CustomEvent('globe:pause', { detail: 'lightbox' }));
     };
+
+    dialog.addEventListener('close', () => {
+      document.dispatchEvent(new CustomEvent('globe:resume', { detail: 'lightbox' }));
+    });
 
     document.querySelectorAll<HTMLImageElement>('[data-zoom] figure img, [data-zoom] .gallery img').forEach((img) => {
       img.classList.add('zoomable');

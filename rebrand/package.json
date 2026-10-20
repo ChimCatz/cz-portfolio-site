@@ -10,7 +10,8 @@
     "astro": "astro",
     "resume": "python scripts/render-resume.py",
     "project-art": "node scripts/project-art/render.cjs",
-    "logos": "node scripts/logos.cjs"
+    "logos": "node scripts/logos.cjs",
+    "check": "node scripts/check-site.cjs"
   },
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.3.0",
