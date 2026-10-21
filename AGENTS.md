@@ -150,6 +150,17 @@ decisions and rules behind it.
     token comes back. Without JavaScript the form is hidden by a
     `<noscript>` style and the email tile still works. The plan it was built
     from is `setup/contact-form.md`.
+  - **Motion on the page (user, 2026-10-21: "nicer, with more animation"):**
+    a one-time rise-in of the card and column on load (CSS, `backwards`
+    fill so nothing is held afterwards), a glow around the form while it
+    has focus, a focus line under each field, a tick when the email looks
+    valid, a message counter, a shake on fields that need fixing, and a
+    send button whose plane flies off. The thank-you panel is filled in by
+    the script with the sender's first name, address, a quote of the
+    message and the time in Cagayan de Oro, takes the form's height so
+    nothing below jumps, and plays its badge, burst and rise-in once. "Send
+    another message" brings the form back empty. All transform and opacity,
+    all off for reduced motion.
 - **Terms & Policies** (`src/pages/terms.astro`): linked from the footer
   only. Keep it true to the site: it says there are no cookies, analytics
   or accounts, that GitHub Pages logs visitor IPs, that the dashboards load
@@ -505,6 +516,11 @@ whose hero is unchanged by design, 8-14 both).
 - **Hover UI:** any flyout or hover reveal must size its hoverable parent to
   cover the revealed content, or the hover state drops before the cursor
   reaches it.
+- **`hidden` and `display`:** a `display` rule on an element (e.g.
+  `display: grid`) beats the `hidden` attribute, so `el.hidden = true` does
+  nothing. Give such elements a `[hidden] { display: none; }` rule. The
+  contact form shipped once with this bug: the form stayed on screen under
+  the thank-you message.
 - **Scoped styles and scripts:** elements a script creates do not get
   Astro's scoped-style attribute. Style them with `is:global` under a
   wrapper, as the search demo and the job market insight do.
