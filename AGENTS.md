@@ -60,6 +60,7 @@ decisions and rules behind it.
 | Path | What it is |
 |---|---|
 | `rebrand/` | The site (Astro 5). Run npm commands here. |
+| `worker/` | The Cloudflare Worker behind the contact form (`worker/README.md`). Not published with the site; deployed by hand. |
 | `source-files/` | Originals the site is made from (profile photo, tool logos, Vanta package). Not published. |
 | `setup/` | Scripts and lists for rebuilding the dev setup on a new PC (`setup/README.md`). |
 | `temp/` | Drop folder for new files (it replaced `inbox/`). Git-ignored except its README. Move a file into the site when you use it, so whatever is left there is unused. |
@@ -79,6 +80,12 @@ decisions and rules behind it.
   `.github/workflows/checks.yml` runs the same check and a build on every
   other branch and on pull requests. Day to day: work on a branch, merge
   into `main` to publish.
+- **Contact form Worker:** `worker/` is deployed by hand
+  (`npx wrangler deploy` there, Node 22 or newer), not by the workflows. Its
+  secrets (`CAP_SECRET`, `RESEND_API_KEY`) are set with
+  `npx wrangler secret put` and never go in a file or the chat: the user
+  types the Resend key at the prompt. Its address is `CONTACT_API` in
+  `site.ts`.
 - **CI runs on Linux, where file names are case-sensitive:** a reference
   like `./Banner.png` to `banner.png` builds on Windows and fails there.
 - **Rebuilding while previewing (Windows):** `astro preview` keeps files in
@@ -128,17 +135,27 @@ decisions and rules behind it.
   certifications.
 - **Resume:** PDF download/open; the page image is rendered with
   `npm run resume`.
-- **Get in Touch** (`src/pages/contact.astro`): no form (the site is
-  static). Same 25/75 split as About Me: profile card (photo, name,
-  location, live local time in Asia/Manila), a large email tile with a Copy
-  button, and tiles for LinkedIn, Facebook and GitHub. No phone number, and
-  nothing about being open to job offers, on purpose. A contact form is
-  planned but not built yet: the agreed plan and the user's setup steps are
-  in `setup/contact-form.md`.
+- **Get in Touch** (`src/pages/contact.astro`): same 25/75 split as About
+  Me: profile card (photo, name, location, live local time in Asia/Manila),
+  then the contact form, then "Or reach me directly": a large email tile
+  with a Copy button and tiles for LinkedIn, Facebook and GitHub. No phone
+  number, and nothing about being open to job offers, on purpose.
+  - **Contact form** (Full Name, Email, Message): posts to the Worker in
+    `worker/`, which checks a Cap proof-of-work token and sends the message
+    through Resend to `EMAIL`. Nothing is stored. The Cap widget
+    (`public/vendor/cap/`, self-hosted with its WASM file; don't edit those
+    files) loads on the first focus, tap or keystroke in the form, never
+    with the page. Its placeholder has the widget's exact size. The globe
+    pauses (reason `contact-form`) from Cap's challenge request until the
+    token comes back. Without JavaScript the form is hidden by a
+    `<noscript>` style and the email tile still works. The plan it was built
+    from is `setup/contact-form.md`.
 - **Terms & Policies** (`src/pages/terms.astro`): linked from the footer
-  only. Keep it true to the site: it says there are no cookies, analytics,
-  forms or accounts, that GitHub Pages logs visitor IPs, that the dashboards
-  load a font from Zoho's CDN, and that the search demo runs in the browser.
+  only. Keep it true to the site: it says there are no cookies, analytics
+  or accounts, that GitHub Pages logs visitor IPs, that the dashboards load
+  a font from Zoho's CDN, that the search demo runs in the browser, and how
+  the contact form works (Cloudflare Worker and Resend, nothing stored, IP
+  used only for rate limiting, Cap stores nothing in the browser).
   If any of that changes (e.g. analytics is added), update the privacy
   section and the `UPDATED` date in the same change. It also lists the
   trademark owners: add a line when a tool with a new owner is added. The
@@ -393,7 +410,8 @@ state only, and everything is off for prefers-reduced-motion.
   { detail: 'reason' }))` and `'globe:resume'` with the same reason. It runs
   again once every reason has resumed, and nothing happens if the globe
   isn't running. The lightbox pauses it while open; the live app embed
-  pauses it while the app is on screen. Use it for anything that covers the
+  pauses it while the app is on screen; the contact form pauses it while
+  Cap's proof-of-work runs. Use it for anything that covers the
   page or brings its own animation.
 - Off for prefers-reduced-motion and for Data Saver: the plain dark
   background stays.

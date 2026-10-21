@@ -1,5 +1,8 @@
 # Contact form: finish at home
 
+> **Status (2026-10-21):** built and tested locally, including the user's part
+> below. The Worker is deployed by hand: see [`worker/README.md`](../worker/README.md).
+
 A Full Name / Email / Message form on the Get in Touch page that sends to
 the email address shown on that page. GitHub Pages can't run server code,
 so the form posts to a small **Cloudflare Worker**. The Worker checks a

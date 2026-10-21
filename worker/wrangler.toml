@@ -1,0 +1,37 @@
+# Cloudflare Worker behind the Get in Touch form. See README.md.
+# Secrets (CAP_SECRET, RESEND_API_KEY) are set with `npx wrangler secret put`
+# and never written into this file.
+
+name = "cz-contact"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+# capjs-core uses node:crypto
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+preview_urls = false
+
+[vars]
+# The address shown on Get in Touch (EMAIL in rebrand/src/lib/site.ts)
+TO_EMAIL = "catalanchimzoe.business@gmail.com"
+# Comma-separated. `npm run dev` adds localhost for testing.
+ALLOWED_ORIGINS = "https://chimcatz.github.io"
+
+# Cap replay keys and redeemed tokens; every entry expires on its own
+[[kv_namespaces]]
+binding = "CAP_KV"
+id = "a07529768ae04d95b5c8db5affd4766c"
+
+# Per-IP limits. Period is 10 or 60 seconds.
+[[ratelimits]]
+name = "SEND_LIMIT"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+[[ratelimits]]
+name = "CAP_LIMIT"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
+
+[alias]
+"esbuild" = "./src/no-instrumentation.js"
+"javascript-obfuscator" = "./src/no-instrumentation.js"

@@ -19,6 +19,10 @@ export const TERMS_LINK = { label: 'Terms & Policies', href: `${base}/terms` };
 
 export const EMAIL = 'catalanchimzoe.business@gmail.com';
 
+/** The Cloudflare Worker behind the Get in Touch form (`worker/`). For local
+ *  testing, run `PUBLIC_CONTACT_API=http://127.0.0.1:8787 npm run dev`. */
+export const CONTACT_API = import.meta.env.PUBLIC_CONTACT_API ?? 'https://cz-contact.cz-catalan.workers.dev';
+
 // Brand marks on a 24 x 24 grid (single path each, drawn in the text color).
 export const ICONS = {
   gmail:

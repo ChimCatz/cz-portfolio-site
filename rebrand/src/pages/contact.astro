@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import profileImg from '../assets/about/cz-profile.jpg';
-import { EMAIL, ICONS, SOCIALS as socials } from '../lib/site';
+import { CONTACT_API, EMAIL, ICONS, SOCIALS as socials, TERMS_LINK } from '../lib/site';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
@@ -48,8 +48,62 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <h1 id="contact-title">Let's talk <span class="gradient-text">data.</span></h1>
       <p class="contact-intro">
         Have a question about one of my projects, an idea for a dashboard, or data that needs untangling?
-        Send me a message. Email is the fastest way to reach me, and I'm on the networks below too.
+        Send me a message here, or reach me by email or on the networks below.
       </p>
+
+      <!-- The form posts to a Cloudflare Worker (worker/ in the repo). Cap, the
+           human check, loads only once the visitor starts the form. -->
+      <form class="contact-form" data-contact-form data-api={CONTACT_API} data-vendor={`${base}/vendor/cap/`} novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="cf-name">Full Name</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="cf-name-error" />
+            <p class="field-error" id="cf-name-error"></p>
+          </div>
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="cf-email-error" />
+            <p class="field-error" id="cf-email-error"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" rows="6" maxlength="5000" required aria-describedby="cf-message-error"></textarea>
+          <p class="field-error" id="cf-message-error"></p>
+        </div>
+
+        <!-- Left empty by people (it's off screen); bots fill it in -->
+        <div class="hp" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-foot">
+          <div class="cap-slot">
+            <cap-widget data-cap-api-endpoint={`${CONTACT_API}/cap/`} data-cap-i18n-initial-state="Verify you're human">
+              <span class="cap-placeholder" aria-hidden="true"><span class="cap-box"></span>Verify you're human</span>
+            </cap-widget>
+          </div>
+          <button class="btn btn-primary send" type="submit" data-send>Send message</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite" data-status></p>
+        <p class="form-note">
+          Your message goes to my inbox and isn't stored on this site.
+          <a href={`${TERMS_LINK.href}#privacy`}>How the form handles data</a>
+        </p>
+      </form>
+
+      <div class="form-sent" data-sent tabindex="-1" hidden>
+        <p class="sent-title">Thanks, your message is on its way.</p>
+        <p>I'll reply to the email address you gave.</p>
+      </div>
+
+      <noscript>
+        <style is:inline>[data-contact-form] { display: none !important; }</style>
+        <p class="form-sent">The contact form needs JavaScript. You can email me directly below.</p>
+      </noscript>
+
+      <h2 class="direct-title">Or reach me directly</h2>
 
       <div class="channel channel-email">
         <a class="channel-link" href={`mailto:${EMAIL}`}>
@@ -123,6 +177,190 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       reset = window.setTimeout(() => {
         label.textContent = 'Copy';
       }, 2000);
+    });
+  }
+
+  // ---------- Contact form ----------
+
+  type CapWidget = HTMLElement & { token: string | null; solve(): Promise<unknown>; reset(): void };
+  type CapWindow = Window & {
+    CAP_CUSTOM_WASM_URL?: string;
+    CAP_CUSTOM_FETCH?: typeof fetch;
+    CAP_DISABLE_WIDGET_REF?: boolean;
+  };
+
+  // Same rule as the Worker: one @, no spaces, a dot in the domain.
+  const EMAIL_PATTERN = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[^\s@<>()[\]\\,;:"]{2,}$/;
+
+  const ERRORS: Record<string, string> = {
+    name: 'Please enter your name.',
+    email: 'Please enter a valid email address.',
+    message: 'Please write a message.',
+    verification: "The human check didn't go through. Please press Send again.",
+    rate_limited: 'Too many messages in a short time. Please wait a minute and try again.',
+    failed: "Your message couldn't be sent. Please try again, or email me directly below.",
+  };
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  if (form) setUpForm(form);
+
+  function setUpForm(form: HTMLFormElement) {
+    const api = form.dataset.api!;
+    const vendor = form.dataset.vendor!;
+    const widget = form.querySelector('cap-widget') as CapWidget;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const send = form.querySelector<HTMLButtonElement>('[data-send]')!;
+    const sent = document.querySelector<HTMLElement>('[data-sent]')!;
+    const fields = {
+      name: form.elements.namedItem('name') as HTMLInputElement,
+      email: form.elements.namedItem('email') as HTMLInputElement,
+      message: form.elements.namedItem('message') as HTMLTextAreaElement,
+    };
+    const honeypot = form.elements.namedItem('website') as HTMLInputElement;
+
+    // The proof-of-work keeps the processor busy, so the globe rests while it
+    // runs: from the challenge request until the token comes back (or fails).
+    let busy = false;
+    let busyTimer: number | undefined;
+    const setBusy = (on: boolean) => {
+      window.clearTimeout(busyTimer);
+      if (on) busyTimer = window.setTimeout(() => setBusy(false), 60_000);
+      if (on === busy) return;
+      busy = on;
+      document.dispatchEvent(new CustomEvent(on ? 'globe:pause' : 'globe:resume', { detail: 'contact-form' }));
+    };
+    const trackedFetch: typeof fetch = (input, init) => {
+      const url = String(input);
+      const request = fetch(input, init);
+      if (url.endsWith('/challenge')) {
+        setBusy(true);
+        request.then((r) => !r.ok && setBusy(false), () => setBusy(false));
+      } else if (url.endsWith('/redeem')) {
+        request.then(
+          () => setBusy(false),
+          () => setBusy(false),
+        );
+      }
+      return request;
+    };
+    widget.addEventListener('error', () => setBusy(false));
+
+    // Cap loads on the first focus, tap or keystroke in the form, not with the page.
+    let capReady: Promise<void> | null = null;
+    const loadCap = () =>
+      (capReady ??= new Promise<void>((resolve, reject) => {
+        const w = window as CapWindow;
+        w.CAP_CUSTOM_WASM_URL = `${vendor}cap_wasm_bg.wasm`;
+        w.CAP_CUSTOM_FETCH = trackedFetch;
+        w.CAP_DISABLE_WIDGET_REF = true;
+        const script = document.createElement('script');
+        script.src = `${vendor}cap.min.js`;
+        script.onload = () => customElements.whenDefined('cap-widget').then(() => resolve());
+        script.onerror = () => {
+          capReady = null;
+          script.remove();
+          reject(new Error('failed'));
+        };
+        document.head.append(script);
+      }));
+    for (const type of ['focusin', 'pointerdown', 'input']) {
+      form.addEventListener(type, () => loadCap().catch(() => {}), { once: true, passive: true });
+    }
+
+    // A token from an earlier solve (the widget solves quietly in the background
+    // once it's loaded), or a fresh solve now.
+    const getToken = () =>
+      new Promise<string>((resolve, reject) => {
+        if (widget.token) return resolve(widget.token);
+        const done = () => {
+          widget.removeEventListener('solve', onSolve);
+          widget.removeEventListener('error', onError);
+        };
+        const onSolve = (e: Event) => {
+          done();
+          resolve((e as CustomEvent<{ token: string }>).detail.token);
+        };
+        const onError = () => {
+          done();
+          reject(new Error('verification'));
+        };
+        widget.addEventListener('solve', onSolve);
+        widget.addEventListener('error', onError);
+        widget.solve().catch(() => {});
+      });
+
+    const showError = (key: keyof typeof fields, message: string) => {
+      const input = fields[key];
+      input.setAttribute('aria-invalid', 'true');
+      document.getElementById(`${input.id}-error`)!.textContent = message;
+    };
+    const clearError = (key: keyof typeof fields) => {
+      fields[key].removeAttribute('aria-invalid');
+      document.getElementById(`${fields[key].id}-error`)!.textContent = '';
+    };
+    for (const key of Object.keys(fields) as (keyof typeof fields)[]) {
+      fields[key].addEventListener('input', () => clearError(key));
+    }
+
+    const setStatus = (text: string, isError = false) => {
+      status.textContent = text;
+      status.classList.toggle('is-error', isError);
+    };
+
+    let sending = false;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (sending) return;
+
+      const values = {
+        name: fields.name.value.trim(),
+        email: fields.email.value.trim(),
+        message: fields.message.value.trim(),
+      };
+      const invalid = (Object.keys(fields) as (keyof typeof fields)[]).filter((key) => {
+        const ok = key === 'email' ? EMAIL_PATTERN.test(values.email) : values[key].length > 0;
+        if (ok) clearError(key);
+        else showError(key, ERRORS[key]);
+        return !ok;
+      });
+      if (invalid.length) {
+        setStatus('Please check the highlighted fields.', true);
+        fields[invalid[0]].focus();
+        return;
+      }
+
+      sending = true;
+      send.disabled = true;
+      send.textContent = 'Sending...';
+      form.setAttribute('aria-busy', 'true');
+      setStatus('Sending your message...');
+
+      try {
+        await loadCap();
+        const capToken = await getToken();
+        const response = await fetch(`${api}/send`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...values, website: honeypot.value, capToken }),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!result.ok) throw new Error(result.error ?? 'failed');
+
+        form.hidden = true;
+        sent.hidden = false;
+        sent.focus();
+      } catch (error) {
+        // Every token is single use, so the next try solves a fresh one.
+        if (customElements.get('cap-widget')) widget.reset();
+        const code = error instanceof Error ? error.message : 'failed';
+        if (code in fields) showError(code as keyof typeof fields, ERRORS[code]);
+        setStatus(ERRORS[code] ?? ERRORS.failed, true);
+      } finally {
+        sending = false;
+        send.disabled = false;
+        send.textContent = 'Send message';
+        form.removeAttribute('aria-busy');
+      }
     });
   }
 </script>
@@ -217,6 +455,216 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     color: var(--text-soft);
   }
 
+  /* Contact form: a solid panel, no blur (the page behind is already dimmed) */
+  .contact-form,
+  .form-sent {
+    position: relative;
+    margin-top: clamp(24px, 3.5vh, 36px);
+    padding: clamp(18px, 2.5vw, 28px);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: rgba(13, 10, 22, 0.72);
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .field label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .field input,
+  .field textarea {
+    display: block;
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: rgba(7, 5, 12, 0.7);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+
+  .field textarea {
+    min-height: 9.5em;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--purple-400);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+  }
+
+  .field [aria-invalid='true'] {
+    border-color: #f87171;
+  }
+
+  .field-error {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #fca5a5;
+  }
+
+  .field-error:empty {
+    display: none;
+  }
+
+  /* Off screen, not display: none, so form-filling bots still see it */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  /* Cap draws itself in a shadow root; these variables reach inside. The
+     placeholder has the widget's exact size, so nothing moves when it loads. */
+  .cap-slot {
+    flex: 1 1 260px;
+    max-width: 340px;
+  }
+
+  /* flex, not block: the widget's inline-block box would add line spacing below */
+  cap-widget {
+    display: flex;
+    --cap-widget-width: 100%;
+    --cap-widget-height: 56px;
+    --cap-widget-padding: 14px;
+    --cap-gap: 14px;
+    --cap-background: rgb(16, 12, 26);
+    --cap-border-color: var(--line-strong);
+    --cap-border-radius: var(--radius-sm);
+    --cap-color: var(--text);
+    --cap-font: var(--font-body);
+    --cap-checkbox-size: 24px;
+    --cap-checkbox-border: 1px solid rgba(167, 139, 250, 0.55);
+    --cap-checkbox-border-radius: 6px;
+    --cap-checkbox-background: rgba(167, 139, 250, 0.08);
+    --cap-spinner-color: var(--purple-400);
+    --cap-spinner-background-color: rgba(167, 139, 250, 0.2);
+    --cap-focus-ring: var(--purple-400);
+  }
+
+  .cap-placeholder {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 14px;
+    height: 56px;
+    padding: 0 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: rgb(16, 12, 26);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cap-box {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border: 1px solid rgba(167, 139, 250, 0.55);
+    border-radius: 6px;
+    background: rgba(167, 139, 250, 0.08);
+  }
+
+  .send {
+    border: 0;
+    cursor: pointer;
+  }
+
+  .send:disabled {
+    opacity: 0.65;
+    cursor: progress;
+    transform: none;
+  }
+
+  .form-status {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+
+  .form-status:empty {
+    display: none;
+  }
+
+  .form-status.is-error {
+    color: #fca5a5;
+  }
+
+  .form-note {
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .form-note a {
+    color: var(--purple-400);
+    text-underline-offset: 3px;
+  }
+
+  .form-note a:hover {
+    color: var(--purple-300);
+  }
+
+  .form-sent[hidden] {
+    display: none;
+  }
+
+  .form-sent:focus {
+    outline: none;
+  }
+
+  .form-sent p {
+    color: var(--text-soft);
+  }
+
+  .form-sent .sent-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .direct-title {
+    margin-top: clamp(36px, 5vh, 52px);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--purple-400);
+  }
+
   /* Contact channels: logo, name, handle */
   .channel {
     border: 1px solid var(--line);
@@ -302,7 +750,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: clamp(28px, 4vh, 40px);
+    margin-top: 14px;
     padding-right: 16px;
     border-color: var(--line-strong);
   }
@@ -417,6 +865,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
     .facts dd {
       font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cap-slot {
+      flex-basis: 100%;
+      max-width: none;
+    }
+
+    .send {
+      flex: 1;
+      justify-content: center;
     }
   }
 

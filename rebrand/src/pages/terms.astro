@@ -4,7 +4,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { EMAIL } from '../lib/site';
 
-const UPDATED = 'October 20, 2026';
+const UPDATED = 'October 21, 2026';
 
 const sections = [
   { id: 'about', title: 'About this site' },
@@ -135,6 +135,7 @@ const sections = [
         <li>
           pandas, Matplotlib, Vtiger, Lusha, Apollo, Clay, Pipileads, Mailmeteor, ZeroBounce,
           LinkedIn, Facebook, and Gmail, whose names and logos belong to their respective owners.
+          Cloudflare and Resend, named in the privacy section, belong to their owners too.
         </li>
       </ul>
       <p>
@@ -217,7 +218,8 @@ const sections = [
       </p>
       <p>
         The site is built with open-source software, each under its own license: Astro, three.js,
-        and Vanta.js (MIT), and the Space Grotesk and Montserrat typefaces (SIL Open Font License).
+        and Vanta.js (MIT), Cap (Apache License 2.0), and the Space Grotesk and Montserrat typefaces
+        (SIL Open Font License).
       </p>
     </section>
 
@@ -253,8 +255,9 @@ const sections = [
     <section id="privacy">
       <h2>8. Privacy</h2>
       <p>
-        This site is built to collect as little as possible. It has no accounts, no forms, no
-        advertising, and no analytics or tracking scripts. Its pages do not set cookies.
+        This site is built to collect as little as possible. It has no accounts, no advertising, and
+        no analytics or tracking scripts. Its pages do not set cookies. The one form, on the Get in
+        Touch page, sends what you write to my inbox and nothing more.
       </p>
       <ul>
         <li>
@@ -281,9 +284,27 @@ const sections = [
           tracking or analytics of its own.
         </li>
         <li>
-          <strong>Email.</strong> If you email me, I receive your email address and whatever you
-          write. I use it only to reply to you. I don't sell it, share it, or add it to a mailing
-          list, and I will delete it if you ask.
+          <strong>Contact form.</strong> When you press Send, your name, email address, and message go
+          to a small program I run on Cloudflare Workers, which passes them to Resend, an email
+          service, to deliver to my inbox. Neither this site nor that program stores the message.
+          Cloudflare sees your IP address, as with any web request; the program uses it only to limit
+          how many messages one address can send in a minute and does not keep it. Resend may keep a
+          record of delivered emails for a limited time under its own
+          <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">privacy policy</a>;
+          see also Cloudflare's
+          <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">privacy policy</a>.
+        </li>
+        <li>
+          <strong>Spam check.</strong> Before a message is sent, a check called Cap runs in your
+          browser. It loads only once you start filling in the form, and it solves a small puzzle that
+          keeps your processor busy for a moment, which is cheap for one person and costly for a
+          spam bot. Its files are served from this site. It sets no cookies, stores nothing in your
+          browser, and collects nothing about you.
+        </li>
+        <li>
+          <strong>Email.</strong> If you email me or write to me with the form, I receive your email
+          address and whatever you write. I use it only to reply to you. I don't sell it, share it,
+          or add it to a mailing list, and I will delete it if you ask.
         </li>
         <li>
           <strong>Children.</strong> This site is not directed at children and does not knowingly
@@ -303,9 +324,10 @@ const sections = [
     <section id="security">
       <h2>9. Security and reporting a problem</h2>
       <p>
-        This is a static website. It has no login, no database, and no server-side code, so there
-        is nothing behind the pages to sign in to or break into. Everything on the site, and in the
-        public repository it is built from, is meant to be public.
+        This is a static website with no login and no database, so there is nothing behind the
+        pages to sign in to or break into. The only code that runs on a server is the contact-form
+        program described in section 8, which accepts messages and does nothing else. Everything on
+        the site, and in the public repository it is built from, is meant to be public.
       </p>
       <ul>
         <li>

@@ -15,6 +15,14 @@ updates:
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
 
+  # The contact form Worker: security fixes only. Cap's API changes between
+  # releases, so other upgrades are done by hand (worker/README.md).
+  - package-ecosystem: npm
+    directory: /worker
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 0
+
   - package-ecosystem: github-actions
     directory: /
     schedule:

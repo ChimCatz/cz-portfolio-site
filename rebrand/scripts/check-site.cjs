@@ -45,8 +45,8 @@ const SIZES = [
   [1366, 768],
   [360, 800],
 ];
-// Pages for the frame-rate test: the full globe, a dimmed list, long reading pages, an embed.
-const PERF_PAGES = ['/', '/projects/', '/about/', '/insights/too-many-applicants-too-few-jobs-and-how-to-win/', '/projects/voip-call-tracking-dashboard/'];
+// Pages for the frame-rate test: the full globe, a dimmed list, long reading pages, an embed, the contact form.
+const PERF_PAGES = ['/', '/projects/', '/about/', '/insights/too-many-applicants-too-few-jobs-and-how-to-win/', '/projects/voip-call-tracking-dashboard/', '/contact/'];
 // Elements whose boxes make up the layout fingerprint
 const LAYOUT = 'header, footer, main :is(h1, h2, h3, img, figure, table, section, aside, nav, iframe, details, .btn, li)';
 

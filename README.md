@@ -50,7 +50,8 @@ A few things worth opening:
 ## How it's built
 
 - **[Astro 5](https://astro.build/)**, fully static. No framework runtime,
-  no backend, no database, no cookies, no analytics.
+  no database, no cookies, no analytics. The only server code is a small
+  Cloudflare Worker behind the contact form.
 - **Three dependencies:** Astro and two font packages. Charts, the search
   demo, the lightbox, and the scroll animations are written by hand.
 - **Content as folders.** Every project, data study, and insight is a folder
@@ -88,6 +89,7 @@ A few things worth opening:
 │   │   └── data/            Data files used by charts
 │   ├── public/              Files served as they are (resume, dashboards)
 │   └── scripts/             Helper scripts (logos, screenshots, resume image)
+├── worker/                  Cloudflare Worker behind the contact form (not published)
 ├── source-files/            Originals the site is made from (not published)
 ├── setup/                   Scripts for rebuilding the dev setup on a new PC
 ├── temp/                    Drop folder for new files (ignored by git)
@@ -142,15 +144,17 @@ push and pull request gets the same check and a test build
   approaches and results.
 - The dashboards, the sample workbook, and the search demo use sample or
   made-up data. Names in them are sample names.
-- The site collects nothing: no cookies, no analytics, no forms.
+- No cookies and no analytics. The contact form sends messages to my inbox
+  through a Cloudflare Worker and Resend, and nothing is stored.
 
 The full wording is on the site's
 [Terms & Policies](https://chimcatz.github.io/cz-portfolio-site/terms/) page.
 
 ## Security
 
-This is a static site with nothing behind it to sign in to. The safeguards
-are about what gets committed: a check for secrets and stray files runs
+This is a static site with nothing behind it to sign in to; the contact
+form's Worker only accepts messages. The safeguards are about what gets
+committed: a check for secrets and stray files runs
 before every commit, on every push, and again before every publish. See
 [`SECURITY.md`](SECURITY.md), which also says how to report a problem.
 
@@ -171,6 +175,7 @@ were created on:
 | `temp/` contents | Nothing to get: it only holds files waiting to be used. |
 | `private/` | Personal notes and source material. Copy it by hand if you need it on another computer. |
 | `.env` files, keys | There are none. The site needs no secrets to build or run. |
+| Worker secrets, `worker/.dev.vars` | The secrets live in Cloudflare, set with Wrangler; `.dev.vars` is a local test file. See [`worker/README.md`](worker/README.md). |
 
 None of these are needed to build the site: a fresh clone builds and
 publishes exactly what is live.

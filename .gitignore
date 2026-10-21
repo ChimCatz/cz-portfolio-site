@@ -18,6 +18,8 @@ dist/
 id_rsa*
 id_ed25519*
 credentials*.json
+.dev.vars*
+.wrangler/
 
 # Local-only folders. `private/` holds notes and source material that stay
 # on this computer. `temp/` is a drop folder for files waiting to be used;

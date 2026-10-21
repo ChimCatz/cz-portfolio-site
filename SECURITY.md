@@ -2,10 +2,16 @@
 
 ## What this is
 
-A static website. It has no login, no database, no API, and no server-side
-code. The pages are plain files built by Astro and served by GitHub Pages.
-The only way anything becomes public is by being committed to this repo, so
-that is what the safeguards below protect.
+A static website. It has no login and no database. The pages are plain files
+built by Astro and served by GitHub Pages. The only way anything becomes
+public is by being committed to this repo, so that is what the safeguards
+below protect.
+
+The one piece of server code is the contact form's Cloudflare Worker
+([`worker/`](worker/README.md)). It accepts messages from the site's own
+address only, limits requests per IP, requires a Cap proof-of-work token, and
+sends each message on through Resend without storing it. Its two secrets are
+set with Wrangler and are never in the repo.
 
 ## Safeguards
 
@@ -32,7 +38,8 @@ Other measures:
 - Workflows run with read-only permissions, except the one job that
   publishes to Pages.
 - The site has three direct dependencies and loads no third-party scripts.
-  Its JavaScript libraries are served from the site itself.
+  Its JavaScript libraries, including the Cap widget, are served from the
+  site itself.
 - Project pages use generic tool names and sample data. See the
   [Terms & Policies](https://chimcatz.github.io/cz-portfolio-site/terms/)
   page.
