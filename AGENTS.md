@@ -363,13 +363,22 @@ in `src/lib/projects.ts`.
 
 ## About Me details
 
-- **World data chart** (`src/components/DataGrowthChart.astro`): drawn at
-  build time from `src/data/global_datasphere_1956_2030.csv`. Log scale,
-  1986 to 2030. It starts at 1986 because the rows before that are an
-  assumed starting value and a curve drawn from it. Dots are published
-  figures, the dotted stretch is filled in, everything after 2020 is marked
-  as forecast, and the caption says they are estimates and that the
-  definition changed around 2010. Keep those labels if it is restyled.
+- **World data chart** (`src/components/DataGrowthChart.astro`, redesigned
+  2026-10-29): drawn at build time from `src/data/world-data-1968-2030.csv`
+  (yearly values in exabytes, with a `basis` per row) and
+  `src/data/world-data-eras.csv` (five eras and their milestones). Log
+  scale, 10 PB to 1,000 ZB, 1968 to 2030. It counts total storage, analog
+  and digital (Hilbert and López), up to 2007 and data created each year
+  (Statista, from IDC) from 2010: the user chose total storage. 1968 to 1985
+  is extended back from 1986 at 20% a year and is not data, so that stretch
+  is dashed and called an estimate, like the forecast after 2023. Statista's
+  2011, 2013, 2014, 2016, 2017 and 2019 figures were read off a chart
+  (`statista_unverified`). The area under the line is coloured by era; the
+  key above the plot gives each era's years, how many times data multiplied
+  and its milestones. Milestone names are not written inside the bands: in
+  this column the 2004-09 band is narrower than one name. Keep the dashed
+  estimate and forecast and the note that what is counted changes around
+  2010. Statista's chart is copyrighted: cite it, don't host it.
 - **Tool logos:** every logo in the same 48px white tile with the name
   under it, in six groups sized to fill rows of 8 tiles (4 + 4, 7, 5 + 3,
   8); the panel uses a container query and falls back to 4 per row.

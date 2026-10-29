@@ -1,160 +1,230 @@
 ---
-// Estimated size of the world's data by year, drawn at build time from
-// src/data/global_datasphere_1956_2030.csv (About Me).
+// Estimated size of the world's data by year, 1968 to 2030 (About Me), drawn at
+// build time from src/data/world-data-1968-2030.csv, with the eras and
+// milestones in src/data/world-data-eras.csv.
 //
-// Most of that file is estimates, fill-ins and forecasts, so the chart says so:
-// dots are published estimates, the dotted stretch is filled in between them,
-// and everything after the last published figure is marked as a forecast.
-// The file starts in 1956, but its rows before 1986 are an assumed starting
-// value and a curve drawn from it, so the chart starts at the first
-// research-based figure instead.
+// The figures are estimates, so the chart says so: the line is dashed where it
+// is extended back before the first measurement (1986) or forecast after the
+// latest actual figure (2023), and every year's tooltip and table row says what
+// kind of figure it is. The area under the line is split into eras of
+// technology, each with its milestones.
 //
 // The lines are an SVG stretched to the plot; every label is HTML placed by
-// percentage, so text stays the same size on a phone.
-import csv from '../data/global_datasphere_1956_2030.csv?raw';
+// percentage, so text stays the same size on a phone. Milestone names are listed
+// under each era in the key, not written inside the bands: in this column the
+// 2004-09 band is narrower than a single name.
+import dataCsv from '../data/world-data-1968-2030.csv?raw';
+import erasCsv from '../data/world-data-eras.csv?raw';
 
-const FROM = 1986;
-// Up the side: 1 PB to 1,000 ZB in gigabytes, as powers of ten (a little headroom on top)
-const Y_MIN = 6;
-const Y_MAX = 15.9;
-const TICKS = [
-  { exp: 6, label: '1 PB' },
-  { exp: 9, label: '1 EB' },
-  { exp: 12, label: '1 ZB' },
-  { exp: 15, label: '1,000 ZB' },
-];
-const PAD_LEFT = 3;
-const PAD_RIGHT = 5;
+/** Rows of a small CSV file, with quoted fields. */
+function parseCsv(text: string): string[][] {
+  return text
+    .trim()
+    .split(/\r?\n/)
+    .slice(1)
+    .map((line) => {
+      const cells: string[] = [];
+      let cell = '';
+      let quoted = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (quoted && c === '"' && line[i + 1] === '"') cell += line[++i];
+        else if (c === '"') quoted = !quoted;
+        else if (c === ',' && !quoted) cells.push(cell), (cell = '');
+        else cell += c;
+      }
+      return [...cells, cell];
+    });
+}
 
-type Kind = 'published' | 'filled' | 'forecast';
-const BASIS: Record<string, { kind: Kind; label: string }> = {
-  derived: { kind: 'published', label: 'Published estimate' },
-  sourced: { kind: 'published', label: 'Published estimate' },
-  sourced_unverified: { kind: 'published', label: 'Published estimate, read from a chart' },
-  interpolated_model: { kind: 'filled', label: 'Filled in between estimates' },
-  forecast_statista: { kind: 'forecast', label: 'Forecast' },
-  forecast_model: { kind: 'forecast', label: 'Forecast, extended from the trend' },
+// Up the side: 10 PB to 1,000 ZB, as powers of ten in exabytes. The extra decade
+// at the bottom makes the early bands tall enough to write in.
+const Y_MIN = -2;
+const Y_MAX = 6;
+const TICKS = ['10 PB', '100 PB', '1 EB', '10 EB', '100 EB', '1 ZB', '10 ZB', '100 ZB', '1,000 ZB'].map((label, i) => ({
+  exp: Y_MIN + i,
+  label,
+}));
+
+const BASIS: Record<string, { label: string; published: boolean }> = {
+  backcast: { label: 'Estimate, extended back at 20% a year', published: false },
+  hilbert: { label: 'Storage capacity, Hilbert and López', published: true },
+  interpolated: { label: 'Filled in between published figures', published: false },
+  statista: { label: 'Data created, Statista (IDC)', published: true },
+  statista_unverified: { label: 'Data created, Statista (IDC), read from a chart', published: true },
+  statista_forecast: { label: 'Forecast, Statista (IDC)', published: true },
+  extrapolated: { label: 'Forecast, extended at 26% a year', published: false },
 };
 
-/** 26000000 GB -> "26 PB" */
-const UNITS = ['GB', 'TB', 'PB', 'EB', 'ZB'];
-function amount(gb: number): string {
-  const unit = Math.min(UNITS.length - 1, Math.floor(Math.log10(gb) / 3));
-  const n = gb / 10 ** (unit * 3);
-  const text = n >= 100 ? Math.round(n).toLocaleString('en-US') : String(Number(n.toFixed(1)));
-  return `${text} ${UNITS[unit]}`;
+/** 2.6 -> "2.6 EB", 625514 -> "626 ZB" (input in exabytes) */
+function amount(eb: number): string {
+  const sig = (n: number, s: number) => Number(n.toPrecision(s)).toLocaleString('en-US');
+  if (eb >= 1000) return `${sig(eb / 1000, eb >= 100000 ? 3 : 2)} ZB`;
+  if (eb >= 1) return `${sig(eb, eb >= 100 ? 3 : 2)} EB`;
+  return `${sig(eb * 1000, 2)} PB`;
 }
 
-const rows = csv
-  .trim()
-  .split(/\r?\n/)
-  .slice(1)
-  .map((line) => line.split(','))
-  .filter(([year]) => Number(year) >= FROM)
-  .map(([year, gb, , , , basis]) => {
-    if (!BASIS[basis]) throw new Error(`Unknown basis "${basis}" in the data volume file`);
-    return { year: Number(year), gb: Number(gb), basis, ...BASIS[basis] };
-  });
+const rows = parseCsv(dataCsv).map(([year, eb, , , basis, style]) => {
+  if (!BASIS[basis]) throw new Error(`Unknown basis "${basis}" in the world data file`);
+  return { year: Number(year), eb: Number(eb), basis, dashed: style === 'dashed', ...BASIS[basis] };
+});
 
+const FROM = rows[0].year;
 const TO = rows[rows.length - 1].year;
-const xOf = (year: number) => PAD_LEFT + ((year - FROM) / (TO - FROM)) * (100 - PAD_LEFT - PAD_RIGHT);
+const xOf = (year: number) => ((year - FROM) / (TO - FROM)) * 100;
 const yOf = (exp: number) => 100 - ((exp - Y_MIN) / (Y_MAX - Y_MIN)) * 100;
-const points = rows.map((row) => ({ ...row, x: xOf(row.year), y: yOf(Math.log10(row.gb)), text: amount(row.gb) }));
+const points = rows.map((row) => ({
+  ...row,
+  x: +xOf(row.year).toFixed(3),
+  y: +yOf(Math.log10(row.eb)).toFixed(3),
+  text: (row.published ? '' : '≈') + amount(row.eb),
+}));
+const at = (year: number) => points.find((p) => p.year === year)!;
 
-// Join the points into stretches of one kind. A step into a forecast year is
-// forecast; a step that touches a filled-in year is filled in.
-const stretches: { kind: Kind; d: string }[] = [];
+// Eras: each runs from its first year up to the next era's first year (the last
+// one to the end of the chart), so the bands meet.
+const COLORS: Record<string, string> = { e1: '#3987e5', e2: '#d95926', e3: '#199e70', e4: '#c98500', e5: '#d55181' };
+const eras: { name: string; from: number; to: number; color: string; milestones: { year: number; name: string; text: string }[] }[] = [];
+for (const [name, from, , token, year, milestone, text] of parseCsv(erasCsv)) {
+  let era = eras.find((e) => e.name === name);
+  if (!era) eras.push((era = { name, from: Number(from), to: 0, color: COLORS[token], milestones: [] }));
+  era.milestones.push({ year: Number(year), name: milestone, text });
+}
+const ERAS = eras.map((era, i) => {
+  const to = eras[i + 1]?.from ?? TO;
+  const [a, b] = [at(era.from), at(to)];
+  // How many times the world's data multiplied; approximate where an end is an estimate or forecast
+  const times = `${a.dashed || b.dashed ? '≈' : ''}×${Math.round(b.eb / a.eb)}`;
+  const end = i === eras.length - 1 ? to : to - 1;
+  const years = `${era.from}–${Math.floor(end / 100) === Math.floor(era.from / 100) ? String(end).slice(2) : end}`;
+  // The band: the curve across the era, closed along the bottom
+  const edge = points.filter((p) => p.year >= era.from && p.year <= to);
+  const band = `M${edge.map((p) => `${p.x} ${p.y}`).join(' L')} L${b.x} 100 L${a.x} 100 Z`;
+  return { ...era, to, times, years, band, x: a.x };
+});
+const eraOf = (year: number) => ERAS.find((e, i) => year >= e.from && (year < e.to || i === ERAS.length - 1))!;
+
+// The line, in solid and dashed stretches: a step that touches a dashed year is dashed
+const stretches: { dashed: boolean; d: string }[] = [];
 for (let i = 1; i < points.length; i++) {
   const [a, b] = [points[i - 1], points[i]];
-  const kind: Kind = b.kind === 'forecast' ? 'forecast' : a.kind === 'filled' || b.kind === 'filled' ? 'filled' : 'published';
+  const dashed = a.dashed || b.dashed;
   const last = stretches[stretches.length - 1];
-  const to = ` L${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
-  if (last?.kind === kind) last.d += to;
-  else stretches.push({ kind, d: `M${a.x.toFixed(2)} ${a.y.toFixed(2)}${to}` });
+  if (last?.dashed === dashed) last.d += ` L${b.x} ${b.y}`;
+  else stretches.push({ dashed, d: `M${a.x} ${a.y} L${b.x} ${b.y}` });
 }
 
-const line = points.map((p) => `${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' L');
-const area = `M${line} L${points[points.length - 1].x.toFixed(2)} 100 L${points[0].x.toFixed(2)} 100 Z`;
-
-const firstForecast = points.find((p) => p.kind === 'forecast')!;
-const forecastX = (xOf(firstForecast.year - 1) + firstForecast.x) / 2;
-
-// Dots: only the figures somebody published with a method behind them
-const dots = points.filter((p) => p.basis === 'derived' || p.basis === 'sourced');
-// A few values written on the chart; the rest are in the tooltip and the table
-// (the 2020 one is dropped on narrow screens, where it would run into the last one)
-const LABELS: Record<number, string> = { 1986: 'right', 2007: 'left', 2020: 'above', [TO]: 'end' };
-const labels = points.filter((p) => LABELS[p.year]).map((p) => ({ ...p, side: LABELS[p.year] }));
-const decades = points.filter((p) => p.year % 10 === 0);
-
-const hover = points.map((p) => ({ year: p.year, text: p.text, label: p.label, x: +p.x.toFixed(2), y: +p.y.toFixed(2) }));
+const milestoneYears = [...new Set(ERAS.flatMap((e) => e.milestones.map((m) => m.year)))].map(at);
+const firstMeasured = points.find((p) => p.basis === 'hilbert')!;
+const latestActual = [...points].reverse().find((p) => p.basis === 'statista' || p.basis === 'statista_unverified')!;
 const last = points[points.length - 1];
-const lastPublished = dots[dots.length - 1];
+const KEYS = [
+  { p: firstMeasured, note: `${firstMeasured.year}, first measured`, side: 'left' },
+  { p: latestActual, note: `${latestActual.year}, latest actual`, side: 'left' },
+  { p: last, note: `${last.year} forecast`, side: 'right' },
+];
+const decades = points.filter((p) => p.year % 10 === 0);
+const growthAll = Number((latestActual.eb / firstMeasured.eb).toPrecision(2));
+
+const hover = points.map((p) => {
+  const era = eraOf(p.year);
+  return {
+    year: p.year,
+    text: p.text,
+    label: p.label,
+    era: era.name,
+    color: era.color,
+    milestones: era.milestones.filter((m) => m.year === p.year).map((m) => [m.name, m.text]),
+    x: p.x,
+    y: p.y,
+  };
+});
 ---
 
 <figure class="growth">
   <figcaption class="growth-head">
     <strong>Estimated size of the world's data, {FROM} to {TO}</strong>
-    <span>Each line up the side is 1,000 times the one below it.</span>
+    <span>
+      Each line up the side is 10 times the one below it. The colours are eras of technology, with how
+      many times the world's data multiplied during each.
+    </span>
   </figcaption>
 
-  <ul class="growth-legend">
-    <li><i class="key key-dot"></i>Published estimate</li>
-    <li><i class="key key-filled"></i>Filled in between estimates</li>
-    <li><i class="key key-forecast"></i>Forecast</li>
-  </ul>
-
-  <div
-    class="growth-plot"
-    data-growth={JSON.stringify(hover)}
-    tabindex="0"
-    role="img"
-    aria-label={`Line chart on a log scale: from ${points[0].text} in ${FROM} to ${lastPublished.text} in ${lastPublished.year}, with a forecast of ${last.text} for ${TO}. Use the left and right arrow keys to read each year.`}
-  >
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="growth-wash" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#a78bfa" stop-opacity="0.2"></stop>
-          <stop offset="1" stop-color="#a78bfa" stop-opacity="0"></stop>
-        </linearGradient>
-      </defs>
-      <rect class="forecast-band" x={forecastX} y="0" width={100 - forecastX} height="100"></rect>
-      {TICKS.map((tick) => <line class="grid" x1="0" x2="100" y1={yOf(tick.exp)} y2={yOf(tick.exp)}></line>)}
-      <path class="wash" d={area}></path>
-      {stretches.map((s) => <path class:list={['stretch', s.kind]} d={s.d}></path>)}
-    </svg>
-
-    {TICKS.map((tick) => <span class="tick" style={`top:${yOf(tick.exp)}%`}>{tick.label}</span>)}
-    <span class="forecast-label" style={`left:${forecastX}%`}>Forecast</span>
-
-    {dots.map((p) => <i class="dot" style={`left:${p.x}%;top:${p.y}%`}></i>)}
-    <i class="dot dot-open" style={`left:${last.x}%;top:${last.y}%`}></i>
-    {labels.map((p) => (
-      <span class:list={['value', `value-${p.side}`]} style={`left:${p.x}%;top:${p.y}%`}>
-        <b>{p.text}</b> {p.year}
-      </span>
+  <ol class="growth-eras">
+    {ERAS.map((era) => (
+      <li style={`--era:${era.color}`}>
+        <i class="era-swatch"></i>
+        <div>
+          <span class="era-meta">{era.years} · {era.times}</span>
+          <b class="era-name">{era.name}</b>
+          <span class="era-ms">{era.milestones.map((m) => `${m.name} ${m.year}`).join(' · ')}</span>
+        </div>
+      </li>
     ))}
+  </ol>
 
-    <!-- Hover and keyboard readout (placed by the script below) -->
-    <i class="cross" hidden></i>
-    <i class="dot dot-live" hidden></i>
-    <div class="tip" hidden>
-      <b data-tip-value></b>
-      <span data-tip-year></span>
-      <small data-tip-kind></small>
+  <div class="growth-frame">
+    <div
+      class="growth-plot"
+      data-growth={JSON.stringify(hover)}
+      tabindex="0"
+      role="img"
+      aria-label={`Line chart on a log scale: about ${amount(points[0].eb)} in ${FROM} (an estimate), ${firstMeasured.text} in ${firstMeasured.year}, ${latestActual.text} in ${latestActual.year}, and a forecast of ${last.text} for ${TO}. The area under the line is split into ${ERAS.length} eras: ${ERAS.map((e) => `${e.name} (${e.years}, ${e.times})`).join(', ')}. Use the left and right arrow keys to read each year.`}
+    >
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        {TICKS.map((tick) => <line class="grid" x1="0" x2="100" y1={yOf(tick.exp)} y2={yOf(tick.exp)}></line>)}
+        {ERAS.map((era) => <path class="band" style={`--era:${era.color}`} d={era.band}></path>)}
+        {ERAS.slice(1).map((era) => (
+          <line class="band-gap" x1={era.x} x2={era.x} y1={at(era.from).y} y2="100"></line>
+        ))}
+        {stretches.map((s) => <path class:list={['stretch', { dashed: s.dashed }]} d={s.d}></path>)}
+      </svg>
+
+      {TICKS.map((tick) => (
+        <span class:list={['tick', { 'tick-minor': (tick.exp - Y_MIN) % 2 }]} style={`top:${yOf(tick.exp)}%`}>{tick.label}</span>
+      ))}
+
+      {milestoneYears.map((p) => <i class="ring" style={`left:${p.x}%;top:${p.y}%`}></i>)}
+      {KEYS.map(({ p, note, side }) => (
+        <>
+          <i class:list={['dot', { 'dot-open': p.dashed }]} style={`left:${p.x}%;top:${p.y}%`}></i>
+          <span class:list={['value', `value-${side}`]} style={`left:${p.x}%;top:${p.y}%`}>
+            <b>{p.text}</b>
+            <small>{note}</small>
+          </span>
+        </>
+      ))}
+
+      <!-- Hover and keyboard readout (placed by the script below) -->
+      <i class="cross" hidden></i>
+      <i class="dot dot-live" hidden></i>
+      <div class="tip" hidden>
+        <span class="tip-year"><i data-tip-swatch></i><span data-tip-year></span></span>
+        <b data-tip-value></b>
+        <small data-tip-kind></small>
+        <div data-tip-ms></div>
+      </div>
+    </div>
+
+    <div class="growth-years" aria-hidden="true">
+      {decades.map((p) => <span style={`left:${p.x}%`}>{p.year}</span>)}
     </div>
   </div>
 
-  <div class="growth-years" aria-hidden="true">
-    {decades.map((p) => <span style={`left:${p.x}%`}>{p.year}</span>)}
-  </div>
+  <ul class="growth-legend">
+    <li><i class="key key-dashed"></i>Dashed: estimated (before {firstMeasured.year}) or forecast (after {latestActual.year})</li>
+    <li><i class="key key-ring"></i>A milestone year</li>
+  </ul>
 
   <p class="growth-note">
-    These are estimates, not measurements. The dots are published figures: Hilbert and López for
-    {FROM}, and IDC from 2007 on, some of them as reported by Statista. The years between them are
-    filled in, and everything after {lastPublished.year} is a forecast. What gets counted also changed
-    around 2010, when the figures began to include all data created, captured, copied, and consumed,
-    so the early and late numbers are not strictly comparable.
+    These are estimates, not measurements, and they grew about {growthAll.toLocaleString('en-US')}-fold
+    from {firstMeasured.year} to {latestActual.year}. Up to 2007 the line is the world's capacity to store
+    information, analog and digital (Hilbert and López, <i>Science</i>, 2011), with the years between
+    their figures filled in. From 2010 it is the data created, captured, copied, and consumed each year
+    (Statista, based on IDC), which counts every copy and stream, so part of the jump between 2007 and
+    2010 comes from that change in what is counted. Before {firstMeasured.year} the line is extended back
+    at 20% a year; after {latestActual.year} it follows Statista's forecast to 2028, then the same pace
+    of about 26% a year.
   </p>
 
   <details class="growth-table">
@@ -162,11 +232,11 @@ const lastPublished = dots[dots.length - 1];
     <div class="growth-table-scroll">
       <table>
         <thead>
-          <tr><th scope="col">Year</th><th scope="col">Estimate</th><th scope="col">Kind of figure</th></tr>
+          <tr><th scope="col">Year</th><th scope="col">World data</th><th scope="col">Era</th><th scope="col">Kind of figure</th></tr>
         </thead>
         <tbody>
           {points.map((p) => (
-            <tr><td>{p.year}</td><td>{p.text}</td><td>{p.label}</td></tr>
+            <tr><td>{p.year}</td><td>{p.text}</td><td>{eraOf(p.year).name}</td><td>{p.label}</td></tr>
           ))}
         </tbody>
       </table>
@@ -175,7 +245,16 @@ const lastPublished = dots[dots.length - 1];
 </figure>
 
 <script>
-  type Point = { year: number; text: string; label: string; x: number; y: number };
+  type Point = {
+    year: number;
+    text: string;
+    label: string;
+    era: string;
+    color: string;
+    milestones: [string, string][];
+    x: number;
+    y: number;
+  };
 
   document.querySelectorAll<HTMLElement>('[data-growth]').forEach((plot) => {
     const points: Point[] = JSON.parse(plot.dataset.growth ?? '[]');
@@ -183,17 +262,28 @@ const lastPublished = dots[dots.length - 1];
     const live = plot.querySelector<HTMLElement>('.dot-live');
     const tip = plot.querySelector<HTMLElement>('.tip');
     if (!points.length || !cross || !live || !tip) return;
+
+    const swatch = tip.querySelector<HTMLElement>('[data-tip-swatch]')!;
     const value = tip.querySelector('[data-tip-value]')!;
     const year = tip.querySelector('[data-tip-year]')!;
     const kind = tip.querySelector('[data-tip-kind]')!;
+    const milestones = tip.querySelector('[data-tip-ms]')!;
     let current = -1;
 
     const show = (i: number) => {
       current = Math.max(0, Math.min(points.length - 1, i));
       const p = points[current];
+      swatch.style.background = p.color;
+      year.textContent = `${p.year} · ${p.era}`;
       value.textContent = p.text;
-      year.textContent = String(p.year);
       kind.textContent = p.label;
+      milestones.replaceChildren(
+        ...p.milestones.map(([name, text]) => {
+          const line = document.createElement('p');
+          line.append(Object.assign(document.createElement('b'), { textContent: `${name}.` }), ` ${text}`);
+          return line;
+        }),
+      );
       cross.style.left = live.style.left = `${p.x}%`;
       live.style.top = `${p.y}%`;
       cross.hidden = live.hidden = tip.hidden = false;
@@ -214,9 +304,9 @@ const lastPublished = dots[dots.length - 1];
 
     // Pointer moves can fire several times a frame: handle only the latest, once per frame.
     let pointerX = 0;
-    let queued = false;
+    let tracking = false;
     const track = () => {
-      queued = false;
+      tracking = false;
       if (Number.isNaN(pointerX)) return; // the pointer left before this frame
       const box = plot.getBoundingClientRect();
       const x = ((pointerX - box.left) / box.width) * 100;
@@ -228,8 +318,8 @@ const lastPublished = dots[dots.length - 1];
     };
     plot.addEventListener('pointermove', (event) => {
       pointerX = event.clientX;
-      if (!queued) {
-        queued = true;
+      if (!tracking) {
+        tracking = true;
         requestAnimationFrame(track);
       }
     });
@@ -239,6 +329,7 @@ const lastPublished = dots[dots.length - 1];
     });
     plot.addEventListener('blur', hide);
     plot.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') return hide();
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
       event.preventDefault();
       const step = event.key === 'ArrowRight' ? 1 : -1;
@@ -274,55 +365,71 @@ const lastPublished = dots[dots.length - 1];
     color: var(--text-muted);
   }
 
-  /* Legend: each key is a small copy of the mark it names */
-  .growth-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 20px;
-    margin: 14px 0 0;
+  /* Eras: the key to the coloured bands. One row of five on a wide panel, a list on a narrow one. */
+  .growth-eras {
+    display: grid;
+    gap: 12px;
+    margin: 16px 0 0;
     padding: 0;
     list-style: none;
+  }
+
+  .growth-eras li {
+    display: grid;
+    grid-template-columns: 10px 1fr;
+    gap: 10px;
     font-size: 0.8rem;
     line-height: 1.4;
+  }
+
+  .era-swatch {
+    border-radius: 3px;
+    background: var(--era);
+  }
+
+  .era-meta {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
     color: var(--text-muted);
   }
 
-  .growth-legend li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .era-name {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text);
   }
 
-  .key {
-    flex: none;
-    width: 22px;
-    height: 0;
-    border-top: 2px solid var(--purple-400);
+  .era-ms {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-soft);
   }
 
-  .key-dot {
-    width: 10px;
-    height: 10px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--purple-300);
+  @container (min-width: 600px) {
+    .growth-eras {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .growth-eras li {
+      grid-template-columns: 1fr;
+      grid-template-rows: 5px auto;
+      gap: 8px;
+    }
   }
 
-  .key-filled {
-    border-top-style: dotted;
+  /* Plot, with room on the left for the scale and on the right for the last value */
+  .growth-frame {
+    padding: 0 76px 0 48px;
+    margin-top: 26px;
   }
 
-  .key-forecast {
-    border-top-style: dashed;
-    border-color: var(--text-muted);
-  }
-
-  /* Plot */
   .growth-plot {
     position: relative;
-    aspect-ratio: 2 / 1;
-    margin-top: 18px;
-    border-radius: 6px;
+    aspect-ratio: 3 / 2;
     cursor: crosshair;
     touch-action: pan-y;
   }
@@ -345,64 +452,62 @@ const lastPublished = dots[dots.length - 1];
     stroke-width: 1;
   }
 
-  .forecast-band {
-    fill: rgba(167, 139, 250, 0.05);
+  .band {
+    fill: var(--era);
+    fill-opacity: 0.3;
   }
 
-  .wash {
-    fill: url(#growth-wash);
+  /* A thin gap between neighbouring bands, in the panel colour */
+  .band-gap {
+    stroke: #110d1c;
+    stroke-width: 2;
   }
 
   .stretch {
     fill: none;
-    stroke: var(--purple-400);
-    stroke-width: 2;
+    stroke: var(--text);
+    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
-  .stretch.filled {
-    stroke-dasharray: 1 6;
-  }
-
-  .stretch.forecast {
-    stroke: var(--text-muted);
-    stroke-dasharray: 7 6;
+  .stretch.dashed {
+    stroke-dasharray: 5 5;
     stroke-linecap: butt;
   }
 
-  .tick,
-  .forecast-label {
+  /* The scale, in the space to the left of the plot */
+  .tick {
     position: absolute;
+    right: calc(100% + 8px);
+    translate: 0 -50%;
     font-family: var(--font-display);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 500;
     line-height: 1;
-    letter-spacing: 0.04em;
+    white-space: nowrap;
     color: var(--text-faint);
     pointer-events: none;
   }
 
-  /* Sits on top of its line, at the left edge */
-  .tick {
-    left: 0;
-    translate: 0 calc(-100% - 4px);
+  /* Milestone years on the line: a small ring in the panel colour */
+  .ring {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #110d1c;
+    box-shadow: inset 0 0 0 1.75px var(--text);
+    translate: -50% -50%;
+    pointer-events: none;
   }
 
-  .forecast-label {
-    bottom: 8px;
-    padding-left: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  /* Dots carry a ring in the panel color so the line doesn't run into them */
   .dot {
     position: absolute;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--purple-300);
+    background: var(--text);
     box-shadow: 0 0 0 2px #110d1c;
     translate: -50% -50%;
     pointer-events: none;
@@ -410,7 +515,7 @@ const lastPublished = dots[dots.length - 1];
 
   .dot-open {
     background: #110d1c;
-    box-shadow: inset 0 0 0 2px var(--text-muted);
+    box-shadow: inset 0 0 0 2px var(--text);
   }
 
   .dot-live {
@@ -420,10 +525,12 @@ const lastPublished = dots[dots.length - 1];
     box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.45);
   }
 
+  /* The three values written on the chart, in the open space above the line */
   .value {
     position: absolute;
-    font-size: 0.75rem;
-    line-height: 1.2;
+    display: grid;
+    font-size: 0.72rem;
+    line-height: 1.25;
     white-space: nowrap;
     color: var(--text-muted);
     pointer-events: none;
@@ -436,21 +543,13 @@ const lastPublished = dots[dots.length - 1];
     color: var(--text);
   }
 
-  .value-right {
-    translate: 12px -50%;
-  }
-
   .value-left {
-    translate: calc(-100% - 12px) -50%;
+    justify-items: end;
+    translate: calc(-100% - 10px) calc(-100% - 6px);
   }
 
-  .value-above {
-    translate: -50% calc(-100% - 10px);
-  }
-
-  /* The last point: up and to the left, clear of the line that climbs to it */
-  .value-end {
-    translate: calc(-100% + 4px) calc(-100% - 8px);
+  .value-right {
+    translate: 12px -30%;
   }
 
   .cross {
@@ -467,13 +566,30 @@ const lastPublished = dots[dots.length - 1];
     z-index: 2;
     display: grid;
     gap: 2px;
-    max-width: 200px;
+    width: max-content;
+    max-width: 240px;
     padding: 8px 12px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-sm);
     background: rgba(13, 10, 22, 0.96);
     box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.8);
     pointer-events: none;
+  }
+
+  .tip-year {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: var(--text-soft);
+  }
+
+  .tip-year i {
+    flex: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
   }
 
   .tip b {
@@ -483,16 +599,25 @@ const lastPublished = dots[dots.length - 1];
     color: var(--text);
   }
 
-  .tip span {
-    font-size: 0.8rem;
-    line-height: 1.3;
-    color: var(--text-soft);
-  }
-
   .tip small {
     font-size: 0.72rem;
     line-height: 1.35;
     color: var(--text-muted);
+  }
+
+  /* Milestones of that year (created by the script, so styled globally) */
+  .tip :global(p) {
+    margin: 4px 0 0;
+    padding-top: 4px;
+    border-top: 1px solid var(--line);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-soft);
+  }
+
+  .tip :global(p b) {
+    font-family: var(--font-body);
+    font-size: inherit;
   }
 
   .growth-plot [hidden] {
@@ -516,6 +641,42 @@ const lastPublished = dots[dots.length - 1];
   .growth-years span {
     position: absolute;
     translate: -50% 0;
+  }
+
+  /* Legend: each key is a small copy of the mark it names */
+  .growth-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .growth-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .key {
+    flex: none;
+  }
+
+  .key-dashed {
+    width: 22px;
+    border-top: 2.5px dashed var(--text);
+  }
+
+  .key-ring {
+    width: 8px;
+    height: 8px;
+    margin: 0 7px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.75px var(--text);
   }
 
   .growth .growth-note {
@@ -585,13 +746,20 @@ const lastPublished = dots[dots.length - 1];
     border-bottom: 0;
   }
 
-  /* Narrow: a taller plot, so the climb still reads */
+  /* Narrow: a taller plot so the climb still reads, every other step of the scale,
+     and only the values themselves (the table and the readout have the rest) */
   @container (max-width: 520px) {
-    .growth-plot {
-      aspect-ratio: 4 / 3.4;
+    .growth-frame {
+      padding: 0 10px 0 44px;
     }
 
-    .value-above {
+    .growth-plot {
+      aspect-ratio: 4 / 3.6;
+    }
+
+    .tick-minor,
+    .value small,
+    .value-right {
       display: none;
     }
   }
