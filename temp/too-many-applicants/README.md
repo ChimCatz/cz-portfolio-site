@@ -64,11 +64,11 @@ periods; use the row labelled `Jan-Mar 2026` (and `Jan-Mar 2025`).
 | Table 1: headline rates, employment rate 16 to 64 | `a02saoct2026.xls` (A02) |
 | Tables 2(1) and 2(2): unemployment by age, the 18 to 24 vs all gap | `a05saoct2026.xls` (A05), sheet People |
 | Table 12: 18 to 24s in or out of full-time education | `a06nsaoct2026.xls` (A06). Not seasonally adjusted: compare Jan-Mar with Jan-Mar only. |
-| **Table 9(1): how long young adults have been looking** | **Missing.** Download UNEM01 (unemployment by age and duration). |
-| **Table 3: temporary and part-time workers who could not find a permanent or full-time job** | **Missing.** Download EMP01 (full-time, part-time and temporary workers). |
-| **Table 22: redundancies per 1,000 employees** | **Missing.** Download RED01 (redundancies). |
-| **Claimant count, "1.69m in August 2026"** | **Missing.** Download CLA01 (claimant count), or keep the August figure and label it. |
-| Not used on the page | `emp02sep2026.xls` (public and private sector employment), the `nsa` copies of A02 and A05, and the saved ONS page. |
+| Table 9(1): how long young adults have been looking | `unem01saoct2026.xls` (UNEM01), sheet People, the 18-24 columns |
+| Table 3: temporary and part-time workers who could not find a permanent or full-time job | `emp01saoct2026.xls` (EMP01), sheet People |
+| Table 22: redundancies per 1,000 employees | `red01saoct2026.xls` (RED01), sheet All |
+| Claimant count | `cla01oct2026.xlsx` (CLA01), sheet `1 UK`. Monthly, not three-month: use the March 2026 row. |
+| Not used on the page | `emp02sep2026.xls` (public and private sector employment), the `nsa` copies of A02, A05, EMP01, RED01 and UNEM01, and the saved ONS page. |
 
 ONS note in every file: estimates from January to March 2025 onwards
 include the full effect of the survey improvements made from 2024, so
@@ -94,8 +94,27 @@ UK, `a05saoct2026.xls`, seasonally adjusted:
 | Unemployment, 18 to 24 | 12.6% | 14.6% |
 | Unemployment, 16 and over | 4.6% | 5.0% |
 
-The same file gives 14.4% and 4.9% for May to July 2026, which match the
-figures now on the page, so the files and the page agree.
+| Redundancies per 1,000 employees (RED01) | 3.8 | 4.2 |
+| Temporary employees who could not find a permanent job (EMP01) | 24.8% (389,000) | 23.0% (371,000) |
+| Part-time workers who could not find a full-time job (EMP01) | 890,000 (10.5%) | 893,000 (10.4%) |
+| Unemployed 18 to 24s looking 6 to 12 months (UNEM01) | 71,000 | 105,000 (+48%) |
+| Unemployed 18 to 24s looking over 6 months (UNEM01) | 176,000 | 240,000 (+36%) |
+| Claimant count, March (CLA01) | 1.71m | 1.67m |
+
+Checked against the page: for May to July 2026 these files give exactly the
+figures now on the page (14.4%, 4.9%, 3.9 redundancies, 25.6% and 416,000
+temporary, 904,000 part-time, 120,000 looking 6 to 12 months, +41%), so they
+are the right tables.
+
+Things that change the story in March:
+
+- The claimant count is **lower** than a year earlier (1.67m vs 1.71m), so
+  "rising since January 2026" needs rechecking. The August 2026 figure has
+  also been revised from 1.69m to 1.67m.
+- Temporary workers who could not find a permanent job **fell** (24.8% to
+  23.0%), where the July figure rose.
+- Youth unemployment, redundancies and long job searches all rose, as on the
+  page now.
 
 Philippines:
 
