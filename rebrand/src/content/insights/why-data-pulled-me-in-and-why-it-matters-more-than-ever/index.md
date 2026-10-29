@@ -3,8 +3,8 @@ title: "Why Data Pulled Me In And Why It Matters More Than Ever"
 slug: why-data-pulled-me-in-and-why-it-matters-more-than-ever
 date: 2026-03-30
 summary: "A personal breakdown of how curiosity led me into Data Analytics, and why data, not AI, is the real driver behind modern systems."
-banner: ./banner.png
-bannerAlt: "Glowing database feeding a neural-network brain, with data streams and app icons around it."
+banner: ./banner.webp
+bannerAlt: "A boy crouched over a bicycle he has taken apart on a dirt road, tools around him, while other children play on swings and a slide behind him."
 highlights:
   - "Curiosity about how systems work, from math to electronics engineering, is what led me to data."
   - "What feels like AI \"intelligence\" is really data working behind the scenes."
@@ -13,46 +13,76 @@ highlights:
 tools: []
 ---
 
-Most people see technology and think, "That's impressive." I've always thought, "How did that happen?"
+Most people see a cool gadget and say, "Wow, that's so cool."
 
-That difference is what led me into data.
+I see it and go, "Wait, how did that even happen?"
 
-Growing up, I was drawn to systems: machines, gadgets, anything that had structure behind it. Math stood out because it was predictable. You follow a process, you get a result. No guessing, just logic. That way of thinking stayed with me, even when I moved into engineering.
+I've been like that since I was little. When I was a kid, I took apart my bike because I wanted to see how it worked.
 
-In college, while studying Electronics Engineering, I noticed something. A lot of people were focused on outcomes. If something worked, that was enough. But I couldn't stop at that. I kept going deeper: what inputs caused this? What process made this possible? That habit of breaking things down didn't just help me understand systems better. It pointed me toward data without me realizing it yet.
+I got every piece off.
 
-Then it showed up in everyday life.
+And then I had no idea how to put it back together.
 
-One moment that stuck with me was observing how YouTube behaves. It doesn't just show content, it predicts it. It knows what I'll likely watch, brings back familiar channels, introduces new ones that still fit my pattern, and quietly removes what doesn't match my behavior. That level of precision isn't random. It's built on patterns, history, and constant adjustment.
+I never fixed it.
 
-That's when it became clear: what feels like intelligence is actually data working behind the scenes.
+But that didn't stop me from being curious. If anything, it made me want to know more.
 
-Today, AI gets most of the attention. It's the headline, the buzzword, the thing everyone talks about. But strip everything down, and the reality is simple: AI is only as good as the data behind it. Every recommendation, prediction, or automated decision depends on data being collected, structured, and interpreted correctly. Without that, there's nothing to train, nothing to learn from, and nothing to improve.
+Math was easy for me. It follows a pattern. If you know the pattern and you understand it, you can answer anything.
 
-What most people don't see is where things actually break.
+Grammar was a different story.
 
-It's not usually in the model. It's in the data.
+Not so much.
 
-Poor data quality quietly creates bigger problems than any algorithm can fix. Studies estimate that bad data costs companies around **$12.9 million** per year due to errors, inefficiencies, and wrong decisions. That's not a technical issue, it's a business problem. And it's common.
+Then I studied electronics in college, and I noticed something. A lot of people were happy when something just worked. Not me. I had to know why it worked and what was going on inside it.
 
-Because in the real world, data isn't clean.
+I kept digging, and without knowing it, that habit was pointing me toward data.
 
-It comes in fragmented, inconsistent, and often unreliable. Fields don't match. Formats break. Important values are missing. Duplicates exist across systems. If you try to build anything on top of that without fixing it first, the output will always carry those flaws.
+It showed up in everyday life too. Take YouTube. It seems to know what I want to watch before I do. It brings back the channels I like, shows me new ones that somehow fit, and quietly drops the stuff I never click.
 
-That's where the real work is.
+That isn't luck.
 
-Not just analyzing data, but preparing it. Structuring it. Making it usable.
+It's learning from everything I've watched before.
 
-As I worked deeper into this space, I found myself focusing more on building systems that handle this part well. Instead of manually fixing files over and over, the goal becomes automation: tools that clean, validate, and standardize data so the process is repeatable. Because once the foundation is stable, everything else, analysis, reporting, and decision-making, becomes faster and more reliable.
+That's when it clicked for me. What looks like magic is really information working quietly in the background.
+
+These days everyone talks about AI. But AI is only as good as the information it learns from.
+
+If the information is messy, the results will be messy too.
+
+Here's the part most people never see. When things go wrong, it's usually not the smart system that's broken.
+
+It's the information feeding it.
+
+Bad information costs companies around $12.9 million a year in mistakes and wrong decisions.
+
+And in the real world, information is never neat. Pieces are missing. Names are spelled five different ways. The same thing is saved in three different places.
+
+Build anything on top of that and the mess carries right through.
+
+That's the work I love. Cleaning things up and making them ready to use.
+
+I used to fix the same files by hand over and over, and it got old fast. So I started building little helpers that do the cleaning for me, so it only has to be done once.
+
+When the base is solid, everything after it gets faster and easier.
 
 ![Chart showing the growth of global data usage over time.](./image-1.png "Global data has grown exponentially over the last decade, with more than 120 zettabytes generated and still increasing rapidly year after year.")
 
-At the same time, the scale of data around us keeps growing at a pace most people don't fully realize. We've already crossed 120 zettabytes of global data, growing roughly 30-40% every year, with most of that created in just the last few years. Every interaction, clicks, searches, and transactions, adds to that volume. But more data doesn't automatically create value. Without structure, it's just noise.
+And there's so much of it out there. The world has already made over 120 zettabytes of data, which is more than I can even picture, and it keeps growing every year.
 
-That gap between having data and actually using it well is where most organizations struggle.
+Every click, search, and purchase adds a little more.
 
-And it's also where the opportunity is.
+But having a lot of it doesn't mean much if nobody can use it. Piles of unused data are just noise.
 
-Looking back, choosing this field doesn't feel like a single decision. It feels like a natural direction. Curiosity, problem-solving, understanding systems, and noticing patterns all point here. Data analytics sits in that space where logic meets real-world impact. It's not just about numbers, but about clarity. Turning something messy into something usable. Turning something slow into something efficient. Turning uncertainty into something you can actually act on.
+Looking back, I don't remember one big moment where I chose this field. It just felt like the road I was always on.
 
-That's what makes data worth working on: not because it's everywhere, but because most of it still isn't being used the way it should be.
+The kid who took apart his bike wanted to know how things work, and that kid grew up to work with data.
+
+I get to take something messy and make it clear.
+
+I get to take something slow and make it quick.
+
+And I get to help people make decisions without guessing.
+
+That's why I love it.
+
+Data is everywhere, and most of it is still waiting for someone to put it to good use.
