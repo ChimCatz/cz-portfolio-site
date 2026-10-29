@@ -375,16 +375,21 @@ in `src/lib/projects.ts`.
   `src/data/world-data-eras.csv` (five eras and their milestones). Log
   scale, 10 PB to 1,000 ZB, 1968 to 2030. It counts total storage, analog
   and digital (Hilbert and López), up to 2007 and data created each year
-  (Statista, from IDC) from 2010: the user chose total storage. 1968 to 1985
-  is extended back from 1986 at 20% a year and is not data, so that stretch
-  is dashed and called an estimate, like the forecast after 2023. Statista's
+  (Statista, from IDC) from 2010, to match the reference chart the user
+  approved. 1968 to 1985 is extended back from 1986 at 20% a year and is not
+  data, so that stretch is dashed, like the forecast after 2023. Statista's
   2011, 2013, 2014, 2016, 2017 and 2019 figures were read off a chart
-  (`statista_unverified`). The area under the line is coloured by era; the
-  key above the plot gives each era's years, how many times data multiplied
-  and its milestones. Milestone names are not written inside the bands: in
-  this column the 2004-09 band is narrower than one name. Keep the dashed
-  estimate and forecast and the note that what is counted changes around
-  2010. Statista's chart is copyrighted: cite it, don't host it.
+  (`statista_unverified`). The area under the line is coloured by era, with
+  a key above the plot (years, how many times data multiplied). Milestone
+  names are written inside their band, under the line (user, 2026-10-29),
+  placed by the component's script; when they don't fit (phones) they are
+  listed in the key instead. The caption stays one short line; the longer
+  explanation and the table sit in the collapsed "About these numbers".
+  Keep the dashed estimate and forecast and the note that what is counted
+  changes around 2010. Statista's chart is copyrighted: cite it, don't host
+  it. The same chart is embedded in the "Why Data Pulled Me In" insight with
+  `<div data-embed="world-data"></div>` (see `embeddable` in
+  `insights/[slug].astro`).
 - **Tool logos:** every logo in the same 48px white tile with the name
   under it, in six groups sized to fill rows of 8 tiles (4 + 4, 7, 5 + 3,
   8); the panel uses a container query and falls back to 4 per row.

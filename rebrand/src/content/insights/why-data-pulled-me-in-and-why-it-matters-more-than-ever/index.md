@@ -4,7 +4,7 @@ slug: why-data-pulled-me-in-and-why-it-matters-more-than-ever
 date: 2026-03-30
 summary: "A personal breakdown of how curiosity led me into Data Analytics, and why data, not AI, is the real driver behind modern systems."
 banner: ./banner.webp
-bannerAlt: "A boy crouched over a bicycle he has taken apart on a dirt road, tools around him, while other children play on swings and a slide behind him."
+bannerAlt: "Three panels: a boy taking a bicycle apart, a young engineer testing a circuit board, and a man at a desk of data dashboards."
 highlights:
   - "Curiosity about how systems work, from math to electronics engineering, is what led me to data."
   - "What feels like AI \"intelligence\" is really data working behind the scenes."
@@ -65,7 +65,7 @@ I used to fix the same files by hand over and over, and it got old fast. So I st
 
 When the base is solid, everything after it gets faster and easier.
 
-![Chart showing the growth of global data usage over time.](./image-1.png "Global data has grown exponentially over the last decade, with more than 120 zettabytes generated and still increasing rapidly year after year.")
+<div data-embed="world-data"></div>
 
 And there's so much of it out there. The world has already made over 120 zettabytes of data, which is more than I can even picture, and it keeps growing every year.
 

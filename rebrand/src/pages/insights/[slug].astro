@@ -2,6 +2,7 @@
 import { statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { render } from 'astro:content';
+import DataGrowthChart from '../../components/DataGrowthChart.astro';
 import JobMarketStory from '../../components/insights/JobMarketStory.astro';
 import ReadingLayout from '../../layouts/ReadingLayout.astro';
 import { entryHref, getNext, getSorted, readingTime, sectionHref, type ReadingEntry } from '../../lib/reading';
@@ -16,6 +17,11 @@ const datasetUrls = import.meta.glob<string>('../../content/insights/*/*.{zip,xl
 // Insights with charts or tools of their own name one of these in frontmatter `story`.
 // The component brings the styles and script; the markup stays in the insight's index.md.
 const stories = { 'job-market': JobMarketStory };
+
+// Site components an insight can place in its text with <div data-embed="name"></div>.
+// Markdown cannot hold a component, so each one is rendered after the article and
+// moved into its spot as the page loads (without JavaScript it stays at the end).
+const embeddable = { 'world-data': DataGrowthChart };
 
 export async function getStaticPaths() {
   const insights = await getSorted('insights');
@@ -34,6 +40,7 @@ const { insight, next } = Astro.props;
 const { title, date, summary, banner, bannerAlt, highlights, tools, chapters, datasets, copyright, story } = insight.data;
 const { Content } = await render(insight);
 const Story = story && stories[story];
+const embeds = Object.entries(embeddable).filter(([name]) => insight.body?.includes(`data-embed="${name}"`));
 
 const folder = insight.filePath ? dirname(insight.filePath) : ''; // src/content/insights/<folder>
 const downloads = datasets.map((dataset) => {
@@ -63,6 +70,17 @@ const downloads = datasets.map((dataset) => {
 >
   <div class:list={['insight-body', story && `story-${story}`]}>
     <Content />
+    {embeds.map(([name, Embed]) => (
+      <div class="embed" data-embed-from={name}><Embed /></div>
+    ))}
+    {embeds.length > 0 && (
+      <script is:inline>
+        document.querySelectorAll('[data-embed-from]').forEach(function (el) {
+          var spot = document.querySelector('[data-embed="' + el.getAttribute('data-embed-from') + '"]');
+          if (spot) spot.replaceWith(el);
+        });
+      </script>
+    )}
   </div>
 
   {downloads.length > 0 && (

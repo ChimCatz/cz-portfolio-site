@@ -70,18 +70,18 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
 ---
 
 <section class="jm-open">
-  <p class="byline">Research, analysis and visualization by <b>Chim Zoe Catalan</b>. Data from the PSA, ONS, BLS, OECD and others, <a href="#sources">credited in full below</a>.</p>
+  <p class="byline">Research, analysis and visualization by <b>Chim Zoe Catalan</b>. Data from the PSA, ONS, BLS, OECD and others, <a href="#sources">credited below</a>.</p>
   <p class="scene first">You are standing in a line.</p>
-  <p class="scene">It starts at a folding table at the far end of the hall and runs back past the booths, past the banners, almost to the door you came in through. You are holding a folder with your resume in it. So is everyone else.</p>
+  <p class="scene">It starts at a folding table at the far end of the hall and runs back past the booths, almost to the door. You are holding a folder with your resume in it. So is everyone else.</p>
   <p>You graduated a few months ago. The news says unemployment is low. You have sent more applications than you can count, and you cannot work out why this is so hard.</p>
-  <p>This is the story of that line: how long it really is, why it barely moves, what is waiting at the front, and how to get there. It is told with public data, most of it from government statistics offices, and every number is sourced.</p>
+  <p>This is the story of that line: how long it is, why it barely moves, what waits at the front, and how to get there. Every number comes from public data and is sourced.</p>
   <div class="twin">
     <div><div class="big">12.6%</div><div class="where"><b>Philippines</b>Ages 15 to 24, March 2026</div></div>
     <div><div class="big">14.6%</div><div class="where"><b>United Kingdom</b>Ages 18 to 24, January to March 2026</div></div>
   </div>
   <p class="twin-cap"><strong>of young people in the labor force are unemployed.</strong> For the workforce as a whole, the rate is 5.0% in both.</p>
-  <p class="src">Sources: Philippine Statistics Authority, Labor Force Survey, March 2026. Office for National Statistics, labour market table A05, October 2026 release.</p>
-  <div class="note"><strong>Three countries, read side by side.</strong> The Philippine figures come from the Philippine Statistics Authority (PSA). The UK figures come from the Office for National Statistics (ONS). The job projections and skill scores come from the US Bureau of Labor Statistics (BLS). They are separate datasets about separate economies, so nothing here adds them together. The Philippines and the UK show the line as it stands, compared March with March: the Philippine survey of March 2026 against March 2025, and the UK figures for January to March 2026 against the same months of 2025 (the UK survey is always reported as a three-month average). The US data shows where the jobs are heading.</div>
+  <p class="src">Sources: PSA, Labor Force Survey, March 2026. ONS, table A05, October 2026 release.</p>
+  <div class="note"><strong>Three countries, side by side.</strong> Philippine figures come from the Philippine Statistics Authority (PSA), UK figures from the Office for National Statistics (ONS), and US projections from the Bureau of Labor Statistics (BLS). Nothing here adds them together. The Philippines and the UK are compared March with March: the March 2026 survey against March 2025, and the UK&rsquo;s January to March 2026 average against the same months of 2025. The US data shows where jobs are heading.</div>
 </section>
 
 <!-- Chapter 1 -->
@@ -91,7 +91,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <h2>The line is longer than it looks</h2>
     <p class="ask">Your question: <b>why is the job market so harsh on fresh graduates?</b></p>
     <p class="scene">The first thing you learn in the line is that the headline was never about you.</p>
-    <p>Philippine unemployment was 5.0% in March 2026. UK unemployment was 5.0% in January to March 2026. Both sound like healthy labor markets, and for most workers they are. Split the same numbers by age, and you find where you are standing.</p>
+    <p>Unemployment was 5.0% in both the Philippines and the UK in early 2026. That sounds healthy. Split it by age, and you find where you are standing.</p>
   </div>
   <figure class="fig">
     <h4>Two countries, one shape: unemployment is a young person&rsquo;s problem</h4>
@@ -101,10 +101,10 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
       <div><h5>United Kingdom, January to March 2026</h5><div id="c-age" style="--labw: 34%"></div></div>
     </div>
     <div id="t-phage"></div>
-    <p class="src">Sources: PSA, Labor Force Survey March 2026, Table 1 (rates are my calculation: unemployed divided by labor force). ONS, table A05, seasonally adjusted. The age bands differ slightly between the two countries. The UK 16 to 17 group is small and mostly still in education.</p>
+    <p class="src">Sources: PSA, Labor Force Survey March 2026, Table 1 (my calculation: unemployed divided by labor force). ONS, table A05, seasonally adjusted. Age bands differ slightly; the UK 16 to 17 group is small and mostly still in school.</p>
   </figure>
   <div class="jm-text">
-    <p>In the Philippines, people aged 15 to 24 are 13% of the labor force and 32% of the unemployed. In the UK, an 18 to 24-year-old is about three times as likely to be out of work as the average worker, and five times as likely as someone aged 35 to 49. Different economies, same shape.</p>
+    <p>Filipinos aged 15 to 24 are 13% of the labor force but 32% of the unemployed. In the UK, an 18 to 24-year-old is three times as likely to be out of work as the average worker. Different economies, same shape.</p>
   </div>
   <div class="tiles">
     <div class="tile"><div class="lab">Unemployment rate, all ages</div><div class="val">5.0%</div><div class="ctx">Up from 3.9% in March 2025. 2.58 million people</div><span class="tag">Philippines</span></div>
@@ -115,7 +115,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
   <p class="src jm-text">Source: PSA, Labor Force Survey March 2026 and March 2025, Table 1.</p>
   <div class="jm-text sub-h">
     <h3>And this year, the line got longer</h3>
-    <p>The UK publishes the same breakdown every quarter, which lets you watch the line grow. Over the past year, unemployment there rose by 187,000 people. Among 18 to 24-year-olds alone, it rose by 92,000.</p>
+    <p>In a year, UK unemployment rose by 187,000 people. 92,000 of them were 18 to 24-year-olds.</p>
   </div>
   <figure class="fig">
     <h4>18 to 24-year-olds account for half the rise in UK unemployment</h4>
@@ -125,7 +125,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <p class="src">Source: ONS, table A05, seasonally adjusted. Total change across all ages: +187,000.</p>
   </figure>
   <div class="jm-text">
-    <p>They make up under a third of the unemployed, but half of the rise. Unemployment went up in almost every age group, and fastest among the youngest adults: their rate rose 2.0 points in a year, against 0.4 points for everyone aged 16 and over.</p>
+    <p>Young adults are under a third of the unemployed but half of the rise. Their rate climbed 2.0 points in a year; the overall rate, 0.4.</p>
   </div>
   <figure class="fig">
     <h4>The gap between young adults and everyone else widened by a fifth in a year</h4>
@@ -136,9 +136,9 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <p class="src">Source: ONS, table A05. Gap: 8.0 percentage points in January to March 2025, 9.6 points in January to March 2026.</p>
   </figure>
   <div class="jm-text">
-    <p>The Philippines moved the same way. Between March 2025 and March 2026 the number of unemployed Filipinos rose from 1.93 million to 2.58 million, and the unemployment rate for 15 to 24-year-olds from 11.0% to 12.6%.</p>
+    <p>The Philippines moved the same way: from March 2025 to March 2026, unemployment rose from 1.93 million to 2.58 million people, and youth unemployment from 11.0% to 12.6%.</p>
     <h3 class="sub-h">&ldquo;Aren&rsquo;t those just students looking for part-time work?&rdquo;</h3>
-    <p>It is a fair challenge, and the UK data answers it, because the ONS separates young people in full-time education from those who have left it.</p>
+    <p>Mostly not. The ONS separates young people still in full-time education from those who have left it.</p>
   </div>
   <div class="tiles">
     <div class="tile"><div class="lab">Unemployed 18 to 24-year-olds who are <b>not</b> in full-time education</div><div class="val">425,000</div><div class="ctx">About three in four of the 560,000 total</div><span class="tag">UK</span></div>
@@ -147,10 +147,9 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
   </div>
   <div class="jm-text">
     <p class="src" style="margin-top:0">Source: ONS, tables A06 and A05, January to March 2026, not seasonally adjusted.</p>
-    <p>Most of the young unemployed have finished studying and are looking for a real start.</p>
     <h3 class="sub-h">Surely the degree moves you forward?</h3>
     <p class="scene">This is the part that stings. You did the thing you were told would work.</p>
-    <p>The PSA records the highest grade every unemployed person completed. Put that beside the same figures for people in work, and you can calculate an unemployment rate for each level of schooling.</p>
+    <p>The PSA records the highest grade completed by everyone in work and everyone looking for it, which gives an unemployment rate for each level of schooling.</p>
   </div>
   <figure class="fig">
     <h4>A Filipino college graduate is more than three times as likely to be unemployed as someone who stopped at elementary school</h4>
@@ -165,10 +164,10 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <div class="tile"><div class="lab">Unemployment rate among college graduates</div><div class="val">7.6%</div><div class="ctx">Against 5.0% for the whole labor force</div><span class="tag">Philippines</span></div>
   </div>
   <div class="jm-text">
-    <p>Read this carefully, because it is easy to over-read. It does not mean a degree is worthless. Graduates are younger on average, and age is the bigger effect: senior high school leavers, nearly all of them under 25, have the highest rate of all at 14.5%. People with less schooling are also more likely to take whatever work exists, which keeps them out of the unemployment count but not out of hardship.</p>
-    <p>What it does mean is that a degree does not move you to the front. And this is not new. When the OECD reviewed the Philippine labor market using 2015 data, it found people with higher education made up 26% of the labor force and 35% of the unemployed, and called them the &ldquo;educated unemployed.&rdquo; Ten years later the gap is almost the same size.</p>
+    <p>That does not make a degree worthless. Graduates are younger on average, and age is the bigger effect: senior high school leavers, most of them under 25, have the highest rate of all at 14.5%. And people with less schooling more often take whatever work exists, which keeps them out of the count but not out of hardship.</p>
+    <p>It does mean a degree does not move you to the front, and that is not new. In 2015 data, the OECD found people with higher education were 26% of the Philippine labor force and 35% of the unemployed. Today college graduates are 23% and 35%.</p>
     <h3 class="sub-h">Count the jobs at the front</h3>
-    <p>Here is the arithmetic behind the title of this page. About 11.0 million Filipinos with a college degree are in work. The three occupation groups that sit at the top of the skill ladder, managers, professionals, and technicians and associate professionals, hold about 7.0 million jobs between them.</p>
+    <p>About 11.0 million Filipinos with a college degree are in work. The three top-skill occupation groups, managers, professionals, and technicians, hold about 7.0 million jobs.</p>
   </div>
   <div class="tiles">
     <div class="tile"><div class="lab">College graduates in work</div><div class="val">11.0m</div><div class="ctx">22% of everyone employed</div><span class="tag">Philippines</span></div>
@@ -177,7 +176,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
   </div>
   <div class="jm-text">
     <p class="src" style="margin-top:0">Source: my calculation from PSA, Labor Force Survey March 2026, Tables 5 and 6.</p>
-    <p>Even if every one of those jobs went to a graduate, about four million working graduates would have to be doing something else. Too many applicants, too few jobs: for graduate-level work in the Philippines, that is close to a literal description.</p>
+    <p>Even if every one of those jobs went to a graduate, about four million working graduates would be doing something else. Too many applicants, too few jobs: for graduate work in the Philippines, that is close to literal.</p>
   </div>
 </section>
 
@@ -187,15 +186,15 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <div class="num">Chapter 2</div>
     <h2>Why the line barely moves</h2>
     <p class="ask">Your question: <b>what factors are driving it?</b></p>
-    <p class="scene">You shuffle forward one step. Then nothing, for a long time. You start to wonder what is happening at the front.</p>
-    <p>Seven things are holding the line in place. Some show up in official statistics, some in government projections, and one in what hiring platforms report. Each is labeled with where it comes from.</p>
+    <p class="scene">You shuffle forward one step. Then nothing, for a long time. What is happening at the front?</p>
+    <p>Seven things hold the line in place. Each is labeled with its source.</p>
   </div>
   <div class="factor">
     <div class="jm-text">
       <div class="evid">Reason 1 &middot; UK official statistics</div>
       <h3>Nobody at the front is leaving</h3>
-      <p>The UK employment rate was 75.0% in January to March 2026. A year earlier it was 75.1%. Almost nothing moved. Over the past two years, though, the redundancy rate climbed from 3.1 to 4.2 per 1,000 employees.</p>
-      <p>Career strategist Jessica Hernandez describes the US version of this as a &ldquo;low-hire, higher-fire&rdquo; market: people in jobs stay put, employers trim rather than grow, and unemployment looks calm because so little is changing hands. A market like that is hardest on whoever is outside it.</p>
+      <p>The UK employment rate barely moved in a year: 75.0%, against 75.1%. Redundancies, though, rose from 3.1 to 4.2 per 1,000 employees in two years.</p>
+      <p>Career strategist Jessica Hernandez calls the US version a &ldquo;low-hire, higher-fire&rdquo; market: people in jobs stay put, employers trim instead of grow, and whoever is outside waits longest.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Employment rate, ages 16 to 64</div><div class="val">75.0%</div><div class="ctx">75.1% a year earlier</div><span class="tag">UK</span></div>
@@ -208,7 +207,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <div class="jm-text">
       <div class="evid">Reason 2 &middot; US government projections</div>
       <h3>Graduate jobs come up least often</h3>
-      <p>A job opens for one of three reasons: someone leaves the workforce, someone moves to a different occupation, or a new job is created. The BLS projects all three for every US occupation to 2035. Group the occupations by the education they typically need, and you can see how often a seat comes free.</p>
+      <p>A seat opens when someone leaves the workforce, someone changes occupation, or a new job is created. The BLS projects all three for every US occupation to 2035.</p>
     </div>
     <figure class="fig">
       <h4>Jobs that need a degree come up about half as often as jobs that need no credential</h4>
@@ -216,10 +215,10 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
       <div class="legend"><span><i style="background:var(--jm-accent)"></i>Someone leaves the workforce</span><span><i style="background:var(--jm-s2)"></i>Someone changes occupation</span><span><i style="background:var(--jm-s3)"></i>A new job is created</span></div>
       <div id="c-open" class="sb" style="--labw: 36%"></div>
       <div id="t-open"></div>
-      <p class="src">Source: my calculation from BLS Employment Projections 2025 to 2035, occupational data Tables 1.2 and 1.10, 831 occupations. The label is total openings per 100 jobs. Where a group is projected to shrink, no new-job segment is drawn.</p>
+      <p class="src">Source: my calculation from BLS Employment Projections 2025 to 2035, Tables 1.2 and 1.10, 831 occupations. Labels are total openings per 100 jobs; shrinking groups have no new-job segment.</p>
     </figure>
     <div class="jm-text">
-      <p>For every 100 jobs that typically need a bachelor&rsquo;s degree, about 7 open up each year. For jobs needing no formal credential it is more than 14. Graduate-level occupations hold a quarter of US jobs but produce under a fifth of the yearly openings. They are growing faster than average, 5.6% over the decade against 3.5% overall, but people leave them far less often, so fewer seats come free for someone new.</p>
+      <p>For every 100 jobs that need a bachelor&rsquo;s degree, about 7 open each year; for jobs needing no credential, more than 14. Graduate-level occupations hold a quarter of US jobs but produce under a fifth of the openings. They grow faster than average, 5.6% against 3.5%, but people leave them less often.</p>
     </div>
   </div>
   <div class="factor">
@@ -227,7 +226,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
       <div class="evid">Reason 3 &middot; US government projections</div>
       <h3>A third of &ldquo;graduate&rdquo; openings want experience you do not have yet</h3>
       <p class="scene">You know this one already. You need the job to get the experience, and the experience to get the job.</p>
-      <p>The BLS records, for every occupation, whether a new entrant typically needs prior work experience in a related job. Among openings in bachelor&rsquo;s-level occupations, 65% need none. The other 35% do, including some of the biggest: general and operations managers, management analysts, financial managers.</p>
+      <p>Among openings in bachelor&rsquo;s-level occupations, 35% expect prior experience in a related job, including some of the biggest: general and operations managers, management analysts, financial managers.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Bachelor&rsquo;s-level openings that expect prior related experience</div><div class="val">35%</div><div class="ctx">17% under five years, 18% five years or more</div><span class="tag">US</span></div>
@@ -236,14 +235,14 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="jm-text">
       <p class="src" style="margin-top:0">Source: my calculation from BLS Employment Projections, occupational data Table 1.2.</p>
-      <p>The finder in Chapter 3 shows which is which, so you can aim at the doors that are open to you now.</p>
+      <p>The finder in Chapter 3 shows which doors are open to you now.</p>
     </div>
   </div>
   <div class="factor">
     <div class="jm-text">
       <div class="evid">Reason 4 &middot; US government projections</div>
       <h3>The first rung is being automated</h3>
-      <p>Total US employment is projected to grow just 3.5% in ten years, and the growth is uneven. The largest occupational group in the country, office and administrative support, is projected to shrink by 752,000 jobs.</p>
+      <p>US employment is projected to grow just 3.5% in ten years. Office and administrative support, the largest occupational group, is projected to lose 752,000 jobs.</p>
     </div>
     <figure class="fig">
       <h4>Care and computing grow. Office support and sales shrink.</h4>
@@ -254,8 +253,8 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
       <p class="src">Source: BLS Employment Projections, Table 1.1. All occupations: +3.5%.</p>
     </figure>
     <div class="jm-text">
-      <p>Many of the roles that used to be a first step into office work are on the shrinking list: word processors and typists (&minus;34.4%), data entry keyers (&minus;25.5%), payroll and timekeeping clerks (&minus;15.9%), bank tellers (&minus;13.2%), general office clerks (&minus;6.0%) and customer service representatives (&minus;5.3%).</p>
-      <p>The BLS also publishes its reasoning, occupation by occupation. In 42 occupations it names artificial intelligence, and in 38 of those it is a reason the occupation is expected to lose ground. In its own words:</p>
+      <p>Many classic first office jobs are on the shrinking list: word processors and typists (&minus;34.4%), data entry keyers (&minus;25.5%), payroll and timekeeping clerks (&minus;15.9%), bank tellers (&minus;13.2%), general office clerks (&minus;6.0%) and customer service representatives (&minus;5.3%).</p>
+      <p>The BLS names artificial intelligence in its reasoning for 42 occupations; in 38 it is a reason for losing ground. In its own words:</p>
     </div>
     <div id="bls-quotes"></div>
     <div class="tiles">
@@ -266,14 +265,14 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="jm-text">
       <p class="src" style="margin-top:0">Source: BLS Employment Projections, occupational data Tables 1.2, 1.5, 1.11 and 1.12.</p>
-      <p>A degree does not put you out of reach. Computer programmers (&minus;7.3%), journalists (&minus;5.9%) and graphic designers (&minus;1.7%) are all projected to shrink. In the same data, data scientists grow 34.6% and information security analysts 21.0%. Which line you join matters more than it used to.</p>
+      <p>A degree is no shield: computer programmers (&minus;7.3%), journalists (&minus;5.9%) and graphic designers (&minus;1.7%) all shrink, while data scientists grow 34.6% and information security analysts 21.0%. Which line you join matters more than it used to.</p>
     </div>
   </div>
   <div class="factor">
     <div class="jm-text">
       <div class="evid">Reason 5 &middot; OECD review and industry learning data</div>
       <h3>While you were studying, the list of skills changed</h3>
-      <p>There is a mismatch on the other side of the table too. In a Philippine labor department survey reported by the OECD, 36% of firms said a lack of the right skills was the main reason their vacancies were hard to fill. A World Bank survey found the skills they struggled most to find were not technical. They were managerial, leadership, interpersonal and communication skills.</p>
+      <p>Employers were short of skills before AI. In a Philippine labor department survey reported by the OECD, 36% of firms said a lack of the right skills was the main reason vacancies were hard to fill. A World Bank survey found the hardest to find were not technical: managerial, leadership, interpersonal and communication skills.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Firms naming a lack of the right skills as the main reason vacancies are hard to fill</div><div class="val">36%</div><div class="ctx">Department of Labor and Employment survey, 2012</div><span class="tag">Philippines</span></div>
@@ -282,7 +281,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="jm-text">
       <p class="src" style="margin-top:0">Source: all three as reported in OECD (2017), <em>Employment and Skills Strategies in the Philippines</em>, chapter 1. These are the oldest figures on this page.</p>
-      <p>Then generative AI arrived and moved the goalposts again. Coursera tracks what six million people learning through their employers, governments and universities are enrolling in. That is not a measure of what employers demand, but it is a good signal of what people already in the workforce think they need next.</p>
+      <p>Then generative AI moved the goalposts. Coursera tracks what six million people learning through their employers, governments and universities enroll in: not what employers demand, but what people already in work think they need next.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Growth in generative AI enrollments in one year, all enterprise learners</div><div class="val">+234%</div><div class="ctx">Coursera, 2024 to 2025</div><span class="tag">Industry</span></div>
@@ -292,14 +291,14 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="jm-text">
       <p class="src" style="margin-top:0">Source: Coursera (2026), <em>Job Skills Report 2026</em>.</p>
-      <p>Put the two halves together. Employers were already short of people who can communicate, lead and decide. Now they also want people who can work with AI, and the workers ahead of you in the line are racing to learn both.</p>
+      <p>Employers already short of people who communicate, lead and decide now also want people who can work with AI, and the workers ahead of you are learning both.</p>
     </div>
   </div>
   <div class="factor">
     <div class="jm-text">
       <div class="evid">Reason 6 &middot; UK and Philippine official statistics</div>
       <h3>The wait is long, or it is hidden</h3>
-      <p>When hiring slows, people do not just become unemployed. They stay unemployed. In the UK, the fastest-growing group of young jobseekers is the one that has been looking for six months to a year.</p>
+      <p>When hiring slows, people stay unemployed longer. In the UK, the fastest-growing group of young jobseekers has been looking for six months to a year.</p>
     </div>
     <figure class="fig">
       <h4>The number of young adults searching for 6 to 12 months grew 47% in a year</h4>
@@ -310,8 +309,8 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
       <p class="src">Source: ONS, table UNEM01, seasonally adjusted.</p>
     </figure>
     <div class="jm-text">
-      <p>Roughly 239,000 young adults in the UK, 40% of those unemployed, have now been looking for more than six months.</p>
-      <p>In the Philippines the wait looks short on paper. Unemployed Filipinos who are actively looking had been at it for an average of 4.1 weeks in July 2025, the latest figure. That is unlikely to mean jobs are easy to find. Where few people can afford to stay unemployed for long, the wait moves inside employment: people take short-term work, or too few hours, and keep looking from there.</p>
+      <p>About 239,000 young adults in the UK, 40% of those unemployed, have been looking for more than six months.</p>
+      <p>In the Philippines the wait looks short on paper: 4.1 weeks on average in July 2025, the latest figure. Few can afford to stay unemployed for long, so the wait moves inside work: short-term jobs, too few hours, and looking from there.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Employed Filipinos who want more hours of work</div><div class="val">12.3%</div><div class="ctx">6.0 million people. 13.4% a year earlier</div><span class="tag">Philippines</span></div>
@@ -325,7 +324,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <div class="jm-text">
       <div class="evid">Reason 7 &middot; Industry-reported, not official statistics</div>
       <h3>The line itself has become noisy</h3>
-      <p>The last reason is not in any government table. It comes from hiring platforms and surveys, gathered by Hernandez in a September 2026 review. Treat these as indicative: I am reporting them second-hand and could not check the original methods.</p>
+      <p>The last reason is not in any government table. It comes from hiring platforms and surveys gathered by Hernandez in September 2026. Treat it as indicative: I could not check the original methods.</p>
     </div>
     <div class="tiles">
       <div class="tile"><div class="lab">Job postings with no intent to hire (&ldquo;ghost jobs&rdquo;)</div><div class="val">1 in 5</div><div class="ctx">Greenhouse platform data</div><span class="tag">Industry</span></div>
@@ -335,7 +334,7 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="jm-text">
       <p class="src" style="margin-top:0">Source: figures as cited in Hernandez, J. (3 September 2026), <em>Why Is Finding a Job So Hard in 2026?</em></p>
-      <p>Some of the booths in the hall are empty. Most of the crowd is queuing at the same one. And the people behind the table trust the folder in your hand less than they used to. A new graduate has the thinnest track record to fall back on when the resume stops being believed.</p>
+      <p>Some booths are empty, most of the crowd queues at one, and the people behind the table trust your folder less than they used to. A new graduate, with the thinnest track record, feels that most.</p>
     </div>
   </div>
 </section>
@@ -346,8 +345,8 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <div class="num">Chapter 3</div>
     <h2>What is waiting at the front</h2>
     <p class="ask">Your question: <b>which skills and tools make me relevant?</b></p>
-    <p class="scene">Eventually you reach the table. Someone looks up from a stack of folders and asks what you can do. What is the right answer?</p>
-    <p>The BLS scores every occupation on 17 skill categories, from 1 (not important) to 5 (extremely important), and publishes the top three for each. Looking only at occupations that typically need a bachelor&rsquo;s degree, a few skills turn up again and again.</p>
+    <p class="scene">Eventually you reach the table. Someone looks up from a stack of folders and asks what you can do.</p>
+    <p>The BLS scores every occupation on 17 skills and publishes its top three. Among occupations that need a bachelor&rsquo;s degree, a few turn up again and again.</p>
   </div>
   <figure class="fig">
     <h4>Adaptability is a top-three skill in four out of five graduate-level occupations</h4>
@@ -357,8 +356,8 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <p class="src">Source: my calculation from BLS Employment Projections, skills data Table 6.2. Skills that rank in no occupation&rsquo;s top three are omitted.</p>
   </figure>
   <div class="jm-text">
-    <p>The most widely needed skills are not tools. They are learning quickly, reading and writing well, and making decisions. That lines up with what Philippine employers said they find hardest to hire for, and with what job ads asking for AI skills list first.</p>
-    <p>The tools still matter, and they are changing fast. These are the skills whose enrollments climbed the rankings most over the past two years.</p>
+    <p>The most common are not tools: learning quickly, reading and writing well, and making decisions. They match what Philippine employers find hardest to hire for, and what AI job ads list first.</p>
+    <p>Tools still matter, and they change fast. These skills climbed Coursera&rsquo;s enrollment rankings fastest over two years.</p>
   </div>
   <figure class="fig">
     <h4>What people already in work are racing to learn</h4>
@@ -372,9 +371,9 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <p class="src">Source: Coursera (2026), <em>Job Skills Report 2026</em>. Ranked by improvement in enrollment rank among six million enterprise learners. This measures what learners choose to study, not what employers require. SQL also appears in the top ten for both IT and software.</p>
   </figure>
   <div class="jm-text">
-    <p>Read the two charts together and the answer at the table has three layers: a foundation that does not go out of date, a current tool or two on top, and the judgment to check what the tool gives you. Critical thinking grew by 90% or more in every career area Coursera tracks.</p>
+    <p>So the answer at the table has three layers: a foundation that does not date, a current tool or two, and the judgment to check what the tool gives you.</p>
     <h3 class="sub-h">Now ask it for your own job</h3>
-    <p>Type a job title. You will see the official outlook for the closest occupation, whether it expects experience, why the BLS thinks it is growing or shrinking, the skills the work demands, and what turns up beside it in real job ads.</p>
+    <p>Type a job title to see the official outlook for the closest occupation, whether it expects experience, why the BLS expects it to grow or shrink, the skills it demands, and what turns up beside it in real job ads.</p>
   </div>
   <div class="finder">
     <label for="jm-q">Search a job title</label>
@@ -395,27 +394,27 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     <h2>How to get to the front</h2>
     <p class="ask">Your question: <b>what strategies actually help when applying?</b></p>
     <p class="scene">You cannot make the line shorter. You can choose which line you stand in, what you carry, and whether anyone at the front is expecting you.</p>
-    <p>Start with how people actually find work. The PSA asks every unemployed Filipino who is looking for a job how they are looking.</p>
+    <p>Start with how people actually find work. The PSA asks every unemployed Filipino who is looking how they look.</p>
   </div>
   <figure class="fig">
     <h4>Four in ten Filipino job-seekers look through relatives and friends. Fewer than one in ten use advertisements.</h4>
     <p class="sub">Main job search method of unemployed persons looking for work, Philippines, July 2025</p>
     <div id="c-search" style="--labw: 40%"></div>
     <div id="t-search"></div>
-    <p class="src">Source: PSA, Labor Force Survey July 2025, Table 19. Covers the 1.46 million unemployed people actively looking for work. The March 2026 tables do not include job search methods, so this is the latest available.</p>
+    <p class="src">Source: PSA, Labor Force Survey July 2025, Table 19, the latest with this question. Covers the 1.46 million unemployed people actively looking for work.</p>
   </figure>
   <div class="jm-text">
-    <p>People first, postings last. Two thirds of job-seekers go through someone they know or walk up to the employer directly. That matches what LinkedIn reports from the other side of the world: candidates are three times more likely to be hired where they already know an employee. The strategies below follow from that, and each one answers a reason from Chapter 2.</p>
+    <p>People first, postings last: two thirds go through someone they know or straight to the employer. LinkedIn reports the same from the other side of the world: candidates are three times more likely to be hired where they already know an employee. Each strategy below answers a reason from Chapter 2.</p>
   </div>
   <div class="strats">
     <div class="strat">
       <h3>Choose your line</h3>
-      <p>Before you commit months to one job title, look it up in the finder. Check three things: projected growth, openings per year, and whether it expects prior experience. A shrinking occupation that wants five years of experience is the wrong line, however good you are.</p>
+      <p>Before you commit months to one job title, look it up in the finder: projected growth, openings per year, and whether it expects experience. A shrinking occupation that wants five years of experience is the wrong line, however good you are.</p>
       <p class="why"><b>Why:</b> only 1 in 9 openings is a true graduate entry point, and 33 of 177 bachelor&rsquo;s-level occupations are shrinking. <em>BLS</em></p>
     </div>
     <div class="strat">
       <h3>Lead with the skills that travel</h3>
-      <p>Give each of the three most common graduate skills one concrete story in your resume and interviews:</p>
+      <p>Give each of the three most common graduate skills one concrete story:</p>
       <ul>
         <li><b>Adaptability:</b> something you learned fast, under pressure.</li>
         <li><b>Writing and reading:</b> something you wrote that someone used.</li>
@@ -425,17 +424,17 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="strat">
       <h3>Add the AI layer, and the judgment to check it</h3>
-      <p>Learn to use one generative AI tool properly for the work in your field. Then practice the harder half: checking its output, spotting what is wrong, and explaining why. A short, recognized certificate is a cheap way to make the skill visible.</p>
+      <p>Learn one generative AI tool properly for your field. Then practice the harder half: checking its output and explaining what is wrong. A short, recognized certificate makes the skill visible.</p>
       <p class="why"><b>Why:</b> generative AI enrollments grew 234% in a year and critical thinking 185% alongside it. Coursera also reports that 96% of employers say micro-credentials strengthen an application, though that figure comes from its own research. <em>Industry-reported (Coursera)</em></p>
     </div>
     <div class="strat">
       <h3>Show proof, not polish</h3>
-      <p>A polished resume no longer sets you apart, because everyone has one. Build one or two pieces of visible work in your field: an analysis, a write-up, a project with a result. Write your applications in your own voice and link to the work.</p>
+      <p>Everyone has a polished resume now. Build one or two pieces of visible work in your field, write applications in your own voice, and link to the work.</p>
       <p class="why"><b>Why:</b> employers report they can no longer tell candidates apart on paper and are turning to assessments, work samples and trials. <em>Industry-reported</em></p>
     </div>
     <div class="strat">
       <h3>Check the booth is staffed</h3>
-      <p>Before spending an evening on an application, check the posting for signs of a ghost job:</p>
+      <p>Before spending an evening on an application, check for signs of a ghost job:</p>
       <ul>
         <li>Posted 90 or more days ago</li>
         <li>Reposted again and again</li>
@@ -447,23 +446,23 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </div>
     <div class="strat">
       <h3>Do not queue at the busiest booth</h3>
-      <p>Keep using the big job boards, but stop relying on them alone. Spread your effort across company career pages, sector-specific boards, your university careers service, public employment offices, and direct approaches to employers.</p>
+      <p>Keep the big job boards, but do not rely on them alone: use company career pages, sector boards, your university careers service, public employment offices and direct approaches.</p>
       <p class="why"><b>Why:</b> LinkedIn reportedly receives around 158 times the applications of any other site, while a quarter of Filipino job-seekers go straight to the employer. <em>Industry-reported (Huntr), PSA</em></p>
     </div>
     <div class="strat">
       <h3>Get a name inside before you apply</h3>
-      <p>For any role you really want, find one person at the company first: an alum, a former classmate, a relative, a friend of a friend. Ask about the work, not for a job. Then apply.</p>
+      <p>For any role you really want, find one person at the company first: an alum, a classmate, a relative, a friend of a friend. Ask about the work, not for a job. Then apply.</p>
       <p class="why"><b>Why:</b> 41% of Filipino job-seekers already search through relatives and friends, LinkedIn reports a threefold hiring advantage for candidates who know an employee, and one in three companies has turned to referrals to cut applicant volume. <em>PSA, industry-reported (LinkedIn, Erin)</em></p>
     </div>
     <div class="strat">
       <h3>Plan for a longer search</h3>
-      <p>Budget your money and energy for six months or more, not six weeks. Keep one skill-building project running throughout, so the gap on your resume has an answer. A temporary or part-time role while you search is common, not a failure. Keep looking from inside it.</p>
+      <p>Budget money and energy for six months or more, not six weeks. Keep one skill-building project going so the gap on your resume has an answer. A temporary or part-time role while you search is common, not a failure.</p>
       <p class="why"><b>Why:</b> 40% of unemployed young adults in the UK have been looking for over six months, and nearly one in four employed Filipinos is in short-term, seasonal or day-to-day work. <em>ONS, PSA</em></p>
     </div>
   </div>
   <div class="jm-text">
-    <p class="scene">The line is real, and it is longer than it was. You did not make it, and working harder at standing in it will not move it.</p>
-    <p>What you can change is which line you join, what is in the folder, and whether someone at the front already knows your name. The data cannot make the wait short. It can stop you spending it in the wrong place.</p>
+    <p class="scene">The line is real, and it is longer than it was. You did not make it, and standing in it harder will not move it.</p>
+    <p>What you can change is which line you join, what is in your folder, and whether someone at the front already knows your name. The data cannot make the wait short, but it can stop you spending it in the wrong place.</p>
   </div>
 </section>
 
@@ -496,21 +495,21 @@ copyright: "© 2026 Chim Zoe Catalan. Analysis, text and visual design only. All
     </ul>
     <h3>How I worked</h3>
     <ol>
-      <li><b>Philippines.</b> From the PSA tables for March 2026 and March 2025 I calculated unemployment rates by age (unemployed divided by labor force) and by highest grade completed (unemployed divided by employed plus unemployed), and compared the count of employed college graduates with the count of jobs in the three highest-skill occupation groups.</li>
-      <li><b>United Kingdom.</b> From the ONS labour market datasets I took unemployment by age and by time spent looking, education status, temporary and part-time work, redundancies and the claimant count, and compared January to March 2026 with the same quarter one and two years earlier.</li>
-      <li><b>United States.</b> I joined the BLS skills and occupational tables on occupation code for 831 occupations, then grouped by typical entry education to calculate openings per 100 jobs, what causes those openings, how many expect prior experience, and how often each skill ranks in an occupation&rsquo;s top three. I counted the occupations whose published all-industry explanation mentions artificial intelligence.</li>
-      <li><b>Job-ad skills.</b> For 74 occupations and 22 everyday job titles, I chose a few defining terms by hand (for a graphic designer: &ldquo;graphic design&rdquo;, &ldquo;graphic designer&rdquo;), found the job descriptions in the skill2vec file that list any of them, and ranked the other skills by how often they appear in those ads. A skill is shown only if it is at least twice as common there as in the file overall. I removed job titles, degree names and generic words.</li>
-      <li><b>Job-title search.</b> The search matches the 831 official BLS occupation titles plus 95 everyday titles that I mapped by hand to the closest official occupation, such as &ldquo;data analyst&rdquo;, which has no BLS occupation of its own.</li>
+      <li><b>Philippines.</b> From the March 2026 and March 2025 tables: unemployment rates by age (unemployed divided by labor force) and by highest grade completed (unemployed divided by employed plus unemployed), and employed college graduates against jobs in the three top-skill occupation groups.</li>
+      <li><b>United Kingdom.</b> Unemployment by age and by time spent looking, education status, temporary and part-time work, redundancies and the claimant count, January to March 2026 against the same quarter one and two years earlier.</li>
+      <li><b>United States.</b> The BLS skills and occupational tables joined on occupation code for 831 occupations and grouped by typical entry education: openings per 100 jobs and their causes, prior experience, and how often each skill ranks in the top three. I also counted the occupations whose all-industry explanation mentions artificial intelligence.</li>
+      <li><b>Job-ad skills.</b> For 74 occupations and 22 everyday job titles I chose a few defining terms by hand (for a graphic designer: &ldquo;graphic design&rdquo;, &ldquo;graphic designer&rdquo;), found the skill2vec job descriptions listing any of them, and ranked the other skills by how often they appear. A skill shows only if it is at least twice as common there as in the file overall; job titles, degrees and generic words are removed.</li>
+      <li><b>Job-title search.</b> It matches the 831 BLS occupation titles plus 95 everyday titles I mapped by hand to the closest one, such as &ldquo;data analyst&rdquo;, which has no BLS occupation of its own.</li>
     </ol>
     <h3>Limits you should know about</h3>
     <ul>
-      <li><b>Different countries, different years.</b> The PSA data is the Philippines (March 2026 against March 2025, with July 2025 for job search), the ONS data is the UK (January to March 2026 against the same months of 2025, as three-month averages), the BLS data is the US (2025 to 2035) and the OECD figures are the Philippines (2012 to 2015). The patterns are consistent with each other, but one does not prove the other.</li>
-      <li><b>Nobody publishes &ldquo;fresh graduates&rdquo; directly.</b> I use young adults as the proxy (15 to 24 in the Philippines, 18 to 24 in the UK) and, in the Philippines, college graduates of all ages. The PSA tables do not let me separate the effect of age from the effect of education.</li>
-      <li><b>Survey estimates move around.</b> Both labor force surveys are samples. The ONS warns that estimates for smaller groups are volatile, which is why I compare year on year. It also says its estimates from January to March 2025 onwards include the full effect of its 2024 survey improvements, so the two years compare fairly, though it advises against reading much into short-term changes. Youth unemployment in the Philippines swings with the school year, which is why I compare March with March. The PSA job-search and search-duration tables (July 2025) cover only the 1.46 million unemployed people actively looking. Vacancy counts are not in any source here.</li>
-      <li><b>Projections are not forecasts of your job search.</b> BLS figures describe expected change over ten years in the US. &ldquo;Typical education&rdquo; and &ldquo;work experience&rdquo; describe a typical path, not a rule.</li>
-      <li><b>The job-ad lists are the weakest part.</b> The skill2vec file holds about 46,000 job descriptions collected before 2018. Its vocabulary suggests most come from South Asian job boards, with a heavy tilt toward IT, finance, sales and marketing. It predates generative AI entirely. It shows which skills appear together, not which are required, and it is too thin to use for health, teaching, law or science roles, so those show official skills only.</li>
+      <li><b>Different countries, different years.</b> Philippines: March 2026 against March 2025 (July 2025 for job search). UK: January to March 2026 against 2025, as three-month averages. US: projections to 2035. OECD: the Philippines, 2012 to 2015. The patterns agree, but one does not prove the other.</li>
+      <li><b>Nobody publishes &ldquo;fresh graduates&rdquo; directly.</b> I use young adults (15 to 24 in the Philippines, 18 to 24 in the UK) and, in the Philippines, college graduates of all ages. The PSA tables cannot separate age from education.</li>
+      <li><b>Survey estimates move around.</b> Both labor force surveys are samples, so I compare year on year. The ONS says its estimates from January to March 2025 onwards include its 2024 survey improvements, so the two years compare fairly, but advises against reading much into short-term changes. Philippine youth unemployment swings with the school year, hence March against March. The PSA job-search tables (July 2025) cover only the 1.46 million unemployed people actively looking. No source here counts vacancies.</li>
+      <li><b>Projections are not forecasts of your job search.</b> BLS figures describe expected US change over ten years. &ldquo;Typical education&rdquo; and &ldquo;work experience&rdquo; describe a typical path, not a rule.</li>
+      <li><b>The job-ad lists are the weakest part.</b> The skill2vec file holds about 46,000 job descriptions collected before 2018, mostly from South Asian job boards and tilted toward IT, finance, sales and marketing. It predates generative AI, shows which skills appear together rather than which are required, and is too thin for health, teaching, law or science roles, which show official skills only.</li>
       <li><b>Coursera measures learners, not employers.</b> Its rankings show what people enroll in. Coursera sells courses, so treat its findings on the value of courses and certificates with that in mind.</li>
-      <li><b>Industry figures are second-hand.</b> The ghost-job, application-volume and resume-trust figures come from one practitioner&rsquo;s article citing company data. They are mostly US-based and I could not review their methods.</li>
+      <li><b>Industry figures are second-hand.</b> The ghost-job, application-volume and resume-trust figures come from one practitioner&rsquo;s article citing company data, mostly from the US. I could not review their methods.</li>
     </ul>
     <div class="notice">
       <p><b>Data ownership and use.</b> I do not own any of the data or source material used on this page. All statistics, tables, reports and quotations remain the property of the organizations and authors credited above. They are used here for non-commercial research and educational purposes only, with attribution.</p>
