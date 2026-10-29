@@ -41,10 +41,11 @@ const BLOCKED_NAMES = [
   [/\.(sqlite3?|db|mdb|accdb|bak|dump)$/i, 'a database or backup file'],
 ];
 
-// Documents and archives belong to a content entry (or are the resume or a
-// source logo pack). Anywhere else, one was probably dropped by mistake.
+// Documents and archives belong to a content entry (or are the resume, a
+// source logo pack, or source data waiting in temp/). Anywhere else, one was
+// probably dropped by mistake.
 const DOCUMENT = /\.(pdf|docx?|xlsx?|xlsm|pptx?|zip|rar|7z|tgz|gz)$/i;
-const DOCUMENT_HOMES = ['rebrand/src/content/', 'rebrand/public/resume/', 'source-files/'];
+const DOCUMENT_HOMES = ['rebrand/src/content/', 'rebrand/public/resume/', 'source-files/', 'temp/'];
 
 const MAX_BYTES = 25 * 1024 * 1024;
 

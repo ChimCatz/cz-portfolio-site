@@ -92,7 +92,7 @@ A few things worth opening:
 ├── worker/                  Cloudflare Worker behind the contact form (not published)
 ├── source-files/            Originals the site is made from (not published)
 ├── setup/                   Scripts for rebuilding the dev setup on a new PC
-├── temp/                    Drop folder for new files (ignored by git)
+├── temp/                    Revisions and new files, one folder per page (not published)
 └── .github/                 Deploy and check workflows, repo check script
 ```
 
@@ -172,7 +172,7 @@ were created on:
 | Not in a clone | How to get it |
 |---|---|
 | `rebrand/node_modules/`, `rebrand/dist/`, `rebrand/.astro/` | Recreated by `npm install` and `npm run build`. |
-| `temp/` contents | Nothing to get: it only holds files waiting to be used. |
+| `temp/about-me/world-data-chart/source-images/*.png` | Third-party chart images kept local. `source-links.txt` beside them says where they came from. |
 | `private/` | Personal notes and source material. Copy it by hand if you need it on another computer. |
 | `.env` files, keys | There are none. The site needs no secrets to build or run. |
 | Worker secrets, `worker/.dev.vars` | The secrets live in Cloudflare, set with Wrangler; `.dev.vars` is a local test file. See [`worker/README.md`](worker/README.md). |

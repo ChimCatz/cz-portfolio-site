@@ -22,12 +22,13 @@ credentials*.json
 .wrangler/
 
 # Local-only folders. `private/` holds notes and source material that stay
-# on this computer. `temp/` is a drop folder for files waiting to be used;
-# only its README is tracked.
+# on this computer. `temp/` holds one folder of revisions per page and is
+# tracked, so it syncs between computers (the repo is public: nothing private
+# goes in it). Third-party chart images in `world-data-chart/source-images/`
+# are copyrighted and stay local.
 
 private/
-temp/*
-!temp/README.md
+temp/about-me/world-data-chart/source-images/*.png
 
 # OS, editor and tool files
 

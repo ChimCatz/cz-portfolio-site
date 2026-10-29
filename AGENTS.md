@@ -63,7 +63,7 @@ decisions and rules behind it.
 | `worker/` | The Cloudflare Worker behind the contact form (`worker/README.md`). Not published with the site; deployed by hand. |
 | `source-files/` | Originals the site is made from (profile photo, tool logos, Vanta package). Not published. |
 | `setup/` | Scripts and lists for rebuilding the dev setup on a new PC (`setup/README.md`). |
-| `temp/` | Drop folder for new files (it replaced `inbox/`). Git-ignored except its README. Move a file into the site when you use it, so whatever is left there is unused. |
+| `temp/` | Revisions and new files, one folder per page (About Me, each insight and data study; list in `temp/README.md`). Tracked so it syncs between the user's computers (user, 2026-10-29), but public: nothing private or copyrighted goes in it. The PNGs in `temp/about-me/world-data-chart/source-images/` (third-party charts) stay git-ignored. The repo check allows documents (xlsx, pdf, zip) in `temp/`. Keep file names short (Windows 260-character path limit). Not published to the site. Move a file into the site when you use it, so whatever is left there is unused. |
 | `private/` | Git-ignored. Notes, source material and the blocked-terms list. Never referenced from the site. |
 | `.github/` | Deploy and check workflows, Dependabot, the repo check script. |
 | `.githooks/` | The pre-commit hook that runs the repo check. |
