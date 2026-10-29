@@ -238,7 +238,13 @@ source link, plus a sidebar button), `copyright` (rendered last), `story`.
   To add another, add a component and list it in `stories` in
   `insights/[slug].astro`.
 - **Job market insight:** the text, KPIs and numbers are the author's: don't
-  reword them or change figures unasked.
+  reword them or change figures unasked. Since 2026-10-29 (user's decision)
+  it compares March with March: Philippines March 2026 against March 2025,
+  UK January to March 2026 against the same quarter of 2025, because youth
+  unemployment swings with the school year. Job search methods and weeks
+  spent looking are not in the March tables and stay July 2025, labeled.
+  The chart data is in `JobMarketStory.astro` (`PSA`, `ageRate`, `ageChg`,
+  `young`/`all`, `dur`); keep it, the tiles and the text in step.
 - **Other people's data:** datasets are offered for download only when they
   are open data, each credited to its owner with its licence. Copyrighted
   reports are linked, not hosted. Keep that split for future sources.
