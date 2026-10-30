@@ -33,7 +33,7 @@ const entries = await getSorted(collection);
             <div class="entry-thumb">
               <Image
                 src={entry.data.banner}
-                alt=""
+                alt={entry.data.bannerAlt}
                 widths={[320, 480, 720]}
                 sizes="(max-width: 600px) calc(100vw - 32px), 280px"
                 loading={i < 3 ? 'eager' : 'lazy'}

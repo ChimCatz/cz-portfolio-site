@@ -17,6 +17,7 @@ badges:
 kicker: "Zoho Analytics dashboard"
 summary: "A Zoho Analytics dashboard that shows on one screen how complete and how usable a contact database is: what's missing, who can't be reached, and where the records came from."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of the Database Management Dashboard with sample data: tiles for record counts and missing fields, a database score gauge, and a bar chart of records by country."
 flow:
   - "Zoho CRM"
   - "Zoho Analytics"

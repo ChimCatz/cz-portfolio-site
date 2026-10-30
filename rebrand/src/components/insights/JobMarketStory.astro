@@ -7,10 +7,12 @@
 // `.story-job-market`, the class the insight page puts on the article) and the
 // script that draws the charts and runs the search.
 //
-// The numbers are not typed in here by hand. PSA and ONS figures sit in the
-// script as the source tables give them; BLS figures are worked out in the
-// browser from src/data/job-market-occupations.json (831 occupations, built
-// from the BLS files offered for download on the page).
+// The numbers are not typed in here by hand. PSA and ONS figures sit in
+// src/lib/job-market.js as the source tables give them; BLS figures are worked
+// out from src/data/job-market-occupations.json (831 occupations, built from the
+// BLS files offered for download on the page). The data tables under the charts
+// and the BLS quotes are written into the page at build time
+// (src/lib/rehype-job-market.mjs), so they read without JavaScript.
 //
 // Sizes follow the article column, not the screen (container queries), so the
 // layout holds whether the sidebar is beside the article or stacked.
@@ -1115,8 +1117,11 @@
 <script>
   // @ts-nocheck
   // Ported as written from the original standalone page, so the figures it works
-  // out are the same. Only the element ids and color names were changed.
+  // out are the same. Only the element ids and color names were changed. The
+  // figures and the data tables are in src/lib/job-market.js: the tables and the
+  // BLS quotes are written into the page at build time (rehype-job-market.mjs).
   import DATA from '../../data/job-market-occupations.json';
+  import { PSA, Q, ageChg, ageRate, all, dur, esc, groups, openings, pct, phAll, signed, skills, thousands, young } from '../../lib/job-market.js';
 
   function draw() {
     var OCC = DATA.occ, SK = DATA.skills, EL = DATA.elements, EDU = DATA.edu, EXP = DATA.exp, OJT = DATA.ojt;
@@ -1131,13 +1136,6 @@
       if (text != null) e.textContent = text;
       return e;
     }
-    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-    function signed(v, d) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d == null ? 1 : d); }
-    function thousands(k) { // value given in thousands
-      if (Math.abs(k) >= 1000) return (k / 1000).toFixed(1) + " million";
-      return Math.round(k * 1000).toLocaleString("en-US");
-    }
-    function pct(v, d) { return v.toFixed(d == null ? 1 : d) + "%"; }
 
     /* ---------- tooltip ---------- */
     var tip = h("div", { id: "jm-tip", "class": "jm-tip", role: "tooltip" });
@@ -1156,17 +1154,6 @@
       el.addEventListener("mouseleave", hideTip);
       el.addEventListener("focus", function () { var r = el.getBoundingClientRect(); showTip(html, r.left + 40, r.bottom - 8); });
       el.addEventListener("blur", hideTip);
-    }
-
-    /* ---------- table twin ---------- */
-    function table(id, head, rows) {
-      var d = h("details", { "class": "tbl" });
-      d.append(h("summary", null, "View data table"));
-      var wrap = h("div", { "class": "tbl-scroll" }), t = h("table"), tr = h("tr");
-      head.forEach(function (x) { tr.append(h("th", { scope: "col" }, x)); });
-      t.append(tr);
-      rows.forEach(function (r) { var row = h("tr"); r.forEach(function (x) { row.append(h("td", null, x)); }); t.append(row); });
-      wrap.append(t); d.append(wrap); $(id).append(d);
     }
 
     /* ---------- horizontal bars (zero-based) ---------- */
@@ -1224,48 +1211,25 @@
       });
     }
 
-    /* ================= PSA: Philippines, Labor Force Survey March 2026 (thousands) ================= */
-    var PSA = {
-      lf: 51645.78, emp: 49069.00, un: 2576.79,
-      // [age band, labor force, unemployed]  (Table 1)
-      age: [["15 to 24", 6582.62, 827.55], ["25 to 34", 14863.29, 1001.71], ["35 to 44", 12033.95, 323.07], ["45 to 54", 9557.24, 263.83], ["55 to 64", 5921.21, 136.59], ["65 and over", 2687.48, 24.04]],
-      // [highest grade completed, employed, unemployed]  (Tables 5 and 11; each level but college adds undergraduates and graduates)
-      edu: [["No grade completed", 429.02, 1.34], ["Elementary", 9188.99, 205.76], ["Junior high school", 20009.14, 688.76], ["Senior high school", 2212.55, 376.56],
-        ["Post-secondary", 1655.83, 114.04], ["College, did not graduate", 4580.58, 289.37], ["College graduate", 10992.90, 900.96]],
-      // [job search method, persons]  (July 2025, Table 19: the March 2026 tables do not include it)
-      search: [["Approached relatives or friends", 598.64], ["Approached the employer directly", 355.86], ["Registered with a private employment agency", 196.51],
-        ["Registered with a public employment agency", 147.90], ["Placed or answered advertisements", 136.02], ["Other methods", 29.64]]
-    };
+    /* ================= PSA: Philippines, Labor Force Survey March 2026 ================= */
     var phAge = PSA.age.map(function (r) {
       var v = r[2] / r[1] * 100;
       return { label: r[0], value: v, text: pct(v), hi: r[0] === "15 to 24",
-        tip: "<b>Philippines, aged " + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " of " + thousands(r[1]) + " in the labor force",
-        cells: ["Philippines", r[0], pct(v), Math.round(r[2]).toLocaleString("en-US")] };
+        tip: "<b>Philippines, aged " + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " of " + thousands(r[1]) + " in the labor force" };
     });
-    var phAll = PSA.un / PSA.lf * 100;
     hbar("c-phage", phAge.concat([{ label: "All aged 15 and over", value: phAll, text: pct(phAll), sep: true, tip: "<b>Philippines, all aged 15 and over</b><br>" + pct(phAll) + " unemployed<br>" + thousands(PSA.un) + " people" }]), 78);
 
     /* ================= ONS: UK labour market, Jan-Mar 2026 (A05, seasonally adjusted) ================= */
-    var ageRate = [["16 to 17", 29.4, 138], ["18 to 24", 14.6, 591], ["25 to 34", 4.8, 386], ["35 to 49", 2.9, 348], ["50 to 64", 3.0, 299], ["65 and over", 2.6, 47]];
     hbar("c-age", ageRate.map(function (r) {
       return { label: r[0], value: r[1], text: r[1].toFixed(1) + "%", hi: r[0] === "18 to 24",
         tip: "<b>UK, aged " + r[0] + "</b><br>" + r[1].toFixed(1) + "% unemployed<br>" + r[2].toLocaleString("en-US") + ",000 people" };
     }).concat([{ label: "All aged 16 and over", value: 5.0, text: "5.0%", sep: true, tip: "<b>UK, all aged 16 and over</b><br>5.0% unemployed<br>1,808,000 people" }]), 78);
-    table("t-phage", ["Country", "Age group", "Unemployment rate", "Unemployed (thousands)"],
-      phAge.map(function (r) { return r.cells; }).concat([["Philippines", "All aged 15 and over", pct(phAll), Math.round(PSA.un).toLocaleString("en-US")]])
-        .concat(ageRate.map(function (r) { return ["United Kingdom", r[0], r[1].toFixed(1) + "%", r[2].toLocaleString("en-US")]; })).concat([["United Kingdom", "All aged 16 and over", "5.0%", "1,808"]]));
 
-    // [age group, change, Jan-Mar 2025, Jan-Mar 2026] in thousands; changes are from the unrounded levels
-    var ageChg = [["16 to 17", 11, 127, 138], ["18 to 24", 92, 499, 591], ["25 to 34", 47, 338, 386], ["35 to 49", 18, 330, 348], ["50 to 64", 21, 278, 299], ["65 and over", -3, 50, 47]];
     dbar("c-chg", ageChg.map(function (r) {
       return { label: r[0], value: r[1], text: signed(r[1], 0) + "k", hi: r[0] === "18 to 24",
         tip: "<b>Aged " + r[0] + "</b><br>" + r[2] + ",000 in Jan to Mar 2025<br>" + r[3] + ",000 in Jan to Mar 2026<br>Change: " + signed(r[1], 0) + ",000" };
     }));
-    table("t-chg", ["Age group", "Jan to Mar 2025 (thousands)", "Jan to Mar 2026 (thousands)", "Change (thousands)"],
-      ageChg.map(function (r) { return [r[0], String(r[2]), String(r[3]), signed(r[1], 0)]; }).concat([["All aged 16 and over", "1,621", "1,808", "+187"]]));
 
-    var Q = ["Jan–Mar 2025", "Apr–Jun 2025", "Jul–Sep 2025", "Oct–Dec 2025", "Jan–Mar 2026"];
-    var young = [12.6, 12.1, 12.8, 14.1, 14.6], all = [4.6, 4.7, 5.0, 5.2, 5.0];
     function lineChart() {
       var el = $("c-line"), W = Math.max(300, el.clientWidth), small = W < 520;
       var H = small ? 250 : 300, m = { l: 34, r: small ? 64 : 120, t: 14, b: 34 };
@@ -1308,23 +1272,18 @@
     }
     lineChart();
     if (window.ResizeObserver) { var lw = 0; new ResizeObserver(function (e) { var w = Math.round(e[0].contentRect.width); if (w !== lw) { lw = w; lineChart(); } }).observe($("c-line")); }
-    table("t-line", ["Quarter", "Aged 18 to 24", "All aged 16 and over", "Gap (points)"],
-      Q.map(function (q, i) { return [q, young[i].toFixed(1) + "%", all[i].toFixed(1) + "%", (young[i] - all[i]).toFixed(1)]; }));
 
     /* ---- PSA: unemployment rate by highest grade completed ---- */
     (function () {
       var rows = PSA.edu.map(function (r) {
         var v = r[2] / (r[1] + r[2]) * 100;
         return { label: r[0], value: v, text: pct(v), hi: r[0] === "College graduate",
-          tip: "<b>" + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " unemployed, " + thousands(r[1]) + " employed<br>" + pct(r[2] / PSA.un * 100) + " of all unemployed, " + pct((r[1] + r[2]) / PSA.lf * 100) + " of the labor force",
-          cells: [r[0], Math.round(r[1]).toLocaleString("en-US"), Math.round(r[2]).toLocaleString("en-US"), pct(v), pct((r[1] + r[2]) / PSA.lf * 100), pct(r[2] / PSA.un * 100)] };
+          tip: "<b>" + r[0] + "</b><br>" + pct(v) + " unemployed<br>" + thousands(r[2]) + " unemployed, " + thousands(r[1]) + " employed<br>" + pct(r[2] / PSA.un * 100) + " of all unemployed, " + pct((r[1] + r[2]) / PSA.lf * 100) + " of the labor force" };
       });
       hbar("c-phedu", rows.concat([{ label: "All levels", value: phAll, text: pct(phAll), sep: true, tip: "<b>All levels</b><br>" + pct(phAll) + " unemployed" }]));
-      table("t-phedu", ["Highest grade completed", "Employed (thousands)", "Unemployed (thousands)", "Unemployment rate", "Share of labor force", "Share of unemployed"], rows.map(function (r) { return r.cells; }));
     })();
 
-    /* ---- ONS: duration (UNEM01, aged 18 to 24, Jan-Mar, thousands; changes from the unrounded levels) ---- */
-    var dur = [["Up to 6 months", 323, 352, 9.0], ["6 to 12 months", 71, 105, 47.3], ["Over 12 months", 105, 135, 28.6]];
+    /* ---- ONS: duration (UNEM01, aged 18 to 24) ---- */
     (function () {
       var el = $("c-dur"), max = 352;
       dur.forEach(function (r) {
@@ -1342,8 +1301,6 @@
         bindTip(row, "<b>" + r[0] + "</b><br>Jan to Mar 2025: " + r[1] + ",000<br>Jan to Mar 2026: " + r[2] + ",000<br>Change: " + signed(r[3]) + "%");
       });
     })();
-    table("t-dur", ["Time unemployed", "Jan to Mar 2025 (thousands)", "Jan to Mar 2026 (thousands)", "Change"],
-      dur.map(function (r) { return [r[0], String(r[1]), String(r[2]), signed(r[3]) + "%"]; }).concat([["All unemployed aged 18 to 24", "499", "591", "+18.5%"]]));
 
     /* ---- PSA: job search methods ---- */
     (function () {
@@ -1351,62 +1308,29 @@
       var rows = PSA.search.map(function (r, i) {
         var v = r[1] / tot * 100;
         return { label: r[0], value: v, text: pct(v, 0), hi: i === 0,
-          tip: "<b>" + r[0] + "</b><br>" + thousands(r[1]) + " people<br>" + pct(v) + " of job-seekers", cells: [r[0], Math.round(r[1]).toLocaleString("en-US"), pct(v)] };
+          tip: "<b>" + r[0] + "</b><br>" + thousands(r[1]) + " people<br>" + pct(v) + " of job-seekers" };
       });
       hbar("c-search", rows);
-      table("t-search", ["Job search method", "Persons (thousands)", "Share"], rows.map(function (r) { return r.cells; }));
     })();
 
     /* ================= BLS: computed from the embedded occupation data ================= */
-    (function () {
-      var agg = EDU.map(function () { return { e: 0, o: 0, n: 0, ex: 0, tr: 0, gr: 0 }; });
-      OCC.forEach(function (o) {
-        if (o.d < 0) return;
-        var a = agg[o.d]; a.e += o.e; a.o += o.o; a.n++; a.ex += o.e * o.er / 100; a.tr += o.e * o.tr / 100; a.gr += o.n / 10;
-      });
-      var rows = EDU.map(function (name, i) {
-        var a = agg[i], v = a.o / a.e * 100, ex = a.ex / a.e * 100, tr = a.tr / a.e * 100, gr = a.gr / a.e * 100;
-        return { label: name, parts: [ex, tr, Math.max(0, gr)], text: v.toFixed(1), hi: i === 5,
-          tip: "<b>" + esc(name) + "</b><br>" + v.toFixed(1) + " openings a year per 100 jobs<br>" + ex.toFixed(1) + " from people leaving the workforce<br>" + tr.toFixed(1) + " from people changing occupation<br>" + signed(gr) + " from job growth<br>" + a.n + " occupations, " + thousands(a.e) + " jobs",
-          cells: [name, String(a.n), thousands(a.e), thousands(a.o), v.toFixed(1), ex.toFixed(1), tr.toFixed(1), signed(gr)] };
-      });
-      sbar("c-open", rows);
-      table("t-open", ["Typical entry education", "Occupations", "Jobs, 2025", "Openings per year", "Openings per 100 jobs", "Leaving the workforce", "Changing occupation", "Job growth"], rows.map(function (r) { return r.cells; }));
-    })();
+    sbar("c-open", openings(DATA).map(function (a, i) {
+      return { label: a.name, parts: [a.ex, a.tr, Math.max(0, a.gr)], text: a.v.toFixed(1), hi: i === 5,
+        tip: "<b>" + esc(a.name) + "</b><br>" + a.v.toFixed(1) + " openings a year per 100 jobs<br>" + a.ex.toFixed(1) + " from people leaving the workforce<br>" + a.tr.toFixed(1) + " from people changing occupation<br>" + signed(a.gr) + " from job growth<br>" + a.n + " occupations, " + thousands(a.e) + " jobs" };
+    }));
 
-    var groups = [["Healthcare support", 8421.5, 13.3], ["Healthcare practitioners and technical", 10232.8, 8.0], ["Life, physical, and social science", 1628.7, 7.5],
-      ["Community and social service", 3270.1, 7.4], ["Computer and mathematical", 5493.6, 7.3], ["Architecture and engineering", 2690.0, 6.8],
-      ["Management", 13683.4, 6.2], ["Business and financial operations", 11368.5, 5.5], ["Installation, maintenance, and repair", 6494.4, 5.4],
-      ["Construction and extraction", 7492.9, 5.1], ["Food preparation and serving", 13826.5, 4.4], ["Personal care and service", 4487.3, 4.4],
-      ["Transportation and material moving", 14139.0, 4.3], ["Legal", 1445.7, 2.9], ["Building and grounds cleaning and maintenance", 5699.6, 2.6],
-      ["Arts, design, entertainment, sports, and media", 2986.0, 1.5], ["Educational instruction and library", 9907.4, 1.4], ["Protective service", 3871.0, 1.1],
-      ["Production", 8780.5, -0.4], ["Sales and related", 14533.2, -1.4], ["Farming, fishing, and forestry", 1036.0, -1.5], ["Office and administrative support", 18792.7, -4.0]];
     dbar("c-grp", groups.map(function (g) {
       return { label: g[0], value: g[2], text: signed(g[2]) + "%",
         tip: "<b>" + esc(g[0]) + "</b><br>" + thousands(g[1]) + " jobs in 2025<br>Projected change: " + signed(g[2]) + "%" };
     }), true);
-    table("t-grp", ["Occupational group", "Jobs, 2025", "Projected change, 2025 to 2035"], groups.map(function (g) { return [g[0], thousands(g[1]), signed(g[2]) + "%"]; }));
 
-    /* BLS's own reasoning, quoted from the data */
+    /* BLS's own reasoning, quoted from the data (the quotes under the chart are written in at build time) */
     function reason(o) { return o.why.replace(/^[^-]+ - /, ""); }
-    (function () {
-      var box = $("bls-quotes");
-      ["43-4051", "43-9021", "15-1251", "13-1151"].forEach(function (code) {
-        var o = byCode[code]; if (!o || !o.why) return;
-        var q = h("blockquote", { "class": "bls" }, "“" + reason(o).replace(/^share/, "Share") + "”");
-        q.append(h("cite", null, o.t + ", projected " + signed(o.g) + "% by 2035. BLS, Table 1.12. “Share” means the occupation’s share of jobs within its industries."));
-        box.append(q);
-      });
-    })();
 
     (function () {
-      var ba = OCC.filter(function (o) { return o.d === 5; }), cnt = SK.map(function () { return 0; });
-      ba.forEach(function (o) { o.top.forEach(function (i) { cnt[i]++; }); });
-      var rows = SK.map(function (s, i) { return { label: s, value: cnt[i] / ba.length * 100, n: cnt[i] }; })
-        .filter(function (r) { return r.n > 0; }).sort(function (a, b) { return b.value - a.value; });
-      rows.forEach(function (r) { r.text = Math.round(r.value) + "%"; r.acc = true; r.tip = "<b>" + esc(r.label) + "</b><br>Top-three skill in " + r.n + " of " + ba.length + " occupations"; });
-      hbar("c-skill", rows);
-      table("t-skill", ["Skill", "Occupations where it ranks top three", "Share"], rows.map(function (r) { return [r.label, String(r.n), r.value.toFixed(1) + "%"]; }));
+      var top = skills(DATA);
+      top.rows.forEach(function (r) { r.text = Math.round(r.value) + "%"; r.acc = true; r.tip = "<b>" + esc(r.label) + "</b><br>Top-three skill in " + r.n + " of " + top.total + " occupations"; });
+      hbar("c-skill", top.rows);
     })();
 
     /* ================= Skills finder ================= */

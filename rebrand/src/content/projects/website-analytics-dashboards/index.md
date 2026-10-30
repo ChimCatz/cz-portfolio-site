@@ -16,6 +16,7 @@ badges:
 kicker: "GA4 and Zoho Analytics"
 summary: "One report layout applied to three websites, each fed by its own Google Analytics 4 property, so traffic, search, and content numbers read the same way for every site."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of the Tech Site A analytics dashboard with sample data: KPI tiles for users, pageviews, sessions and search clicks, a traffic sources table and the top landing pages."
 flow:
   - "Website"
   - "Google Analytics 4"

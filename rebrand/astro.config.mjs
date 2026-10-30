@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import rehypeFigure from './src/lib/rehype-figure.mjs';
+import rehypeJobMarket from './src/lib/rehype-job-market.mjs';
 import rehypePokemonTypes from './src/lib/rehype-pokemon-types.mjs';
 
 // Deployed to GitHub Pages as a project site:
@@ -15,6 +16,6 @@ export default defineConfig({
   // own pages are fetched.
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   markdown: {
-    rehypePlugins: [rehypeFigure, [rehypePokemonTypes, { iconBase: `${base}/icons/pokemon-types/` }]],
+    rehypePlugins: [rehypeFigure, rehypeJobMarket, [rehypePokemonTypes, { iconBase: `${base}/icons/pokemon-types/` }]],
   },
 });

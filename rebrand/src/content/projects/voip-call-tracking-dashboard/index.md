@@ -17,6 +17,7 @@ badges:
 kicker: "Apps Script and Google Sheets"
 summary: "Calls lived in two VoIP systems with two report formats. I connected both to one Google Sheets workbook through their APIs, so call activity sits in one place and refreshes itself every hour."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of the VOIP 1 and VOIP 2 Performance Dashboard with sample data: date, provider, agent, direction and outcome filters above twelve call KPI tiles."
 flow:
   - "VoIP provider APIs"
   - "Google Apps Script"

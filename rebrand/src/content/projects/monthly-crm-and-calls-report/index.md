@@ -16,6 +16,7 @@ badges:
 kicker: "Zoho Analytics report"
 summary: "A monthly report that puts CRM activity and call performance from two VoIP systems on one page, with every headline number shown against the month before."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of the Monthly CRM and Calls Analytics Report with sample data: CRM overview tiles with month-on-month arrows and a line chart of CRM records touched against total leads."
 flow:
   - "CRM and VoIP call logs"
   - "Zoho Analytics"

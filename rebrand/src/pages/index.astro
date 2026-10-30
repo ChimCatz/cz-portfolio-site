@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { entryHref, formatDate, getSorted, sectionHref } from '../lib/reading';
-import { shortTitle, shotClass, shotStyle, tagline } from '../lib/projects';
+import { shortTitle, shotClass, shotStyle, tagline, thumbAlt } from '../lib/projects';
 import { CONTACT_LINK } from '../lib/site';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -64,7 +64,7 @@ const latest = [
                 <div class:list={shotClass(project)} style={shotStyle(project)}>
                   <Image
                     src={project.data.thumb!}
-                    alt=""
+                    alt={thumbAlt(project)}
                     widths={[360, 540, 720, 1080]}
                     sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 860px) 42vw, 340px"
                   />
@@ -104,7 +104,7 @@ const latest = [
               <div class="latest-thumb">
                 <Image
                   src={entry.data.banner}
-                  alt=""
+                  alt={entry.data.bannerAlt}
                   widths={[360, 540, 720, 1080]}
                   sizes="(max-width: 700px) calc(100vw - 32px), 520px"
                   style={`object-position: ${entry.data.thumbFocus} center`}

@@ -52,6 +52,16 @@ decisions and rules behind it.
   screen size (see Footer below).
 - **Writing:** direct, practical storytelling: the real problem, the
   solution, measurable results. No filler and no buzzwords.
+- **Alt text on every image (user, 2026-10-30)**, so something shows if it
+  fails to load, including images next to their own label (logos,
+  certificates, thumbnails). Banners and list thumbnails use `bannerAlt`;
+  project thumbs use `thumbAlt` (falls back to `bannerAlt`). The only
+  exceptions are the Pokémon type icons, which sit inside a pill with the
+  type name, and the Lightbox's empty image slot.
+- **Readable without JavaScript:** crawlers, including AI search crawlers,
+  don't run scripts. Text and numbers go in the built HTML; a script may
+  draw a chart or add interaction on top of them. Controls may need
+  JavaScript (filters, demos, searches, the contact form); content may not.
 - **Commit messages** start with a version prefix, e.g.
   `Version 16.9 - feat(rebrand): ...`. Keep them short and descriptive.
 
@@ -180,11 +190,14 @@ decisions and rules behind it.
   against `innerHeight` at many sizes, including just above and below each
   cut-off. `body` is a flex column at least one screen tall with `main`
   growing, so the footer sits at the bottom on short pages.
-- **404** (`src/pages/404.astro`) and **sitemap**
-  (`src/pages/sitemap.xml.ts`, built from `site.ts` and the collections).
+- **404** (`src/pages/404.astro`), **sitemap**
+  (`src/pages/sitemap.xml.ts`) and **`llms.txt`** (`src/pages/llms.txt.ts`,
+  a plain-text guide for AI tools: every page with its `summary`), all built
+  from `site.ts` and the collections, so new entries appear on their own.
   There is no `robots.txt` on purpose: for a project site
-  (`/cz-portfolio-site/`) search engines only read the one at the domain
-  root, which this repo does not control.
+  (`/cz-portfolio-site/`) crawlers only read the one at the domain root
+  (`chimcatz.github.io/robots.txt`), which would need a separate
+  `ChimCatz.github.io` repo. Without one, every crawler is allowed.
 
 ## Link previews
 
@@ -243,8 +256,12 @@ source link, plus a sidebar button), `copyright` (rendered last), `story`.
   UK January to March 2026 against the same quarter of 2025, because youth
   unemployment swings with the school year. Job search methods and weeks
   spent looking are not in the March tables and stay July 2025, labeled.
-  The chart data is in `JobMarketStory.astro` (`PSA`, `ageRate`, `ageChg`,
-  `young`/`all`, `dur`); keep it, the tiles and the text in step.
+  The chart data is in `src/lib/job-market.js` (`PSA`, `ageRate`, `ageChg`,
+  `young`/`all`, `dur`, `groups`); keep it, the tiles and the text in step.
+  The charts are drawn by the script in `JobMarketStory.astro`; the "View
+  data table" under each chart and the BLS quotes are written into the HTML
+  at build time by `src/lib/rehype-job-market.mjs` from the same module, so
+  every number reads without JavaScript.
 - **Other people's data:** datasets are offered for download only when they
   are open data, each credited to its owner with its licence. Copyrighted
   reports are linked, not hosted. Keep that split for future sources.
@@ -541,6 +558,15 @@ whose hero is unchanged by design, 8-14 both).
   nothing. Give such elements a `[hidden] { display: none; }` rule. The
   contact form shipped once with this bug: the form stayed on screen under
   the thank-you message.
+- **Raw HTML and rehype plugins:** Astro parses raw HTML in Markdown only
+  after the rehype plugins have run, so a plugin sees it as `raw` text
+  nodes, not elements (`rehype-job-market.mjs` fills placeholders in that
+  text).
+- **Content cache:** Astro caches rendered Markdown in
+  `rebrand/node_modules/.astro/data-store.json` and re-renders a file only
+  when it changes. After changing a rehype plugin or what it reads
+  (`job-market.js`, `job-market-occupations.json`), delete that file before
+  building, or the old output stays. CI always builds fresh.
 - **Scoped styles and scripts:** elements a script creates do not get
   Astro's scoped-style attribute. Style them with `is:global` under a
   wrapper, as the search demo and the job market insight do.

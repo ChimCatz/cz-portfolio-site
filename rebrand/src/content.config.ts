@@ -131,6 +131,8 @@ const projects = defineCollection({
        * project's `results` in the image's place.
        */
       thumb: image().optional(),
+      /** Alt text for the thumb. Not needed when the thumb is the banner: `bannerAlt` is used. */
+      thumbAlt: z.string().optional(),
       /** Every image frame is 16:9. `full` fits the whole thumb inside it instead of cropping (wide illustrations). */
       thumbFit: z.enum(['crop', 'full']).default('crop'),
       /** Edge the frame keeps when it crops the thumb. Dashboard screenshots always keep the top. */

@@ -9,6 +9,7 @@ import SearchDemo from '../../components/projects/SearchDemo.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import ReadingLayout from '../../layouts/ReadingLayout.astro';
 import { entryHref, getNext, getSorted, readingTime, sectionHref, type ReadingEntry } from '../../lib/reading';
+import { thumbAlt } from '../../lib/projects';
 
 // Files a project offers for download live in its folder; Vite copies them into the build.
 const downloadUrls = import.meta.glob<string>('../../content/projects/*/*.{xlsx,csv,zip,pdf}', {
@@ -70,7 +71,7 @@ if (project.data.download && project.filePath) {
   <ProjectBadges slot="meta" project={project} />
 
   {dashboards.length > 0 && <DashboardEmbed slot="hero" pages={dashboards} />}
-  {live && <LiveEmbed slot="hero" url={live.url} label={live.label} poster={thumb} />}
+  {live && <LiveEmbed slot="hero" url={live.url} label={live.label} poster={thumb} posterAlt={thumbAlt(project)} />}
 
   <div class="project-body prose" data-zoom>
     {results.length > 0 && (

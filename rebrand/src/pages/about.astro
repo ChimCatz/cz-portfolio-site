@@ -309,7 +309,7 @@ const now = [
                   {group.tools.map(([name, file, shape]) => (
                     <li>
                       <span class:list={['tool-logo', shape]}>
-                        <Image src={logo(file)} alt="" width={96} />
+                        <Image src={logo(file)} alt={`${name} logo`} width={96} />
                       </span>
                       <span class="tool-name">{name}</span>
                     </li>
@@ -335,7 +335,7 @@ const now = [
                   <span class="cert-window" style={cert.windowStyle}>
                     <Image
                       src={cert.image}
-                      alt=""
+                      alt={`Certificate: ${cert.title}, issued by ${cert.issuer}`}
                       width={800}
                       style={cert.imageStyle}
                       data-full={cert.full}

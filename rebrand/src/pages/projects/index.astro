@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import ProjectBadges from '../../components/projects/ProjectBadges.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { entryHref, getSorted } from '../../lib/reading';
-import { shortTitle, shotClass, shotStyle, tagline, type Project } from '../../lib/projects';
+import { shortTitle, shotClass, shotStyle, tagline, thumbAlt, type Project } from '../../lib/projects';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const all = await getSorted('projects');
@@ -103,7 +103,7 @@ const automations = [
                 <a class:list={shotClass(project)} style={shotStyle(project)} href={href} tabindex="-1" aria-hidden="true">
                   <Image
                     src={thumb}
-                    alt=""
+                    alt={thumbAlt(project)}
                     widths={[360, 480, 720, 960]}
                     sizes="(max-width: 860px) calc(100vw - 32px), 460px"
                     loading={i < 2 ? 'eager' : 'lazy'}
@@ -197,7 +197,7 @@ const automations = [
                   <a class:list={shotClass(project)} style={shotStyle(project)} href={href} tabindex="-1" aria-hidden="true">
                     <Image
                       src={thumb}
-                      alt=""
+                      alt={thumbAlt(project)}
                       widths={[360, 480, 720]}
                       sizes="(max-width: 700px) calc(100vw - 32px), 400px"
                       loading="lazy"

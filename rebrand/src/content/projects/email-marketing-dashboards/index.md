@@ -16,6 +16,7 @@ badges:
 kicker: "Zoho Marketing Automation"
 summary: "Two Zoho Analytics dashboards built on Zoho Marketing Automation data: one follows email campaigns from sends to clicks, the other shows which mailing lists produce leads."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of the Email Campaigns Overview with sample data: tiles for emails sent, leads, clicks, opens and click rate, a monthly trend chart, a performance funnel and a campaign summary table."
 flow:
   - "Zoho Marketing Automation"
   - "Zoho Analytics"

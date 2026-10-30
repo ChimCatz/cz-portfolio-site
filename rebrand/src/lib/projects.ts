@@ -39,6 +39,10 @@ export const shortTitle = (project: Project) => project.data.title.split(':')[0]
 /** The line under the title: `tagline`, or the part of the title after the colon. */
 export const tagline = (project: Project) => project.data.tagline ?? project.data.title.split(':')[1]?.trim();
 
+/** Alt text for the thumb: `thumbAlt`, else `bannerAlt` (the thumb is often the banner), else the title. */
+export const thumbAlt = (project: Project) =>
+  project.data.thumbAlt ?? project.data.bannerAlt ?? `${shortTitle(project)}, preview image`;
+
 /** Frame classes for a project's image. Every frame is the same shape; screenshots keep their top edge. */
 export const shotClass = (project: Project) => [
   'shot',

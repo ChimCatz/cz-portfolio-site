@@ -21,6 +21,7 @@ live:
 kicker: "Side project · AI-built"
 summary: "A cartoon 3D globe with 853 sourced tech and data facts for 245 countries and territories. I planned it and wrote the prompts: Claude's deep research found and sourced the facts, and Claude Code wrote all of the code. A fun side project to see how far prompting can go, not a showcase of my coding."
 thumb: ./thumb.png
+thumbAlt: "Screenshot of Globe Trivia: a cartoon globe on a starry background, with a country search box, a Surprise me button and the count of sourced facts."
 results:
   - value: "853"
     label: "facts, each linked to its source"
