@@ -14,12 +14,9 @@
     "check": "node scripts/check-site.cjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.5",
     "@fontsource-variable/montserrat": "^5.3.0",
     "@fontsource-variable/space-grotesk": "^5.3.0",
-    "astro": "^5.18.2"
-  },
-  "overrides": {
-    "sharp": "^0.35.5",
-    "esbuild": "^0.28.1"
+    "astro": "^7.4.4"
   }
 }

@@ -69,7 +69,7 @@ decisions and rules behind it.
 
 | Path | What it is |
 |---|---|
-| `rebrand/` | The site (Astro 5). Run npm commands here. |
+| `rebrand/` | The site (Astro 7). Run npm commands here. |
 | `worker/` | The Cloudflare Worker behind the contact form (`worker/README.md`). Not published with the site; deployed by hand. |
 | `source-files/` | Originals the site is made from (profile photo, tool logos, Vanta package). Not published. |
 | `setup/` | Scripts and lists for rebuilding the dev setup on a new PC (`setup/README.md`). |
@@ -80,9 +80,15 @@ decisions and rules behind it.
 
 ## Stack and publishing
 
-- **Stack:** Astro 5 in `rebrand/`, static output, three dependencies
-  (Astro and two font packages). Node 20 or newer works locally; CI uses
-  Node 22. Upgrading to a newer Astro major is a separate, later step.
+- **Stack:** Astro 7 in `rebrand/`, static output, four dependencies
+  (Astro, its unified Markdown processor `@astrojs/markdown-remark`, which
+  the rehype plugins need, and two font packages). Node 22.23.4 or newer
+  (Astro 7's minimum); CI uses Node 22. Upgraded from Astro 5 on
+  2026-10-30 for its security fixes, with `compressHTML: true` so text
+  keeps its spaces (Astro 7's default "jsx" mode glued words together on
+  29 of 33 pages). Rendered text, layout and frame rates were compared
+  against the Astro 5 build: no differences. Upgrade a major version on a
+  branch and compare the same way before merging.
 - **Publishing:** `.github/workflows/deploy.yml` runs the repo check, builds
   `rebrand/` and publishes `rebrand/dist` to GitHub Pages on every push to
   `main`. It needs the repo setting Settings > Pages > Source: "GitHub

@@ -9,7 +9,7 @@ Clean. Analyze. Visualize. Automate.
 
 [![Deploy](https://github.com/ChimCatz/cz-portfolio-site/actions/workflows/deploy.yml/badge.svg)](https://github.com/ChimCatz/cz-portfolio-site/actions/workflows/deploy.yml)
 [![Checks](https://github.com/ChimCatz/cz-portfolio-site/actions/workflows/checks.yml/badge.svg)](https://github.com/ChimCatz/cz-portfolio-site/actions/workflows/checks.yml)
-![Astro 5](https://img.shields.io/badge/Astro-5-7c3aed?logo=astro&logoColor=white)
+![Astro 7](https://img.shields.io/badge/Astro-7-7c3aed?logo=astro&logoColor=white)
 ![Static site](https://img.shields.io/badge/site-static-2e1a5c)
 ![License](https://img.shields.io/badge/license-all%20rights%20reserved-6f6884)
 
@@ -49,10 +49,10 @@ A few things worth opening:
 
 ## How it's built
 
-- **[Astro 5](https://astro.build/)**, fully static. No framework runtime,
+- **[Astro 7](https://astro.build/)**, fully static. No framework runtime,
   no database, no cookies, no analytics. The only server code is a small
   Cloudflare Worker behind the contact form.
-- **Three dependencies:** Astro and two font packages. Charts, the search
+- **Four dependencies:** Astro, its Markdown processor, and two font packages. Charts, the search
   demo, the lightbox, and the scroll animations are written by hand.
 - **Content as folders.** Every project, data study, and insight is a folder
   with a Markdown file and its images. Adding one needs no other change:
@@ -98,7 +98,7 @@ A few things worth opening:
 
 ## Run it locally
 
-You need [Node.js](https://nodejs.org/) 20 or newer.
+You need [Node.js](https://nodejs.org/) 22.23.4 or newer.
 
 ```bash
 git clone https://github.com/ChimCatz/cz-portfolio-site.git
